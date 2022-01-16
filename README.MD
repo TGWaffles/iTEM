@@ -1,5 +1,4 @@
-<!--[![Build](https://github.com/TGWaffles/TheExoticsMod/actions/workflows/build.yml/badge.svg)](https://github.com/TGWaffles/TheExoticsMod/actions/workflows/build.yml)
-<-->
+[![](https://img.shields.io/badge/download-1.12.2%20latest-blue.svg?logo=java)](https://ci.thom.club/job/TheExoticsMod/job/master/lastSuccessfulBuild/)
 
 <h1 align="center">TheExoticsMod</h1>
 
