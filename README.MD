@@ -1,4 +1,4 @@
-[![](https://ci.thom.club/job/TheExoticsMod/job/master/lastSuccessfulBuild/)](https://ci.thom.club/job/TheExoticsMod/job/master/lastSuccessfulBuild/)
+[![Build Status](https://ci.thom.club/buildStatus/icon?job=ForgeHax/master)](https://ci.thom.club/job/ForgeHax/job/master)
 
 <h1 align="center">TheExoticsMod</h1>
 
