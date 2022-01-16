@@ -1,0 +1,8 @@
+[{
+  "modid": "TEM",
+  "name": "The Exotics Mod",
+  "description": "Searches for and finds exotic pieces of armour in Hypixel Skyblock",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "authorList": ["TGWaffles"]
+}]

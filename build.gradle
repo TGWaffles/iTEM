@@ -1,0 +1,135 @@
+// Using old gradle version for minecraft 1.8
+//file:noinspection GrDeprecatedAPIUsage
+buildscript {
+    repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.minecraftforge.net/' }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        // Skytils dependency to build with essential (for GUI)
+        classpath 'com.github.Skytils:ForgeGradle:6f5327'
+        // ShadowJar (include dependencies in the jar)
+        classpath "com.github.johnrengelman:shadow:6.1.0"
+    }
+}
+repositories {
+    mavenCentral()
+    maven { url = "https://repo.sk1er.club/repository/maven-public" }
+    maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: 'java'
+// For test coverage data
+apply plugin: 'jacoco'
+
+tasks.withType(JavaCompile) {
+    // So that special characters like 5-stars are interpreted properly
+    options.encoding = 'UTF-8'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = "0.0.0.1"
+group= "club.thom.tem" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "TEM"
+
+minecraft {
+    // Latest 1.8.9 forge version
+    version = "1.8.9-11.15.1.2318-1.8.9"
+    runDir = "run"
+    mappings = "stable_22"
+    // Add essential
+    clientRunArgs += '--tweakClass gg.essential.loader.stage0.EssentialSetupTweaker'
+    // Code to only update version in here and not in the java file
+    replaceIn "src/main/java/club/thom/tem/TEM.java"
+    replace "@@VERSION@@", project.version
+}
+dependencies {
+    // Essential for GUI stuff
+    implementation "gg.essential:loader-launchwrapper:1.1.2"
+    implementation "gg.essential:essential-1.8.9-forge:1543+release-launch"
+    // Tests for MCForge
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.awaitility:awaitility-groovy:4.1.1'
+    testCompile 'org.powermock:powermock-core:2.0.9'
+    testCompile 'org.powermock:powermock-module-junit4:2.0.9'
+    testCompile 'org.powermock:powermock-api-mockito2:2.0.9'
+}
+
+processResources
+        {
+            // this will ensure that this task is redone when the versions change.
+            inputs.property "version", project.version
+            inputs.property "mcversion", project.minecraft.version
+
+            // replace stuff in mcmod.info, nothing else
+            filesMatching('mcmod.info') {
+                expand 'version': project.version, 'mcversion': project.minecraft.version
+            }
+
+            // copy everything else, that's not the mcmod.info
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
+jar {
+    manifest {
+        attributes("TweakClass": "gg.essential.loader.stage0.EssentialSetupTweaker")
+    }
+}
+sourceJar {
+    enabled = false
+}
+shadowJar {
+    dependencies {
+        //noinspection GroovyAssignabilityCheck
+        include(dependency("gg.essential:loader-launchwrapper:1.1.2"))
+    }
+    // TEM-0.0.0.1.jar for example
+    archiveFileName = "${baseName}-${version}.${extension}"
+}
+
+reobf {
+    shadowJar {} // Re-obfuscate the shadowed JAR
+}
+
+// Signs the jar with TEM's developer team's signature.
+task signJar(type: SignJar) {
+    // Skips if the keyStore property is missing.
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+
+    // findProperty allows us to reference the property without it existing.
+    // Using project.propName would cause the script to fail validation if
+    // the property did not exist.
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+}
+
+test {
+    useJUnit()
+    // Runs code coverage report after testing
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+}
+
+// Sign the jar after building
+tasks.signJar.mustRunAfter reobfShadowJar
+tasks.signJar.mustRunAfter shadowJar
+tasks.signJar.mustRunAfter jar
+
+reobfShadowJar.finalizedBy signJar
+shadowJar.finalizedBy signJar
+jar.finalizedBy signJar
+
