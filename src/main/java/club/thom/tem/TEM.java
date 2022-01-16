@@ -1,5 +1,6 @@
 package club.thom.tem;
 
+import club.thom.tem.storage.TEMConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -15,6 +16,12 @@ public class TEM {
     public static final String VERSION = "@@VERSION@@";
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
+    public static TEMConfig config = new TEMConfig();
+
+    public static void forceSaveConfig() {
+        config.markDirty();
+        config.writeData();
+    }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
