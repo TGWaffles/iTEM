@@ -1,6 +1,6 @@
-<p align="center">
+
 [![Build Status](https://ci.thom.club/job/TheExoticsMod/job/master/badge/icon)](https://ci.thom.club/job/TheExoticsMod/job/master/)
-</p>
+
 
 <h1 align="center">TheExoticsMod</h1>
 
