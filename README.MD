@@ -1,5 +1,5 @@
-[![Build](https://github.com/TGWaffles/TheExoticsMod/actions/workflows/build.yml/badge.svg)](https://github.com/TGWaffles/TheExoticsMod/actions/workflows/build.yml)
-
+<!--[![Build](https://github.com/TGWaffles/TheExoticsMod/actions/workflows/build.yml/badge.svg)](https://github.com/TGWaffles/TheExoticsMod/actions/workflows/build.yml)
+<-->
 
 <h1 align="center">TheExoticsMod</h1>
 
