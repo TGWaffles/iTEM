@@ -1,13 +1,17 @@
 package club.thom.tem;
 
 import club.thom.tem.storage.TEMConfig;
+import gg.essential.universal.wrappers.message.UTextComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod(modid = TEM.MOD_ID, version = TEM.VERSION, certificateFingerprint = TEM.SIGNATURE)
 public class TEM {
@@ -17,6 +21,7 @@ public class TEM {
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
     public static TEMConfig config = new TEMConfig();
+    public static boolean isOnHypixel = false;
 
     public static void forceSaveConfig() {
         config.markDirty();
@@ -74,5 +79,18 @@ public class TEM {
     public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
         System.out.println("You are using an unofficial build of TEM. " +
                 "I cannot guarantee the safety/performance of this mod.");
+    }
+
+    @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
+    public void onChat(ClientChatReceivedEvent event) {
+        String formatted = event.message.getFormattedText();
+        String unformatted = UTextComponent.Companion.stripFormatting(formatted);
+        if (unformatted.startsWith("Your new API key is ") && event.message.getSiblings().size() >= 1) {
+            String apiKey = event.message.getSiblings().get(0).getChatStyle().getChatClickEvent().getValue();
+            TEMConfig.hypixelKey = apiKey;
+            TEMConfig.hypixelKeycon = apiKey;
+            TEM.forceSaveConfig();
+            sendMessage(new ChatComponentText(String.format("Updated your set Hypixel API key to %s", apiKey)));
+        }
     }
 }
