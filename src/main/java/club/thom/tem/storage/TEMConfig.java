@@ -25,7 +25,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Exotics",
             description = "Enable the Exotics search"
     )
-    public boolean enableExotics = false;
+    public static boolean enableExotics = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -34,7 +34,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Exotics",
             description = "Allow crystal dyed armour"
     )
-    public boolean enableCrystal = false;
+    public static boolean enableCrystal = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -43,7 +43,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Fairy",
             description = "Allow fairy dyed armour"
     )
-    public boolean enableFairy = false;
+    public static boolean enableFairy = false;
 
     @Property(
             type = PropertyType.TEXT,
@@ -53,9 +53,9 @@ public class TEMConfig extends Vigilant {
             description = "Enter your Hypixel Api Key",
             protectedText = true
     )
-    public String hypixelKeycon = "";
+    public static String hypixelKeycon = "";
 
-    public String hypixelKey = hypixelKeycon;
+    public static String hypixelKey = hypixelKeycon;
 
     public static String saveFolder = "config/tem/";
     public static final String fileName = "preferences.toml";
