@@ -1,4 +1,4 @@
-[![Build Status](https://ci.thom.club/buildStatus/icon?job=TheExoticsMod/master)](https://ci.thom.club/job/TheExoticsMod/job/master)
+[![Build Status](https://ci.thom.club/job/TheExoticsMod/badge/icon)](https://ci.thom.club/job/TheExoticsMod/job/master)
 
 <h1 align="center">TheExoticsMod</h1>
 
