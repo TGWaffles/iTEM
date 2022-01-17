@@ -21,7 +21,6 @@ public class TEM {
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
     public static TEMConfig config = new TEMConfig();
-    public static boolean isOnHypixel = false;
 
     public static void forceSaveConfig() {
         config.markDirty();
