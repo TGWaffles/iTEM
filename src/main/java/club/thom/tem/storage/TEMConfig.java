@@ -31,7 +31,7 @@ public class TEMConfig extends Vigilant {
             type = PropertyType.SWITCH,
             category = "TEM",
             subcategory = "Toggles",
-            name = "Enable Exotics",
+            name = "Enable Crystal",
             description = "Allow crystal dyed armour"
     )
     public static boolean enableCrystal = false;
@@ -108,7 +108,7 @@ public class TEMConfig extends Vigilant {
         CONFIG_FILE = new File(saveFolder + fileName);
         initialize();
         try {
-            registerListener(this.getClass().getDeclaredField("hypixelKey"),checkApiKey);
+            registerListener(this.getClass().getDeclaredField("hypixelKeycon"),checkApiKey);
         } catch (Exception e){
             e.printStackTrace();
         }

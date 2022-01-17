@@ -2,6 +2,7 @@ package club.thom.tem.commands;
 
 import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
+import gg.essential.api.EssentialAPI;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -31,7 +32,7 @@ public class TEMCommand extends CommandBase {
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 1) {
             if (args[0].toLowerCase().startsWith("con")) {
-                TEM.config.gui();
+                EssentialAPI.getGuiUtil().openScreen(TEM.config.gui());
             } else {
                 TEM.waitForPlayer();
                 TEM.sendMessage(getHelpMessage());
