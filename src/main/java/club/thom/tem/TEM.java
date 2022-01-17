@@ -1,11 +1,13 @@
 package club.thom.tem;
 
+import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.universal.wrappers.message.UTextComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
@@ -29,7 +31,7 @@ public class TEM {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-
+        ClientCommandHandler.instance.registerCommand(new TEMCommand());
         // TODO: Register commands and event listeners here, start any loops
     }
 
@@ -89,7 +91,7 @@ public class TEM {
             TEMConfig.hypixelKey = apiKey;
             TEMConfig.hypixelKeycon = apiKey;
             TEM.forceSaveConfig();
-            sendMessage(new ChatComponentText(String.format("Updated your set Hypixel API key to %s", apiKey)));
+            sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + apiKey + "!"));
         }
     }
 }
