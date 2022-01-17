@@ -1,11 +1,20 @@
 
+# TheExoticsMod
+
 [![Build Status](https://ci.thom.club/job/TheExoticsMod/job/master/badge/icon)](https://ci.thom.club/job/TheExoticsMod/job/master/)
 
+---
 
-<h1 align="center">TheExoticsMod</h1>
+An open-source, free, scanner for exotic armour in Hypixel Skyblock! 
 
-<p align="center">Just a simple hypixel skyblock exotics mod made by TGWaffles and Orenico10</p>
-<div></div>
-<p align="center">Made in the purpose of being a simple frontent example for their exotics database.</p>
-<div></div>
-<p align="center">Used to find exotic items on the hypixel skyblock auction house and report to the users client.</p>
+Searches friendslists, the auction house, and inventories to find exotic, crystal and fairy armour, which is then uploaded to a database for searching.
+
+Includes an AH sniper to snipe any exotics/crystal/fairy armour listed on the AH.
+
+[Join the Discord!](https://discord.gg/bUE3r3Jckc)
+
+---
+
+Brought to you by the creator of TFM, the fastest AH sniper. 
+
+[Join TFM's Discord](https://discord.gg/tfmmod)
