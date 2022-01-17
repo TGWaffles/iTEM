@@ -14,11 +14,6 @@ public class TEMCommand extends CommandBase {
         return "tem";
     }
 
-    @Override
-    public String getCommandUsage(ICommandSender sender) {
-        return "/tem help for more information";
-    }
-
     private static ChatComponentText getHelpMessage() {
         String sb = EnumChatFormatting.GOLD + "/tem con" + EnumChatFormatting.GRAY + " <-- Opens the configuration GUI.\n" +
                 EnumChatFormatting.GOLD + "/tem setkey key-here" + EnumChatFormatting.GRAY + " <-- Set API key.\n" +
@@ -27,12 +22,17 @@ public class TEMCommand extends CommandBase {
     }
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    public String getCommandUsage(ICommandSender sender) {
+        return "/tem help for more information";
+    }
+
+
+    @Override
+    public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 1) {
             if (args[0].toLowerCase().startsWith("con")) {
                 TEM.config.gui();
-            }
-            else {
+            } else {
                 TEM.waitForPlayer();
                 TEM.sendMessage(getHelpMessage());
             }
@@ -58,5 +58,9 @@ public class TEMCommand extends CommandBase {
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Disabled TEM!"));
         }
         TEM.forceSaveConfig();
+    }
+    @Override
+    public int getRequiredPermissionLevel() {
+        return 0;
     }
 }
