@@ -58,6 +58,9 @@ dependencies {
     testCompile 'org.powermock:powermock-core:2.0.9'
     testCompile 'org.powermock:powermock-module-junit4:2.0.9'
     testCompile 'org.powermock:powermock-api-mockito2:2.0.9'
+
+    // Logging
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 }
 
 processResources
