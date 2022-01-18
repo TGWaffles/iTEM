@@ -24,17 +24,32 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 public class KeyFetcher {
-    private static final Gson gson = new Gson();
     static final String skytilsFolder = "config/skytils/";
     static final String neuFolder = "config/notenoughupdates/";
 
     public static void CheckForApiKey(){
-        if(!TEMConfig.hypixelKeycon.equals("")) return;
-        skytilsChecker();
-        if(!TEMConfig.hypixelKeycon.equals("")) return;
-        neuChecker();
+//        if(!TEMConfig.hypixelKeycon.equals("")) return;
+//        skytilsChecker();
+//        if(!TEMConfig.hypixelKeycon.equals("")) return;
+//        neuChecker();
+        try {
+            if(!TEMConfig.hypixelKeycon.equals("")) return;
+            final Thread t1 = new Thread(KeyFetcher::skytilsChecker);
+            t1.start();
+            t1.join();
+            if(!TEMConfig.hypixelKeycon.equals("")) return;
+            final Thread t2 = new Thread(KeyFetcher::neuChecker);
+            t2.start();
+            t2.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        System.out.println("Got the key!");
+//        TEM.forceSaveConfig();
     }
     private static void skytilsChecker() {
         try {
@@ -50,6 +65,7 @@ public class KeyFetcher {
                     TEMConfig.hypixelKey = apiKey;
                     TEM.forceSaveConfig();
                     TEM.sendMessage(new ChatComponentText("Fetched your api key from Skytils!"));
+//                    System.out.println("Fetched your api key from Skytils!");
                 }
             }
         } catch (Exception ignored) {
@@ -68,6 +84,7 @@ public class KeyFetcher {
                     TEMConfig.hypixelKey = apiKey;
                     TEM.forceSaveConfig();
                     TEM.sendMessage(new ChatComponentText("Fetched your api key from NEU!"));
+//                    System.out.println("Fetched your api key from NEU!");
                 }
             } catch (Exception ignored) {
             }
