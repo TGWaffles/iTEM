@@ -11,29 +11,34 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Base Request class for all requests to inherit from
  */
 public class Request {
     private static final Logger logger = LoggerFactory.getLogger(Request.class);
+    protected final CompletableFuture<JsonObject> future;
     protected Hypixel controller;
     protected final String endpoint;
     protected final HashMap<String, String> parameters;
     // Hypixel API
     protected final String apiUrl = "https://api.hypixel.net/";
 
-    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller) {
+    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller, CompletableFuture<JsonObject> future) {
         // Hypixel class, so we can communicate and update rate-limit data, etc.
         this.controller = controller;
         // To be appended to the apiUrl (no preceding /)
         this.endpoint = endpoint;
         // Parameters, eg user to look-up, api key, etc.
         this.parameters = parameters;
+        // So that operations can wait for this to complete.
+        this.future = future;
     }
 
-    private static JsonObject sendRequest(String urlString, HashMap<String, String> params) {
+    private static RequestData sendRequest(String urlString, HashMap<String, String> params) {
         logger.debug("Creating request to url: {}, params: {}", urlString, params);
         URL url = null;
         JsonObject jsonData;
@@ -48,8 +53,9 @@ public class Request {
             status = uc.getResponseCode();
             logger.debug("Parsing data from url: {}, params: {}", urlString, params);
             jsonData = new JsonParser().parse(new InputStreamReader(uc.getInputStream())).getAsJsonObject();
+            RequestData data = new RequestData(status, uc.getHeaderFields(), jsonData);
             logger.debug("Successfully parsed data from url: {}, params: {} -- data: {}", urlString, params, jsonData);
-            return jsonData;
+            return data;
         } catch (IOException e) {
             if (uc != null) {
                 try {
@@ -65,11 +71,11 @@ public class Request {
             JsonObject errorObject = new JsonObject();
             errorObject.addProperty("success", false);
             errorObject.addProperty("status", status);
-            return errorObject;
+            return new RequestData(status, new HashMap<>(), errorObject);
         }
     }
 
-    public JsonObject makeRequest() {
+    public void makeRequest() {
         StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append(apiUrl);
         urlBuilder.append(endpoint);
@@ -83,12 +89,51 @@ public class Request {
         if (urlBuilder.charAt(urlBuilder.length() - 1) == '&') {
             urlBuilder.deleteCharAt(urlBuilder.length() - 1);
         }
-        JsonObject returnedJson = sendRequest(urlBuilder.toString(), parameters);
-        assert returnedJson != null;
-        if (returnedJson.has("status") && returnedJson.get("status").getAsInt() == 429) {
+        RequestData returnedData = sendRequest(urlBuilder.toString(), parameters);
+        assert returnedData != null;
+        if (returnedData.getStatus() == 429) {
             controller.setRateLimited();
+            controller.addToQueue(this);
+            return;
         }
         // TODO: Check for errors, get rate-limit remaining, etc.
-        return returnedJson;
+        int rateLimitRemaining = getRateLimitRemaining(returnedData.getHeaders());
+        int rateLimitResetSeconds = getNextResetSeconds(returnedData.getHeaders());
+        if (rateLimitRemaining != -1 && rateLimitResetSeconds != -1) {
+            controller.setRateLimitRemaining(rateLimitRemaining, rateLimitResetSeconds);
+        }
+        future.complete(returnedData.getJson());
+    }
+
+    @SuppressWarnings("SpellCheckingInspection")
+    private static int getRateLimitRemaining(Map<String, List<String>> headers) {
+        if (!headers.containsKey("ratelimit-remaining")) {
+            logger.debug("Request had no rateLimit-remaining header.");
+            return -1;
+        }
+        List<String> headerData = headers.get("ratelimit-remaining");
+        if (headerData == null || headerData.size() == 0) {
+            logger.debug("Request's headerData for ratelimit-remaining was null or 0: {}", headerData);
+            return -1;
+        }
+        return Integer.parseInt(headerData.get(0));
+    }
+
+    @SuppressWarnings("SpellCheckingInspection")
+    private static int getNextResetSeconds(Map<String, List<String>> headers) {
+        if (!headers.containsKey("ratelimit-reset")) {
+            logger.debug("Request had no rateLimit-reset header.");
+            return -1;
+        }
+        List<String> headerData = headers.get("ratelimit-reset");
+        if (headerData == null || headerData.size() == 0) {
+            logger.debug("Request's headerData for ratelimit-reset was null or 0: {}", headerData);
+            return -1;
+        }
+        return Integer.parseInt(headerData.get(0));
+    }
+
+    public CompletableFuture<JsonObject> getFuture() {
+        return future;
     }
 }
