@@ -31,7 +31,7 @@
 		command_alias_mode = 0
 
 	[general.api]
-		hypixel_api_key = "YOUR MOM"
+		hypixel_api_key = "testApiKey123"
 		fetch_lowest_bin_prices = true
 		skytils_data = "https://cdn.jsdelivr.net/gh/Skytils/SkytilsMod-Data@main/"
 

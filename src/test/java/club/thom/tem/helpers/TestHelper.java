@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TestHelper {
-    public static void setupTEMConfig() throws NoSuchFieldException, IllegalAccessException {
+    public static void setupTEMConfigAndMainClass() throws NoSuchFieldException, IllegalAccessException {
         // Allow TEMConfig to initialize without Minecraft running.
         Field initialized = Vigilance.class.getDeclaredField("initialized");
         initialized.setAccessible(true);
