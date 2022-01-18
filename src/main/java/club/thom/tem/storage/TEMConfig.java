@@ -88,22 +88,21 @@ public class TEMConfig extends Vigilant {
         return null;
     }
 
-    Consumer<String> checkApiKey = key -> {
+    Consumer<String> checkApiKey = key -> new Thread(() -> {
         String oldKey = hypixelKey;
         String newKey = runKeyConsumer(key);
         if (newKey == null) {
-            new Thread(() -> {
-                try {
-                    Thread.sleep(10);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                hypixelKeycon = oldKey;
-                TEM.forceSaveConfig();
-            }).start();
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            hypixelKeycon = oldKey;
+            TEM.forceSaveConfig();
+            return;
         }
         hypixelKey = key;
-    };
+    }).start();
 
     public TEMConfig() {
         super(new File(saveFolder + fileName), "TFM Configuration");
