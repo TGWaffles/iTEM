@@ -86,7 +86,10 @@ public class TEM {
     public void onChat(ClientChatReceivedEvent event) {
         String unformatted = event.message.getUnformattedText();
         unformatted = unformatted.replace("(?i)\\u00A7.", "");
-        if (unformatted.startsWith("Your new API key is ")) {
+        System.out.println(unformatted);
+        System.out.println(unformatted.substring("Your new API key is ".length()));
+        if (unformatted.startsWith("Your new API key is")) {
+            System.out.println("I got here!");
             String apiKey = unformatted.substring("Your new API key is ".length());
             TEMConfig.hypixelKey = apiKey;
             TEMConfig.hypixelKeycon = apiKey;
