@@ -74,7 +74,7 @@ public class TEMConfig extends Vigilant {
     private String runKeyConsumer(String key){
         int status;
         try {
-            URL url = new URL("api.hypixel.net/key?key=" + key);
+            URL url = new URL(("api.hypixel.net/key?key=" + key));
             HttpURLConnection uc = (HttpURLConnection) url.openConnection();
             status = uc.getResponseCode();
         } catch (Exception e) {
