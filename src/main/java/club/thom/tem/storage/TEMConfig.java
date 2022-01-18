@@ -71,7 +71,8 @@ public class TEMConfig extends Vigilant {
             }
         }
     }
-    private String runKeyConsumer(String key){
+
+    private String runKeyConsumer(String key) {
         int status;
         try {
             URL url = new URL(("api.hypixel.net/key?key=" + key));
@@ -81,16 +82,17 @@ public class TEMConfig extends Vigilant {
             e.printStackTrace();
             return null;
         }
-        if(status==200){
+        if (status == 200) {
             return key;
         }
         return null;
     }
-    Consumer<String> checkApiKey = key ->{
+
+    Consumer<String> checkApiKey = key -> {
         String oldKey = hypixelKey;
         String newKey = runKeyConsumer(key);
-        if(newKey == null) {
-            new Thread(()->{
+        if (newKey == null) {
+            new Thread(() -> {
                 try {
                     Thread.sleep(10);
                 } catch (Exception e) {
@@ -102,14 +104,15 @@ public class TEMConfig extends Vigilant {
         }
         hypixelKey = key;
     };
+
     public TEMConfig() {
         super(new File(saveFolder + fileName), "TFM Configuration");
         checkFolderExists();
         CONFIG_FILE = new File(saveFolder + fileName);
         initialize();
         try {
-            registerListener(this.getClass().getDeclaredField("hypixelKeycon"),checkApiKey);
-        } catch (Exception e){
+            registerListener(this.getClass().getDeclaredField("hypixelKeycon"), checkApiKey);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

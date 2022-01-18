@@ -17,7 +17,7 @@ public class ApiKeyListener {
             TEMConfig.hypixelKey = apiKey;
             TEMConfig.hypixelKeycon = apiKey;
             TEM.forceSaveConfig();
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + apiKey + "!"));
+            TEM.sendMessage(new ChatComponentText("API key set to " + apiKey + "!"));
         }
     }
 }
