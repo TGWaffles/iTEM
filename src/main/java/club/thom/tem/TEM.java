@@ -84,10 +84,10 @@ public class TEM {
 
     @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
     public void onChat(ClientChatReceivedEvent event) {
-        String formatted = event.message.getFormattedText();
-        String unformatted = UTextComponent.Companion.stripFormatting(formatted);
-        if (unformatted.startsWith("Your new API key is ") && event.message.getSiblings().size() >= 1) {
-            String apiKey = event.message.getSiblings().get(0).getChatStyle().getChatClickEvent().getValue();
+        String unformatted = event.message.getUnformattedText();
+        unformatted = unformatted.replace("(?i)\\u00A7.", "");
+        if (unformatted.startsWith("Your new API key is ")) {
+            String apiKey = unformatted.substring("Your new API key is ".length());
             TEMConfig.hypixelKey = apiKey;
             TEMConfig.hypixelKeycon = apiKey;
             TEM.forceSaveConfig();
