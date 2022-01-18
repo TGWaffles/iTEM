@@ -1,6 +1,7 @@
 package club.thom.tem;
 
 import club.thom.tem.commands.TEMCommand;
+import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.universal.wrappers.message.UTextComponent;
@@ -33,6 +34,7 @@ public class TEM {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        KeyFetcher.CheckForApiKey();
         // TODO: Register commands and event listeners here, start any loops
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
