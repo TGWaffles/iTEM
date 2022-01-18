@@ -41,7 +41,7 @@ public class TEMCommand extends CommandBase {
             return;
         } else if (args.length == 2) {
             if (args[0].equals("setkey")) {
-                TEMConfig.hypixelKeycon = args[1];
+                TEMConfig.hypixelKey = args[1];
                 TEMConfig.enableExotics = true;
                 TEM.forceSaveConfig();
                 TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + args[1] + "!"));
