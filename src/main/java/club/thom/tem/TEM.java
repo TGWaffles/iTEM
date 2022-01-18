@@ -1,6 +1,7 @@
 package club.thom.tem;
 
 import club.thom.tem.commands.TEMCommand;
+import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.universal.wrappers.message.UTextComponent;
 import net.minecraft.client.Minecraft;
@@ -9,6 +10,7 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -31,8 +33,9 @@ public class TEM {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        ClientCommandHandler.instance.registerCommand(new TEMCommand());
         // TODO: Register commands and event listeners here, start any loops
+        ClientCommandHandler.instance.registerCommand(new TEMCommand());
+        MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
     }
 
     public static void waitForPlayer() {
@@ -80,18 +83,5 @@ public class TEM {
     public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
         System.out.println("You are using an unofficial build of TEM. " +
                 "I cannot guarantee the safety/performance of this mod.");
-    }
-
-    @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
-    public void onChat(ClientChatReceivedEvent event) {
-        String formatted = event.message.getFormattedText();
-        String unformatted = UTextComponent.Companion.stripFormatting(formatted);
-        if (unformatted.startsWith("Your new API key is ") && event.message.getSiblings().size() >= 1) {
-            String apiKey = event.message.getSiblings().get(0).getChatStyle().getChatClickEvent().getValue();
-            TEMConfig.hypixelKey = apiKey;
-            TEMConfig.hypixelKeycon = apiKey;
-            TEM.forceSaveConfig();
-            sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + apiKey + "!"));
-        }
     }
 }
