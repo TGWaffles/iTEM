@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.time.Instant;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -15,6 +16,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class Hypixel {
     private static final Logger logger = LoggerFactory.getLogger(Hypixel.class);
     ReadWriteLock rateLimitLock = new ReentrantReadWriteLock();
+
+    protected final ConcurrentLinkedDeque<Request> requestQueue = new ConcurrentLinkedDeque<>();
 
     private int remainingRateLimit = 0;
 
@@ -31,8 +34,13 @@ public class Hypixel {
     }
 
     public void addToQueue(Request request) {
-        // TODO: Implement queue
-        throw new UnsupportedOperationException();
+        // If it needs to run asap, add to the front of the queue.
+        if (request.priority) {
+            requestQueue.addFirst(request);
+            return;
+        }
+        // Add to the back of the queue to complete after other methods.
+        requestQueue.add(request);
     }
 
     public void setRateLimitRemaining(int remaining, int rateLimitResetSeconds) {

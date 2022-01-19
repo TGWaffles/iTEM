@@ -24,10 +24,11 @@ public class Request {
     protected Hypixel controller;
     protected final String endpoint;
     protected final HashMap<String, String> parameters;
+    public final boolean priority;
     // Hypixel API
     protected final String apiUrl = "https://api.hypixel.net/";
 
-    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller, CompletableFuture<JsonObject> future) {
+    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller, CompletableFuture<JsonObject> future, boolean runAsap) {
         // Hypixel class, so we can communicate and update rate-limit data, etc.
         this.controller = controller;
         // To be appended to the apiUrl (no preceding /)
@@ -36,6 +37,12 @@ public class Request {
         this.parameters = parameters;
         // So that operations can wait for this to complete.
         this.future = future;
+        // Run it as soon as we have a "rate-limit spot" available.
+        this.priority = runAsap;
+    }
+
+    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller, CompletableFuture<JsonObject> future) {
+        this(endpoint, parameters, controller, future, false);
     }
 
     private static RequestData sendRequest(String urlString, HashMap<String, String> params) {
