@@ -1,0 +1,410 @@
+
+[pets]
+
+	[pets.displays]
+		cap_dolphin_pet_display = true
+		dolphin_pet_display = false
+
+	[pets.quality_of_life]
+		highlight_favorite_pets = false
+		favorite_pet_highlight_color = "255,0,255,255"
+		highlight_active_pet = false
+		active_pet_highlight_color = "255,0,255,0"
+		autopet_message_hider = 0
+		hide_pet_nametags = false
+		pet_item_confirmation = false
+
+[general]
+
+	[general.other]
+		config_button_on_pause = true
+		reopen_options_menu = true
+		first_launch = false
+		last_launched_skytils_version = "1.1.0"
+
+	[general.reparty]
+		override_other_reparty_commands = true
+		auto-accept_reparty_timeout = 60
+		auto-accept_reparty = false
+
+	[general.command_aliases]
+		command_alias_mode = 0
+
+	[general.api]
+		hypixel_api_key = "testApiKey123"
+		fetch_lowest_bin_prices = true
+		skytils_data = "https://cdn.jsdelivr.net/gh/Skytils/SkytilsMod-Data@main/"
+
+	[general.hypixel]
+		guild_leave_confirmation = true
+
+	[general.updates]
+		update_channel = 2
+
+[miscellaneous]
+
+	[miscellaneous.other]
+		show_selected_arrow = false
+		hide_tooltips_while_on_storage = false
+		ping_display = 0
+		also_copy_very_rare_drops_to_clipboard = false
+		transparent_armor_layer = 1.0
+		auto_copy_rng_drops_to_clipboard = false
+		cap_legion_display = true
+		legion_player_display = false
+		show_bestiary_level = false
+		transparent_head_layer = 1.0
+		show_world_age = false
+		fix_summon_skin = false
+		use_player_skin = false
+		copy_deaths_to_clipboard = false
+		endstone_protector_spawn_timer = false
+		placed_summoning_eye_display = false
+
+	[miscellaneous.chat_tabs]
+		chat_tabs = false
+		pre-fill_chat_commands = false
+		copy_chat_messages = false
+		auto_switch_chat_channel = false
+
+	[miscellaneous.items]
+		block_zapper_fatigue_timer = false
+		show_enchanted_book_abbreviation = false
+		price_paid = false
+		show_npc_sell_price = false
+		item_cooldown_display = false
+		dropped_item_scale = 1.0
+		show_dungeon_item_level = false
+		show_potion_tier = false
+		show_enchanted_book_tier = false
+		wither_shield_cooldown_tracker = false
+		hide_implosion_particles = false
+		stacking_enchant_progress_display = false
+		prevent_placing_weapons = false
+		show_pet_candies = false
+		larger_heads = 1.0
+		show_etherwarp_teleport_position = false
+		compact_item_stars = false
+		show_gemstones = false
+		radioactive_bonus = false
+		show_dungeon_floor_as_stack_size = false
+		disable_block_animation = false
+		book_helper = false
+		hide_midas_staff_gold = false
+		etherwarp_teleport_position_color = "69,0,0,255"
+
+	[miscellaneous.fixes]
+		prevent_log_spam = true
+		fix_world_time = false
+		fix_falling_sand_rendering = false
+		fix_sba_chroma = true
+
+	[miscellaneous.item_rarity]
+		item_rarity_shape = 0
+		item_rarity_opacity = 0.75
+		show_item_rarity = false
+		show_pet_rarity = false
+
+	[miscellaneous.minions]
+		only_collect_enchanted_items = false
+		show_minion_tier = false
+
+	[miscellaneous.quality_of_life]
+		boss_bar_fix = true
+		hide_jerry_rune = false
+		highlight_dungeon-sellable_items = false
+		show_arachne_spawn = false
+		middle_click_gui_items = false
+		show_lowest_bin_price = false
+		dungeon_pot_lock = 0
+		highlight_disabled_potion_effects = false
+		hide_fire_on_entities = false
+		highlight_salvageable_items = false
+		moveable_action_bar = false
+		lower_enderman_nametags = false
+		no_hurtcam = false
+		power_orb_lock = false
+		show_coins_per_bit = false
+		hide_fishing_hooks = false
+		stop_clicking_non-salvageable_items = false
+		hide_absorption_hearts = false
+		moveable_item_name_highlight = false
+		"spider's_den_rain_timer" = false
+		view_relic_waypoints = false
+		custom_damage_splash = false
+		enchant_glint_fix = false
+		hide_air_display = false
+		power_orb_lock_duration = 10
+		comma_damage = false
+		find_rare_relics = false
+		hide_mob_death_particles = false
+		hide_lightning = false
+		disable_night_vision = false
+		hide_potion_effects_in_inventory = false
+		no_fire = false
+		show_arachne_hp = false
+		custom_auction_price_input = false
+		press_enter_to_confirm_sign_popups = true
+		protect_items_above_value = "0"
+		protect_starred_items = false
+
+[slayer]
+	current_sven_rng_meter = 0.0
+	current_voidgloom_rng_meter = 0.0
+	current_revenant_rng_meter = 0.0
+	current_tarantula_rng_meter = 0.0
+
+	[slayer.general]
+		use_hits_to_detect_slayer = true
+
+	[slayer.voidgloom_seraph]
+		yang_glyph_highlight_color = "128,65,102,245"
+		"hide_others'_broken_heart_radiation" = false
+		seraph_beacon_phase_color = "255,255,255,255"
+		highlight_nukekebi_fixation_heads = false
+		point_to_yang_glyph = false
+		seraph_hits_phase_color = "255,255,255,255"
+		highlight_yang_glyph = false
+		low_soulflow_ping = 0
+		nukekebi_fixation_head_color = "128,65,102,245"
+		seraph_normal_phase_color = "255,255,255,255"
+		show_seraph_display = false
+		yang_glyph_ping_on_land = false
+		show_soulflow_display = false
+		recolor_seraph_boss = false
+		yang_glyph_ping = false
+
+	[slayer.quality_of_life]
+		show_slayer_display = false
+		slayer_miniboss_spawn_alert = false
+		slayer_boss_hitbox = false
+		show_slayer_armor_kills = false
+		show_rngesus_meter = false
+		show_slayer_time_to_kill = false
+		ping_when_in_atoned_horror_danger_zone = false
+
+[sounds]
+
+	[sounds.abilities]
+		disable_cooldown_sounds = false
+		disable_jerry-chine_gun_sounds = false
+		disable_flower_of_truth_sounds = false
+
+	[sounds.dungeons]
+		disable_terracotta_sounds = false
+
+[dungeons]
+
+	[dungeons.miscellaneous]
+		auto_copy_fails_to_clipboard = true
+		dungeon_timer = false
+		show_decimal_seconds_on_timers = false
+		necron_phase_timer = false
+		death_counter = false
+		dungeon_map = false
+		dungeon_chest_profit = true
+		red_screen_fix = true
+		sadan_phase_timer = false
+
+	[dungeons.tank_helper_tools]
+		tank_range_wall = true
+		tank_range_wall_color = "50,100,255,0"
+		boxed_tank_color = "255,0,255,0"
+		tank_protection_range_display = false
+		box_protected_teammates = false
+		protected_teammate_box_color = "255,255,0,0"
+		boxed_tanks = false
+
+	[dungeons.hud]
+		dungeon_crypts_counter = false
+
+	[dungeons.terminal_solvers]
+		middle_click_on_terminals = true
+		click_in_order_solver = false
+		starts_with_sequence_solver = false
+		shoot_the_target_solver = false
+		item_frame_alignment_solver = false
+		click_in_order_first_color = "255,2,62,138"
+		select_all_colors_solver = false
+		click_in_order_second_color = "255,65,102,245"
+		click_in_order_third_color = "255,144,224,239"
+		simon_says_solver = false
+
+	[dungeons.score_calculation]
+		"allow_mimic_dead!_from_other_mods" = false
+		show_dungeon_score_estimate = false
+		send_message_on_300_score = false
+		minimized_dungeon_score_estimate = false
+		score_calculation_party_assist = false
+		send_message_on_270_score = false
+		receive_score_calculation_party_assist = false
+
+	[dungeons.quality_of_life]
+		show_bat_hitboxes = false
+		auto-reparty_on_dungeon_ending = false
+		hide_damage_in_boss = false
+		hide_non-starred_mobs_nametags = false
+		"show_sadan's_interest" = false
+		hide_terminal_completion_titles = false
+		hide_terracotta_nametags = false
+		show_giant_hp = false
+		dungeon_chest_reroll_confirmation = 0
+		hide_spirit_animal_nametags = false
+		box_spirit_bow = false
+		"show_necron's_hp" = 1
+		hide_dying_mobs = false
+		spirit_leap_names = false
+		hide_floor_4_crowd_messages = false
+		larger_bat_models = false
+		revive_stone_names = false
+		hide_wither_miner_nametags = false
+		spirit_bear_timer = false
+		spirit_pet_warning = false
+		box_spirit_bear = false
+		box_skeleton_masters = false
+		show_guardian_respawn_timer = false
+		hide_oruo_messages = false
+		show_giant_hp_at_feet = false
+
+	[dungeons.solvers]
+		ice_fill_solver = false
+		lowest_blaze_color = "200,255,0,0"
+		next_blaze_color = "200,255,255,0"
+		type_of_livid_finder = 0
+		ice_path_solver = false
+		teleport_maze_solver_color = "200,255,0,0"
+		trivia_solver = false
+		highest_blaze_color = "200,0,255,0"
+		blaze_solver = false
+		boulder_solver = false
+		show_next_blaze = false
+		water_board_solver = false
+		find_correct_livid = false
+		tic_tac_toe_solver = false
+		teleport_maze_solver = false
+		creeper_beams_solver = false
+		three_weirdos_solver = false
+		tic_tac_toe_solver_color = "204,23,234,99"
+
+[farming]
+
+	[farming.quality_of_life]
+		trapper_cooldown_alarm = false
+		hide_farming_rng_titles = false
+		click_to_accept_trapper_task = true
+
+	[farming.solvers]
+		treasure_hunter_solver = false
+		hungry_hiker_solver = false
+
+[mining]
+
+	[mining.crystal_hollows]
+		crystal_hollows_chat_coordinates_grabber = false
+		crystal_hollows_death_waypoints = false
+		crystal_hollows_waypoints = false
+		crystal_hollows_map_special_places = false
+		crystal_hollows_treasure_helper = false
+		crystal_hollows_map = false
+
+	[mining.quality_of_life]
+		powder_ghast_ping = false
+		skymall_reminder = false
+		raffle_warning = false
+		dark_mode_mist = false
+		recolor_carpets = false
+		highlight_completed_commissions = false
+		highlight_disabled_hotm_perks = false
+		more_visible_ghosts = false
+		raffle_waypoint = false
+
+	[mining.solvers]
+		puzzler_solver = false
+		fetchur_solver = false
+
+[spam]
+
+	[spam.abilities]
+		implosion_hider = 0
+		ray_of_hope_hider = 0
+		midas_staff_hider = 0
+		mining_ability_hider = 0
+		healing_message_hider = 0
+		spirit_sceptre_hider = 0
+		giant_sword_hider = 0
+		livid_dagger_hider = 0
+		mana_use_hider = 0
+
+	[spam.miscellaneous]
+		blocks_in_the_way_hider = 0
+		spook_message_hider = 0
+		compact_hider = 0
+		combo_hider = 0
+		auto-recombobulator_hider = 0
+		out_of_mana_hider = 0
+		compact_mining_powder_gain = false
+		no_enemies_nearby_hider = 0
+		"can't_use_ability_hider" = 0
+		profile_message_hider = 0
+		compact_building_tools = false
+		cooldown_hider = 0
+
+	[spam.display]
+		text_shadow = 0
+
+	[spam.dungeons]
+		blessing_hider = 0
+		boss_messages_hider = 0
+		wither_essence_hider = 0
+		superboom_pickup_hider = 0
+		self_orb_pickup_hider = 0
+		blood_key_hider = 0
+		toast_time = 2500
+		dungeon_abilities_messages_hider = 0
+		tether_hider = 0
+		other_orb_pickup_hider = 0
+		countdown_and_ready_messages_hider = 0
+		revive_stone_pickup_hider = 0
+		wither_key_hider = 0
+		undead_essence_hider = 0
+		mort_messages_hider = 0
+		trap_damage_hider = 0
+
+	[spam.fishing]
+		blessed_bait_hider = 0
+		blessing_enchant_hider = 0
+		sea_creature_catch_hider = 0
+		good_fishing_treasure_hider = 0
+		legendary_sea_creature_catch_hider = 0
+		great_fishing_treasure_hider = 0
+
+[events]
+
+	[events.mayor_jerry]
+		track_mayor_jerry_items = false
+		hidden_jerry_timer = false
+		hidden_jerry_alert = false
+		display_jerry_perks = false
+
+	[events.mythological]
+		treasure_burrow_color = "255,173,216,230"
+		track_mythological_creatures = false
+		"show_fast-travel:_museum" = false
+		broadcast_rare_drop_notifications = false
+		show_griffin_burrows = false
+		burrow_particle_add-on = false
+		display_gaia_construct_hits = false
+		"empty/start_burrow_color" = "255,173,216,230"
+		"show_fast-travel:_dark_auction" = false
+		"show_fast-travel:_castle" = false
+		mob_burrow_color = "255,173,216,230"
+		"show_fast-travel:_crypts" = false
+		show_time_until_burrow_refresh = false
+		"show_fast-travel:_hub" = false
+
+	[events.spooky]
+		trick_or_treat_chest_alert = false
+
+	[events.technoblade]
+		show_shiny_orb_waypoints = false
+
