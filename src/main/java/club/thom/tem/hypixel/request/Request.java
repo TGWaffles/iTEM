@@ -99,7 +99,12 @@ public class Request {
         RequestData returnedData = sendRequest(urlBuilder.toString(), parameters);
         assert returnedData != null;
         if (returnedData.getStatus() == 429) {
-            controller.setRateLimited();
+            int rateLimitResetSeconds = getNextResetSeconds(returnedData.getHeaders());
+            // If there was no reset header
+            if (rateLimitResetSeconds == -1) {
+                rateLimitResetSeconds = 10;
+            }
+            controller.setRateLimited(rateLimitResetSeconds);
             controller.addToQueue(this);
             return;
         }
@@ -114,27 +119,26 @@ public class Request {
 
     @SuppressWarnings("SpellCheckingInspection")
     private static int getRateLimitRemaining(Map<String, List<String>> headers) {
-        if (!headers.containsKey("ratelimit-remaining")) {
-            logger.debug("Request had no rateLimit-remaining header.");
-            return -1;
-        }
-        List<String> headerData = headers.get("ratelimit-remaining");
-        if (headerData == null || headerData.size() == 0) {
-            logger.debug("Request's headerData for ratelimit-remaining was null or 0: {}", headerData);
-            return -1;
-        }
-        return Integer.parseInt(headerData.get(0));
+        return getIntegerHeader(headers, "ratelimit-remaining");
     }
 
     @SuppressWarnings("SpellCheckingInspection")
     private static int getNextResetSeconds(Map<String, List<String>> headers) {
-        if (!headers.containsKey("ratelimit-reset")) {
-            logger.debug("Request had no rateLimit-reset header.");
+        int resetSeconds = getIntegerHeader(headers, "ratelimit-reset");
+        if (resetSeconds == -1) {
+            resetSeconds = getIntegerHeader(headers, "retry-after");
+        }
+        return resetSeconds;
+    }
+
+    private static int getIntegerHeader(Map<String, List<String>> headers, String headerName) {
+        if (!headers.containsKey(headerName)) {
+            logger.debug("Request had no {} header.", headerName);
             return -1;
         }
-        List<String> headerData = headers.get("ratelimit-reset");
+        List<String> headerData = headers.get(headerName);
         if (headerData == null || headerData.size() == 0) {
-            logger.debug("Request's headerData for ratelimit-reset was null or 0: {}", headerData);
+            logger.debug("Request's headerData for {} was null or 0: {}", headerName, headerData);
             return -1;
         }
         return Integer.parseInt(headerData.get(0));
