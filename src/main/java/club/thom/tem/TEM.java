@@ -35,6 +35,10 @@ public class TEM {
         // TODO: Register commands and event listeners here, start any loops
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
+    }
+
+    @Mod.EventHandler
+    public void onPostInit(FMLPostInitializationEvent event) {
         new Thread(KeyFetcher::checkForApiKey).start();
     }
 
