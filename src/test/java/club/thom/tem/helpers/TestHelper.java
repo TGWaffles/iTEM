@@ -1,6 +1,7 @@
 package club.thom.tem.helpers;
 
 import club.thom.tem.TEM;
+import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.vigilance.Vigilance;
 import org.powermock.api.mockito.PowerMockito;
@@ -11,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TestHelper {
+    @SuppressWarnings("SpellCheckingInspection")
     public static void setupTEMConfigAndMainClass() throws NoSuchFieldException, IllegalAccessException {
         // Allow TEMConfig to initialize without Minecraft running.
         Field initialized = Vigilance.class.getDeclaredField("initialized");
@@ -21,6 +23,13 @@ public class TestHelper {
         TEMConfig.saveFolder = "testdata/";
         // TEM.sendMessage() now won't actually run.
         PowerMockito.mockStatic(TEM.class);
+    }
+
+    public static Thread startRequestsLoop() {
+        TEM.api = new Hypixel();
+        Thread thread = new Thread(TEM.api::run);
+        thread.start();
+        return thread;
     }
 
     /**
