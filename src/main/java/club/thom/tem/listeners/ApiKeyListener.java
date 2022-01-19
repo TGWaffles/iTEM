@@ -15,7 +15,6 @@ public class ApiKeyListener {
         if (unformatted.startsWith("Your new API key is ") && event.message.getSiblings().size() >= 1) {
             String apiKey = event.message.getSiblings().get(0).getChatStyle().getChatClickEvent().getValue();
             TEMConfig.hypixelKey = apiKey;
-            TEMConfig.hypixelKeycon = apiKey;
             TEM.forceSaveConfig();
             TEM.sendMessage(new ChatComponentText("API key set to " + apiKey + "!"));
         }

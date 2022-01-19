@@ -1,0 +1,878 @@
+{
+  "misc": {
+    "onlyShowOnSkyblock": true,
+    "hidePotionEffect": true,
+    "streamerMode": false,
+    "guiButtonClicks": true,
+    "replaceSocialOptions": true,
+    "damageIndicatorStyle": 1,
+    "editEnchantColoursButton": true,
+    "chromaSpeed": 100,
+    "disableSkullRetexturing": false
+  },
+  "notifications": {
+    "showUpdateMsg": true,
+    "doRamNotif": true
+  },
+  "itemlist": {
+    "showVanillaItems": true,
+    "tabOpen": true,
+    "keepopen": false,
+    "itemStyle": 0,
+    "paneGuiScale": 0,
+    "bgBlurFactor": 5,
+    "paneWidthMult": 1.0,
+    "panePadding": 10,
+    "foregroundColour": "00:255:100:100:100",
+    "favouriteColour": "00:255:200:150:50",
+    "backgroundColour": "15:6:0:0:255"
+  },
+  "toolbar": {
+    "positionButton": true,
+    "searchBar": true,
+    "enableSettingsButton": true,
+    "enableHelpButton": true,
+    "searchBarWidth": 200,
+    "searchBarHeight": 40,
+    "quickCommands": false,
+    "quickCommandsClickType": 0
+  },
+  "inventoryButtons": {
+    "openEditorButton": true,
+    "hideCrafting": false,
+    "clickType": 0
+  },
+  "slotLocking": {
+    "enableSlotLocking": false,
+    "enableSlotBinding": true,
+    "bindingAlsoLocks": false,
+    "slotLockKey": 38,
+    "lockSlotsInTrade": true,
+    "slotLockSwapDelay": 100,
+    "slotLockSound": true,
+    "slotLockSoundVol": 20.0
+  },
+  "tooltipTweaks": {
+    "priceInfoAuc": [
+      0,
+      1,
+      2,
+      3,
+      5
+    ],
+    "priceInfoBaz": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "showPriceInfoInvItem": true,
+    "showPriceInfoAucItem": true,
+    "disablePriceKey": false,
+    "disablePriceKeyKeybind": 0,
+    "showReforgeStats": true,
+    "missingEnchantList": true,
+    "petExtendExp": false,
+    "tooltipBorderColours": true,
+    "tooltipBorderOpacity": 200
+  },
+  "itemOverlays": {
+    "enableTreecapOverlay": true,
+    "enableCooldownInItemDurability": true,
+    "treecapOverlayColour": "00:50:64:224:208",
+    "enableMonkeyCheck": true,
+    "enableWandOverlay": true,
+    "wandBlockCount": true,
+    "wandOverlayColour": "00:50:64:224:208",
+    "enableZapperOverlay": true,
+    "zapperOverlayColour": "0:102:171:5:0",
+    "enableSmoothAOTE": true,
+    "enableSmoothHyperion": true,
+    "smoothTpMillis": 125,
+    "smoothTpMillisEtherwarp": 50,
+    "disableHyperionParticles": true,
+    "etherwarpZoom": true,
+    "enableEtherwarpHelperOverlay": true,
+    "etherwarpHighlightColour": "00:70:156:8:96",
+    "enableBonemerangOverlay": true,
+    "highlightTargeted": true,
+    "bonemerangPosition": {
+      "x": -1,
+      "y": -1,
+      "centerX": false,
+      "centerY": false
+    },
+    "bonemerangOverlayText": [
+      0,
+      1
+    ],
+    "bonemerangOverlayStyle": 0,
+    "bonemerangFastUpdate": false,
+    "enableCrystalOverlay": true,
+    "alwaysShowCrystal": false,
+    "enablePrismapumpOverlay": true,
+    "pickaxeAbility": true
+  },
+  "skillOverlays": {
+    "farmingOverlay": true,
+    "farmingText": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      7,
+      6
+    ],
+    "farmingPosition": {
+      "x": 10,
+      "y": 200,
+      "centerX": false,
+      "centerY": false
+    },
+    "farmingStyle": 0
+  },
+  "miscOverlays": {
+    "todoOverlay2": false,
+    "todoText2": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "experimentationDisplay": 0,
+    "puzzlerDisplay": 0,
+    "fetchurDisplay": 0,
+    "commissionDisplay": 0,
+    "cakesDisplay": 0,
+    "cookieBuffDisplay": 0,
+    "godpotDisplay": 0,
+    "readyColour": 10,
+    "goneColour": 12,
+    "verySoonColour": 11,
+    "soonColour": 9,
+    "kindaSoonColour": 1,
+    "defaultColour": 15,
+    "todoPosition": {
+      "x": 100,
+      "y": 0,
+      "centerX": false,
+      "centerY": false
+    },
+    "todoStyle": 0,
+    "todoIcons": true
+  },
+  "storageGUI": {
+    "selectedIndex": 0,
+    "enableStorageGUI3": true,
+    "storageHeight": 208,
+    "displayStyle": 0,
+    "enderchestPreview": true,
+    "backpackPreview": true,
+    "masonryMode": false,
+    "fancyPanes": 0,
+    "searchBarAutofocus": true,
+    "selectedStorageColour": "0:255:255:223:0",
+    "cancelScrollKey": 0,
+    "showInvBackpack": false,
+    "scrollToBackpack2": 0,
+    "backpackHotbarSide": 0,
+    "showInvBackpackPreview": true,
+    "backpackOpacity": 50,
+    "backpackScrollKey": 42,
+    "backpackHotkey": 41,
+    "arrowKeyBackpacks": false,
+    "arrowLeftKey": 203,
+    "arrowRightKey": 205,
+    "arrowDownKey": 208
+  },
+  "dungeons": {
+    "editDungeonMap": 0,
+    "showOwnHeadAsMarker": false,
+    "profitType": 0,
+    "profitDisplayLoc": 0,
+    "enableDungeonWin": true,
+    "dungeonWinMillis": 8000,
+    "enableDungBlockOverlay": true,
+    "dungeonBlocksEverywhere": false,
+    "slowDungeonBlocks": false,
+    "dungCrackedColour": "0:255:7:255:217",
+    "dungDispenserColour": "0:255:255:76:0",
+    "dungLeverColour": "0:252:24:249:255",
+    "dungTripWireColour": "0:255:255:0:0",
+    "dungChestColour": "0:255:0:163:36",
+    "dungTrappedChestColour": "0:255:0:163:36",
+    "dungBatColour": "0:255:12:255:0"
+  },
+  "enchantingSolvers": {
+    "enableTableGUI": true,
+    "incompatibleEnchants": 0,
+    "enchantSorting": 0,
+    "enchantOrdering": 0,
+    "enableEnchantingSolvers": true,
+    "hideTooltips": true,
+    "seqNumbers": false,
+    "seqNext": 6,
+    "seqUpcoming": 5,
+    "supMatched": 6,
+    "supPossible": 2,
+    "supUnmatched": 5,
+    "supPower": 11
+  },
+  "mining": {
+    "locWaypoints": 1,
+    "emissaryWaypoints": 1,
+    "drillFuelBar": true,
+    "drillFuelBarWidth": 200,
+    "drillFuelBarPosition": {
+      "x": 0,
+      "y": -100,
+      "centerX": true,
+      "centerY": false
+    },
+    "dwarvenOverlay": true,
+    "dwarvenText2": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "overlayPosition": {
+      "x": 10,
+      "y": 100,
+      "centerX": false,
+      "centerY": false
+    },
+    "overlayStyle": 0,
+    "dwarvenOverlayIcons": true,
+    "forgeDisplay": 1,
+    "forgeDisplayEnabledLocations": 0,
+    "metalDetectorEnabled": true,
+    "metalDetectorShowPossible": false,
+    "crystalHollowOverlay": true,
+    "crystalHollowOverlayPosition": {
+      "x": 200,
+      "y": 0,
+      "centerX": false,
+      "centerY": false
+    },
+    "crystalHollowText": [
+      0,
+      3,
+      7
+    ],
+    "crystalHollowOverlayStyle": 0,
+    "crystalHollowIcons": true,
+    "crystalHollowHideDone": false,
+    "crystalHollowAutomatonLocation": 2,
+    "crystalHollowDivanLocation": 2,
+    "crystalHollowCrystalLocation": 1,
+    "crystalHollowPartColor": 3,
+    "crystalHollowDoneColor": 10,
+    "crystalHollowInventoryColor": 14,
+    "crystalHollowStorageColor": 14,
+    "crystalHollowMissingColor": 12,
+    "crystalHollowPlacedColor": 10,
+    "crystalHollowCollectedColor": 14,
+    "crystalHollowAllColor": 10,
+    "crystalHollowMiddleColor": 14,
+    "crystalHollowNoneColor": 12,
+    "puzzlerSolver": true,
+    "titaniumAlert": true,
+    "titaniumAlertMustBeVisible": false,
+    "dwarvenTextures": false
+  },
+  "fishing": {
+    "hideOtherPlayerAll": false,
+    "incomingFishWarningR": true,
+    "incomingFishWarning": true,
+    "incomingFishHookedSounds": true,
+    "incomingFishIncSounds": false,
+    "incomingFishHookedSoundsVol": 25.0,
+    "incomingFishIncSoundsVol": 10.0,
+    "enableCustomParticles": false,
+    "yourParticleType": 0,
+    "yourParticleColour": "0:255:255:255:255",
+    "otherParticleType": 0,
+    "otherParticleColour": "0:255:255:255:255",
+    "enableRodColours": true,
+    "ownRodColour": "0:255:0:0:0",
+    "otherRodColour": "0:255:0:0:0"
+  },
+  "neuAuctionHouse": {
+    "enableNeuAuctionHouse": false,
+    "disableAhScroll": false,
+    "ahNotification": 5,
+    "priceFiltering": false
+  },
+  "improvedSBMenu": {
+    "enableSbMenus": true,
+    "backgroundStyle": 0,
+    "buttonStyle": 0,
+    "hideEmptyPanes": true
+  },
+  "calendar": {
+    "eventNotifications": true,
+    "startingSoonTime": 300,
+    "showEventTimerInInventory": true,
+    "eventNotificationSounds": true,
+    "spookyNightNotification": true
+  },
+  "tradeMenu": {
+    "enableCustomTrade": true,
+    "customTradePrices": true,
+    "customTradePriceStyle": true
+  },
+  "petOverlay": {
+    "enablePetInfo": false,
+    "petInfoPosition": {
+      "x": -1,
+      "y": -1,
+      "centerX": false,
+      "centerY": false
+    },
+    "petOverlayText": [
+      0,
+      2,
+      3,
+      6,
+      4
+    ],
+    "petOverlayIcon": true,
+    "petInfoOverlayStyle": 0,
+    "dualPets": false
+  },
+  "ahTweaks": {
+    "enableSearchOverlay": true,
+    "keepPreviousSearch": false,
+    "showPastSearches": true,
+    "escFullClose": true,
+    "enableBINWarning": true,
+    "warningThreshold": 10.0,
+    "enableSortWarning": true
+  },
+  "accessoryBag": {
+    "enableOverlay": true
+  },
+  "apiKey": {
+    "apiKey": "testApiKey123"
+  },
+  "hidden": {
+    "profileSpecific": {},
+    "locationSpecific": {},
+    "inventoryButtons": [
+      {
+        "x": 87,
+        "y": 63,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 108,
+        "y": 63,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 129,
+        "y": 63,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 150,
+        "y": 63,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 87,
+        "y": 5,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 108,
+        "y": 5,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 129,
+        "y": 5,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 150,
+        "y": 5,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 87,
+        "y": 25,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 105,
+        "y": 25,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 87,
+        "y": 43,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 105,
+        "y": 43,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 143,
+        "y": 35,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 60,
+        "y": 8,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 60,
+        "y": 60,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 26,
+        "y": 8,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 26,
+        "y": 60,
+        "playerInvOnly": true,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 2,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": true,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 2,
+        "y": 22,
+        "playerInvOnly": false,
+        "anchorRight": true,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 2,
+        "y": 42,
+        "playerInvOnly": false,
+        "anchorRight": true,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 2,
+        "y": 62,
+        "playerInvOnly": false,
+        "anchorRight": true,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 2,
+        "y": -84,
+        "playerInvOnly": false,
+        "anchorRight": true,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 2,
+        "y": -64,
+        "playerInvOnly": false,
+        "anchorRight": true,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 2,
+        "y": -44,
+        "playerInvOnly": false,
+        "anchorRight": true,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 2,
+        "y": -24,
+        "playerInvOnly": false,
+        "anchorRight": true,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 4,
+        "y": -19,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 25,
+        "y": -19,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 46,
+        "y": -19,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 67,
+        "y": -19,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 88,
+        "y": -19,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 109,
+        "y": -19,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 130,
+        "y": -19,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 151,
+        "y": -19,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": -19,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": -19,
+        "y": 22,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": -19,
+        "y": 42,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": -19,
+        "y": 62,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": false,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": -19,
+        "y": -84,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": -19,
+        "y": -64,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": -19,
+        "y": -44,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": -19,
+        "y": -24,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 4,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 25,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 46,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 67,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 88,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 109,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 130,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      },
+      {
+        "x": 151,
+        "y": 2,
+        "playerInvOnly": false,
+        "anchorRight": false,
+        "anchorBottom": true,
+        "backgroundIndex": 0,
+        "command": ""
+      }
+    ],
+    "enableItemEditing": false,
+    "cacheRenderedItempane": true,
+    "autoupdate": true,
+    "overlaySearchBar": "",
+    "overlayQuickCommand": "",
+    "dev": false,
+    "loadedModBefore": false,
+    "compareMode": 0,
+    "sortMode": 0,
+    "compareAscending": [
+      true,
+      true,
+      true
+    ],
+    "favourites": [],
+    "previousAuctionSearches": [],
+    "eventFavourites": [],
+    "quickCommands": [
+      "/warp home:Warp Home:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0\u003d",
+      "/warp hub:Warp Hub:eyJ0aW1lc3RhbXAiOjE1NTkyMTU0MTY5MDksInByb2ZpbGVJZCI6IjQxZDNhYmMyZDc0OTQwMGM5MDkwZDU0MzRkMDM4MzFiIiwicHJvZmlsZU5hbWUiOiJNZWdha2xvb24iLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2Q3Y2M2Njg3NDIzZDA1NzBkNTU2YWM1M2UwNjc2Y2I1NjNiYmRkOTcxN2NkODI2OWJkZWJlZDZmNmQ0ZTdiZjgifX19",
+      "/warp dungeon_hub:Dungeon Hub:eyJ0aW1lc3RhbXAiOjE1Nzg0MDk0MTMxNjksInByb2ZpbGVJZCI6IjQxZDNhYmMyZDc0OTQwMGM5MDkwZDU0MzRkMDM4MzFiIiwicHJvZmlsZU5hbWUiOiJNZWdha2xvb24iLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzliNTY4OTViOTY1OTg5NmFkNjQ3ZjU4NTk5MjM4YWY1MzJkNDZkYjljMWIwMzg5YjhiYmViNzA5OTlkYWIzM2QiLCJtZXRhZGF0YSI6eyJtb2RlbCI6InNsaW0ifX19fQ\u003d\u003d",
+      "/craft:Crafting Table:CRAFTING_TABLE",
+      "/storage:Storage:CHEST",
+      "/wardrobe:Wardrobe:LEATHER_CHESTPLATE",
+      "/pets:Pets:BONE",
+      "neuah:NEU Auction House:GOLD_BLOCK",
+      "/bz:Bazaar:GOLD_BARDING"
+    ],
+    "enchantColours": [
+      "[a-zA-Z\\- ]+:\u003e:9:6:0",
+      "[a-zA-Z\\- ]+:\u003e:6:c:0",
+      "[a-zA-Z\\- ]+:\u003e:5:5:0",
+      "Experience:\u003e:3:5:0",
+      "Life Steal:\u003e:3:5:0",
+      "Scavenger:\u003e:3:5:0",
+      "Looting:\u003e:3:5:0"
+    ],
+    "repoURL": "https://github.com/Moulberry/NotEnoughUpdates-REPO/archive/master.zip",
+    "repoCommitsURL": "https://api.github.com/repos/Moulberry/NotEnoughUpdates-REPO/commits/master",
+    "firstTimeSearchFocus": true,
+    "disableBrokenCapes": false
+  },
+  "dungeonMap": {
+    "dmBorderSize": 1.0,
+    "dmRoomSize": 1.0,
+    "dmIconScale": 1.0,
+    "dmBorderStyle": 0,
+    "dmEnable": true,
+    "dmCenterPlayer": true,
+    "dmRotatePlayer": true,
+    "dmOrientCheck": true,
+    "dmCenterCheck": false,
+    "dmPlayerHeads": 0,
+    "dmPlayerInterp": true,
+    "dmCompat": 0,
+    "dmBackgroundColour": "00:170:75:75:75",
+    "dmBorderColour": "00:0:0:0:0",
+    "dmChromaBorder": false,
+    "dmBackgroundBlur": 0.0,
+    "dmPosition": {
+      "x": 10,
+      "y": 10,
+      "centerX": false,
+      "centerY": false
+    }
+  }
+}

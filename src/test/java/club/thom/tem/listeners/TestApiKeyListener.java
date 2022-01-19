@@ -26,7 +26,7 @@ public class TestApiKeyListener {
 
     @Before
     public void before() throws NoSuchFieldException, IllegalAccessException {
-        TestHelper.setupTEMConfig();
+        TestHelper.setupTEMConfigAndMainClass();
     }
 
     @After

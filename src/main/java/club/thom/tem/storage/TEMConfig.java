@@ -5,11 +5,9 @@ import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
 
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -53,9 +51,15 @@ public class TEMConfig extends Vigilant {
             description = "Enter your Hypixel Api Key",
             protectedText = true
     )
-    public static String hypixelKeycon = "";
+    public static String hypixelKey = "";
 
-    public static String hypixelKey = hypixelKeycon;
+    public void setHypixelKey(String newKey) {
+        new Thread(() -> {
+            if (isKeyValid(newKey)) {
+                hypixelKey = newKey;
+            }
+        }).start();
+    }
 
     public static String saveFolder = "config/tem/";
     public static final String fileName = "preferences.toml";
@@ -72,32 +76,28 @@ public class TEMConfig extends Vigilant {
         }
     }
 
-    private String runKeyConsumer(String key) {
+    public static boolean isKeyValid(String key) {
         int status;
         try {
-            URL url = new URL(("api.hypixel.net/key?key=" + key));
+            URL url = new URL(("https://api.hypixel.net/key?key=" + key));
             HttpURLConnection uc = (HttpURLConnection) url.openConnection();
             status = uc.getResponseCode();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
-        if (status == 200) {
-            return key;
-        }
-        return null;
+        return status == 200;
     }
 
     Consumer<String> checkApiKey = key -> new Thread(() -> {
         String oldKey = hypixelKey;
-        String newKey = runKeyConsumer(key);
-        if (newKey == null) {
+        if (!isKeyValid(key)) {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            hypixelKeycon = oldKey;
+            hypixelKey = oldKey;
             TEM.forceSaveConfig();
             return;
         }
@@ -110,7 +110,7 @@ public class TEMConfig extends Vigilant {
         CONFIG_FILE = new File(saveFolder + fileName);
         initialize();
         try {
-            registerListener(this.getClass().getDeclaredField("hypixelKeycon"), checkApiKey);
+            registerListener(this.getClass().getDeclaredField("hypixelKey"), checkApiKey);
         } catch (Exception e) {
             e.printStackTrace();
         }

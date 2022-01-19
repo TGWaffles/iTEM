@@ -1,5 +1,6 @@
 // Using old gradle version for minecraft 1.8
 //file:noinspection GrDeprecatedAPIUsage
+//file:noinspection GroovyAssignabilityCheck
 buildscript {
     repositories {
         maven { url 'https://jitpack.io' }
@@ -52,6 +53,9 @@ dependencies {
     // Essential for GUI stuff
     implementation "gg.essential:loader-launchwrapper:1.1.2"
     implementation "gg.essential:essential-1.8.9-forge:1543+release-launch"
+    // Included in essentials but just in case
+    implementation "com.electronwill.night-config:core:3.6.0"
+    implementation "com.electronwill.night-config:toml:3.6.0"
     // Tests for MCForge
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.awaitility:awaitility-groovy:4.1.1'
@@ -89,8 +93,10 @@ sourceJar {
 }
 shadowJar {
     dependencies {
-        //noinspection GroovyAssignabilityCheck
         include(dependency("gg.essential:loader-launchwrapper:1.1.2"))
+        include(dependency {
+            it.moduleGroup == 'com.electronwill.night-config'
+        })
     }
     // TEM-0.0.0.1.jar for example
     archiveFileName = "${baseName}-${version}.${extension}"
