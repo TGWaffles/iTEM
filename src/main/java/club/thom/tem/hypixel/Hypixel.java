@@ -30,7 +30,8 @@ public class Hypixel {
     private long rateLimitResetTime = System.currentTimeMillis();
 
     /**
-     * Got a 429 from Hypixel - we have 0 requests left and have no idea when they'll reset.
+     * Got a 429 from Hypixel - we have 0 requests left and possibly
+     * have no idea when they'll reset. (in that case, this should be 10s in the future)
      */
     public void setRateLimited(int resetSeconds) {
         rateLimitLock.writeLock().lock();
@@ -102,57 +103,60 @@ public class Hypixel {
     /**
      * Runs the request loop, dealing with rate-limit etc.
      */
-    public void run() throws InterruptedException {
-        // This should be an infinite loop until the JVM stops.
-        //noinspection InfiniteLoopStatement
+    public void run() {
+        // This should be an infinite loop until the JVM stops, or it's interrupted.
         while (true) {
-            int rateLimit;
             try {
-                rateLimitLock.readLock().lock();
-                rateLimit = getRateLimit();
-            }
-            finally {
-                rateLimitLock.readLock().unlock();
-            }
-            List<CompletableFuture<JsonObject>> requestFutures = new ArrayList<>();
-            // Executes these requests until we run out of rateLimit.
-            for (int i = 0; i < rateLimit; i++) {
-                // Blocking operation. This whole for loop could take minutes to complete, so we need to make sure
-                // we haven't passed the resetTime afterwards.
-                Request request = requestQueue.take();
-                // So we can wait for all items to complete before spinning next request set up.
-                requestFutures.add(request.getFuture());
-                new Thread(request::makeRequest).start();
-            }
+                int rateLimit;
+                try {
+                    rateLimitLock.readLock().lock();
+                    rateLimit = getRateLimit();
+                } finally {
+                    rateLimitLock.readLock().unlock();
+                }
+                List<CompletableFuture<?>> requestFutures = new ArrayList<>();
+                // Executes these requests until we run out of rateLimit.
+                for (int i = 0; i < rateLimit; i++) {
+                    // Blocking operation. This whole for loop could take minutes to complete, so we need to make sure
+                    // we haven't passed the resetTime afterwards.
+                    Request request = requestQueue.take();
+                    // So we can wait for all items to complete before spinning next request set up.
+                    requestFutures.add(request.getCompletionFuture());
+                    new Thread(request::makeRequest).start();
+                }
 
-            // Now we're out of the for loop, we must have run out of requests.
-            // Waits for requests to finish before checking that...
-            requestFutures.forEach(CompletableFuture::join);
+                // Now we're out of the for loop, we must have run out of requests.
+                // Waits for requests to finish before checking that...
+                requestFutures.forEach(CompletableFuture::join);
 
-            // If we *did* successfully exhaust all requests, wait the given time.
-            if (getRateLimit() == 0) {
-                if (rateLimitResetTime < System.currentTimeMillis()) {
-                    // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
-                    setRateLimitRemaining(1, (int) (System.currentTimeMillis() / 1000) + 60);
+                // If we *did* successfully exhaust all requests, wait the given time.
+                if (getRateLimit() == 0) {
+                    if (rateLimitResetTime < System.currentTimeMillis()) {
+                        // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
+                        setRateLimitRemaining(1, 60);
+                        continue;
+                    }
+                    // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
+                    //noinspection BusyWait
+                    Thread.sleep(System.currentTimeMillis() - rateLimitResetTime);
+                    // Sets the next resetTime as 60 seconds in the future.
+                    setRateLimitRemaining(120, 60);
                     continue;
                 }
-                // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
-                //noinspection BusyWait
-                Thread.sleep(System.currentTimeMillis() - rateLimitResetTime);
-                // Sets the next resetTime as 60 seconds in the future.
-                setRateLimitRemaining(120, (int) (rateLimitResetTime / 1000) + 60);
-                continue;
-            }
-            // No point having this thread spin in an infinite while loop while there's no requests waiting to be made.
-            waitingForItemLock.lock();
-            try {
-                if (requestQueue.size() > 0) {
-                    continue;
+                // No point having this thread spin in an infinite while loop while there's no requests waiting to be made.
+                waitingForItemLock.lock();
+                try {
+                    if (requestQueue.size() > 0) {
+                        continue;
+                    }
+                    // Waits for a new item in the queue.
+                    newItemInQueue.await();
+                } finally {
+                    waitingForItemLock.unlock();
                 }
-                // Waits for a new item in the queue.
-                newItemInQueue.await();
-            } finally {
-                waitingForItemLock.unlock();
+            } catch (InterruptedException e) {
+                logger.error("Hypixel requests loop interrupted!");
+                return;
             }
         }
     }

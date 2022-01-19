@@ -18,17 +18,17 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Base Request class for all requests to inherit from
  */
-public class Request {
+public abstract class Request {
     private static final Logger logger = LoggerFactory.getLogger(Request.class);
-    protected final CompletableFuture<JsonObject> future;
     protected Hypixel controller;
     protected final String endpoint;
     protected final HashMap<String, String> parameters;
     public final boolean priority;
+    private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
     // Hypixel API
     protected final String apiUrl = "https://api.hypixel.net/";
 
-    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller, CompletableFuture<JsonObject> future, boolean runAsap) {
+    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller, boolean runAsap) {
         // Hypixel class, so we can communicate and update rate-limit data, etc.
         this.controller = controller;
         // To be appended to the apiUrl (no preceding /)
@@ -36,16 +36,15 @@ public class Request {
         // Parameters, eg user to look-up, api key, etc.
         this.parameters = parameters;
         // So that operations can wait for this to complete.
-        this.future = future;
         // Run it as soon as we have a "rate-limit spot" available.
         this.priority = runAsap;
     }
 
-    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller, CompletableFuture<JsonObject> future) {
-        this(endpoint, parameters, controller, future, false);
+    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller) {
+        this(endpoint, parameters, controller, false);
     }
 
-    private static RequestData sendRequest(String urlString, HashMap<String, String> params) {
+    private static RequestData requestToReturnedData(String urlString, HashMap<String, String> params) {
         logger.debug("Creating request to url: {}, params: {}", urlString, params);
         URL url = null;
         JsonObject jsonData;
@@ -82,7 +81,7 @@ public class Request {
         }
     }
 
-    public void makeRequest() {
+    protected RequestData requestToReturnedData() {
         StringBuilder urlBuilder = new StringBuilder();
         urlBuilder.append(apiUrl);
         urlBuilder.append(endpoint);
@@ -96,7 +95,7 @@ public class Request {
         if (urlBuilder.charAt(urlBuilder.length() - 1) == '&') {
             urlBuilder.deleteCharAt(urlBuilder.length() - 1);
         }
-        RequestData returnedData = sendRequest(urlBuilder.toString(), parameters);
+        RequestData returnedData = requestToReturnedData(urlBuilder.toString(), parameters);
         assert returnedData != null;
         if (returnedData.getStatus() == 429) {
             int rateLimitResetSeconds = getNextResetSeconds(returnedData.getHeaders());
@@ -106,7 +105,9 @@ public class Request {
             }
             controller.setRateLimited(rateLimitResetSeconds);
             controller.addToQueue(this);
-            return;
+            isComplete.complete(false);
+            isComplete = new CompletableFuture<>();
+            return null;
         }
         // TODO: Check for errors, get rate-limit remaining, etc.
         int rateLimitRemaining = getRateLimitRemaining(returnedData.getHeaders());
@@ -114,8 +115,12 @@ public class Request {
         if (rateLimitRemaining != -1 && rateLimitResetSeconds != -1) {
             controller.setRateLimitRemaining(rateLimitRemaining, rateLimitResetSeconds);
         }
-        future.complete(returnedData.getJson());
+        isComplete.complete(true);
+        return returnedData;
     }
+
+    // Run this::sendRequest
+    public abstract void makeRequest();
 
     @SuppressWarnings("SpellCheckingInspection")
     private static int getRateLimitRemaining(Map<String, List<String>> headers) {
@@ -144,7 +149,9 @@ public class Request {
         return Integer.parseInt(headerData.get(0));
     }
 
-    public CompletableFuture<JsonObject> getFuture() {
-        return future;
+    public CompletableFuture<Boolean> getCompletionFuture() {
+        return isComplete;
     }
+
+    public abstract CompletableFuture<?> getFuture();
 }
