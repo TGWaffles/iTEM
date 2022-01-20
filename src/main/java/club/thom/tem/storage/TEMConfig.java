@@ -27,7 +27,7 @@ public class TEMConfig extends Vigilant {
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Exotics",
-            description = "Enable the Exotics search"
+            description = "Enable Exotic Armour"
     )
     public static boolean enableExotics = false;
 
@@ -36,7 +36,7 @@ public class TEMConfig extends Vigilant {
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Crystal",
-            description = "Allow crystal dyed armour"
+            description = "Enable Crystal Armour"
     )
     public static boolean enableCrystal = false;
 
@@ -45,7 +45,7 @@ public class TEMConfig extends Vigilant {
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Fairy",
-            description = "Allow fairy dyed armour"
+            description = "Enable Fairy Armour"
     )
     public static boolean enableFairy = false;
 

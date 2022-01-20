@@ -23,6 +23,9 @@ public class TestHelper {
         TEMConfig.saveFolder = "testdata/";
         // TEM.sendMessage() now won't actually run.
         PowerMockito.mockStatic(TEM.class);
+
+        //noinspection InstantiatingAThreadWithDefaultRunMethod
+        PowerMockito.stub(PowerMockito.method(TEMConfig.class, "setHypixelKey")).toReturn(new Thread());
     }
 
     public static Thread startRequestsLoop() {

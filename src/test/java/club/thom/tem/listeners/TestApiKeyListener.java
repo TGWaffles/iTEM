@@ -12,37 +12,40 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.lang.reflect.Field;
+
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.management.*")
-@PrepareForTest({TEM.class})
+@PrepareForTest({TEMConfig.class})
 public class TestApiKeyListener {
     private static final String exampleApiKey = "abc123";
 
     @Before
-    public void before() throws NoSuchFieldException, IllegalAccessException {
-        TestHelper.setupTEMConfigAndMainClass();
+    public void before() {
+        PowerMockito.mockStatic(TEMConfig.class);
     }
 
-    @After
-    public void after() {
-        TestHelper.cleanUp();
-    }
 
 
     @Test
     public void testSendApiMessage() {
-        TEMConfig.hypixelKey = "";
         ApiKeyListener listener = new ApiKeyListener();
         ChatComponentText text = new ChatComponentText(EnumChatFormatting.GREEN + "Your new API key is " + exampleApiKey);
         text.setChatStyle(new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, exampleApiKey)));
         text.appendSibling(new ChatComponentText("."));
         listener.onChat(new ClientChatReceivedEvent((byte) 0, text));
-        assertEquals(exampleApiKey, TEMConfig.hypixelKey);
+        ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
+        PowerMockito.verifyStatic(TEMConfig.class, times(1));
+        TEMConfig.setHypixelKey(stringCaptor.capture());
+        assertEquals(exampleApiKey, stringCaptor.getValue());
     }
 }
