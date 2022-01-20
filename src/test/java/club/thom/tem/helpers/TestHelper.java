@@ -28,6 +28,16 @@ public class TestHelper {
         PowerMockito.stub(PowerMockito.method(TEMConfig.class, "setHypixelKey")).toReturn(new Thread());
     }
 
+    public static void mockMainClassAndConfig() throws Exception {
+        // So that when TEM initialises, it doesn't try to init this class again.
+        TEMConfig config = PowerMockito.mock(TEMConfig.class);
+        PowerMockito.whenNew(TEMConfig.class).withAnyArguments().thenReturn(config);
+        // This way we can watch the setHypixelKey setting.
+        PowerMockito.mockStatic(TEMConfig.class);
+        // Prevent calls to TEM.sendMessage and TEM.forceSaveConfig
+        PowerMockito.mockStatic(TEM.class);
+    }
+
     public static Thread startRequestsLoop() {
         TEM.api = new Hypixel();
         Thread thread = new Thread(TEM.api::run);
