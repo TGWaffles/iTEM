@@ -8,8 +8,11 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TEMCommand extends CommandBase {
+    private static final Logger logger = LoggerFactory.getLogger(TEMCommand.class);
     @Override
     public String getCommandName() {
         return "tem";
@@ -41,11 +44,17 @@ public class TEMCommand extends CommandBase {
             return;
         } else if (args.length == 2) {
             if (args[0].equals("setkey")) {
-                TEMConfig.hypixelKey = args[1];
-                TEMConfig.enableExotics = true;
-                TEM.forceSaveConfig();
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + args[1] + "!"));
-            } // Prints help on deals to chat.
+                new Thread(() -> {
+                    try {
+                        TEMConfig.setHypixelKey(args[1]).join();
+                    } catch (InterruptedException e) {
+                        logger.error("Error setting hypixel key from command", e);
+                        return;
+                    }
+                    TEMConfig.enableExotics = true;
+                    TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + args[1] + "!"));
+                }).start();
+            } // Prints help on /tem to chat.
             else {
                 TEM.sendMessage(getHelpMessage());
             }

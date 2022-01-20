@@ -2,6 +2,7 @@ package club.thom.tem;
 
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.helpers.KeyFetcher;
+import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.storage.TEMConfig;
 import net.minecraft.client.Minecraft;
@@ -23,6 +24,7 @@ public class TEM {
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
     public static TEMConfig config = new TEMConfig();
+    public static Hypixel api;
 
     public static void forceSaveConfig() {
         config.markDirty();
@@ -32,7 +34,10 @@ public class TEM {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         config.initialize();
-        // TODO: Register commands and event listeners here, start any loops
+        // Create global API/rate-limit handler
+        api = new Hypixel();
+        // Start the requests loop
+        new Thread(api::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
     }

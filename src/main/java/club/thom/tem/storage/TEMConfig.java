@@ -1,9 +1,12 @@
 package club.thom.tem.storage;
 
 import club.thom.tem.TEM;
+import club.thom.tem.hypixel.request.KeyLookupRequest;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,16 +15,19 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 public class TEMConfig extends Vigilant {
+
+    private static final Logger logger = LoggerFactory.getLogger(TEMConfig.class);
 
     @Property(
             type = PropertyType.SWITCH,
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Exotics",
-            description = "Enable the Exotics search"
+            description = "Enable Exotic Armour"
     )
     public static boolean enableExotics = false;
 
@@ -30,7 +36,7 @@ public class TEMConfig extends Vigilant {
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Crystal",
-            description = "Allow crystal dyed armour"
+            description = "Enable Crystal Armour"
     )
     public static boolean enableCrystal = false;
 
@@ -39,7 +45,7 @@ public class TEMConfig extends Vigilant {
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Fairy",
-            description = "Allow fairy dyed armour"
+            description = "Enable Fairy Armour"
     )
     public static boolean enableFairy = false;
 
@@ -51,14 +57,21 @@ public class TEMConfig extends Vigilant {
             description = "Enter your Hypixel Api Key",
             protectedText = true
     )
-    public static String hypixelKey = "";
+    private static String hypixelKey = "";
 
-    public void setHypixelKey(String newKey) {
-        new Thread(() -> {
+    public static Thread setHypixelKey(String newKey) {
+        Thread thread = new Thread(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
+                TEM.forceSaveConfig();
             }
-        }).start();
+        });
+        thread.start();
+        return thread;
+    }
+
+    public static String getHypixelKey() {
+        return hypixelKey;
     }
 
     public static String saveFolder = "config/tem/";
@@ -77,16 +90,14 @@ public class TEMConfig extends Vigilant {
     }
 
     public static boolean isKeyValid(String key) {
-        int status;
+        KeyLookupRequest request = new KeyLookupRequest(key, TEM.api);
+        TEM.api.addToQueue(request);
         try {
-            URL url = new URL(("https://api.hypixel.net/key?key=" + key));
-            HttpURLConnection uc = (HttpURLConnection) url.openConnection();
-            status = uc.getResponseCode();
-        } catch (Exception e) {
-            e.printStackTrace();
+            return request.getFuture().get();
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error("Error checking key validity", e);
             return false;
         }
-        return status == 200;
     }
 
     Consumer<String> checkApiKey = key -> new Thread(() -> {
