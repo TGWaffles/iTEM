@@ -1,15 +1,13 @@
 package club.thom.tem.hypixel;
 
+import club.thom.tem.backend.ClientResponseHandler;
 import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
 import club.thom.tem.storage.TEMConfig;
-import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -25,8 +23,6 @@ public class Hypixel {
     Condition newItemInQueue = waitingForItemLock.newCondition();
 
     public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
-    Lock waitingForApiKeyLock = new ReentrantLock();
-    Condition apiKeySet = waitingForApiKeyLock.newCondition();
 
     protected final LinkedBlockingDeque<Request> requestQueue = new LinkedBlockingDeque<>();
 
@@ -46,6 +42,10 @@ public class Hypixel {
         } finally {
             rateLimitLock.writeLock().unlock();
         }
+    }
+
+    public int getQueueSize() {
+        return requestQueue.size();
     }
 
     public void signalApiKeySet() {
@@ -113,6 +113,14 @@ public class Hypixel {
         } finally {
             // Finished editing the rate limit, another thread can start now.
             rateLimitLock.writeLock().unlock();
+        }
+        if (getRateLimit() > requestQueue.size()) {
+            ClientResponseHandler.waitingForRateLimit.lock();
+            try {
+                ClientResponseHandler.rateLimitChange.signalAll();
+            } finally {
+                ClientResponseHandler.waitingForRateLimit.unlock();
+            }
         }
     }
 

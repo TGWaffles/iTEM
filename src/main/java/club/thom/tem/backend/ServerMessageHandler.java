@@ -2,9 +2,9 @@ package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.FriendsListRequest;
-import club.thom.tem.hypixel.request.Request;
-import club.thom.tem.models.messages.ClientMessages;
-import club.thom.tem.models.messages.ServerMessages.*;
+import club.thom.tem.models.messages.ServerMessages.AuthData;
+import club.thom.tem.models.messages.ServerMessages.RequestMessage;
+import club.thom.tem.models.messages.ServerMessages.ServerMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
@@ -25,6 +25,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
     public void onConnected(WebSocket socket, Map<String, List<String>> headers) {
         // Authenticates with the server.
         ClientResponseHandler.sendAuth(socket);
+        ClientResponseHandler.startMoreRequestsLoop(socket);
     }
 
     @Override
