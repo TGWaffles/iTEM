@@ -770,6 +770,880 @@ public final class ServerMessages {
 
   }
 
+  public interface InformationResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:serverMessage.InformationResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Player who the information is about
+     * </pre>
+     *
+     * <code>string playerUuid = 1;</code>
+     * @return The playerUuid.
+     */
+    java.lang.String getPlayerUuid();
+    /**
+     * <pre>
+     * Player who the information is about
+     * </pre>
+     *
+     * <code>string playerUuid = 1;</code>
+     * @return The bytes for playerUuid.
+     */
+    com.google.protobuf.ByteString
+        getPlayerUuidBytes();
+
+    /**
+     * <pre>
+     * invalid + valid contributions
+     * </pre>
+     *
+     * <code>int32 contributionsThisSession = 2;</code>
+     * @return The contributionsThisSession.
+     */
+    int getContributionsThisSession();
+
+    /**
+     * <pre>
+     * valid contributions only
+     * </pre>
+     *
+     * <code>int32 validContributionsThisSession = 3;</code>
+     * @return The validContributionsThisSession.
+     */
+    int getValidContributionsThisSession();
+
+    /**
+     * <pre>
+     * total valid contributions
+     * </pre>
+     *
+     * <code>int32 totalContributions = 4;</code>
+     * @return The totalContributions.
+     */
+    int getTotalContributions();
+  }
+  /**
+   * Protobuf type {@code serverMessage.InformationResponse}
+   */
+  public static final class InformationResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:serverMessage.InformationResponse)
+      InformationResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use InformationResponse.newBuilder() to construct.
+    private InformationResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private InformationResponse() {
+      playerUuid_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new InformationResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private InformationResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              playerUuid_ = s;
+              break;
+            }
+            case 16: {
+
+              contributionsThisSession_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              validContributionsThisSession_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              totalContributions_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_InformationResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_InformationResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ServerMessages.InformationResponse.class, club.thom.tem.models.messages.ServerMessages.InformationResponse.Builder.class);
+    }
+
+    public static final int PLAYERUUID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object playerUuid_;
+    /**
+     * <pre>
+     * Player who the information is about
+     * </pre>
+     *
+     * <code>string playerUuid = 1;</code>
+     * @return The playerUuid.
+     */
+    @java.lang.Override
+    public java.lang.String getPlayerUuid() {
+      java.lang.Object ref = playerUuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        playerUuid_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Player who the information is about
+     * </pre>
+     *
+     * <code>string playerUuid = 1;</code>
+     * @return The bytes for playerUuid.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPlayerUuidBytes() {
+      java.lang.Object ref = playerUuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        playerUuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int CONTRIBUTIONSTHISSESSION_FIELD_NUMBER = 2;
+    private int contributionsThisSession_;
+    /**
+     * <pre>
+     * invalid + valid contributions
+     * </pre>
+     *
+     * <code>int32 contributionsThisSession = 2;</code>
+     * @return The contributionsThisSession.
+     */
+    @java.lang.Override
+    public int getContributionsThisSession() {
+      return contributionsThisSession_;
+    }
+
+    public static final int VALIDCONTRIBUTIONSTHISSESSION_FIELD_NUMBER = 3;
+    private int validContributionsThisSession_;
+    /**
+     * <pre>
+     * valid contributions only
+     * </pre>
+     *
+     * <code>int32 validContributionsThisSession = 3;</code>
+     * @return The validContributionsThisSession.
+     */
+    @java.lang.Override
+    public int getValidContributionsThisSession() {
+      return validContributionsThisSession_;
+    }
+
+    public static final int TOTALCONTRIBUTIONS_FIELD_NUMBER = 4;
+    private int totalContributions_;
+    /**
+     * <pre>
+     * total valid contributions
+     * </pre>
+     *
+     * <code>int32 totalContributions = 4;</code>
+     * @return The totalContributions.
+     */
+    @java.lang.Override
+    public int getTotalContributions() {
+      return totalContributions_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(playerUuid_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, playerUuid_);
+      }
+      if (contributionsThisSession_ != 0) {
+        output.writeInt32(2, contributionsThisSession_);
+      }
+      if (validContributionsThisSession_ != 0) {
+        output.writeInt32(3, validContributionsThisSession_);
+      }
+      if (totalContributions_ != 0) {
+        output.writeInt32(4, totalContributions_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(playerUuid_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, playerUuid_);
+      }
+      if (contributionsThisSession_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, contributionsThisSession_);
+      }
+      if (validContributionsThisSession_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, validContributionsThisSession_);
+      }
+      if (totalContributions_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, totalContributions_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ServerMessages.InformationResponse)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ServerMessages.InformationResponse other = (club.thom.tem.models.messages.ServerMessages.InformationResponse) obj;
+
+      if (!getPlayerUuid()
+          .equals(other.getPlayerUuid())) return false;
+      if (getContributionsThisSession()
+          != other.getContributionsThisSession()) return false;
+      if (getValidContributionsThisSession()
+          != other.getValidContributionsThisSession()) return false;
+      if (getTotalContributions()
+          != other.getTotalContributions()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + PLAYERUUID_FIELD_NUMBER;
+      hash = (53 * hash) + getPlayerUuid().hashCode();
+      hash = (37 * hash) + CONTRIBUTIONSTHISSESSION_FIELD_NUMBER;
+      hash = (53 * hash) + getContributionsThisSession();
+      hash = (37 * hash) + VALIDCONTRIBUTIONSTHISSESSION_FIELD_NUMBER;
+      hash = (53 * hash) + getValidContributionsThisSession();
+      hash = (37 * hash) + TOTALCONTRIBUTIONS_FIELD_NUMBER;
+      hash = (53 * hash) + getTotalContributions();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ServerMessages.InformationResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code serverMessage.InformationResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:serverMessage.InformationResponse)
+        club.thom.tem.models.messages.ServerMessages.InformationResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_InformationResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_InformationResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ServerMessages.InformationResponse.class, club.thom.tem.models.messages.ServerMessages.InformationResponse.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ServerMessages.InformationResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        playerUuid_ = "";
+
+        contributionsThisSession_ = 0;
+
+        validContributionsThisSession_ = 0;
+
+        totalContributions_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_InformationResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.InformationResponse getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.InformationResponse build() {
+        club.thom.tem.models.messages.ServerMessages.InformationResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.InformationResponse buildPartial() {
+        club.thom.tem.models.messages.ServerMessages.InformationResponse result = new club.thom.tem.models.messages.ServerMessages.InformationResponse(this);
+        result.playerUuid_ = playerUuid_;
+        result.contributionsThisSession_ = contributionsThisSession_;
+        result.validContributionsThisSession_ = validContributionsThisSession_;
+        result.totalContributions_ = totalContributions_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ServerMessages.InformationResponse) {
+          return mergeFrom((club.thom.tem.models.messages.ServerMessages.InformationResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ServerMessages.InformationResponse other) {
+        if (other == club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance()) return this;
+        if (!other.getPlayerUuid().isEmpty()) {
+          playerUuid_ = other.playerUuid_;
+          onChanged();
+        }
+        if (other.getContributionsThisSession() != 0) {
+          setContributionsThisSession(other.getContributionsThisSession());
+        }
+        if (other.getValidContributionsThisSession() != 0) {
+          setValidContributionsThisSession(other.getValidContributionsThisSession());
+        }
+        if (other.getTotalContributions() != 0) {
+          setTotalContributions(other.getTotalContributions());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ServerMessages.InformationResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ServerMessages.InformationResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object playerUuid_ = "";
+      /**
+       * <pre>
+       * Player who the information is about
+       * </pre>
+       *
+       * <code>string playerUuid = 1;</code>
+       * @return The playerUuid.
+       */
+      public java.lang.String getPlayerUuid() {
+        java.lang.Object ref = playerUuid_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          playerUuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Player who the information is about
+       * </pre>
+       *
+       * <code>string playerUuid = 1;</code>
+       * @return The bytes for playerUuid.
+       */
+      public com.google.protobuf.ByteString
+          getPlayerUuidBytes() {
+        java.lang.Object ref = playerUuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          playerUuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Player who the information is about
+       * </pre>
+       *
+       * <code>string playerUuid = 1;</code>
+       * @param value The playerUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerUuid(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        playerUuid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Player who the information is about
+       * </pre>
+       *
+       * <code>string playerUuid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPlayerUuid() {
+        
+        playerUuid_ = getDefaultInstance().getPlayerUuid();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Player who the information is about
+       * </pre>
+       *
+       * <code>string playerUuid = 1;</code>
+       * @param value The bytes for playerUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPlayerUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        playerUuid_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int contributionsThisSession_ ;
+      /**
+       * <pre>
+       * invalid + valid contributions
+       * </pre>
+       *
+       * <code>int32 contributionsThisSession = 2;</code>
+       * @return The contributionsThisSession.
+       */
+      @java.lang.Override
+      public int getContributionsThisSession() {
+        return contributionsThisSession_;
+      }
+      /**
+       * <pre>
+       * invalid + valid contributions
+       * </pre>
+       *
+       * <code>int32 contributionsThisSession = 2;</code>
+       * @param value The contributionsThisSession to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContributionsThisSession(int value) {
+        
+        contributionsThisSession_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * invalid + valid contributions
+       * </pre>
+       *
+       * <code>int32 contributionsThisSession = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearContributionsThisSession() {
+        
+        contributionsThisSession_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int validContributionsThisSession_ ;
+      /**
+       * <pre>
+       * valid contributions only
+       * </pre>
+       *
+       * <code>int32 validContributionsThisSession = 3;</code>
+       * @return The validContributionsThisSession.
+       */
+      @java.lang.Override
+      public int getValidContributionsThisSession() {
+        return validContributionsThisSession_;
+      }
+      /**
+       * <pre>
+       * valid contributions only
+       * </pre>
+       *
+       * <code>int32 validContributionsThisSession = 3;</code>
+       * @param value The validContributionsThisSession to set.
+       * @return This builder for chaining.
+       */
+      public Builder setValidContributionsThisSession(int value) {
+        
+        validContributionsThisSession_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * valid contributions only
+       * </pre>
+       *
+       * <code>int32 validContributionsThisSession = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearValidContributionsThisSession() {
+        
+        validContributionsThisSession_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int totalContributions_ ;
+      /**
+       * <pre>
+       * total valid contributions
+       * </pre>
+       *
+       * <code>int32 totalContributions = 4;</code>
+       * @return The totalContributions.
+       */
+      @java.lang.Override
+      public int getTotalContributions() {
+        return totalContributions_;
+      }
+      /**
+       * <pre>
+       * total valid contributions
+       * </pre>
+       *
+       * <code>int32 totalContributions = 4;</code>
+       * @param value The totalContributions to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTotalContributions(int value) {
+        
+        totalContributions_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * total valid contributions
+       * </pre>
+       *
+       * <code>int32 totalContributions = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTotalContributions() {
+        
+        totalContributions_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:serverMessage.InformationResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:serverMessage.InformationResponse)
+    private static final club.thom.tem.models.messages.ServerMessages.InformationResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ServerMessages.InformationResponse();
+    }
+
+    public static club.thom.tem.models.messages.ServerMessages.InformationResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<InformationResponse>
+        PARSER = new com.google.protobuf.AbstractParser<InformationResponse>() {
+      @java.lang.Override
+      public InformationResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new InformationResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<InformationResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InformationResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.InformationResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface FriendRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:serverMessage.FriendRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -3979,6 +4853,21 @@ public final class ServerMessages {
      */
     club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder getSingleRequestOrBuilder();
 
+    /**
+     * <code>.serverMessage.InformationResponse info = 5;</code>
+     * @return Whether the info field is set.
+     */
+    boolean hasInfo();
+    /**
+     * <code>.serverMessage.InformationResponse info = 5;</code>
+     * @return The info.
+     */
+    club.thom.tem.models.messages.ServerMessages.InformationResponse getInfo();
+    /**
+     * <code>.serverMessage.InformationResponse info = 5;</code>
+     */
+    club.thom.tem.models.messages.ServerMessages.InformationResponseOrBuilder getInfoOrBuilder();
+
     public club.thom.tem.models.messages.ServerMessages.ServerMessage.MessageCase getMessageCase();
   }
   /**
@@ -4073,6 +4962,20 @@ public final class ServerMessages {
               messageCase_ = 4;
               break;
             }
+            case 42: {
+              club.thom.tem.models.messages.ServerMessages.InformationResponse.Builder subBuilder = null;
+              if (messageCase_ == 5) {
+                subBuilder = ((club.thom.tem.models.messages.ServerMessages.InformationResponse) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(club.thom.tem.models.messages.ServerMessages.InformationResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.InformationResponse) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 5;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -4113,6 +5016,7 @@ public final class ServerMessages {
       AUTH(2),
       MULTIPLEREQUESTS(3),
       SINGLEREQUEST(4),
+      INFO(5),
       MESSAGE_NOT_SET(0);
       private final int value;
       private MessageCase(int value) {
@@ -4133,6 +5037,7 @@ public final class ServerMessages {
           case 2: return AUTH;
           case 3: return MULTIPLEREQUESTS;
           case 4: return SINGLEREQUEST;
+          case 5: return INFO;
           case 0: return MESSAGE_NOT_SET;
           default: return null;
         }
@@ -4256,6 +5161,37 @@ public final class ServerMessages {
       return club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance();
     }
 
+    public static final int INFO_FIELD_NUMBER = 5;
+    /**
+     * <code>.serverMessage.InformationResponse info = 5;</code>
+     * @return Whether the info field is set.
+     */
+    @java.lang.Override
+    public boolean hasInfo() {
+      return messageCase_ == 5;
+    }
+    /**
+     * <code>.serverMessage.InformationResponse info = 5;</code>
+     * @return The info.
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.InformationResponse getInfo() {
+      if (messageCase_ == 5) {
+         return (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_;
+      }
+      return club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance();
+    }
+    /**
+     * <code>.serverMessage.InformationResponse info = 5;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.InformationResponseOrBuilder getInfoOrBuilder() {
+      if (messageCase_ == 5) {
+         return (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_;
+      }
+      return club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4282,6 +5218,9 @@ public final class ServerMessages {
       if (messageCase_ == 4) {
         output.writeMessage(4, (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_);
       }
+      if (messageCase_ == 5) {
+        output.writeMessage(5, (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4306,6 +5245,10 @@ public final class ServerMessages {
       if (messageCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_);
+      }
+      if (messageCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4338,6 +5281,10 @@ public final class ServerMessages {
           if (!getSingleRequest()
               .equals(other.getSingleRequest())) return false;
           break;
+        case 5:
+          if (!getInfo()
+              .equals(other.getInfo())) return false;
+          break;
         case 0:
         default:
       }
@@ -4366,6 +5313,10 @@ public final class ServerMessages {
         case 4:
           hash = (37 * hash) + SINGLEREQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getSingleRequest().hashCode();
+          break;
+        case 5:
+          hash = (37 * hash) + INFO_FIELD_NUMBER;
+          hash = (53 * hash) + getInfo().hashCode();
           break;
         case 0:
         default:
@@ -4555,6 +5506,13 @@ public final class ServerMessages {
             result.message_ = singleRequestBuilder_.build();
           }
         }
+        if (messageCase_ == 5) {
+          if (infoBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = infoBuilder_.build();
+          }
+        }
         result.messageCase_ = messageCase_;
         onBuilt();
         return result;
@@ -4618,6 +5576,10 @@ public final class ServerMessages {
           }
           case SINGLEREQUEST: {
             mergeSingleRequest(other.getSingleRequest());
+            break;
+          }
+          case INFO: {
+            mergeInfo(other.getInfo());
             break;
           }
           case MESSAGE_NOT_SET: {
@@ -5133,6 +6095,147 @@ public final class ServerMessages {
         onChanged();;
         return singleRequestBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ServerMessages.InformationResponse, club.thom.tem.models.messages.ServerMessages.InformationResponse.Builder, club.thom.tem.models.messages.ServerMessages.InformationResponseOrBuilder> infoBuilder_;
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       * @return Whether the info field is set.
+       */
+      @java.lang.Override
+      public boolean hasInfo() {
+        return messageCase_ == 5;
+      }
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       * @return The info.
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.InformationResponse getInfo() {
+        if (infoBuilder_ == null) {
+          if (messageCase_ == 5) {
+            return (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_;
+          }
+          return club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance();
+        } else {
+          if (messageCase_ == 5) {
+            return infoBuilder_.getMessage();
+          }
+          return club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       */
+      public Builder setInfo(club.thom.tem.models.messages.ServerMessages.InformationResponse value) {
+        if (infoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          infoBuilder_.setMessage(value);
+        }
+        messageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       */
+      public Builder setInfo(
+          club.thom.tem.models.messages.ServerMessages.InformationResponse.Builder builderForValue) {
+        if (infoBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          infoBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       */
+      public Builder mergeInfo(club.thom.tem.models.messages.ServerMessages.InformationResponse value) {
+        if (infoBuilder_ == null) {
+          if (messageCase_ == 5 &&
+              message_ != club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance()) {
+            message_ = club.thom.tem.models.messages.ServerMessages.InformationResponse.newBuilder((club.thom.tem.models.messages.ServerMessages.InformationResponse) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 5) {
+            infoBuilder_.mergeFrom(value);
+          }
+          infoBuilder_.setMessage(value);
+        }
+        messageCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       */
+      public Builder clearInfo() {
+        if (infoBuilder_ == null) {
+          if (messageCase_ == 5) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 5) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          infoBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       */
+      public club.thom.tem.models.messages.ServerMessages.InformationResponse.Builder getInfoBuilder() {
+        return getInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.InformationResponseOrBuilder getInfoOrBuilder() {
+        if ((messageCase_ == 5) && (infoBuilder_ != null)) {
+          return infoBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 5) {
+            return (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_;
+          }
+          return club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.serverMessage.InformationResponse info = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ServerMessages.InformationResponse, club.thom.tem.models.messages.ServerMessages.InformationResponse.Builder, club.thom.tem.models.messages.ServerMessages.InformationResponseOrBuilder> 
+          getInfoFieldBuilder() {
+        if (infoBuilder_ == null) {
+          if (!(messageCase_ == 5)) {
+            message_ = club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance();
+          }
+          infoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ServerMessages.InformationResponse, club.thom.tem.models.messages.ServerMessages.InformationResponse.Builder, club.thom.tem.models.messages.ServerMessages.InformationResponseOrBuilder>(
+                  (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 5;
+        onChanged();;
+        return infoBuilder_;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5192,6 +6295,11 @@ public final class ServerMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_serverMessage_AuthData_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_serverMessage_InformationResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_serverMessage_InformationResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_serverMessage_FriendRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -5230,21 +6338,26 @@ public final class ServerMessages {
       "\001(\0162\036.serverMessage.AuthData.Reason\"Z\n\006R" +
       "eason\022\013\n\007SUCCESS\020\000\022\017\n\013BLACKLISTED\020\001\022\013\n\007I" +
       "NVALID\020\002\022\023\n\017OUTDATED_CLIENT\020\003\022\020\n\014INVALID" +
-      "_UUID\020\004\"\035\n\rFriendRequest\022\014\n\004uuid\030\001 \001(\t\"&" +
-      "\n\020InventoryRequest\022\022\n\nplayerUuid\030\001 \001(\t\"\236" +
-      "\001\n\016RequestMessage\022\r\n\005nonce\030\001 \001(\005\0225\n\rfrie" +
-      "ndRequest\030\002 \001(\0132\034.serverMessage.FriendRe" +
-      "questH\000\022;\n\020inventoryRequest\030\003 \001(\0132\037.serv" +
-      "erMessage.InventoryRequestH\000B\t\n\007message\"" +
-      "?\n\014BulkRequests\022/\n\010requests\030\001 \003(\0132\035.serv" +
-      "erMessage.RequestMessage\"\323\001\n\rServerMessa" +
-      "ge\022\035\n\025expectedClientVersion\030\001 \001(\005\022\'\n\004aut" +
-      "h\030\002 \001(\0132\027.serverMessage.AuthDataH\000\0227\n\020mu" +
-      "ltipleRequests\030\003 \001(\0132\033.serverMessage.Bul" +
-      "kRequestsH\000\0226\n\rsingleRequest\030\004 \001(\0132\035.ser" +
-      "verMessage.RequestMessageH\000B\t\n\007messageB8" +
-      "\n\035club.thom.tem.models.messagesZ\027protobu" +
-      "f/serverMessagesb\006proto3"
+      "_UUID\020\004\"\216\001\n\023InformationResponse\022\022\n\nplaye" +
+      "rUuid\030\001 \001(\t\022 \n\030contributionsThisSession\030" +
+      "\002 \001(\005\022%\n\035validContributionsThisSession\030\003" +
+      " \001(\005\022\032\n\022totalContributions\030\004 \001(\005\"\035\n\rFrie" +
+      "ndRequest\022\014\n\004uuid\030\001 \001(\t\"&\n\020InventoryRequ" +
+      "est\022\022\n\nplayerUuid\030\001 \001(\t\"\236\001\n\016RequestMessa" +
+      "ge\022\r\n\005nonce\030\001 \001(\005\0225\n\rfriendRequest\030\002 \001(\013" +
+      "2\034.serverMessage.FriendRequestH\000\022;\n\020inve" +
+      "ntoryRequest\030\003 \001(\0132\037.serverMessage.Inven" +
+      "toryRequestH\000B\t\n\007message\"?\n\014BulkRequests" +
+      "\022/\n\010requests\030\001 \003(\0132\035.serverMessage.Reque" +
+      "stMessage\"\207\002\n\rServerMessage\022\035\n\025expectedC" +
+      "lientVersion\030\001 \001(\005\022\'\n\004auth\030\002 \001(\0132\027.serve" +
+      "rMessage.AuthDataH\000\0227\n\020multipleRequests\030" +
+      "\003 \001(\0132\033.serverMessage.BulkRequestsH\000\0226\n\r" +
+      "singleRequest\030\004 \001(\0132\035.serverMessage.Requ" +
+      "estMessageH\000\0222\n\004info\030\005 \001(\0132\".serverMessa" +
+      "ge.InformationResponseH\000B\t\n\007messageB8\n\035c" +
+      "lub.thom.tem.models.messagesZ\027protobuf/s" +
+      "erverMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5256,36 +6369,42 @@ public final class ServerMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_AuthData_descriptor,
         new java.lang.String[] { "Success", "Reason", });
-    internal_static_serverMessage_FriendRequest_descriptor =
+    internal_static_serverMessage_InformationResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_serverMessage_InformationResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_serverMessage_InformationResponse_descriptor,
+        new java.lang.String[] { "PlayerUuid", "ContributionsThisSession", "ValidContributionsThisSession", "TotalContributions", });
+    internal_static_serverMessage_FriendRequest_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_serverMessage_FriendRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_FriendRequest_descriptor,
         new java.lang.String[] { "Uuid", });
     internal_static_serverMessage_InventoryRequest_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_serverMessage_InventoryRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_InventoryRequest_descriptor,
         new java.lang.String[] { "PlayerUuid", });
     internal_static_serverMessage_RequestMessage_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_serverMessage_RequestMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_RequestMessage_descriptor,
         new java.lang.String[] { "Nonce", "FriendRequest", "InventoryRequest", "Message", });
     internal_static_serverMessage_BulkRequests_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_serverMessage_BulkRequests_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_BulkRequests_descriptor,
         new java.lang.String[] { "Requests", });
     internal_static_serverMessage_ServerMessage_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_serverMessage_ServerMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_ServerMessage_descriptor,
-        new java.lang.String[] { "ExpectedClientVersion", "Auth", "MultipleRequests", "SingleRequest", "Message", });
+        new java.lang.String[] { "ExpectedClientVersion", "Auth", "MultipleRequests", "SingleRequest", "Info", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

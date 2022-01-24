@@ -20,6 +20,20 @@ message AuthData {
   Reason reason = 2;
 }
 
+message InformationResponse {
+  // Player who the information is about
+  string playerUuid = 1;
+
+  // invalid + valid contributions
+  int32 contributionsThisSession = 2;
+  // valid contributions only
+  int32 validContributionsThisSession = 3;
+
+  // total valid contributions
+  int32 totalContributions = 4;
+
+}
+
 message FriendRequest {
   // Player uuid to lookup from
   string uuid = 1;
@@ -52,5 +66,6 @@ message ServerMessage {
     AuthData auth = 2;
     BulkRequests multipleRequests = 3;
     RequestMessage singleRequest = 4;
+    InformationResponse info = 5;
   }
 }
