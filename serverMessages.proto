@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+option go_package = "protobuf/serverMessages";
+package clientMessage;
+
+
+message AuthData {
+  // true if authenticated successfully, false otherwise.
+  bool success = 1;
+
+  // reason for success message
+  enum Reason {
+    SUCCESS = 0;
+    BLACKLISTED = 1;
+    INVALID = 2;
+    OUTDATED_CLIENT = 3;
+    INVALID_UUID = 4;
+  }
+  Reason reason = 2;
+}
+
+message FriendRequest {
+  // Player uuid to lookup from
+  string uuid = 1;
+}
+
+message InventoryRequest {
+  // Player uuid to lookup from
+  string playerUuid = 1;
+}
+
+message Request {
+  // nonce to be acknowledged in Responses
+  int32 nonce = 1;
+  oneof message {
+    FriendRequest friendRequest = 2;
+    InventoryRequest inventoryRequest = 3;
+  }
+}
+
+message BulkRequests {
+  // List of requests
+  repeated Request requests = 1;
+}
+
+
+message ServerMessage {
+  // Client version expected (most up-to-date client version)
+  int32 expectedClientVersion = 1;
+  oneof message {
+    AuthData auth = 2;
+    BulkRequests multipleRequests = 3;
+    Request singleRequest = 4;
+  }
+}
