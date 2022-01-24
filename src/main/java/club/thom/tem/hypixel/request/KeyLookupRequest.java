@@ -26,6 +26,7 @@ public class KeyLookupRequest extends Request {
         }
         if (data.getStatus() == 200) {
             future.complete(true);
+            return;
         }
         future.complete(false);
     }

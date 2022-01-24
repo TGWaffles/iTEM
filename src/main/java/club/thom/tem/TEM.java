@@ -31,15 +31,28 @@ public class TEM {
     public static final String VERSION = "@@VERSION@@";
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
+
+    public static final int CLIENT_VERSION = clientVersionFromVersion();
+
     public static TEMConfig config = new TEMConfig();
     private static final Logger logger = LoggerFactory.getLogger(TEM.class);
     public static Hypixel api;
     public static boolean socketWorking = true;
-    private static WebSocketFactory wsFactory = new WebSocketFactory();
+    private static final WebSocketFactory wsFactory = new WebSocketFactory();
 
     public static void forceSaveConfig() {
         config.markDirty();
         config.writeData();
+    }
+
+    private static int clientVersionFromVersion() {
+        String[] splitVersion = VERSION.split("\\.");
+        // Allows for versioning up to 0-255 per field.
+        int clientVersion = Integer.parseInt(splitVersion[0]) << 24;
+        clientVersion += Integer.parseInt(splitVersion[1]) << 16;
+        clientVersion += Integer.parseInt(splitVersion[2]) << 8;
+        clientVersion += Integer.parseInt(splitVersion[3]);
+        return clientVersion;
     }
 
     @Mod.EventHandler

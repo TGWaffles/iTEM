@@ -100,7 +100,7 @@ message ClientMessage {
   // Message data
   oneof message {
     AuthMessage auth = 2;
-    FriendsResponse friends = 3;
+    Response requestResponse = 3;
     ReadyForRequests moreRequests = 4;
     GetInformation infoRequest = 5;
   }

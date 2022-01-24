@@ -93,7 +93,19 @@ public class TEMConfig extends Vigilant {
         KeyLookupRequest request = new KeyLookupRequest(key, TEM.api);
         TEM.api.addToQueue(request);
         try {
-            return request.getFuture().get();
+            boolean result = request.getFuture().get();
+            if (result) {
+                TEM.api.hasValidApiKey = true;
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        logger.error("Thread interrupted while waiting to trigger api key set.", e);
+                    }
+                    TEM.api.signalApiKeySet();
+                }).start();
+            }
+            return result;
         } catch (InterruptedException | ExecutionException e) {
             logger.error("Error checking key validity", e);
             return false;

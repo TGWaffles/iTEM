@@ -1,8 +1,12 @@
 package club.thom.tem.hypixel.request;
 
+import club.thom.tem.TEM;
 import club.thom.tem.hypixel.Hypixel;
+import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,6 +108,22 @@ public abstract class Request {
                 rateLimitResetSeconds = 10;
             }
             controller.setRateLimited(rateLimitResetSeconds);
+            controller.addToQueue(this);
+            isComplete.complete(false);
+            isComplete = new CompletableFuture<>();
+            return null;
+        } else if (returnedData.getStatus() == 403) {
+            // API Key is now invalid.
+            controller.hasValidApiKey = false;
+            TEMConfig.setHypixelKey("");
+            TEM.waitForPlayer();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                logger.error("Interrupted while sleeping to tell player about invalid key", e);
+            }
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Your API key is invalid. " +
+                    "You are no longer accruing contributions."));
             controller.addToQueue(this);
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();

@@ -1,6 +1,8 @@
 package club.thom.tem.hypixel;
 
+import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
+import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,9 @@ public class Hypixel {
     Lock waitingForItemLock = new ReentrantLock();
     Condition newItemInQueue = waitingForItemLock.newCondition();
 
+    public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
+    Lock waitingForApiKeyLock = new ReentrantLock();
+    Condition apiKeySet = waitingForApiKeyLock.newCondition();
 
     protected final LinkedBlockingDeque<Request> requestQueue = new LinkedBlockingDeque<>();
 
@@ -40,6 +45,17 @@ public class Hypixel {
             rateLimitResetTime = System.currentTimeMillis() + 1000L * resetSeconds;
         } finally {
             rateLimitLock.writeLock().unlock();
+        }
+    }
+
+    public void signalApiKeySet() {
+        // Signals the newItemInQueue lock to make the loop check for correctly set api key.
+        waitingForItemLock.lock();
+        try {
+            newItemInQueue.signalAll();
+        }
+        finally {
+            waitingForItemLock.unlock();
         }
     }
 
@@ -117,6 +133,15 @@ public class Hypixel {
                 List<CompletableFuture<?>> requestFutures = new ArrayList<>();
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
+                    while (!hasValidApiKey && !(requestQueue.peek() instanceof KeyLookupRequest)) {
+                        logger.info("API key is invalid. Waiting for new API key.");
+                        waitingForItemLock.lock();
+                        try {
+                            newItemInQueue.await();
+                        } finally {
+                            waitingForItemLock.unlock();
+                        }
+                    }
                     // Blocking operation. This whole for loop could take minutes to complete, so we need to make sure
                     // we haven't passed the resetTime afterwards.
                     Request request = requestQueue.take();

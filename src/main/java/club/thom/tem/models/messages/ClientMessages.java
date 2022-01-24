@@ -9369,19 +9369,19 @@ public final class ClientMessages {
     club.thom.tem.models.messages.ClientMessages.AuthMessageOrBuilder getAuthOrBuilder();
 
     /**
-     * <code>.clientMessage.FriendsResponse friends = 3;</code>
-     * @return Whether the friends field is set.
+     * <code>.clientMessage.Response requestResponse = 3;</code>
+     * @return Whether the requestResponse field is set.
      */
-    boolean hasFriends();
+    boolean hasRequestResponse();
     /**
-     * <code>.clientMessage.FriendsResponse friends = 3;</code>
-     * @return The friends.
+     * <code>.clientMessage.Response requestResponse = 3;</code>
+     * @return The requestResponse.
      */
-    club.thom.tem.models.messages.ClientMessages.FriendsResponse getFriends();
+    club.thom.tem.models.messages.ClientMessages.Response getRequestResponse();
     /**
-     * <code>.clientMessage.FriendsResponse friends = 3;</code>
+     * <code>.clientMessage.Response requestResponse = 3;</code>
      */
-    club.thom.tem.models.messages.ClientMessages.FriendsResponseOrBuilder getFriendsOrBuilder();
+    club.thom.tem.models.messages.ClientMessages.ResponseOrBuilder getRequestResponseOrBuilder();
 
     /**
      * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
@@ -9480,14 +9480,14 @@ public final class ClientMessages {
               break;
             }
             case 26: {
-              club.thom.tem.models.messages.ClientMessages.FriendsResponse.Builder subBuilder = null;
+              club.thom.tem.models.messages.ClientMessages.Response.Builder subBuilder = null;
               if (messageCase_ == 3) {
-                subBuilder = ((club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_).toBuilder();
+                subBuilder = ((club.thom.tem.models.messages.ClientMessages.Response) message_).toBuilder();
               }
               message_ =
-                  input.readMessage(club.thom.tem.models.messages.ClientMessages.FriendsResponse.parser(), extensionRegistry);
+                  input.readMessage(club.thom.tem.models.messages.ClientMessages.Response.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_);
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ClientMessages.Response) message_);
                 message_ = subBuilder.buildPartial();
               }
               messageCase_ = 3;
@@ -9559,7 +9559,7 @@ public final class ClientMessages {
         implements com.google.protobuf.Internal.EnumLite,
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       AUTH(2),
-      FRIENDS(3),
+      REQUESTRESPONSE(3),
       MOREREQUESTS(4),
       INFOREQUEST(5),
       MESSAGE_NOT_SET(0);
@@ -9580,7 +9580,7 @@ public final class ClientMessages {
       public static MessageCase forNumber(int value) {
         switch (value) {
           case 2: return AUTH;
-          case 3: return FRIENDS;
+          case 3: return REQUESTRESPONSE;
           case 4: return MOREREQUESTS;
           case 5: return INFOREQUEST;
           case 0: return MESSAGE_NOT_SET;
@@ -9644,35 +9644,35 @@ public final class ClientMessages {
       return club.thom.tem.models.messages.ClientMessages.AuthMessage.getDefaultInstance();
     }
 
-    public static final int FRIENDS_FIELD_NUMBER = 3;
+    public static final int REQUESTRESPONSE_FIELD_NUMBER = 3;
     /**
-     * <code>.clientMessage.FriendsResponse friends = 3;</code>
-     * @return Whether the friends field is set.
+     * <code>.clientMessage.Response requestResponse = 3;</code>
+     * @return Whether the requestResponse field is set.
      */
     @java.lang.Override
-    public boolean hasFriends() {
+    public boolean hasRequestResponse() {
       return messageCase_ == 3;
     }
     /**
-     * <code>.clientMessage.FriendsResponse friends = 3;</code>
-     * @return The friends.
+     * <code>.clientMessage.Response requestResponse = 3;</code>
+     * @return The requestResponse.
      */
     @java.lang.Override
-    public club.thom.tem.models.messages.ClientMessages.FriendsResponse getFriends() {
+    public club.thom.tem.models.messages.ClientMessages.Response getRequestResponse() {
       if (messageCase_ == 3) {
-         return (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_;
+         return (club.thom.tem.models.messages.ClientMessages.Response) message_;
       }
-      return club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance();
+      return club.thom.tem.models.messages.ClientMessages.Response.getDefaultInstance();
     }
     /**
-     * <code>.clientMessage.FriendsResponse friends = 3;</code>
+     * <code>.clientMessage.Response requestResponse = 3;</code>
      */
     @java.lang.Override
-    public club.thom.tem.models.messages.ClientMessages.FriendsResponseOrBuilder getFriendsOrBuilder() {
+    public club.thom.tem.models.messages.ClientMessages.ResponseOrBuilder getRequestResponseOrBuilder() {
       if (messageCase_ == 3) {
-         return (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_;
+         return (club.thom.tem.models.messages.ClientMessages.Response) message_;
       }
-      return club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance();
+      return club.thom.tem.models.messages.ClientMessages.Response.getDefaultInstance();
     }
 
     public static final int MOREREQUESTS_FIELD_NUMBER = 4;
@@ -9758,7 +9758,7 @@ public final class ClientMessages {
         output.writeMessage(2, (club.thom.tem.models.messages.ClientMessages.AuthMessage) message_);
       }
       if (messageCase_ == 3) {
-        output.writeMessage(3, (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_);
+        output.writeMessage(3, (club.thom.tem.models.messages.ClientMessages.Response) message_);
       }
       if (messageCase_ == 4) {
         output.writeMessage(4, (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_);
@@ -9785,7 +9785,7 @@ public final class ClientMessages {
       }
       if (messageCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_);
+          .computeMessageSize(3, (club.thom.tem.models.messages.ClientMessages.Response) message_);
       }
       if (messageCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
@@ -9819,8 +9819,8 @@ public final class ClientMessages {
               .equals(other.getAuth())) return false;
           break;
         case 3:
-          if (!getFriends()
-              .equals(other.getFriends())) return false;
+          if (!getRequestResponse()
+              .equals(other.getRequestResponse())) return false;
           break;
         case 4:
           if (!getMoreRequests()
@@ -9852,8 +9852,8 @@ public final class ClientMessages {
           hash = (53 * hash) + getAuth().hashCode();
           break;
         case 3:
-          hash = (37 * hash) + FRIENDS_FIELD_NUMBER;
-          hash = (53 * hash) + getFriends().hashCode();
+          hash = (37 * hash) + REQUESTRESPONSE_FIELD_NUMBER;
+          hash = (53 * hash) + getRequestResponse().hashCode();
           break;
         case 4:
           hash = (37 * hash) + MOREREQUESTS_FIELD_NUMBER;
@@ -10038,10 +10038,10 @@ public final class ClientMessages {
           }
         }
         if (messageCase_ == 3) {
-          if (friendsBuilder_ == null) {
+          if (requestResponseBuilder_ == null) {
             result.message_ = message_;
           } else {
-            result.message_ = friendsBuilder_.build();
+            result.message_ = requestResponseBuilder_.build();
           }
         }
         if (messageCase_ == 4) {
@@ -10115,8 +10115,8 @@ public final class ClientMessages {
             mergeAuth(other.getAuth());
             break;
           }
-          case FRIENDS: {
-            mergeFriends(other.getFriends());
+          case REQUESTRESPONSE: {
+            mergeRequestResponse(other.getRequestResponse());
             break;
           }
           case MOREREQUESTS: {
@@ -10360,71 +10360,71 @@ public final class ClientMessages {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          club.thom.tem.models.messages.ClientMessages.FriendsResponse, club.thom.tem.models.messages.ClientMessages.FriendsResponse.Builder, club.thom.tem.models.messages.ClientMessages.FriendsResponseOrBuilder> friendsBuilder_;
+          club.thom.tem.models.messages.ClientMessages.Response, club.thom.tem.models.messages.ClientMessages.Response.Builder, club.thom.tem.models.messages.ClientMessages.ResponseOrBuilder> requestResponseBuilder_;
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
-       * @return Whether the friends field is set.
+       * <code>.clientMessage.Response requestResponse = 3;</code>
+       * @return Whether the requestResponse field is set.
        */
       @java.lang.Override
-      public boolean hasFriends() {
+      public boolean hasRequestResponse() {
         return messageCase_ == 3;
       }
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
-       * @return The friends.
+       * <code>.clientMessage.Response requestResponse = 3;</code>
+       * @return The requestResponse.
        */
       @java.lang.Override
-      public club.thom.tem.models.messages.ClientMessages.FriendsResponse getFriends() {
-        if (friendsBuilder_ == null) {
+      public club.thom.tem.models.messages.ClientMessages.Response getRequestResponse() {
+        if (requestResponseBuilder_ == null) {
           if (messageCase_ == 3) {
-            return (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_;
+            return (club.thom.tem.models.messages.ClientMessages.Response) message_;
           }
-          return club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance();
+          return club.thom.tem.models.messages.ClientMessages.Response.getDefaultInstance();
         } else {
           if (messageCase_ == 3) {
-            return friendsBuilder_.getMessage();
+            return requestResponseBuilder_.getMessage();
           }
-          return club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance();
+          return club.thom.tem.models.messages.ClientMessages.Response.getDefaultInstance();
         }
       }
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
+       * <code>.clientMessage.Response requestResponse = 3;</code>
        */
-      public Builder setFriends(club.thom.tem.models.messages.ClientMessages.FriendsResponse value) {
-        if (friendsBuilder_ == null) {
+      public Builder setRequestResponse(club.thom.tem.models.messages.ClientMessages.Response value) {
+        if (requestResponseBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           message_ = value;
           onChanged();
         } else {
-          friendsBuilder_.setMessage(value);
+          requestResponseBuilder_.setMessage(value);
         }
         messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
+       * <code>.clientMessage.Response requestResponse = 3;</code>
        */
-      public Builder setFriends(
-          club.thom.tem.models.messages.ClientMessages.FriendsResponse.Builder builderForValue) {
-        if (friendsBuilder_ == null) {
+      public Builder setRequestResponse(
+          club.thom.tem.models.messages.ClientMessages.Response.Builder builderForValue) {
+        if (requestResponseBuilder_ == null) {
           message_ = builderForValue.build();
           onChanged();
         } else {
-          friendsBuilder_.setMessage(builderForValue.build());
+          requestResponseBuilder_.setMessage(builderForValue.build());
         }
         messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
+       * <code>.clientMessage.Response requestResponse = 3;</code>
        */
-      public Builder mergeFriends(club.thom.tem.models.messages.ClientMessages.FriendsResponse value) {
-        if (friendsBuilder_ == null) {
+      public Builder mergeRequestResponse(club.thom.tem.models.messages.ClientMessages.Response value) {
+        if (requestResponseBuilder_ == null) {
           if (messageCase_ == 3 &&
-              message_ != club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance()) {
-            message_ = club.thom.tem.models.messages.ClientMessages.FriendsResponse.newBuilder((club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_)
+              message_ != club.thom.tem.models.messages.ClientMessages.Response.getDefaultInstance()) {
+            message_ = club.thom.tem.models.messages.ClientMessages.Response.newBuilder((club.thom.tem.models.messages.ClientMessages.Response) message_)
                 .mergeFrom(value).buildPartial();
           } else {
             message_ = value;
@@ -10432,18 +10432,18 @@ public final class ClientMessages {
           onChanged();
         } else {
           if (messageCase_ == 3) {
-            friendsBuilder_.mergeFrom(value);
+            requestResponseBuilder_.mergeFrom(value);
           }
-          friendsBuilder_.setMessage(value);
+          requestResponseBuilder_.setMessage(value);
         }
         messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
+       * <code>.clientMessage.Response requestResponse = 3;</code>
        */
-      public Builder clearFriends() {
-        if (friendsBuilder_ == null) {
+      public Builder clearRequestResponse() {
+        if (requestResponseBuilder_ == null) {
           if (messageCase_ == 3) {
             messageCase_ = 0;
             message_ = null;
@@ -10454,50 +10454,50 @@ public final class ClientMessages {
             messageCase_ = 0;
             message_ = null;
           }
-          friendsBuilder_.clear();
+          requestResponseBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
+       * <code>.clientMessage.Response requestResponse = 3;</code>
        */
-      public club.thom.tem.models.messages.ClientMessages.FriendsResponse.Builder getFriendsBuilder() {
-        return getFriendsFieldBuilder().getBuilder();
+      public club.thom.tem.models.messages.ClientMessages.Response.Builder getRequestResponseBuilder() {
+        return getRequestResponseFieldBuilder().getBuilder();
       }
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
+       * <code>.clientMessage.Response requestResponse = 3;</code>
        */
       @java.lang.Override
-      public club.thom.tem.models.messages.ClientMessages.FriendsResponseOrBuilder getFriendsOrBuilder() {
-        if ((messageCase_ == 3) && (friendsBuilder_ != null)) {
-          return friendsBuilder_.getMessageOrBuilder();
+      public club.thom.tem.models.messages.ClientMessages.ResponseOrBuilder getRequestResponseOrBuilder() {
+        if ((messageCase_ == 3) && (requestResponseBuilder_ != null)) {
+          return requestResponseBuilder_.getMessageOrBuilder();
         } else {
           if (messageCase_ == 3) {
-            return (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_;
+            return (club.thom.tem.models.messages.ClientMessages.Response) message_;
           }
-          return club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance();
+          return club.thom.tem.models.messages.ClientMessages.Response.getDefaultInstance();
         }
       }
       /**
-       * <code>.clientMessage.FriendsResponse friends = 3;</code>
+       * <code>.clientMessage.Response requestResponse = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          club.thom.tem.models.messages.ClientMessages.FriendsResponse, club.thom.tem.models.messages.ClientMessages.FriendsResponse.Builder, club.thom.tem.models.messages.ClientMessages.FriendsResponseOrBuilder> 
-          getFriendsFieldBuilder() {
-        if (friendsBuilder_ == null) {
+          club.thom.tem.models.messages.ClientMessages.Response, club.thom.tem.models.messages.ClientMessages.Response.Builder, club.thom.tem.models.messages.ClientMessages.ResponseOrBuilder> 
+          getRequestResponseFieldBuilder() {
+        if (requestResponseBuilder_ == null) {
           if (!(messageCase_ == 3)) {
-            message_ = club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance();
+            message_ = club.thom.tem.models.messages.ClientMessages.Response.getDefaultInstance();
           }
-          friendsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              club.thom.tem.models.messages.ClientMessages.FriendsResponse, club.thom.tem.models.messages.ClientMessages.FriendsResponse.Builder, club.thom.tem.models.messages.ClientMessages.FriendsResponseOrBuilder>(
-                  (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_,
+          requestResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.Response, club.thom.tem.models.messages.ClientMessages.Response.Builder, club.thom.tem.models.messages.ClientMessages.ResponseOrBuilder>(
+                  (club.thom.tem.models.messages.ClientMessages.Response) message_,
                   getParentForChildren(),
                   isClean());
           message_ = null;
         }
         messageCase_ = 3;
         onChanged();;
-        return friendsBuilder_;
+        return requestResponseBuilder_;
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -10920,18 +10920,18 @@ public final class ClientMessages {
       "once\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.client" +
       "Message.FriendsResponseH\000\0225\n\tinventory\030\003" +
       " \001(\0132 .clientMessage.InventoryResponseH\000" +
-      "B\t\n\007message\"\377\001\n\rClientMessage\022\025\n\rclientV" +
+      "B\t\n\007message\"\200\002\n\rClientMessage\022\025\n\rclientV" +
       "ersion\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMessa" +
-      "ge.AuthMessageH\000\0221\n\007friends\030\003 \001(\0132\036.clie" +
-      "ntMessage.FriendsResponseH\000\0227\n\014moreReque" +
-      "sts\030\004 \001(\0132\037.clientMessage.ReadyForReques" +
-      "tsH\000\0224\n\013infoRequest\030\005 \001(\0132\035.clientMessag" +
-      "e.GetInformationH\000B\t\n\007message*p\n\006Rarity\022" +
-      "\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004E" +
-      "PIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\013\n\007SPEC" +
-      "IAL\020\006\022\020\n\014VERY_SPECIAL\020\007B8\n\035club.thom.tem" +
-      ".models.messagesZ\027protobuf/clientMessage" +
-      "sb\006proto3"
+      "ge.AuthMessageH\000\0222\n\017requestResponse\030\003 \001(" +
+      "\0132\027.clientMessage.ResponseH\000\0227\n\014moreRequ" +
+      "ests\030\004 \001(\0132\037.clientMessage.ReadyForReque" +
+      "stsH\000\0224\n\013infoRequest\030\005 \001(\0132\035.clientMessa" +
+      "ge.GetInformationH\000B\t\n\007message*p\n\006Rarity" +
+      "\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004" +
+      "EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\013\n\007SPE" +
+      "CIAL\020\006\022\020\n\014VERY_SPECIAL\020\007B8\n\035club.thom.te" +
+      "m.models.messagesZ\027protobuf/clientMessag" +
+      "esb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11002,7 +11002,7 @@ public final class ClientMessages {
     internal_static_clientMessage_ClientMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_ClientMessage_descriptor,
-        new java.lang.String[] { "ClientVersion", "Auth", "Friends", "MoreRequests", "InfoRequest", "Message", });
+        new java.lang.String[] { "ClientVersion", "Auth", "RequestResponse", "MoreRequests", "InfoRequest", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

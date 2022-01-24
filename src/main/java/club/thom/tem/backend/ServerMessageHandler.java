@@ -1,6 +1,9 @@
 package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
+import club.thom.tem.hypixel.request.FriendsListRequest;
+import club.thom.tem.hypixel.request.Request;
+import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.models.messages.ServerMessages.*;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.neovisionaries.ws.client.WebSocket;
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class ServerMessageHandler extends WebSocketAdapter {
     private static final Logger logger = LoggerFactory.getLogger(ServerMessageHandler.class);
@@ -46,12 +50,12 @@ public class ServerMessageHandler extends WebSocketAdapter {
                 return;
             }
             if (message.hasSingleRequest()) {
-                handleRequest(message.getSingleRequest());
+                handleRequest(socket, message.getSingleRequest());
                 return;
             }
             if (message.hasMultipleRequests()) {
                 for (RequestMessage request : message.getMultipleRequests().getRequestsList()) {
-                    new Thread(() -> handleRequest(request)).start();
+                    new Thread(() -> handleRequest(socket, request)).start();
                 }
             }
         }).start();
@@ -99,7 +103,21 @@ public class ServerMessageHandler extends WebSocketAdapter {
         }
     }
 
-    private void handleRequest(RequestMessage request) {
+    private void handleRequest(WebSocket socket, RequestMessage request) {
+        if (request.hasFriendRequest()) {
+            // Origin player uuid
+            String uuid = request.getFriendRequest().getUuid();
+            FriendsListRequest friendRequest = new FriendsListRequest(uuid, TEM.api);
+            TEM.api.addToQueue(friendRequest);
+            List<String> friends;
+            try {
+                friends = friendRequest.getFuture().get();
+            } catch (InterruptedException | ExecutionException e) {
+                logger.error("Error while getting friends list: ", e);
+                return;
+            }
+            ClientResponseHandler.sendFriendsResponse(socket, friends, uuid, request.getNonce());
+        }
         // TODO: Decode request type, add to hypixel request queue, wait for future to complete then send
         // data back to the server
     }
