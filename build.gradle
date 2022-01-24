@@ -72,7 +72,9 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-core:2.17.0'
     implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.17.0'
 
+    // For talking to the backend
     implementation 'com.google.protobuf:protobuf-java:3.19.2'
+    implementation 'com.neovisionaries:nv-websocket-client:2.14'
 }
 
 processResources
@@ -116,6 +118,14 @@ shadowJar {
 
         include(dependency {
             it.moduleGroup == 'org.slf4j'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'com.google.protobuf'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'com.neovisionaries'
         })
     }
     // TEM-0.0.0.1.jar for example

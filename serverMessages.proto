@@ -30,7 +30,7 @@ message InventoryRequest {
   string playerUuid = 1;
 }
 
-message Request {
+message RequestMessage {
   // nonce to be acknowledged in Responses
   int32 nonce = 1;
   oneof message {
@@ -41,7 +41,7 @@ message Request {
 
 message BulkRequests {
   // List of requests
-  repeated Request requests = 1;
+  repeated RequestMessage requests = 1;
 }
 
 
@@ -51,6 +51,6 @@ message ServerMessage {
   oneof message {
     AuthData auth = 2;
     BulkRequests multipleRequests = 3;
-    Request singleRequest = 4;
+    RequestMessage singleRequest = 4;
   }
 }

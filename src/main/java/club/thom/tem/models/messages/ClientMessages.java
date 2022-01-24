@@ -3,7 +3,7 @@
 
 package club.thom.tem.models.messages;
 
-@SuppressWarnings("ALL")
+@javax.annotation.Generated(value="protoc", comments="annotations:ClientMessages.java.pb.meta")
 public final class ClientMessages {
   private ClientMessages() {}
   public static void registerAllExtensions(

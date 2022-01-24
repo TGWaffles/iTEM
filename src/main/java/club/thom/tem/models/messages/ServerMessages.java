@@ -3,7 +3,7 @@
 
 package club.thom.tem.models.messages;
 
-@SuppressWarnings("ALL")
+@javax.annotation.Generated(value="protoc", comments="annotations:ServerMessages.java.pb.meta")
 public final class ServerMessages {
   private ServerMessages() {}
   public static void registerAllExtensions(
@@ -1978,8 +1978,8 @@ public final class ServerMessages {
 
   }
 
-  public interface RequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:serverMessage.Request)
+  public interface RequestMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:serverMessage.RequestMessage)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -2022,28 +2022,28 @@ public final class ServerMessages {
      */
     club.thom.tem.models.messages.ServerMessages.InventoryRequestOrBuilder getInventoryRequestOrBuilder();
 
-    public club.thom.tem.models.messages.ServerMessages.Request.MessageCase getMessageCase();
+    public club.thom.tem.models.messages.ServerMessages.RequestMessage.MessageCase getMessageCase();
   }
   /**
-   * Protobuf type {@code serverMessage.Request}
+   * Protobuf type {@code serverMessage.RequestMessage}
    */
-  public static final class Request extends
+  public static final class RequestMessage extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:serverMessage.Request)
-      RequestOrBuilder {
+      // @@protoc_insertion_point(message_implements:serverMessage.RequestMessage)
+      RequestMessageOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use Request.newBuilder() to construct.
-    private Request(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use RequestMessage.newBuilder() to construct.
+    private RequestMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private Request() {
+    private RequestMessage() {
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new Request();
+      return new RequestMessage();
     }
 
     @java.lang.Override
@@ -2051,7 +2051,7 @@ public final class ServerMessages {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private Request(
+    private RequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2123,15 +2123,15 @@ public final class ServerMessages {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_Request_descriptor;
+      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_RequestMessage_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_Request_fieldAccessorTable
+      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_RequestMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              club.thom.tem.models.messages.ServerMessages.Request.class, club.thom.tem.models.messages.ServerMessages.Request.Builder.class);
+              club.thom.tem.models.messages.ServerMessages.RequestMessage.class, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder.class);
     }
 
     private int messageCase_ = 0;
@@ -2306,10 +2306,10 @@ public final class ServerMessages {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof club.thom.tem.models.messages.ServerMessages.Request)) {
+      if (!(obj instanceof club.thom.tem.models.messages.ServerMessages.RequestMessage)) {
         return super.equals(obj);
       }
-      club.thom.tem.models.messages.ServerMessages.Request other = (club.thom.tem.models.messages.ServerMessages.Request) obj;
+      club.thom.tem.models.messages.ServerMessages.RequestMessage other = (club.thom.tem.models.messages.ServerMessages.RequestMessage) obj;
 
       if (getNonce()
           != other.getNonce()) return false;
@@ -2356,69 +2356,69 @@ public final class ServerMessages {
       return hash;
     }
 
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(byte[] data)
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(java.io.InputStream input)
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseDelimitedFrom(java.io.InputStream input)
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseDelimitedFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static club.thom.tem.models.messages.ServerMessages.Request parseFrom(
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2431,7 +2431,7 @@ public final class ServerMessages {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(club.thom.tem.models.messages.ServerMessages.Request prototype) {
+    public static Builder newBuilder(club.thom.tem.models.messages.ServerMessages.RequestMessage prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -2447,26 +2447,26 @@ public final class ServerMessages {
       return builder;
     }
     /**
-     * Protobuf type {@code serverMessage.Request}
+     * Protobuf type {@code serverMessage.RequestMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:serverMessage.Request)
-        club.thom.tem.models.messages.ServerMessages.RequestOrBuilder {
+        // @@protoc_insertion_point(builder_implements:serverMessage.RequestMessage)
+        club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_Request_descriptor;
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_RequestMessage_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_Request_fieldAccessorTable
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_RequestMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                club.thom.tem.models.messages.ServerMessages.Request.class, club.thom.tem.models.messages.ServerMessages.Request.Builder.class);
+                club.thom.tem.models.messages.ServerMessages.RequestMessage.class, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder.class);
       }
 
-      // Construct using club.thom.tem.models.messages.ServerMessages.Request.newBuilder()
+      // Construct using club.thom.tem.models.messages.ServerMessages.RequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2494,17 +2494,17 @@ public final class ServerMessages {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_Request_descriptor;
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_RequestMessage_descriptor;
       }
 
       @java.lang.Override
-      public club.thom.tem.models.messages.ServerMessages.Request getDefaultInstanceForType() {
-        return club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance();
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance();
       }
 
       @java.lang.Override
-      public club.thom.tem.models.messages.ServerMessages.Request build() {
-        club.thom.tem.models.messages.ServerMessages.Request result = buildPartial();
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage build() {
+        club.thom.tem.models.messages.ServerMessages.RequestMessage result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -2512,8 +2512,8 @@ public final class ServerMessages {
       }
 
       @java.lang.Override
-      public club.thom.tem.models.messages.ServerMessages.Request buildPartial() {
-        club.thom.tem.models.messages.ServerMessages.Request result = new club.thom.tem.models.messages.ServerMessages.Request(this);
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage buildPartial() {
+        club.thom.tem.models.messages.ServerMessages.RequestMessage result = new club.thom.tem.models.messages.ServerMessages.RequestMessage(this);
         result.nonce_ = nonce_;
         if (messageCase_ == 2) {
           if (friendRequestBuilder_ == null) {
@@ -2568,16 +2568,16 @@ public final class ServerMessages {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof club.thom.tem.models.messages.ServerMessages.Request) {
-          return mergeFrom((club.thom.tem.models.messages.ServerMessages.Request)other);
+        if (other instanceof club.thom.tem.models.messages.ServerMessages.RequestMessage) {
+          return mergeFrom((club.thom.tem.models.messages.ServerMessages.RequestMessage)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(club.thom.tem.models.messages.ServerMessages.Request other) {
-        if (other == club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance()) return this;
+      public Builder mergeFrom(club.thom.tem.models.messages.ServerMessages.RequestMessage other) {
+        if (other == club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance()) return this;
         if (other.getNonce() != 0) {
           setNonce(other.getNonce());
         }
@@ -2609,11 +2609,11 @@ public final class ServerMessages {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        club.thom.tem.models.messages.ServerMessages.Request parsedMessage = null;
+        club.thom.tem.models.messages.ServerMessages.RequestMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (club.thom.tem.models.messages.ServerMessages.Request) e.getUnfinishedMessage();
+          parsedMessage = (club.thom.tem.models.messages.ServerMessages.RequestMessage) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -2975,41 +2975,41 @@ public final class ServerMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:serverMessage.Request)
+      // @@protoc_insertion_point(builder_scope:serverMessage.RequestMessage)
     }
 
-    // @@protoc_insertion_point(class_scope:serverMessage.Request)
-    private static final club.thom.tem.models.messages.ServerMessages.Request DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:serverMessage.RequestMessage)
+    private static final club.thom.tem.models.messages.ServerMessages.RequestMessage DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ServerMessages.Request();
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ServerMessages.RequestMessage();
     }
 
-    public static club.thom.tem.models.messages.ServerMessages.Request getDefaultInstance() {
+    public static club.thom.tem.models.messages.ServerMessages.RequestMessage getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<Request>
-        PARSER = new com.google.protobuf.AbstractParser<Request>() {
+    private static final com.google.protobuf.Parser<RequestMessage>
+        PARSER = new com.google.protobuf.AbstractParser<RequestMessage>() {
       @java.lang.Override
-      public Request parsePartialFrom(
+      public RequestMessage parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Request(input, extensionRegistry);
+        return new RequestMessage(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<Request> parser() {
+    public static com.google.protobuf.Parser<RequestMessage> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Request> getParserForType() {
+    public com.google.protobuf.Parser<RequestMessage> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public club.thom.tem.models.messages.ServerMessages.Request getDefaultInstanceForType() {
+    public club.thom.tem.models.messages.ServerMessages.RequestMessage getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -3024,24 +3024,24 @@ public final class ServerMessages {
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
-    java.util.List<club.thom.tem.models.messages.ServerMessages.Request> 
+    java.util.List<club.thom.tem.models.messages.ServerMessages.RequestMessage> 
         getRequestsList();
     /**
      * <pre>
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
-    club.thom.tem.models.messages.ServerMessages.Request getRequests(int index);
+    club.thom.tem.models.messages.ServerMessages.RequestMessage getRequests(int index);
     /**
      * <pre>
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
     int getRequestsCount();
     /**
@@ -3049,18 +3049,18 @@ public final class ServerMessages {
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
-    java.util.List<? extends club.thom.tem.models.messages.ServerMessages.RequestOrBuilder> 
+    java.util.List<? extends club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder> 
         getRequestsOrBuilderList();
     /**
      * <pre>
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
-    club.thom.tem.models.messages.ServerMessages.RequestOrBuilder getRequestsOrBuilder(
+    club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder getRequestsOrBuilder(
         int index);
   }
   /**
@@ -3112,11 +3112,11 @@ public final class ServerMessages {
               break;
             case 10: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                requests_ = new java.util.ArrayList<club.thom.tem.models.messages.ServerMessages.Request>();
+                requests_ = new java.util.ArrayList<club.thom.tem.models.messages.ServerMessages.RequestMessage>();
                 mutable_bitField0_ |= 0x00000001;
               }
               requests_.add(
-                  input.readMessage(club.thom.tem.models.messages.ServerMessages.Request.parser(), extensionRegistry));
+                  input.readMessage(club.thom.tem.models.messages.ServerMessages.RequestMessage.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -3155,16 +3155,16 @@ public final class ServerMessages {
     }
 
     public static final int REQUESTS_FIELD_NUMBER = 1;
-    private java.util.List<club.thom.tem.models.messages.ServerMessages.Request> requests_;
+    private java.util.List<club.thom.tem.models.messages.ServerMessages.RequestMessage> requests_;
     /**
      * <pre>
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
     @java.lang.Override
-    public java.util.List<club.thom.tem.models.messages.ServerMessages.Request> getRequestsList() {
+    public java.util.List<club.thom.tem.models.messages.ServerMessages.RequestMessage> getRequestsList() {
       return requests_;
     }
     /**
@@ -3172,10 +3172,10 @@ public final class ServerMessages {
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
     @java.lang.Override
-    public java.util.List<? extends club.thom.tem.models.messages.ServerMessages.RequestOrBuilder> 
+    public java.util.List<? extends club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder> 
         getRequestsOrBuilderList() {
       return requests_;
     }
@@ -3184,7 +3184,7 @@ public final class ServerMessages {
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
     @java.lang.Override
     public int getRequestsCount() {
@@ -3195,10 +3195,10 @@ public final class ServerMessages {
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
     @java.lang.Override
-    public club.thom.tem.models.messages.ServerMessages.Request getRequests(int index) {
+    public club.thom.tem.models.messages.ServerMessages.RequestMessage getRequests(int index) {
       return requests_.get(index);
     }
     /**
@@ -3206,10 +3206,10 @@ public final class ServerMessages {
      * List of requests
      * </pre>
      *
-     * <code>repeated .serverMessage.Request requests = 1;</code>
+     * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
      */
     @java.lang.Override
-    public club.thom.tem.models.messages.ServerMessages.RequestOrBuilder getRequestsOrBuilder(
+    public club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder getRequestsOrBuilder(
         int index) {
       return requests_.get(index);
     }
@@ -3556,26 +3556,26 @@ public final class ServerMessages {
       }
       private int bitField0_;
 
-      private java.util.List<club.thom.tem.models.messages.ServerMessages.Request> requests_ =
+      private java.util.List<club.thom.tem.models.messages.ServerMessages.RequestMessage> requests_ =
         java.util.Collections.emptyList();
       private void ensureRequestsIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          requests_ = new java.util.ArrayList<club.thom.tem.models.messages.ServerMessages.Request>(requests_);
+          requests_ = new java.util.ArrayList<club.thom.tem.models.messages.ServerMessages.RequestMessage>(requests_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          club.thom.tem.models.messages.ServerMessages.Request, club.thom.tem.models.messages.ServerMessages.Request.Builder, club.thom.tem.models.messages.ServerMessages.RequestOrBuilder> requestsBuilder_;
+          club.thom.tem.models.messages.ServerMessages.RequestMessage, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder, club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder> requestsBuilder_;
 
       /**
        * <pre>
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public java.util.List<club.thom.tem.models.messages.ServerMessages.Request> getRequestsList() {
+      public java.util.List<club.thom.tem.models.messages.ServerMessages.RequestMessage> getRequestsList() {
         if (requestsBuilder_ == null) {
           return java.util.Collections.unmodifiableList(requests_);
         } else {
@@ -3587,7 +3587,7 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public int getRequestsCount() {
         if (requestsBuilder_ == null) {
@@ -3601,9 +3601,9 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public club.thom.tem.models.messages.ServerMessages.Request getRequests(int index) {
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage getRequests(int index) {
         if (requestsBuilder_ == null) {
           return requests_.get(index);
         } else {
@@ -3615,10 +3615,10 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public Builder setRequests(
-          int index, club.thom.tem.models.messages.ServerMessages.Request value) {
+          int index, club.thom.tem.models.messages.ServerMessages.RequestMessage value) {
         if (requestsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3636,10 +3636,10 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public Builder setRequests(
-          int index, club.thom.tem.models.messages.ServerMessages.Request.Builder builderForValue) {
+          int index, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder builderForValue) {
         if (requestsBuilder_ == null) {
           ensureRequestsIsMutable();
           requests_.set(index, builderForValue.build());
@@ -3654,9 +3654,9 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public Builder addRequests(club.thom.tem.models.messages.ServerMessages.Request value) {
+      public Builder addRequests(club.thom.tem.models.messages.ServerMessages.RequestMessage value) {
         if (requestsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3674,10 +3674,10 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public Builder addRequests(
-          int index, club.thom.tem.models.messages.ServerMessages.Request value) {
+          int index, club.thom.tem.models.messages.ServerMessages.RequestMessage value) {
         if (requestsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3695,10 +3695,10 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public Builder addRequests(
-          club.thom.tem.models.messages.ServerMessages.Request.Builder builderForValue) {
+          club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder builderForValue) {
         if (requestsBuilder_ == null) {
           ensureRequestsIsMutable();
           requests_.add(builderForValue.build());
@@ -3713,10 +3713,10 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public Builder addRequests(
-          int index, club.thom.tem.models.messages.ServerMessages.Request.Builder builderForValue) {
+          int index, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder builderForValue) {
         if (requestsBuilder_ == null) {
           ensureRequestsIsMutable();
           requests_.add(index, builderForValue.build());
@@ -3731,10 +3731,10 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public Builder addAllRequests(
-          java.lang.Iterable<? extends club.thom.tem.models.messages.ServerMessages.Request> values) {
+          java.lang.Iterable<? extends club.thom.tem.models.messages.ServerMessages.RequestMessage> values) {
         if (requestsBuilder_ == null) {
           ensureRequestsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -3750,7 +3750,7 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public Builder clearRequests() {
         if (requestsBuilder_ == null) {
@@ -3767,7 +3767,7 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
       public Builder removeRequests(int index) {
         if (requestsBuilder_ == null) {
@@ -3784,9 +3784,9 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public club.thom.tem.models.messages.ServerMessages.Request.Builder getRequestsBuilder(
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder getRequestsBuilder(
           int index) {
         return getRequestsFieldBuilder().getBuilder(index);
       }
@@ -3795,9 +3795,9 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public club.thom.tem.models.messages.ServerMessages.RequestOrBuilder getRequestsOrBuilder(
+      public club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder getRequestsOrBuilder(
           int index) {
         if (requestsBuilder_ == null) {
           return requests_.get(index);  } else {
@@ -3809,9 +3809,9 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public java.util.List<? extends club.thom.tem.models.messages.ServerMessages.RequestOrBuilder> 
+      public java.util.List<? extends club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder> 
            getRequestsOrBuilderList() {
         if (requestsBuilder_ != null) {
           return requestsBuilder_.getMessageOrBuilderList();
@@ -3824,41 +3824,41 @@ public final class ServerMessages {
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public club.thom.tem.models.messages.ServerMessages.Request.Builder addRequestsBuilder() {
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder addRequestsBuilder() {
         return getRequestsFieldBuilder().addBuilder(
-            club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance());
+            club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance());
       }
       /**
        * <pre>
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public club.thom.tem.models.messages.ServerMessages.Request.Builder addRequestsBuilder(
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder addRequestsBuilder(
           int index) {
         return getRequestsFieldBuilder().addBuilder(
-            index, club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance());
+            index, club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance());
       }
       /**
        * <pre>
        * List of requests
        * </pre>
        *
-       * <code>repeated .serverMessage.Request requests = 1;</code>
+       * <code>repeated .serverMessage.RequestMessage requests = 1;</code>
        */
-      public java.util.List<club.thom.tem.models.messages.ServerMessages.Request.Builder> 
+      public java.util.List<club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder> 
            getRequestsBuilderList() {
         return getRequestsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          club.thom.tem.models.messages.ServerMessages.Request, club.thom.tem.models.messages.ServerMessages.Request.Builder, club.thom.tem.models.messages.ServerMessages.RequestOrBuilder> 
+          club.thom.tem.models.messages.ServerMessages.RequestMessage, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder, club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder> 
           getRequestsFieldBuilder() {
         if (requestsBuilder_ == null) {
           requestsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              club.thom.tem.models.messages.ServerMessages.Request, club.thom.tem.models.messages.ServerMessages.Request.Builder, club.thom.tem.models.messages.ServerMessages.RequestOrBuilder>(
+              club.thom.tem.models.messages.ServerMessages.RequestMessage, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder, club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder>(
                   requests_,
                   ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
@@ -3965,19 +3965,19 @@ public final class ServerMessages {
     club.thom.tem.models.messages.ServerMessages.BulkRequestsOrBuilder getMultipleRequestsOrBuilder();
 
     /**
-     * <code>.serverMessage.Request singleRequest = 4;</code>
+     * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
      * @return Whether the singleRequest field is set.
      */
     boolean hasSingleRequest();
     /**
-     * <code>.serverMessage.Request singleRequest = 4;</code>
+     * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
      * @return The singleRequest.
      */
-    club.thom.tem.models.messages.ServerMessages.Request getSingleRequest();
+    club.thom.tem.models.messages.ServerMessages.RequestMessage getSingleRequest();
     /**
-     * <code>.serverMessage.Request singleRequest = 4;</code>
+     * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
      */
-    club.thom.tem.models.messages.ServerMessages.RequestOrBuilder getSingleRequestOrBuilder();
+    club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder getSingleRequestOrBuilder();
 
     public club.thom.tem.models.messages.ServerMessages.ServerMessage.MessageCase getMessageCase();
   }
@@ -4060,14 +4060,14 @@ public final class ServerMessages {
               break;
             }
             case 34: {
-              club.thom.tem.models.messages.ServerMessages.Request.Builder subBuilder = null;
+              club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder subBuilder = null;
               if (messageCase_ == 4) {
-                subBuilder = ((club.thom.tem.models.messages.ServerMessages.Request) message_).toBuilder();
+                subBuilder = ((club.thom.tem.models.messages.ServerMessages.RequestMessage) message_).toBuilder();
               }
               message_ =
-                  input.readMessage(club.thom.tem.models.messages.ServerMessages.Request.parser(), extensionRegistry);
+                  input.readMessage(club.thom.tem.models.messages.ServerMessages.RequestMessage.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.Request) message_);
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.RequestMessage) message_);
                 message_ = subBuilder.buildPartial();
               }
               messageCase_ = 4;
@@ -4227,7 +4227,7 @@ public final class ServerMessages {
 
     public static final int SINGLEREQUEST_FIELD_NUMBER = 4;
     /**
-     * <code>.serverMessage.Request singleRequest = 4;</code>
+     * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
      * @return Whether the singleRequest field is set.
      */
     @java.lang.Override
@@ -4235,25 +4235,25 @@ public final class ServerMessages {
       return messageCase_ == 4;
     }
     /**
-     * <code>.serverMessage.Request singleRequest = 4;</code>
+     * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
      * @return The singleRequest.
      */
     @java.lang.Override
-    public club.thom.tem.models.messages.ServerMessages.Request getSingleRequest() {
+    public club.thom.tem.models.messages.ServerMessages.RequestMessage getSingleRequest() {
       if (messageCase_ == 4) {
-         return (club.thom.tem.models.messages.ServerMessages.Request) message_;
+         return (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_;
       }
-      return club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance();
+      return club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance();
     }
     /**
-     * <code>.serverMessage.Request singleRequest = 4;</code>
+     * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
      */
     @java.lang.Override
-    public club.thom.tem.models.messages.ServerMessages.RequestOrBuilder getSingleRequestOrBuilder() {
+    public club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder getSingleRequestOrBuilder() {
       if (messageCase_ == 4) {
-         return (club.thom.tem.models.messages.ServerMessages.Request) message_;
+         return (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_;
       }
-      return club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance();
+      return club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4280,7 +4280,7 @@ public final class ServerMessages {
         output.writeMessage(3, (club.thom.tem.models.messages.ServerMessages.BulkRequests) message_);
       }
       if (messageCase_ == 4) {
-        output.writeMessage(4, (club.thom.tem.models.messages.ServerMessages.Request) message_);
+        output.writeMessage(4, (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_);
       }
       unknownFields.writeTo(output);
     }
@@ -4305,7 +4305,7 @@ public final class ServerMessages {
       }
       if (messageCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (club.thom.tem.models.messages.ServerMessages.Request) message_);
+          .computeMessageSize(4, (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4994,9 +4994,9 @@ public final class ServerMessages {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          club.thom.tem.models.messages.ServerMessages.Request, club.thom.tem.models.messages.ServerMessages.Request.Builder, club.thom.tem.models.messages.ServerMessages.RequestOrBuilder> singleRequestBuilder_;
+          club.thom.tem.models.messages.ServerMessages.RequestMessage, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder, club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder> singleRequestBuilder_;
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        * @return Whether the singleRequest field is set.
        */
       @java.lang.Override
@@ -5004,27 +5004,27 @@ public final class ServerMessages {
         return messageCase_ == 4;
       }
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        * @return The singleRequest.
        */
       @java.lang.Override
-      public club.thom.tem.models.messages.ServerMessages.Request getSingleRequest() {
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage getSingleRequest() {
         if (singleRequestBuilder_ == null) {
           if (messageCase_ == 4) {
-            return (club.thom.tem.models.messages.ServerMessages.Request) message_;
+            return (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_;
           }
-          return club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance();
+          return club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance();
         } else {
           if (messageCase_ == 4) {
             return singleRequestBuilder_.getMessage();
           }
-          return club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance();
+          return club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        */
-      public Builder setSingleRequest(club.thom.tem.models.messages.ServerMessages.Request value) {
+      public Builder setSingleRequest(club.thom.tem.models.messages.ServerMessages.RequestMessage value) {
         if (singleRequestBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5038,10 +5038,10 @@ public final class ServerMessages {
         return this;
       }
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        */
       public Builder setSingleRequest(
-          club.thom.tem.models.messages.ServerMessages.Request.Builder builderForValue) {
+          club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder builderForValue) {
         if (singleRequestBuilder_ == null) {
           message_ = builderForValue.build();
           onChanged();
@@ -5052,13 +5052,13 @@ public final class ServerMessages {
         return this;
       }
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        */
-      public Builder mergeSingleRequest(club.thom.tem.models.messages.ServerMessages.Request value) {
+      public Builder mergeSingleRequest(club.thom.tem.models.messages.ServerMessages.RequestMessage value) {
         if (singleRequestBuilder_ == null) {
           if (messageCase_ == 4 &&
-              message_ != club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance()) {
-            message_ = club.thom.tem.models.messages.ServerMessages.Request.newBuilder((club.thom.tem.models.messages.ServerMessages.Request) message_)
+              message_ != club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance()) {
+            message_ = club.thom.tem.models.messages.ServerMessages.RequestMessage.newBuilder((club.thom.tem.models.messages.ServerMessages.RequestMessage) message_)
                 .mergeFrom(value).buildPartial();
           } else {
             message_ = value;
@@ -5074,7 +5074,7 @@ public final class ServerMessages {
         return this;
       }
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        */
       public Builder clearSingleRequest() {
         if (singleRequestBuilder_ == null) {
@@ -5093,38 +5093,38 @@ public final class ServerMessages {
         return this;
       }
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        */
-      public club.thom.tem.models.messages.ServerMessages.Request.Builder getSingleRequestBuilder() {
+      public club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder getSingleRequestBuilder() {
         return getSingleRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        */
       @java.lang.Override
-      public club.thom.tem.models.messages.ServerMessages.RequestOrBuilder getSingleRequestOrBuilder() {
+      public club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder getSingleRequestOrBuilder() {
         if ((messageCase_ == 4) && (singleRequestBuilder_ != null)) {
           return singleRequestBuilder_.getMessageOrBuilder();
         } else {
           if (messageCase_ == 4) {
-            return (club.thom.tem.models.messages.ServerMessages.Request) message_;
+            return (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_;
           }
-          return club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance();
+          return club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.Request singleRequest = 4;</code>
+       * <code>.serverMessage.RequestMessage singleRequest = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          club.thom.tem.models.messages.ServerMessages.Request, club.thom.tem.models.messages.ServerMessages.Request.Builder, club.thom.tem.models.messages.ServerMessages.RequestOrBuilder> 
+          club.thom.tem.models.messages.ServerMessages.RequestMessage, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder, club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder> 
           getSingleRequestFieldBuilder() {
         if (singleRequestBuilder_ == null) {
           if (!(messageCase_ == 4)) {
-            message_ = club.thom.tem.models.messages.ServerMessages.Request.getDefaultInstance();
+            message_ = club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance();
           }
           singleRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              club.thom.tem.models.messages.ServerMessages.Request, club.thom.tem.models.messages.ServerMessages.Request.Builder, club.thom.tem.models.messages.ServerMessages.RequestOrBuilder>(
-                  (club.thom.tem.models.messages.ServerMessages.Request) message_,
+              club.thom.tem.models.messages.ServerMessages.RequestMessage, club.thom.tem.models.messages.ServerMessages.RequestMessage.Builder, club.thom.tem.models.messages.ServerMessages.RequestMessageOrBuilder>(
+                  (club.thom.tem.models.messages.ServerMessages.RequestMessage) message_,
                   getParentForChildren(),
                   isClean());
           message_ = null;
@@ -5202,10 +5202,10 @@ public final class ServerMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_serverMessage_InventoryRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_serverMessage_Request_descriptor;
+    internal_static_serverMessage_RequestMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_serverMessage_Request_fieldAccessorTable;
+      internal_static_serverMessage_RequestMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_serverMessage_BulkRequests_descriptor;
   private static final 
@@ -5231,20 +5231,20 @@ public final class ServerMessages {
       "eason\022\013\n\007SUCCESS\020\000\022\017\n\013BLACKLISTED\020\001\022\013\n\007I" +
       "NVALID\020\002\022\023\n\017OUTDATED_CLIENT\020\003\022\020\n\014INVALID" +
       "_UUID\020\004\"\035\n\rFriendRequest\022\014\n\004uuid\030\001 \001(\t\"&" +
-      "\n\020InventoryRequest\022\022\n\nplayerUuid\030\001 \001(\t\"\227" +
-      "\001\n\007Request\022\r\n\005nonce\030\001 \001(\005\0225\n\rfriendReque" +
-      "st\030\002 \001(\0132\034.serverMessage.FriendRequestH\000" +
-      "\022;\n\020inventoryRequest\030\003 \001(\0132\037.serverMessa" +
-      "ge.InventoryRequestH\000B\t\n\007message\"8\n\014Bulk" +
-      "Requests\022(\n\010requests\030\001 \003(\0132\026.serverMessa" +
-      "ge.Request\"\314\001\n\rServerMessage\022\035\n\025expected" +
-      "ClientVersion\030\001 \001(\005\022\'\n\004auth\030\002 \001(\0132\027.serv" +
-      "erMessage.AuthDataH\000\0227\n\020multipleRequests" +
-      "\030\003 \001(\0132\033.serverMessage.BulkRequestsH\000\022/\n" +
-      "\rsingleRequest\030\004 \001(\0132\026.serverMessage.Req" +
-      "uestH\000B\t\n\007messageB8\n\035club.thom.tem.model" +
-      "s.messagesZ\027protobuf/serverMessagesb\006pro" +
-      "to3"
+      "\n\020InventoryRequest\022\022\n\nplayerUuid\030\001 \001(\t\"\236" +
+      "\001\n\016RequestMessage\022\r\n\005nonce\030\001 \001(\005\0225\n\rfrie" +
+      "ndRequest\030\002 \001(\0132\034.serverMessage.FriendRe" +
+      "questH\000\022;\n\020inventoryRequest\030\003 \001(\0132\037.serv" +
+      "erMessage.InventoryRequestH\000B\t\n\007message\"" +
+      "?\n\014BulkRequests\022/\n\010requests\030\001 \003(\0132\035.serv" +
+      "erMessage.RequestMessage\"\323\001\n\rServerMessa" +
+      "ge\022\035\n\025expectedClientVersion\030\001 \001(\005\022\'\n\004aut" +
+      "h\030\002 \001(\0132\027.serverMessage.AuthDataH\000\0227\n\020mu" +
+      "ltipleRequests\030\003 \001(\0132\033.serverMessage.Bul" +
+      "kRequestsH\000\0226\n\rsingleRequest\030\004 \001(\0132\035.ser" +
+      "verMessage.RequestMessageH\000B\t\n\007messageB8" +
+      "\n\035club.thom.tem.models.messagesZ\027protobu" +
+      "f/serverMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -5268,11 +5268,11 @@ public final class ServerMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_InventoryRequest_descriptor,
         new java.lang.String[] { "PlayerUuid", });
-    internal_static_serverMessage_Request_descriptor =
+    internal_static_serverMessage_RequestMessage_descriptor =
       getDescriptor().getMessageTypes().get(3);
-    internal_static_serverMessage_Request_fieldAccessorTable = new
+    internal_static_serverMessage_RequestMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_serverMessage_Request_descriptor,
+        internal_static_serverMessage_RequestMessage_descriptor,
         new java.lang.String[] { "Nonce", "FriendRequest", "InventoryRequest", "Message", });
     internal_static_serverMessage_BulkRequests_descriptor =
       getDescriptor().getMessageTypes().get(4);
