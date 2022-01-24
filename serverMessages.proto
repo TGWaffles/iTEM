@@ -1,7 +1,8 @@
 syntax = "proto3";
 
 option go_package = "protobuf/serverMessages";
-package clientMessage;
+option java_package = "club.thom.tem.models.messages";
+package serverMessage;
 
 
 message AuthData {
