@@ -5,13 +5,31 @@ import club.thom.tem.models.messages.ServerMessages.*;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
+import com.neovisionaries.ws.client.WebSocketFrame;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.Map;
+
 public class ServerMessageHandler extends WebSocketAdapter {
     private static final Logger logger = LoggerFactory.getLogger(ServerMessageHandler.class);
+
+    @Override
+    public void onConnected(WebSocket socket, Map<String, List<String>> headers) {
+        // Authenticates with the server.
+        ClientResponseHandler.sendAuth(socket);
+    }
+
+    @Override
+    public void onDisconnected(WebSocket websocket,
+                               WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame,
+                               boolean closedByServer) {
+        // Reconnects after 1 second.
+        TEM.reconnectSocket(1000);
+    }
 
     @Override
     public void onBinaryMessage(WebSocket socket, byte[] data) {
@@ -24,7 +42,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
                 return;
             }
             if (message.hasAuth()) {
-                handleAuthMessage(message.getAuth());
+                handleAuthMessage(socket, message.getAuth());
                 return;
             }
             if (message.hasSingleRequest()) {
@@ -39,7 +57,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
         }).start();
     }
 
-    private void handleAuthMessage(AuthData authMessage) {
+    private void handleAuthMessage(WebSocket socket, AuthData authMessage) {
         if (!authMessage.getSuccess()) {
             TEM.socketWorking = false;
             String humanReadableMessage = EnumChatFormatting.RED.toString() + EnumChatFormatting.BOLD;
@@ -76,13 +94,14 @@ public class ServerMessageHandler extends WebSocketAdapter {
             }
             TEM.sendMessage(new ChatComponentText(humanReadableMessage));
         } else {
-            // TODO: Send request for more tasks from the server.
-            ClientResponseHandler.askForRequests();
+            // Ask backend for more requests
+            ClientResponseHandler.askForRequests(socket);
         }
     }
 
     private void handleRequest(RequestMessage request) {
-        // TODO
+        // TODO: Decode request type, add to hypixel request queue, wait for future to complete then send
+        // data back to the server
     }
 
 }

@@ -1,5 +1,6 @@
 package club.thom.tem;
 
+import club.thom.tem.backend.ServerMessageHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.hypixel.Hypixel;
@@ -8,6 +9,7 @@ import club.thom.tem.storage.TEMConfig;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
@@ -31,9 +33,9 @@ public class TEM {
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
     public static TEMConfig config = new TEMConfig();
     private static final Logger logger = LoggerFactory.getLogger(TEM.class);
-    public static WebSocket socket;
     public static Hypixel api;
     public static boolean socketWorking = true;
+    private static WebSocketFactory wsFactory = new WebSocketFactory();
 
     public static void forceSaveConfig() {
         config.markDirty();
@@ -42,19 +44,41 @@ public class TEM {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        WebSocketFactory wsFactory = new WebSocketFactory();
         config.initialize();
-        try {
-            socket = wsFactory.createSocket("wss://tem-backend.thom.club", 5000);
-        } catch (IOException e) {
-            logger.error("Error setting up socket", e);
-        }
+        new Thread(() -> reconnectSocket(100)).start();
         // Create global API/rate-limit handler
         api = new Hypixel();
         // Start the requests loop
         new Thread(api::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
+    }
+
+    public static String getUUID() {
+        waitForPlayer();
+        return EntityPlayer.getUUID(Minecraft.getMinecraft().thePlayer.getGameProfile()).toString().replaceAll("-", "");
+    }
+
+    /**
+     * @param after milliseconds to wait before trying again (exponential backoff)
+     */
+    public static void reconnectSocket(long after) {
+        if (!socketWorking) {
+            return;
+        }
+        try {
+            Thread.sleep(after);
+        } catch (InterruptedException e) {
+            logger.error("Sleep interrupted in reconnectSocket", e);
+        }
+        WebSocket socket;
+        try {
+            socket = wsFactory.createSocket("wss://tem-backend.thom.club", 5000);
+            socket.addListener(new ServerMessageHandler());
+        } catch (IOException e) {
+            logger.error("Error setting up socket", e);
+            reconnectSocket((long) (after * 1.25));
+        }
     }
 
     @Mod.EventHandler
