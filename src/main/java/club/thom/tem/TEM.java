@@ -5,6 +5,8 @@ import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.storage.TEMConfig;
+import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -15,6 +17,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 @Mod(modid = TEM.MOD_ID, version = TEM.VERSION, certificateFingerprint = TEM.SIGNATURE)
 public class TEM {
@@ -24,7 +30,10 @@ public class TEM {
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
     public static TEMConfig config = new TEMConfig();
+    private static final Logger logger = LoggerFactory.getLogger(TEM.class);
+    public static WebSocket socket;
     public static Hypixel api;
+    public static boolean socketWorking = true;
 
     public static void forceSaveConfig() {
         config.markDirty();
@@ -33,7 +42,13 @@ public class TEM {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        WebSocketFactory wsFactory = new WebSocketFactory();
         config.initialize();
+        try {
+            socket = wsFactory.createSocket("wss://tem-backend.thom.club", 5000);
+        } catch (IOException e) {
+            logger.error("Error setting up socket", e);
+        }
         // Create global API/rate-limit handler
         api = new Hypixel();
         // Start the requests loop

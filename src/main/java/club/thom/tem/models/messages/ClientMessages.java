@@ -781,6 +781,514 @@ public final class ClientMessages {
 
   }
 
+  public interface ReadyForRequestsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:clientMessage.ReadyForRequests)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Ideally, the rate limit of the client remaining.
+     * </pre>
+     *
+     * <code>uint32 numberOfRequests = 1;</code>
+     * @return The numberOfRequests.
+     */
+    int getNumberOfRequests();
+  }
+  /**
+   * Protobuf type {@code clientMessage.ReadyForRequests}
+   */
+  public static final class ReadyForRequests extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:clientMessage.ReadyForRequests)
+      ReadyForRequestsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ReadyForRequests.newBuilder() to construct.
+    private ReadyForRequests(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ReadyForRequests() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ReadyForRequests();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ReadyForRequests(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+
+              numberOfRequests_ = input.readUInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ReadyForRequests_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ReadyForRequests_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ClientMessages.ReadyForRequests.class, club.thom.tem.models.messages.ClientMessages.ReadyForRequests.Builder.class);
+    }
+
+    public static final int NUMBEROFREQUESTS_FIELD_NUMBER = 1;
+    private int numberOfRequests_;
+    /**
+     * <pre>
+     * Ideally, the rate limit of the client remaining.
+     * </pre>
+     *
+     * <code>uint32 numberOfRequests = 1;</code>
+     * @return The numberOfRequests.
+     */
+    @java.lang.Override
+    public int getNumberOfRequests() {
+      return numberOfRequests_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (numberOfRequests_ != 0) {
+        output.writeUInt32(1, numberOfRequests_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (numberOfRequests_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(1, numberOfRequests_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ClientMessages.ReadyForRequests)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ClientMessages.ReadyForRequests other = (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) obj;
+
+      if (getNumberOfRequests()
+          != other.getNumberOfRequests()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NUMBEROFREQUESTS_FIELD_NUMBER;
+      hash = (53 * hash) + getNumberOfRequests();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ClientMessages.ReadyForRequests prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code clientMessage.ReadyForRequests}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:clientMessage.ReadyForRequests)
+        club.thom.tem.models.messages.ClientMessages.ReadyForRequestsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ReadyForRequests_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ReadyForRequests_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ClientMessages.ReadyForRequests.class, club.thom.tem.models.messages.ClientMessages.ReadyForRequests.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ClientMessages.ReadyForRequests.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        numberOfRequests_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ReadyForRequests_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ReadyForRequests getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ReadyForRequests build() {
+        club.thom.tem.models.messages.ClientMessages.ReadyForRequests result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ReadyForRequests buildPartial() {
+        club.thom.tem.models.messages.ClientMessages.ReadyForRequests result = new club.thom.tem.models.messages.ClientMessages.ReadyForRequests(this);
+        result.numberOfRequests_ = numberOfRequests_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ClientMessages.ReadyForRequests) {
+          return mergeFrom((club.thom.tem.models.messages.ClientMessages.ReadyForRequests)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ClientMessages.ReadyForRequests other) {
+        if (other == club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance()) return this;
+        if (other.getNumberOfRequests() != 0) {
+          setNumberOfRequests(other.getNumberOfRequests());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ClientMessages.ReadyForRequests parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int numberOfRequests_ ;
+      /**
+       * <pre>
+       * Ideally, the rate limit of the client remaining.
+       * </pre>
+       *
+       * <code>uint32 numberOfRequests = 1;</code>
+       * @return The numberOfRequests.
+       */
+      @java.lang.Override
+      public int getNumberOfRequests() {
+        return numberOfRequests_;
+      }
+      /**
+       * <pre>
+       * Ideally, the rate limit of the client remaining.
+       * </pre>
+       *
+       * <code>uint32 numberOfRequests = 1;</code>
+       * @param value The numberOfRequests to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNumberOfRequests(int value) {
+        
+        numberOfRequests_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Ideally, the rate limit of the client remaining.
+       * </pre>
+       *
+       * <code>uint32 numberOfRequests = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearNumberOfRequests() {
+        
+        numberOfRequests_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:clientMessage.ReadyForRequests)
+    }
+
+    // @@protoc_insertion_point(class_scope:clientMessage.ReadyForRequests)
+    private static final club.thom.tem.models.messages.ClientMessages.ReadyForRequests DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ClientMessages.ReadyForRequests();
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ReadyForRequests getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ReadyForRequests>
+        PARSER = new com.google.protobuf.AbstractParser<ReadyForRequests>() {
+      @java.lang.Override
+      public ReadyForRequests parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ReadyForRequests(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ReadyForRequests> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ReadyForRequests> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ReadyForRequests getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface FriendsResponseOrBuilder extends
       // @@protoc_insertion_point(interface_extends:clientMessage.FriendsResponse)
       com.google.protobuf.MessageOrBuilder {
@@ -8307,6 +8815,21 @@ public final class ClientMessages {
      */
     club.thom.tem.models.messages.ClientMessages.FriendsResponseOrBuilder getFriendsOrBuilder();
 
+    /**
+     * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+     * @return Whether the moreRequests field is set.
+     */
+    boolean hasMoreRequests();
+    /**
+     * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+     * @return The moreRequests.
+     */
+    club.thom.tem.models.messages.ClientMessages.ReadyForRequests getMoreRequests();
+    /**
+     * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ReadyForRequestsOrBuilder getMoreRequestsOrBuilder();
+
     public club.thom.tem.models.messages.ClientMessages.ClientMessage.MessageCase getMessageCase();
   }
   /**
@@ -8387,6 +8910,20 @@ public final class ClientMessages {
               messageCase_ = 3;
               break;
             }
+            case 34: {
+              club.thom.tem.models.messages.ClientMessages.ReadyForRequests.Builder subBuilder = null;
+              if (messageCase_ == 4) {
+                subBuilder = ((club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(club.thom.tem.models.messages.ClientMessages.ReadyForRequests.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 4;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -8426,6 +8963,7 @@ public final class ClientMessages {
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       AUTH(2),
       FRIENDS(3),
+      MOREREQUESTS(4),
       MESSAGE_NOT_SET(0);
       private final int value;
       private MessageCase(int value) {
@@ -8445,6 +8983,7 @@ public final class ClientMessages {
         switch (value) {
           case 2: return AUTH;
           case 3: return FRIENDS;
+          case 4: return MOREREQUESTS;
           case 0: return MESSAGE_NOT_SET;
           default: return null;
         }
@@ -8537,6 +9076,37 @@ public final class ClientMessages {
       return club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance();
     }
 
+    public static final int MOREREQUESTS_FIELD_NUMBER = 4;
+    /**
+     * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+     * @return Whether the moreRequests field is set.
+     */
+    @java.lang.Override
+    public boolean hasMoreRequests() {
+      return messageCase_ == 4;
+    }
+    /**
+     * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+     * @return The moreRequests.
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ReadyForRequests getMoreRequests() {
+      if (messageCase_ == 4) {
+         return (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_;
+      }
+      return club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance();
+    }
+    /**
+     * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ReadyForRequestsOrBuilder getMoreRequestsOrBuilder() {
+      if (messageCase_ == 4) {
+         return (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_;
+      }
+      return club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -8560,6 +9130,9 @@ public final class ClientMessages {
       if (messageCase_ == 3) {
         output.writeMessage(3, (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_);
       }
+      if (messageCase_ == 4) {
+        output.writeMessage(4, (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -8580,6 +9153,10 @@ public final class ClientMessages {
       if (messageCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_);
+      }
+      if (messageCase_ == 4) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -8608,6 +9185,10 @@ public final class ClientMessages {
           if (!getFriends()
               .equals(other.getFriends())) return false;
           break;
+        case 4:
+          if (!getMoreRequests()
+              .equals(other.getMoreRequests())) return false;
+          break;
         case 0:
         default:
       }
@@ -8632,6 +9213,10 @@ public final class ClientMessages {
         case 3:
           hash = (37 * hash) + FRIENDS_FIELD_NUMBER;
           hash = (53 * hash) + getFriends().hashCode();
+          break;
+        case 4:
+          hash = (37 * hash) + MOREREQUESTS_FIELD_NUMBER;
+          hash = (53 * hash) + getMoreRequests().hashCode();
           break;
         case 0:
         default:
@@ -8814,6 +9399,13 @@ public final class ClientMessages {
             result.message_ = friendsBuilder_.build();
           }
         }
+        if (messageCase_ == 4) {
+          if (moreRequestsBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = moreRequestsBuilder_.build();
+          }
+        }
         result.messageCase_ = messageCase_;
         onBuilt();
         return result;
@@ -8873,6 +9465,10 @@ public final class ClientMessages {
           }
           case FRIENDS: {
             mergeFriends(other.getFriends());
+            break;
+          }
+          case MOREREQUESTS: {
+            mergeMoreRequests(other.getMoreRequests());
             break;
           }
           case MESSAGE_NOT_SET: {
@@ -9247,6 +9843,147 @@ public final class ClientMessages {
         onChanged();;
         return friendsBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ReadyForRequests, club.thom.tem.models.messages.ClientMessages.ReadyForRequests.Builder, club.thom.tem.models.messages.ClientMessages.ReadyForRequestsOrBuilder> moreRequestsBuilder_;
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       * @return Whether the moreRequests field is set.
+       */
+      @java.lang.Override
+      public boolean hasMoreRequests() {
+        return messageCase_ == 4;
+      }
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       * @return The moreRequests.
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ReadyForRequests getMoreRequests() {
+        if (moreRequestsBuilder_ == null) {
+          if (messageCase_ == 4) {
+            return (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_;
+          }
+          return club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance();
+        } else {
+          if (messageCase_ == 4) {
+            return moreRequestsBuilder_.getMessage();
+          }
+          return club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       */
+      public Builder setMoreRequests(club.thom.tem.models.messages.ClientMessages.ReadyForRequests value) {
+        if (moreRequestsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          moreRequestsBuilder_.setMessage(value);
+        }
+        messageCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       */
+      public Builder setMoreRequests(
+          club.thom.tem.models.messages.ClientMessages.ReadyForRequests.Builder builderForValue) {
+        if (moreRequestsBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          moreRequestsBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       */
+      public Builder mergeMoreRequests(club.thom.tem.models.messages.ClientMessages.ReadyForRequests value) {
+        if (moreRequestsBuilder_ == null) {
+          if (messageCase_ == 4 &&
+              message_ != club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance()) {
+            message_ = club.thom.tem.models.messages.ClientMessages.ReadyForRequests.newBuilder((club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 4) {
+            moreRequestsBuilder_.mergeFrom(value);
+          }
+          moreRequestsBuilder_.setMessage(value);
+        }
+        messageCase_ = 4;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       */
+      public Builder clearMoreRequests() {
+        if (moreRequestsBuilder_ == null) {
+          if (messageCase_ == 4) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 4) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          moreRequestsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ReadyForRequests.Builder getMoreRequestsBuilder() {
+        return getMoreRequestsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ReadyForRequestsOrBuilder getMoreRequestsOrBuilder() {
+        if ((messageCase_ == 4) && (moreRequestsBuilder_ != null)) {
+          return moreRequestsBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 4) {
+            return (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_;
+          }
+          return club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.clientMessage.ReadyForRequests moreRequests = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ReadyForRequests, club.thom.tem.models.messages.ClientMessages.ReadyForRequests.Builder, club.thom.tem.models.messages.ClientMessages.ReadyForRequestsOrBuilder> 
+          getMoreRequestsFieldBuilder() {
+        if (moreRequestsBuilder_ == null) {
+          if (!(messageCase_ == 4)) {
+            message_ = club.thom.tem.models.messages.ClientMessages.ReadyForRequests.getDefaultInstance();
+          }
+          moreRequestsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.ReadyForRequests, club.thom.tem.models.messages.ClientMessages.ReadyForRequests.Builder, club.thom.tem.models.messages.ClientMessages.ReadyForRequestsOrBuilder>(
+                  (club.thom.tem.models.messages.ClientMessages.ReadyForRequests) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 4;
+        onChanged();;
+        return moreRequestsBuilder_;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -9306,6 +10043,11 @@ public final class ClientMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_clientMessage_AuthMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_clientMessage_ReadyForRequests_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_clientMessage_ReadyForRequests_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_clientMessage_FriendsResponse_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -9355,34 +10097,37 @@ public final class ClientMessages {
   static {
     java.lang.String[] descriptorData = {
       "\n\024clientMessages.proto\022\rclientMessage\"\033\n" +
-      "\013AuthMessage\022\014\n\004uuid\030\001 \001(\t\"7\n\017FriendsRes" +
-      "ponse\022\020\n\010userUuid\030\001 \001(\t\022\022\n\nfriendUuid\030\002 " +
-      "\003(\t\"a\n\006Armour\022\016\n\006itemId\030\001 \001(\t\022\017\n\007hexCode" +
-      "\030\002 \001(\t\022%\n\006rarity\030\003 \001(\0162\025.clientMessage.R" +
-      "arity\022\017\n\007reforge\030\004 \001(\t\"\031\n\007PetSkin\022\016\n\006ski" +
-      "nId\030\001 \001(\t\"\204\001\n\003Pet\022$\n\004skin\030\001 \001(\0132\026.client" +
-      "Message.PetSkin\022\017\n\007candied\030\002 \001(\010\022%\n\006rari" +
-      "ty\030\003 \001(\0162\025.clientMessage.Rarity\022\020\n\010heldI" +
-      "tem\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\"\277\001\n\rInventoryIt" +
-      "em\022\014\n\004uuid\030\001 \001(\t\022\031\n\021creationTimestamp\030\002 " +
-      "\001(\t\022!\n\003pet\030\003 \001(\0132\022.clientMessage.PetH\000\022)" +
-      "\n\007petSkin\030\004 \001(\0132\026.clientMessage.PetSkinH" +
-      "\000\022,\n\013armourPiece\030\005 \001(\0132\025.clientMessage.A" +
-      "rmourH\000B\t\n\007message\"T\n\021InventoryResponse\022" +
-      "\022\n\nplayerUuid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.cli" +
-      "entMessage.InventoryItem\"\222\001\n\010Response\022\r\n" +
-      "\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.clie" +
-      "ntMessage.FriendsResponseH\000\0225\n\tinventory" +
-      "\030\003 \001(\0132 .clientMessage.InventoryResponse" +
-      "H\000B\t\n\007message\"\220\001\n\rClientMessage\022\025\n\rclien" +
-      "tVersion\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMes" +
-      "sage.AuthMessageH\000\0221\n\007friends\030\003 \001(\0132\036.cl" +
-      "ientMessage.FriendsResponseH\000B\t\n\007message" +
-      "*p\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004" +
-      "RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHI" +
-      "C\020\005\022\013\n\007SPECIAL\020\006\022\020\n\014VERY_SPECIAL\020\007B8\n\035cl" +
-      "ub.thom.tem.models.messagesZ\027protobuf/cl" +
-      "ientMessagesb\006proto3"
+      "\013AuthMessage\022\014\n\004uuid\030\001 \001(\t\",\n\020ReadyForRe" +
+      "quests\022\030\n\020numberOfRequests\030\001 \001(\r\"7\n\017Frie" +
+      "ndsResponse\022\020\n\010userUuid\030\001 \001(\t\022\022\n\nfriendU" +
+      "uid\030\002 \003(\t\"a\n\006Armour\022\016\n\006itemId\030\001 \001(\t\022\017\n\007h" +
+      "exCode\030\002 \001(\t\022%\n\006rarity\030\003 \001(\0162\025.clientMes" +
+      "sage.Rarity\022\017\n\007reforge\030\004 \001(\t\"\031\n\007PetSkin\022" +
+      "\016\n\006skinId\030\001 \001(\t\"\204\001\n\003Pet\022$\n\004skin\030\001 \001(\0132\026." +
+      "clientMessage.PetSkin\022\017\n\007candied\030\002 \001(\010\022%" +
+      "\n\006rarity\030\003 \001(\0162\025.clientMessage.Rarity\022\020\n" +
+      "\010heldItem\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\"\277\001\n\rInven" +
+      "toryItem\022\014\n\004uuid\030\001 \001(\t\022\031\n\021creationTimest" +
+      "amp\030\002 \001(\t\022!\n\003pet\030\003 \001(\0132\022.clientMessage.P" +
+      "etH\000\022)\n\007petSkin\030\004 \001(\0132\026.clientMessage.Pe" +
+      "tSkinH\000\022,\n\013armourPiece\030\005 \001(\0132\025.clientMes" +
+      "sage.ArmourH\000B\t\n\007message\"T\n\021InventoryRes" +
+      "ponse\022\022\n\nplayerUuid\030\001 \001(\t\022+\n\005items\030\002 \003(\013" +
+      "2\034.clientMessage.InventoryItem\"\222\001\n\010Respo" +
+      "nse\022\r\n\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132" +
+      "\036.clientMessage.FriendsResponseH\000\0225\n\tinv" +
+      "entory\030\003 \001(\0132 .clientMessage.InventoryRe" +
+      "sponseH\000B\t\n\007message\"\311\001\n\rClientMessage\022\025\n" +
+      "\rclientVersion\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.cli" +
+      "entMessage.AuthMessageH\000\0221\n\007friends\030\003 \001(" +
+      "\0132\036.clientMessage.FriendsResponseH\000\0227\n\014m" +
+      "oreRequests\030\004 \001(\0132\037.clientMessage.ReadyF" +
+      "orRequestsH\000B\t\n\007message*p\n\006Rarity\022\n\n\006COM" +
+      "MON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022" +
+      "\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\013\n\007SPECIAL\020\006\022" +
+      "\020\n\014VERY_SPECIAL\020\007B8\n\035club.thom.tem.model" +
+      "s.messagesZ\027protobuf/clientMessagesb\006pro" +
+      "to3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -9394,54 +10139,60 @@ public final class ClientMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_AuthMessage_descriptor,
         new java.lang.String[] { "Uuid", });
-    internal_static_clientMessage_FriendsResponse_descriptor =
+    internal_static_clientMessage_ReadyForRequests_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_clientMessage_ReadyForRequests_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_clientMessage_ReadyForRequests_descriptor,
+        new java.lang.String[] { "NumberOfRequests", });
+    internal_static_clientMessage_FriendsResponse_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_clientMessage_FriendsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_FriendsResponse_descriptor,
         new java.lang.String[] { "UserUuid", "FriendUuid", });
     internal_static_clientMessage_Armour_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_clientMessage_Armour_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Armour_descriptor,
         new java.lang.String[] { "ItemId", "HexCode", "Rarity", "Reforge", });
     internal_static_clientMessage_PetSkin_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_clientMessage_PetSkin_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_PetSkin_descriptor,
         new java.lang.String[] { "SkinId", });
     internal_static_clientMessage_Pet_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_clientMessage_Pet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Pet_descriptor,
         new java.lang.String[] { "Skin", "Candied", "Rarity", "HeldItem", "Level", });
     internal_static_clientMessage_InventoryItem_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_clientMessage_InventoryItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_InventoryItem_descriptor,
         new java.lang.String[] { "Uuid", "CreationTimestamp", "Pet", "PetSkin", "ArmourPiece", "Message", });
     internal_static_clientMessage_InventoryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_clientMessage_InventoryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_InventoryResponse_descriptor,
         new java.lang.String[] { "PlayerUuid", "Items", });
     internal_static_clientMessage_Response_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_clientMessage_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Response_descriptor,
         new java.lang.String[] { "Nonce", "FriendsList", "Inventory", "Message", });
     internal_static_clientMessage_ClientMessage_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_clientMessage_ClientMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_ClientMessage_descriptor,
-        new java.lang.String[] { "ClientVersion", "Auth", "Friends", "Message", });
+        new java.lang.String[] { "ClientVersion", "Auth", "Friends", "MoreRequests", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

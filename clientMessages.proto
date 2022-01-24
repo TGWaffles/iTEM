@@ -9,6 +9,11 @@ message AuthMessage {
   string uuid = 1;
 }
 
+message ReadyForRequests {
+  // Ideally, the rate limit of the client remaining.
+  uint32 numberOfRequests = 1;
+}
+
 message FriendsResponse {
   // Origin player uuid
   string userUuid = 1;
@@ -92,5 +97,6 @@ message ClientMessage {
   oneof message {
     AuthMessage auth = 2;
     FriendsResponse friends = 3;
+    ReadyForRequests moreRequests = 4;
   }
 }
