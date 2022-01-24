@@ -2,6 +2,7 @@ package club.thom.tem.helpers;
 
 import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,11 @@ public class TestKeyFetcher {
         // Tell it where the configs are
         KeyFetcher.neuFolder = neuConfigDir;
         KeyFetcher.skytilsFolder = skytilsConfigDir;
+    }
+
+    @After
+    public void after() {
+        TestHelper.cleanUp();
     }
 
     @Test

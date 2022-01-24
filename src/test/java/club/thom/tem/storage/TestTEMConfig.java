@@ -2,6 +2,7 @@ package club.thom.tem.storage;
 
 import club.thom.tem.TEM;
 import club.thom.tem.helpers.TestHelper;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,11 @@ public class TestTEMConfig {
     public void setup() throws NoSuchFieldException, IllegalAccessException {
         TestHelper.setupTEMConfigAndMainClass();
         TestHelper.startRequestsLoop();
+    }
+
+    @After
+    public void after() {
+        TestHelper.cleanUp();
     }
 
     @Test
