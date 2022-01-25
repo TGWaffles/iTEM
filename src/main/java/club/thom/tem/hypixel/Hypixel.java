@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.*;
 
 /**
@@ -141,13 +142,15 @@ public class Hypixel {
                 List<CompletableFuture<?>> requestFutures = new ArrayList<>();
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
-                    while (!hasValidApiKey && !(requestQueue.peek() instanceof KeyLookupRequest)) {
+                    Request peekedRequest = requestQueue.peek();
+                    while (!hasValidApiKey && !(peekedRequest instanceof KeyLookupRequest)) {
                         logger.info("API key is invalid. Waiting for new API key.");
-                        logger.info("request queue contains: " + requestQueue.peek());
-                        logger.info("future is: " + requestQueue.peek().getFuture());
+                        logger.info("request queue contains: " + peekedRequest);
+                        logger.info("future is: " + peekedRequest);
                         waitingForItemLock.lock();
                         try {
-                            newItemInQueue.await();
+                            //noinspection ResultOfMethodCallIgnored
+                            newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
                         } finally {
                             waitingForItemLock.unlock();
                         }
