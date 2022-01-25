@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -61,8 +62,14 @@ public abstract class Request {
             uc.addRequestProperty("User-Agent",
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
             status = uc.getResponseCode();
+            InputStream inputStream;
+            if (status != 200) {
+                inputStream = uc.getErrorStream();
+            } else {
+                inputStream = uc.getInputStream();
+            }
             logger.debug("Parsing data from url: {}, params: {}", urlString, params);
-            jsonData = new JsonParser().parse(new InputStreamReader(uc.getInputStream())).getAsJsonObject();
+            jsonData = new JsonParser().parse(new InputStreamReader(inputStream)).getAsJsonObject();
             RequestData data = new RequestData(status, uc.getHeaderFields(), jsonData);
             logger.debug("Successfully parsed data from url: {}, params: {} -- data: {}", urlString, params, jsonData);
             return data;
@@ -112,7 +119,7 @@ public abstract class Request {
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();
             return null;
-        } else if (returnedData.getStatus() == 403) {
+        } else if (returnedData.getStatus() == 403 && !(this instanceof KeyLookupRequest)) {
             // API Key is now invalid.
             controller.hasValidApiKey = false;
             TEMConfig.setHypixelKey("");
