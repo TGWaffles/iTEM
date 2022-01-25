@@ -161,7 +161,44 @@ test {
     finalizedBy jacocoTestReport
 }
 
+task instrument(dependsOn: [classes, project.configurations.jacocoAnt]) {
+
+    inputs.files classes.outputs.files
+    File outputDir = new File(project.buildDir, 'instrumentedClasses')
+    outputs.dir outputDir
+    doFirst {
+        project.delete(outputDir)
+        ant.taskdef(
+                resource: 'org/jacoco/ant/antlib.xml',
+                classpath: project.configurations.jacocoAnt.asPath,
+                uri: 'jacoco'
+        )
+        def instrumented = false
+        if (file(sourceSets.main.java.outputDir).exists()) {
+            def instrumentedClassedDir = "${outputDir}/${sourceSets.main.java}"
+            ant.'jacoco:instrument'(destdir: instrumentedClassedDir) {
+                fileset(dir: sourceSets.main.java.outputDir, includes: '**/*.class')
+            }
+            //Replace the classes dir in the test classpath with the instrumented one
+            sourceSets.test.runtimeClasspath -= files(sourceSets.main.java.outputDir)
+            sourceSets.test.runtimeClasspath += files(instrumentedClassedDir)
+            instrumented = true
+        }
+        if (instrumented) {
+            test.jvmArgs += '-noverify'
+        }
+    }
+}
+
+test.dependsOn instrument
+
 jacocoTestReport {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            // These are generated methods.
+            fileTree(dir: it, exclude: 'club/thom/tem/models/messages/**')
+        }))
+    }
     dependsOn test
 }
 
