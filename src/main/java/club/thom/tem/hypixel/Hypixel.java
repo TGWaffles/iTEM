@@ -141,26 +141,25 @@ public class Hypixel {
                 }
                 List<CompletableFuture<?>> requestFutures = new ArrayList<>();
                 // Executes these requests until we run out of rateLimit.
-                for (int i = 0; i < rateLimit; i++) {
-                    Request peekedRequest = requestQueue.peek();
-                    while (!hasValidApiKey && !(peekedRequest instanceof KeyLookupRequest)) {
-                        logger.info("API key is invalid. Waiting for new API key.");
-                        logger.info("request queue contains: " + peekedRequest);
-                        logger.info("future is: " + peekedRequest);
-                        waitingForItemLock.lock();
-                        try {
-                            //noinspection ResultOfMethodCallIgnored
-                            newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
-                        } finally {
-                            waitingForItemLock.unlock();
+                if (requestQueue.size() > 0) {
+                    for (int i = 0; i < rateLimit; i++) {
+                        while (!hasValidApiKey && !(requestQueue.peek() instanceof KeyLookupRequest)) {
+                            logger.info("API key is invalid. Waiting for new API key.");
+                            waitingForItemLock.lock();
+                            try {
+                                //noinspection ResultOfMethodCallIgnored
+                                newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
+                            } finally {
+                                waitingForItemLock.unlock();
+                            }
                         }
+                        // Blocking operation. This whole for loop could take minutes to complete, so we need to make sure
+                        // we haven't passed the resetTime afterwards.
+                        Request request = requestQueue.take();
+                        // So we can wait for all items to complete before spinning next request set up.
+                        requestFutures.add(request.getCompletionFuture());
+                        new Thread(request::makeRequest).start();
                     }
-                    // Blocking operation. This whole for loop could take minutes to complete, so we need to make sure
-                    // we haven't passed the resetTime afterwards.
-                    Request request = requestQueue.take();
-                    // So we can wait for all items to complete before spinning next request set up.
-                    requestFutures.add(request.getCompletionFuture());
-                    new Thread(request::makeRequest).start();
                 }
 
                 // Now we're out of the for loop, we must have run out of requests.
