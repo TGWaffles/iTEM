@@ -143,6 +143,8 @@ public class Hypixel {
                 for (int i = 0; i < rateLimit; i++) {
                     while (!hasValidApiKey && !(requestQueue.peek() instanceof KeyLookupRequest)) {
                         logger.info("API key is invalid. Waiting for new API key.");
+                        logger.info("request queue contains: " + requestQueue.peek());
+                        logger.info("future is: " + requestQueue.peek().getFuture());
                         waitingForItemLock.lock();
                         try {
                             newItemInQueue.await();
