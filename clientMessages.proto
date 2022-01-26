@@ -80,8 +80,9 @@ message InventoryItem {
 message InventoryResponse {
   // UUID of player
   string playerUuid = 1;
+  string profileUuid = 2;
   // Includes pet menu, all items, etc
-  repeated InventoryItem items = 2;
+  repeated InventoryItem items = 3;
 }
 
 message Response {
