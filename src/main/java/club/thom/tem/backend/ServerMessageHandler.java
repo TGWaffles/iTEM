@@ -106,7 +106,9 @@ public class ServerMessageHandler extends WebSocketAdapter {
     }
 
     private void handleRequest(WebSocket socket, RequestMessage request) {
+        logger.debug("Received request");
         if (request.hasFriendRequest()) {
+            logger.debug("it's a friends request");
             // Origin player uuid
             String uuid = request.getFriendRequest().getUuid();
             FriendsListRequest friendRequest = new FriendsListRequest(uuid, TEM.api);

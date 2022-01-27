@@ -95,7 +95,7 @@ public class Hypixel {
             // Time that the next reset is reported to be. (with 500ms added, to account for rounding)
             long nextResetTimeMillis = System.currentTimeMillis() + rateLimitResetSeconds * 1000L + 500;
             // If the next limit reset time is greater than the current reset time + 1s (to account for latency), trust it.
-            if (rateLimitResetSeconds > rateLimitResetTime + 1000) {
+            if (nextResetTimeMillis > rateLimitResetTime + 1000) {
                 rateLimitResetTime = nextResetTimeMillis;
                 remainingRateLimit = remaining;
                 logger.debug("New rate limit successfully set: {} for the next {} seconds.", remaining, rateLimitResetSeconds);
@@ -103,8 +103,8 @@ public class Hypixel {
             }
             // If not, this is for the same time as is possibly already set, so make sure we're only decreasing the
             // rate limit remaining.
-            if (remainingRateLimit > remaining) {
-                logger.debug("New rate limit unsuccessfully set, old ({}) was larger than new ({})",
+            if (remainingRateLimit < remaining) {
+                logger.debug("New rate limit unsuccessfully set, old ({}) was less than new ({})",
                         remainingRateLimit, remaining);
                 return;
             }
@@ -148,6 +148,9 @@ public class Hypixel {
                             logger.info("API key is invalid. Waiting for new API key.");
                             //noinspection ResultOfMethodCallIgnored
                             newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
+                            if (rateLimitResetTime < System.currentTimeMillis()) {
+                                setRateLimitRemaining(120, 5);
+                            }
                         }
                     } finally {
                         waitingForItemLock.unlock();
@@ -166,14 +169,15 @@ public class Hypixel {
 
                 // If we *did* successfully exhaust all requests, wait the given time.
                 if (getRateLimit() == 0) {
-                    if (rateLimitResetTime < System.currentTimeMillis()) {
+                    long sleepTime = System.currentTimeMillis() - rateLimitResetTime;
+                    if (sleepTime <= 0) {
                         // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
-                        setRateLimitRemaining(1, -1);
+                        setRateLimitRemaining(1, 5);
                         continue;
                     }
                     // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
                     //noinspection BusyWait
-                    Thread.sleep(System.currentTimeMillis() - rateLimitResetTime);
+                    Thread.sleep(sleepTime);
                     // Sets the next resetTime as 60 seconds in the future.
                     setRateLimitRemaining(120, 60);
                     continue;
