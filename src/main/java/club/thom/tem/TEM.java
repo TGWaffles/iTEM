@@ -69,7 +69,7 @@ public class TEM {
 
         FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
                 null, null, null, null, null, null, null, null);
-        rootLoggerConfig.addAppender(fa, Level.DEBUG, null);
+        rootLoggerConfig.addAppender(fa, Level.ALL, null);
     }
 
     @Mod.EventHandler
@@ -88,7 +88,11 @@ public class TEM {
 
     public static String getUUID() {
         waitForPlayer();
-        return EntityPlayer.getUUID(Minecraft.getMinecraft().thePlayer.getGameProfile()).toString().replaceAll("-", "");
+        String uuid = EntityPlayer.getUUID(Minecraft.getMinecraft().thePlayer.getGameProfile()).toString().replaceAll("-", "");
+        if (uuid.equals("")) {
+            return getUUID();
+        }
+        return uuid;
     }
 
     /**
@@ -96,6 +100,7 @@ public class TEM {
      */
     public static void reconnectSocket(long after) {
         if (!socketWorking) {
+            logger.info("Attempted to reconnect to socket but it has been disabled!");
             return;
         }
         try {
@@ -105,8 +110,11 @@ public class TEM {
         }
         WebSocket socket;
         try {
+            logger.info("Connecting to socket!");
             socket = wsFactory.createSocket("ws://localhost:6123", 5000);
+            logger.info("Connected!");
             socket.addListener(new ServerMessageHandler());
+            socket.connectAsynchronously();
         } catch (IOException e) {
             logger.error("Error setting up socket", e);
             reconnectSocket((long) (after * 1.25));

@@ -12,12 +12,15 @@ import java.util.concurrent.CompletableFuture;
 
 public class FriendsListRequest extends Request {
     CompletableFuture<List<String>> future = new CompletableFuture<>();
+    final String uuid;
 
     public FriendsListRequest(String uuid, Hypixel controller) {
-        super("friends", generateParameters(uuid), controller);
+        super("friends", controller);
+        this.uuid = uuid;
     }
 
-    public static HashMap<String, String> generateParameters(String uuid) {
+    @Override
+    public HashMap<String, String> generateParameters() {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("uuid", uuid);
         parameters.put("key", TEMConfig.getHypixelKey());

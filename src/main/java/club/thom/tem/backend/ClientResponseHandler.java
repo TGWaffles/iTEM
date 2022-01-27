@@ -78,6 +78,7 @@ public class ClientResponseHandler {
             return;
         }
         String uuid = TEM.getUUID();
+        logger.info("Sending Auth with uuid: \"" + uuid + "\"");
         AuthMessage.Builder auth = AuthMessage.newBuilder().setUuid(uuid);
         ClientMessage message = ClientMessage.newBuilder().setAuth(auth).setClientVersion(
                 TEM.CLIENT_VERSION).build();

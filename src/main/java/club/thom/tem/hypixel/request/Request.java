@@ -27,27 +27,26 @@ public abstract class Request {
     private static final Logger logger = LoggerFactory.getLogger(Request.class);
     protected Hypixel controller;
     protected final String endpoint;
-    protected final HashMap<String, String> parameters;
     public final boolean priority;
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
     // Hypixel API
     protected final String apiUrl = "https://api.hypixel.net/";
 
-    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller, boolean runAsap) {
+    public Request(String endpoint, Hypixel controller, boolean runAsap) {
         // Hypixel class, so we can communicate and update rate-limit data, etc.
         this.controller = controller;
         // To be appended to the apiUrl (no preceding /)
         this.endpoint = endpoint;
-        // Parameters, eg user to look-up, api key, etc.
-        this.parameters = parameters;
-        // So that operations can wait for this to complete.
         // Run it as soon as we have a "rate-limit spot" available.
         this.priority = runAsap;
     }
 
-    public Request(String endpoint, HashMap<String, String> parameters, Hypixel controller) {
-        this(endpoint, parameters, controller, false);
+    public Request(String endpoint, Hypixel controller) {
+        this(endpoint, controller, false);
     }
+
+    // Parameters, eg user to look-up, api key, etc.
+    protected abstract HashMap<String, String> generateParameters();
 
     private static RequestData requestToReturnedData(String urlString, HashMap<String, String> params) {
         logger.debug("Creating request to url: {}, params: {}", urlString, params);
@@ -97,6 +96,7 @@ public abstract class Request {
         urlBuilder.append(apiUrl);
         urlBuilder.append(endpoint);
         urlBuilder.append("?");
+        HashMap<String, String> parameters = generateParameters();
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             urlBuilder.append(entry.getKey());
             urlBuilder.append('=');
