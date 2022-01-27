@@ -100,7 +100,7 @@ public abstract class Request {
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             urlBuilder.append(entry.getKey());
             urlBuilder.append('=');
-            urlBuilder.append(entry.getKey());
+            urlBuilder.append(entry.getValue());
             urlBuilder.append('&');
         }
         if (urlBuilder.charAt(urlBuilder.length() - 1) == '&') {
