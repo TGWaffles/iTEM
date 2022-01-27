@@ -64,7 +64,7 @@ public class ClientResponseHandler {
             return;
         }
         int requestsAble = TEM.api.getRateLimit() - TEM.api.getQueueSize();
-        if (requestsAble == 0) {
+        if (requestsAble <= 0) {
             return;
         }
         logger.debug("Requests Able: {}", requestsAble);
