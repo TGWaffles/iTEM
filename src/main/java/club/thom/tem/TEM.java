@@ -19,6 +19,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,12 +61,25 @@ public class TEM {
         return clientVersion;
     }
 
+    private static void setUpLogging() {
+        LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
+
+        Configuration configuration = loggerContext.getConfiguration();
+        LoggerConfig rootLoggerConfig = configuration.getLoggerConfig("");
+
+        FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
+                null, null, null, null, null, null, null, null);
+        rootLoggerConfig.addAppender(fa, Level.DEBUG, null);
+    }
+
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        setUpLogging();
+        logger.info("Initialising TEM");
+        api = new Hypixel();
         config.initialize();
         new Thread(() -> reconnectSocket(100)).start();
         // Create global API/rate-limit handler
-        api = new Hypixel();
         // Start the requests loop
         new Thread(api::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
@@ -86,7 +105,7 @@ public class TEM {
         }
         WebSocket socket;
         try {
-            socket = wsFactory.createSocket("wss://tem-backend.thom.club", 5000);
+            socket = wsFactory.createSocket("ws://localhost:6123", 5000);
             socket.addListener(new ServerMessageHandler());
         } catch (IOException e) {
             logger.error("Error setting up socket", e);
