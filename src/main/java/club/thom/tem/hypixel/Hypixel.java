@@ -168,7 +168,7 @@ public class Hypixel {
                 if (getRateLimit() == 0) {
                     if (rateLimitResetTime < System.currentTimeMillis()) {
                         // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
-                        setRateLimitRemaining(1, 60);
+                        setRateLimitRemaining(1, -1);
                         continue;
                     }
                     // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.

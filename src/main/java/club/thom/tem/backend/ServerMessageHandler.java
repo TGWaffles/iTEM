@@ -32,6 +32,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
     public void onDisconnected(WebSocket websocket,
                                WebSocketFrame serverCloseFrame, WebSocketFrame clientCloseFrame,
                                boolean closedByServer) {
+        logger.info("Disconnected from socket; was closed by server: {}", closedByServer);
         // Reconnects after 1 second.
         TEM.reconnectSocket(1000);
     }

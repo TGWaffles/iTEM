@@ -7,6 +7,7 @@ import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.storage.TEMConfig;
 import com.neovisionaries.ws.client.WebSocket;
+import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,10 +16,13 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
@@ -29,6 +33,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.UUID;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Mod(modid = TEM.MOD_ID, version = TEM.VERSION, certificateFingerprint = TEM.SIGNATURE)
 public class TEM {
@@ -44,6 +52,9 @@ public class TEM {
     private static final Logger logger = LoggerFactory.getLogger(TEM.class);
     public static Hypixel api;
     public static boolean socketWorking = true;
+    public static String uuid = null;
+    private static final Lock lock = new ReentrantLock();
+    private static final Condition waitForUuid = lock.newCondition();
     private static final WebSocketFactory wsFactory = new WebSocketFactory();
 
     public static void forceSaveConfig() {
@@ -84,14 +95,39 @@ public class TEM {
         new Thread(api::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
+    public void onServerConnect(EntityJoinWorldEvent ignored) {
+        new Thread(() -> checkAndUpdateUUID(true)).start();
+    }
+
+    private void checkAndUpdateUUID(boolean firstTry) {
+        UUID possibleUuid = Minecraft.getMinecraft().thePlayer.getGameProfile().getId();
+        if (possibleUuid != null) {
+            uuid = possibleUuid.toString().replaceAll("-", "");
+            lock.lock();
+            try {
+                waitForUuid.signalAll();
+            } finally {
+                lock.unlock();
+            }
+            return;
+        }
+        logger.info("UUID was null...");
+        if (firstTry) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            checkAndUpdateUUID(false);
+        }
     }
 
     public static String getUUID() {
         waitForPlayer();
-        String uuid = EntityPlayer.getUUID(Minecraft.getMinecraft().thePlayer.getGameProfile()).toString().replaceAll("-", "");
-        if (uuid.equals("")) {
-            return getUUID();
-        }
         return uuid;
     }
 
@@ -114,8 +150,8 @@ public class TEM {
             socket = wsFactory.createSocket("ws://localhost:6123", 5000);
             logger.info("Connected!");
             socket.addListener(new ServerMessageHandler());
-            socket.connectAsynchronously();
-        } catch (IOException e) {
+            socket.connect();
+        } catch (IOException | WebSocketException e) {
             logger.error("Error setting up socket", e);
             reconnectSocket((long) (after * 1.25));
         }
@@ -127,19 +163,15 @@ public class TEM {
     }
 
     public static void waitForPlayer() {
-        while (Minecraft.getMinecraft().thePlayer == null) {
-            try {
-                /*
-                    Technically, this is a busy-wait. You shouldn't do that, but I can't edit
-                    forge code to broadcast when thePlayer is null. 500ms should be a long enough time
-                    to never affect performance.
-                */
-                //noinspection BusyWait
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return;
+        lock.lock();
+        try {
+            while (uuid == null) {
+                waitForUuid.await();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
         }
     }
 

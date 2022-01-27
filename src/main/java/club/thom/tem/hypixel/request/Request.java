@@ -149,16 +149,14 @@ public abstract class Request {
     // Run this::sendRequest
     public abstract void makeRequest();
 
-    @SuppressWarnings("SpellCheckingInspection")
     private static int getRateLimitRemaining(Map<String, List<String>> headers) {
-        return getIntegerHeader(headers, "ratelimit-remaining");
+        return getIntegerHeader(headers, "RateLimit-Remaining");
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     private static int getNextResetSeconds(Map<String, List<String>> headers) {
-        int resetSeconds = getIntegerHeader(headers, "ratelimit-reset");
+        int resetSeconds = getIntegerHeader(headers, "RateLimit-Reset");
         if (resetSeconds == -1) {
-            resetSeconds = getIntegerHeader(headers, "retry-after");
+            resetSeconds = getIntegerHeader(headers, "Retry-After");
         }
         return resetSeconds;
     }
@@ -166,6 +164,7 @@ public abstract class Request {
     private static int getIntegerHeader(Map<String, List<String>> headers, String headerName) {
         if (!headers.containsKey(headerName)) {
             logger.debug("Request had no {} header.", headerName);
+            logger.debug("Headers: {}", String.join(", ", headers.keySet()));
             return -1;
         }
         List<String> headerData = headers.get(headerName);

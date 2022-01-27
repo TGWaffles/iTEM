@@ -67,6 +67,7 @@ public class ClientResponseHandler {
         if (requestsAble == 0) {
             return;
         }
+        logger.debug("Requests Able: {}", requestsAble);
         ReadyForRequests.Builder readyForRequests = ReadyForRequests.newBuilder().setNumberOfRequests(requestsAble);
         ClientMessage message = ClientMessage.newBuilder().setMoreRequests(readyForRequests).setClientVersion(
                 TEM.CLIENT_VERSION).build();
