@@ -68,8 +68,8 @@ message Pet {
 message InventoryItem {
   // Can be blank if the item doesn't have a UUID
   string uuid = 1;
-  // Can be blank if the item doesn't have a creation timestamp
-  string creationTimestamp = 2;
+  // Can be -1 if the item doesn't have a creation timestamp
+  int64 creationTimestamp = 2;
   oneof message {
     Pet pet = 3;
     PetSkin petSkin = 4;
