@@ -2,6 +2,7 @@ package club.thom.tem;
 
 import club.thom.tem.backend.ServerMessageHandler;
 import club.thom.tem.commands.TEMCommand;
+import club.thom.tem.helpers.ItemHelper;
 import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
@@ -10,7 +11,6 @@ import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
@@ -40,6 +40,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @Mod(modid = TEM.MOD_ID, version = TEM.VERSION, certificateFingerprint = TEM.SIGNATURE)
 public class TEM {
+    private static final Logger logger = LoggerFactory.getLogger(TEM.class);
+
     public static final String MOD_ID = "TEM";
     // This is replaced by build.gradle with the real version name
     public static final String VERSION = "@@VERSION@@";
@@ -49,13 +51,16 @@ public class TEM {
     public static final int CLIENT_VERSION = clientVersionFromVersion();
 
     public static TEMConfig config = new TEMConfig();
-    private static final Logger logger = LoggerFactory.getLogger(TEM.class);
     public static Hypixel api;
     public static boolean socketWorking = true;
     public static String uuid = null;
+
+    public static ItemHelper items = new ItemHelper();
+
     private static final Lock lock = new ReentrantLock();
     private static final Condition waitForUuid = lock.newCondition();
     private static final WebSocketFactory wsFactory = new WebSocketFactory();
+
 
     public static void forceSaveConfig() {
         config.markDirty();
