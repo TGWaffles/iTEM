@@ -5689,23 +5689,13 @@ public final class ClientMessages {
 
     /**
      * <pre>
-     * Can be blank if the item doesn't have a creation timestamp
+     * Can be -1 if the item doesn't have a creation timestamp
      * </pre>
      *
-     * <code>string creationTimestamp = 2;</code>
+     * <code>int64 creationTimestamp = 2;</code>
      * @return The creationTimestamp.
      */
-    java.lang.String getCreationTimestamp();
-    /**
-     * <pre>
-     * Can be blank if the item doesn't have a creation timestamp
-     * </pre>
-     *
-     * <code>string creationTimestamp = 2;</code>
-     * @return The bytes for creationTimestamp.
-     */
-    com.google.protobuf.ByteString
-        getCreationTimestampBytes();
+    long getCreationTimestamp();
 
     /**
      * <code>.clientMessage.Pet pet = 3;</code>
@@ -5768,7 +5758,6 @@ public final class ClientMessages {
     }
     private InventoryItem() {
       uuid_ = "";
-      creationTimestamp_ = "";
     }
 
     @java.lang.Override
@@ -5807,10 +5796,9 @@ public final class ClientMessages {
               uuid_ = s;
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 16: {
 
-              creationTimestamp_ = s;
+              creationTimestamp_ = input.readInt64();
               break;
             }
             case 26: {
@@ -5977,49 +5965,18 @@ public final class ClientMessages {
     }
 
     public static final int CREATIONTIMESTAMP_FIELD_NUMBER = 2;
-    private volatile java.lang.Object creationTimestamp_;
+    private long creationTimestamp_;
     /**
      * <pre>
-     * Can be blank if the item doesn't have a creation timestamp
+     * Can be -1 if the item doesn't have a creation timestamp
      * </pre>
      *
-     * <code>string creationTimestamp = 2;</code>
+     * <code>int64 creationTimestamp = 2;</code>
      * @return The creationTimestamp.
      */
     @java.lang.Override
-    public java.lang.String getCreationTimestamp() {
-      java.lang.Object ref = creationTimestamp_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        creationTimestamp_ = s;
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     * Can be blank if the item doesn't have a creation timestamp
-     * </pre>
-     *
-     * <code>string creationTimestamp = 2;</code>
-     * @return The bytes for creationTimestamp.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getCreationTimestampBytes() {
-      java.lang.Object ref = creationTimestamp_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        creationTimestamp_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getCreationTimestamp() {
+      return creationTimestamp_;
     }
 
     public static final int PET_FIELD_NUMBER = 3;
@@ -6132,8 +6089,8 @@ public final class ClientMessages {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(uuid_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, uuid_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(creationTimestamp_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, creationTimestamp_);
+      if (creationTimestamp_ != 0L) {
+        output.writeInt64(2, creationTimestamp_);
       }
       if (messageCase_ == 3) {
         output.writeMessage(3, (club.thom.tem.models.messages.ClientMessages.Pet) message_);
@@ -6156,8 +6113,9 @@ public final class ClientMessages {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(uuid_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, uuid_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(creationTimestamp_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, creationTimestamp_);
+      if (creationTimestamp_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, creationTimestamp_);
       }
       if (messageCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
@@ -6188,8 +6146,8 @@ public final class ClientMessages {
 
       if (!getUuid()
           .equals(other.getUuid())) return false;
-      if (!getCreationTimestamp()
-          .equals(other.getCreationTimestamp())) return false;
+      if (getCreationTimestamp()
+          != other.getCreationTimestamp()) return false;
       if (!getMessageCase().equals(other.getMessageCase())) return false;
       switch (messageCase_) {
         case 3:
@@ -6221,7 +6179,8 @@ public final class ClientMessages {
       hash = (37 * hash) + UUID_FIELD_NUMBER;
       hash = (53 * hash) + getUuid().hashCode();
       hash = (37 * hash) + CREATIONTIMESTAMP_FIELD_NUMBER;
-      hash = (53 * hash) + getCreationTimestamp().hashCode();
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCreationTimestamp());
       switch (messageCase_) {
         case 3:
           hash = (37 * hash) + PET_FIELD_NUMBER;
@@ -6373,7 +6332,7 @@ public final class ClientMessages {
         super.clear();
         uuid_ = "";
 
-        creationTimestamp_ = "";
+        creationTimestamp_ = 0L;
 
         messageCase_ = 0;
         message_ = null;
@@ -6479,9 +6438,8 @@ public final class ClientMessages {
           uuid_ = other.uuid_;
           onChanged();
         }
-        if (!other.getCreationTimestamp().isEmpty()) {
-          creationTimestamp_ = other.creationTimestamp_;
-          onChanged();
+        if (other.getCreationTimestamp() != 0L) {
+          setCreationTimestamp(other.getCreationTimestamp());
         }
         switch (other.getMessageCase()) {
           case PET: {
@@ -6640,98 +6598,45 @@ public final class ClientMessages {
         return this;
       }
 
-      private java.lang.Object creationTimestamp_ = "";
+      private long creationTimestamp_ ;
       /**
        * <pre>
-       * Can be blank if the item doesn't have a creation timestamp
+       * Can be -1 if the item doesn't have a creation timestamp
        * </pre>
        *
-       * <code>string creationTimestamp = 2;</code>
+       * <code>int64 creationTimestamp = 2;</code>
        * @return The creationTimestamp.
        */
-      public java.lang.String getCreationTimestamp() {
-        java.lang.Object ref = creationTimestamp_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          creationTimestamp_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      @java.lang.Override
+      public long getCreationTimestamp() {
+        return creationTimestamp_;
       }
       /**
        * <pre>
-       * Can be blank if the item doesn't have a creation timestamp
+       * Can be -1 if the item doesn't have a creation timestamp
        * </pre>
        *
-       * <code>string creationTimestamp = 2;</code>
-       * @return The bytes for creationTimestamp.
-       */
-      public com.google.protobuf.ByteString
-          getCreationTimestampBytes() {
-        java.lang.Object ref = creationTimestamp_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          creationTimestamp_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       * Can be blank if the item doesn't have a creation timestamp
-       * </pre>
-       *
-       * <code>string creationTimestamp = 2;</code>
+       * <code>int64 creationTimestamp = 2;</code>
        * @param value The creationTimestamp to set.
        * @return This builder for chaining.
        */
-      public Builder setCreationTimestamp(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+      public Builder setCreationTimestamp(long value) {
+        
         creationTimestamp_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * Can be blank if the item doesn't have a creation timestamp
+       * Can be -1 if the item doesn't have a creation timestamp
        * </pre>
        *
-       * <code>string creationTimestamp = 2;</code>
+       * <code>int64 creationTimestamp = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearCreationTimestamp() {
         
-        creationTimestamp_ = getDefaultInstance().getCreationTimestamp();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * Can be blank if the item doesn't have a creation timestamp
-       * </pre>
-       *
-       * <code>string creationTimestamp = 2;</code>
-       * @param value The bytes for creationTimestamp to set.
-       * @return This builder for chaining.
-       */
-      public Builder setCreationTimestampBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        creationTimestamp_ = value;
+        creationTimestamp_ = 0L;
         onChanged();
         return this;
       }
@@ -11061,7 +10966,7 @@ public final class ClientMessages {
       "\030\003 \001(\0162\025.clientMessage.Rarity\022\020\n\010heldIte" +
       "m\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\"\277\001\n\rInventoryItem" +
       "\022\014\n\004uuid\030\001 \001(\t\022\031\n\021creationTimestamp\030\002 \001(" +
-      "\t\022!\n\003pet\030\003 \001(\0132\022.clientMessage.PetH\000\022)\n\007" +
+      "\003\022!\n\003pet\030\003 \001(\0132\022.clientMessage.PetH\000\022)\n\007" +
       "petSkin\030\004 \001(\0132\026.clientMessage.PetSkinH\000\022" +
       ",\n\013armourPiece\030\005 \001(\0132\025.clientMessage.Arm" +
       "ourH\000B\t\n\007message\"i\n\021InventoryResponse\022\022\n" +
