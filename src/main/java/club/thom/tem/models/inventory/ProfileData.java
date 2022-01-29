@@ -57,8 +57,16 @@ public class ProfileData {
     private List<ClientMessages.InventoryItem> getPetsMenuItems() {
         List<ClientMessages.InventoryItem> pets = new ArrayList<>();
         JsonObject playerProfile = profileAsJson.get("members").getAsJsonObject().get(playerUuid).getAsJsonObject();
+        if (!playerProfile.has("pets") || playerProfile.get("pets").isJsonNull()) {
+            return pets;
+        }
+        PetData pet;
         for (JsonElement element : playerProfile.getAsJsonArray("pets")) {
-            pets.add(new PetData(element.getAsJsonObject()).toInventoryItem());
+            pet = new PetData(element.getAsJsonObject());
+            if (pet.getSkin() == null) {
+                continue;
+            }
+            pets.add(pet.toInventoryItem());
         }
         return pets;
     }

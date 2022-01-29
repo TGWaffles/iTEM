@@ -36,7 +36,7 @@ public class PetData extends InventoryItemData {
         if (petJson.has("uuid") && !petJson.get("uuid").isJsonNull()) {
             return petJson.get("uuid").getAsString();
         }
-        String fakeUuid = petJson.get("type") + "_+_" + getRarity().toString();
+        String fakeUuid = petJson.get("type").getAsString() + "_+_" + getRarity().toString();
         if (petJson.has("skin") && !petJson.get("skin").isJsonNull()) {
             fakeUuid += "_+_" + petJson.get("skin").getAsString();
         }
@@ -62,8 +62,8 @@ public class PetData extends InventoryItemData {
         return petJson.get("candyUsed").getAsInt() > 0;
     }
 
-    private PetSkin getSkin() {
-        if (!petJson.has("skin")) {
+    public PetSkin getSkin() {
+        if (!petJson.has("skin") || petJson.get("skin").isJsonNull()) {
             return null;
         }
         return new PetSkinData(petJson.get("skin").getAsString()).toPetSkinMessage();
@@ -109,6 +109,11 @@ public class PetData extends InventoryItemData {
     }
 
     public static boolean isValidItem(NBTTagCompound itemData) {
-        return itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("id").equals("PET");
+        NBTTagCompound extraAttributes = itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes");
+        if (!extraAttributes.getString("id").equals("PET")) {
+            return false;
+        }
+        JsonObject jsonData = new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject();
+        return jsonData.has("skin") && !jsonData.get("skin").isJsonNull();
     }
 }

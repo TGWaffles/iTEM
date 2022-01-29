@@ -5,11 +5,6 @@ import club.thom.tem.models.RarityConverter;
 import club.thom.tem.models.messages.ClientMessages;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class ArmourPieceData extends InventoryItemData {
     private final NBTTagCompound itemData;
     public ArmourPieceData(NBTTagCompound itemData) {
@@ -20,7 +15,7 @@ public class ArmourPieceData extends InventoryItemData {
     public ClientMessages.InventoryItem toInventoryItem() {
         ClientMessages.Armour.Builder builder = ClientMessages.Armour.newBuilder();
         NBTTagCompound extraAttributes = getExtraAttributes();
-        String itemId = extraAttributes.getString("id");
+        String itemId = getItemId();
         builder.setItemId(itemId).setRarity(getRarity()).setReforge(getReforge()).setHexCode(getHexCode());
         return ClientMessages.InventoryItem.newBuilder().setUuid(getUuid()).
                 setArmourPiece(builder).setCreationTimestamp(getCreationTimestamp(extraAttributes.getString("timestamp"))).build();
@@ -35,8 +30,8 @@ public class ArmourPieceData extends InventoryItemData {
             return extraAttributes.getString("uuid");
         }
         // GEN_SPEED_WITHER_BOOTS_+_NECROTIC_+_MYTHIC (possibly _+_191919 for hex code)
-        String fakeUuid = "GEN=" + extraAttributes.getString("id") + "_+_" + getReforge() + "_+_" + getRarity().toString();
-        if (!convertIntArrayToHex(TEM.items.getDefaultColour(extraAttributes.getString("id"))).equals(getHexCode())) {
+        String fakeUuid = "GEN=" + getItemId() + "_+_" + getReforge() + "_+_" + getRarity().toString();
+        if (!convertIntArrayToHex(TEM.items.getDefaultColour(getItemId())).equals(getHexCode())) {
             fakeUuid += "_+_" + getHexCode();
         }
         return fakeUuid;
@@ -46,14 +41,27 @@ public class ArmourPieceData extends InventoryItemData {
         return itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes");
     }
 
-    private ClientMessages.Rarity getRarity() {
+    private String getItemId() {
         NBTTagCompound extraAttributes = getExtraAttributes();
         String itemId = extraAttributes.getString("id");
+        itemId = itemId.split(":")[0];
+        return itemId;
+    }
+
+    private ClientMessages.Rarity getRarity() {
+        NBTTagCompound extraAttributes = getExtraAttributes();
+        String itemId = getItemId();
         int upgrades = extraAttributes.getInteger("rarity_upgrades");
         ClientMessages.Rarity baseRarity = RarityConverter.getRarityFromItemId(itemId);
         assert baseRarity != null;
         for (int i = 0; i < upgrades; i++) {
             baseRarity = RarityConverter.levelUp(baseRarity);
+        }
+        if (baseRarity == null) {
+            System.out.println("ISSUE = BASERARITY IS NULL?!");
+            System.out.println(upgrades);
+            System.out.println(extraAttributes);
+            System.out.println(RarityConverter.getRarityFromItemId(itemId));
         }
         return baseRarity;
     }

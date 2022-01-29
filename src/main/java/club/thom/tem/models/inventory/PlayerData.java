@@ -26,11 +26,11 @@ public class PlayerData {
     }
 
     public void processProfiles() {
-        JsonArray jsonProfiles = jsonData.getAsJsonArray("profiles");
-        if (jsonProfiles.isJsonNull()) {
+        if (jsonData.get("profiles").isJsonNull()) {
             fillProfilesWithBlank();
             return;
         }
+        JsonArray jsonProfiles = jsonData.getAsJsonArray("profiles");
         logger.debug("Generating profiles.");
         for (JsonElement profileJson : jsonProfiles) {
             logger.debug("Starting profile");

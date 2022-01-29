@@ -114,6 +114,7 @@ public class ClientResponseHandler {
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
         socket.sendBinary(message.toByteArray());
+        logger.debug("Sent inventory response!");
     }
 
 }
