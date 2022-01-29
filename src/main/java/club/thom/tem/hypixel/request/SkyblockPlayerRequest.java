@@ -3,11 +3,14 @@ package club.thom.tem.hypixel.request;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.storage.TEMConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 public class SkyblockPlayerRequest extends Request {
+    private static final Logger logger = LoggerFactory.getLogger(SkyblockPlayerRequest.class);
     CompletableFuture<PlayerData> future = new CompletableFuture<>();
     final String uuid;
 
@@ -31,10 +34,13 @@ public class SkyblockPlayerRequest extends Request {
             return;
         }
         if (data.getStatus() == 200) {
-            // TODO:
+            logger.debug("Creating player data.");
+            PlayerData playerData = new PlayerData(data.getJson(), uuid);
+            logger.debug("Completing future...");
+            future.complete(playerData);
             return;
         }
-        // TODO: Handle other errors
+        logger.error("Error code: {} while making player request...", data.getStatus());
         future.complete(null);
     }
 
