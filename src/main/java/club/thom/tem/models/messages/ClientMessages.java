@@ -4561,6 +4561,26 @@ public final class ClientMessages {
      * @return The level.
      */
     int getLevel();
+
+    /**
+     * <pre>
+     * Type of pet
+     * </pre>
+     *
+     * <code>string name = 6;</code>
+     * @return The name.
+     */
+    java.lang.String getName();
+    /**
+     * <pre>
+     * Type of pet
+     * </pre>
+     *
+     * <code>string name = 6;</code>
+     * @return The bytes for name.
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
   }
   /**
    * Protobuf type {@code clientMessage.Pet}
@@ -4577,6 +4597,7 @@ public final class ClientMessages {
     private Pet() {
       rarity_ = 0;
       heldItem_ = "";
+      name_ = "";
     }
 
     @java.lang.Override
@@ -4642,6 +4663,12 @@ public final class ClientMessages {
             case 40: {
 
               level_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
               break;
             }
             default: {
@@ -4817,6 +4844,52 @@ public final class ClientMessages {
       return level_;
     }
 
+    public static final int NAME_FIELD_NUMBER = 6;
+    private volatile java.lang.Object name_;
+    /**
+     * <pre>
+     * Type of pet
+     * </pre>
+     *
+     * <code>string name = 6;</code>
+     * @return The name.
+     */
+    @java.lang.Override
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Type of pet
+     * </pre>
+     *
+     * <code>string name = 6;</code>
+     * @return The bytes for name.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4846,6 +4919,9 @@ public final class ClientMessages {
       if (level_ != 0) {
         output.writeInt32(5, level_);
       }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, name_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4874,6 +4950,9 @@ public final class ClientMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, level_);
       }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, name_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4901,6 +4980,8 @@ public final class ClientMessages {
           .equals(other.getHeldItem())) return false;
       if (getLevel()
           != other.getLevel()) return false;
+      if (!getName()
+          .equals(other.getName())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4925,6 +5006,8 @@ public final class ClientMessages {
       hash = (53 * hash) + getHeldItem().hashCode();
       hash = (37 * hash) + LEVEL_FIELD_NUMBER;
       hash = (53 * hash) + getLevel();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -5072,6 +5155,8 @@ public final class ClientMessages {
 
         level_ = 0;
 
+        name_ = "";
+
         return this;
       }
 
@@ -5107,6 +5192,7 @@ public final class ClientMessages {
         result.rarity_ = rarity_;
         result.heldItem_ = heldItem_;
         result.level_ = level_;
+        result.name_ = name_;
         onBuilt();
         return result;
       }
@@ -5170,6 +5256,10 @@ public final class ClientMessages {
         }
         if (other.getLevel() != 0) {
           setLevel(other.getLevel());
+        }
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5607,6 +5697,102 @@ public final class ClientMessages {
       public Builder clearLevel() {
         
         level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object name_ = "";
+      /**
+       * <pre>
+       * Type of pet
+       * </pre>
+       *
+       * <code>string name = 6;</code>
+       * @return The name.
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Type of pet
+       * </pre>
+       *
+       * <code>string name = 6;</code>
+       * @return The bytes for name.
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Type of pet
+       * </pre>
+       *
+       * <code>string name = 6;</code>
+       * @param value The name to set.
+       * @return This builder for chaining.
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Type of pet
+       * </pre>
+       *
+       * <code>string name = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearName() {
+        
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Type of pet
+       * </pre>
+       *
+       * <code>string name = 6;</code>
+       * @param value The bytes for name to set.
+       * @return This builder for chaining.
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        name_ = value;
         onChanged();
         return this;
       }
@@ -10961,32 +11147,33 @@ public final class ClientMessages {
       "\t\"a\n\006Armour\022\016\n\006itemId\030\001 \001(\t\022\017\n\007hexCode\030\002" +
       " \001(\t\022%\n\006rarity\030\003 \001(\0162\025.clientMessage.Rar" +
       "ity\022\017\n\007reforge\030\004 \001(\t\"\031\n\007PetSkin\022\016\n\006skinI" +
-      "d\030\001 \001(\t\"\204\001\n\003Pet\022$\n\004skin\030\001 \001(\0132\026.clientMe" +
+      "d\030\001 \001(\t\"\222\001\n\003Pet\022$\n\004skin\030\001 \001(\0132\026.clientMe" +
       "ssage.PetSkin\022\017\n\007candied\030\002 \001(\010\022%\n\006rarity" +
       "\030\003 \001(\0162\025.clientMessage.Rarity\022\020\n\010heldIte" +
-      "m\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\"\277\001\n\rInventoryItem" +
-      "\022\014\n\004uuid\030\001 \001(\t\022\031\n\021creationTimestamp\030\002 \001(" +
-      "\003\022!\n\003pet\030\003 \001(\0132\022.clientMessage.PetH\000\022)\n\007" +
-      "petSkin\030\004 \001(\0132\026.clientMessage.PetSkinH\000\022" +
-      ",\n\013armourPiece\030\005 \001(\0132\025.clientMessage.Arm" +
-      "ourH\000B\t\n\007message\"i\n\021InventoryResponse\022\022\n" +
-      "\nplayerUuid\030\001 \001(\t\022\023\n\013profileUuid\030\002 \001(\t\022+" +
-      "\n\005items\030\003 \003(\0132\034.clientMessage.InventoryI" +
-      "tem\"\222\001\n\010Response\022\r\n\005nonce\030\001 \001(\005\0225\n\013frien" +
-      "dsList\030\002 \001(\0132\036.clientMessage.FriendsResp" +
-      "onseH\000\0225\n\tinventory\030\003 \001(\0132 .clientMessag" +
-      "e.InventoryResponseH\000B\t\n\007message\"\200\002\n\rCli" +
-      "entMessage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004aut" +
-      "h\030\002 \001(\0132\032.clientMessage.AuthMessageH\000\0222\n" +
-      "\017requestResponse\030\003 \001(\0132\027.clientMessage.R" +
-      "esponseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.client" +
-      "Message.ReadyForRequestsH\000\0224\n\013infoReques" +
-      "t\030\005 \001(\0132\035.clientMessage.GetInformationH\000" +
-      "B\t\n\007message*p\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNC" +
-      "OMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY" +
-      "\020\004\022\n\n\006MYTHIC\020\005\022\013\n\007SPECIAL\020\006\022\020\n\014VERY_SPEC" +
-      "IAL\020\007B8\n\035club.thom.tem.models.messagesZ\027" +
-      "protobuf/clientMessagesb\006proto3"
+      "m\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\014\n\004name\030\006 \001(\t\"\277\001\n" +
+      "\rInventoryItem\022\014\n\004uuid\030\001 \001(\t\022\031\n\021creation" +
+      "Timestamp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMes" +
+      "sage.PetH\000\022)\n\007petSkin\030\004 \001(\0132\026.clientMess" +
+      "age.PetSkinH\000\022,\n\013armourPiece\030\005 \001(\0132\025.cli" +
+      "entMessage.ArmourH\000B\t\n\007message\"i\n\021Invent" +
+      "oryResponse\022\022\n\nplayerUuid\030\001 \001(\t\022\023\n\013profi" +
+      "leUuid\030\002 \001(\t\022+\n\005items\030\003 \003(\0132\034.clientMess" +
+      "age.InventoryItem\"\222\001\n\010Response\022\r\n\005nonce\030" +
+      "\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.clientMessa" +
+      "ge.FriendsResponseH\000\0225\n\tinventory\030\003 \001(\0132" +
+      " .clientMessage.InventoryResponseH\000B\t\n\007m" +
+      "essage\"\200\002\n\rClientMessage\022\025\n\rclientVersio" +
+      "n\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMessage.Au" +
+      "thMessageH\000\0222\n\017requestResponse\030\003 \001(\0132\027.c" +
+      "lientMessage.ResponseH\000\0227\n\014moreRequests\030" +
+      "\004 \001(\0132\037.clientMessage.ReadyForRequestsH\000" +
+      "\0224\n\013infoRequest\030\005 \001(\0132\035.clientMessage.Ge" +
+      "tInformationH\000B\t\n\007message*p\n\006Rarity\022\n\n\006C" +
+      "OMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020" +
+      "\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\013\n\007SPECIAL\020" +
+      "\006\022\020\n\014VERY_SPECIAL\020\007B8\n\035club.thom.tem.mod" +
+      "els.messagesZ\027protobuf/clientMessagesb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11033,7 +11220,7 @@ public final class ClientMessages {
     internal_static_clientMessage_Pet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Pet_descriptor,
-        new java.lang.String[] { "Skin", "Candied", "Rarity", "HeldItem", "Level", });
+        new java.lang.String[] { "Skin", "Candied", "Rarity", "HeldItem", "Level", "Name", });
     internal_static_clientMessage_InventoryItem_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_clientMessage_InventoryItem_fieldAccessorTable = new

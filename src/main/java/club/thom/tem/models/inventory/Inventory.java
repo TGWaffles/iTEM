@@ -22,7 +22,12 @@ import java.util.List;
 
 public class Inventory {
     // Can be enderchest, storage, pets menu, actual inventory, etc
-    // Contains InventoryItemData array of items#
+    // Contains InventoryItemData array of items
+    private final NBTTagCompound data;
+    public Inventory(String base64EncodedNBT) {
+        data = processNbtString(base64EncodedNBT);
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(Inventory.class);
 
     public static NBTTagCompound processNbtString(String base64EncodedNBT) {
@@ -50,12 +55,14 @@ public class Inventory {
                 items.add(new PetSkinData(item));
             }
         }
-
         return items;
     }
 
-    public InventoryItem[] getItems() {
-        // TODO:
-        return null;
+    public List<InventoryItem> getItems() {
+        List<InventoryItem> items = new ArrayList<>();
+        for (InventoryItemData itemData : nbtToItems(data)) {
+            items.add(itemData.toInventoryItem());
+        }
+        return items;
     }
 }

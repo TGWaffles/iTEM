@@ -23,7 +23,7 @@ public class ArmourPieceData extends InventoryItemData {
         String itemId = extraAttributes.getString("id");
         builder.setItemId(itemId).setRarity(getRarity()).setReforge(getReforge()).setHexCode(getHexCode());
         return ClientMessages.InventoryItem.newBuilder().setUuid(getUuid()).
-                setArmourPiece(builder).setCreationTimestamp(getCreationTimestamp()).build();
+                setArmourPiece(builder).setCreationTimestamp(getCreationTimestamp(extraAttributes.getString("timestamp"))).build();
     }
 
     /**
@@ -40,22 +40,6 @@ public class ArmourPieceData extends InventoryItemData {
             fakeUuid += "_+_" + getHexCode();
         }
         return fakeUuid;
-    }
-
-    public long getCreationTimestamp() {
-        NBTTagCompound extraAttributes = getExtraAttributes();
-        if (!extraAttributes.hasKey("timestamp")) {
-            return 0;
-        }
-        String hypixelDateTimeString = extraAttributes.getString("timestamp") + " EST";
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy hh:mm a z", Locale.US);
-        Date date;
-        try {
-            date = format.parse(hypixelDateTimeString);
-        } catch (ParseException e) {
-            return 0;
-        }
-        return date.getTime();
     }
 
     private NBTTagCompound getExtraAttributes() {

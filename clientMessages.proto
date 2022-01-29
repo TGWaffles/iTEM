@@ -63,6 +63,8 @@ message Pet {
   string heldItem = 4;
   // Pet level
   int32 level = 5;
+  // Type of pet
+  string name = 6;
 }
 
 message InventoryItem {
