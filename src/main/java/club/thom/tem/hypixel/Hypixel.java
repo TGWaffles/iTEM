@@ -39,7 +39,7 @@ public class Hypixel {
         rateLimitLock.writeLock().lock();
         try {
             remainingRateLimit = 0;
-            rateLimitResetTime = System.currentTimeMillis() + 1000L * resetSeconds;
+            rateLimitResetTime = System.currentTimeMillis() + (1000L * resetSeconds);
         } finally {
             rateLimitLock.writeLock().unlock();
         }
@@ -93,7 +93,7 @@ public class Hypixel {
         rateLimitLock.writeLock().lock();
         try {
             // Time that the next reset is reported to be. (with 500ms added, to account for rounding)
-            long nextResetTimeMillis = System.currentTimeMillis() + rateLimitResetSeconds * 1000L + 500;
+            long nextResetTimeMillis = System.currentTimeMillis() + (rateLimitResetSeconds * 1000L) + 500;
             // If the next limit reset time is greater than the current reset time + 1s (to account for latency), trust it.
             if (nextResetTimeMillis > rateLimitResetTime + 1000) {
                 rateLimitResetTime = nextResetTimeMillis;
@@ -169,9 +169,11 @@ public class Hypixel {
 
                 // If we *did* successfully exhaust all requests, wait the given time.
                 if (getRateLimit() == 0) {
-                    long sleepTime = System.currentTimeMillis() - rateLimitResetTime;
+                    long sleepTime = rateLimitResetTime - System.currentTimeMillis();
                     if (sleepTime <= 0) {
                         // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
+                        logger.debug("Setting ratelimit to 1, 5 as sleepTime is {}, ratelimit is 0, " +
+                                "rateLimitReset: {}", sleepTime, rateLimitResetTime);
                         setRateLimitRemaining(1, 5);
                         continue;
                     }

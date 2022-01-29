@@ -1,6 +1,7 @@
 package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
+import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages.*;
 import com.neovisionaries.ws.client.WebSocket;
 import org.slf4j.Logger;
@@ -101,5 +102,18 @@ public class ClientResponseHandler {
         socket.sendBinary(message.toByteArray());
     }
 
+    public static void sendInventoryResponse(WebSocket socket, PlayerData playerData, String playerUuid, int nonce) {
+        if (!TEM.socketWorking) {
+            return;
+        }
+        logger.debug("Sending inventory response...");
+        List<InventoryResponse> responses = playerData.getInventoryResponses();
+        Response.Builder response = Response.newBuilder()
+                .setInventories(PlayerResponse.newBuilder().addAllProfiles(responses).setPlayerUuid(playerUuid))
+                .setNonce(nonce);
+        ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
+                TEM.CLIENT_VERSION).build();
+        socket.sendBinary(message.toByteArray());
+    }
 
 }

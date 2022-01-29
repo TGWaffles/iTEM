@@ -80,11 +80,15 @@ message InventoryItem {
 }
 
 message InventoryResponse {
+  string profileUuid = 1;
+  // Includes pet menu, all items, etc
+  repeated InventoryItem items = 2;
+}
+
+message PlayerResponse {
   // UUID of player
   string playerUuid = 1;
-  string profileUuid = 2;
-  // Includes pet menu, all items, etc
-  repeated InventoryItem items = 3;
+  repeated InventoryResponse profiles = 2;
 }
 
 message Response {
@@ -92,7 +96,7 @@ message Response {
   int32 nonce = 1;
   oneof message {
     FriendsResponse friendsList = 2;
-    InventoryResponse inventory = 3;
+    PlayerResponse inventories = 3;
   }
 }
 

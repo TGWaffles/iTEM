@@ -7307,32 +7307,12 @@ public final class ClientMessages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <pre>
-     * UUID of player
-     * </pre>
-     *
-     * <code>string playerUuid = 1;</code>
-     * @return The playerUuid.
-     */
-    java.lang.String getPlayerUuid();
-    /**
-     * <pre>
-     * UUID of player
-     * </pre>
-     *
-     * <code>string playerUuid = 1;</code>
-     * @return The bytes for playerUuid.
-     */
-    com.google.protobuf.ByteString
-        getPlayerUuidBytes();
-
-    /**
-     * <code>string profileUuid = 2;</code>
+     * <code>string profileUuid = 1;</code>
      * @return The profileUuid.
      */
     java.lang.String getProfileUuid();
     /**
-     * <code>string profileUuid = 2;</code>
+     * <code>string profileUuid = 1;</code>
      * @return The bytes for profileUuid.
      */
     com.google.protobuf.ByteString
@@ -7343,7 +7323,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem> 
         getItemsList();
@@ -7352,7 +7332,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     club.thom.tem.models.messages.ClientMessages.InventoryItem getItems(int index);
     /**
@@ -7360,7 +7340,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     int getItemsCount();
     /**
@@ -7368,7 +7348,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     java.util.List<? extends club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder> 
         getItemsOrBuilderList();
@@ -7377,7 +7357,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder getItemsOrBuilder(
         int index);
@@ -7395,7 +7375,6 @@ public final class ClientMessages {
       super(builder);
     }
     private InventoryResponse() {
-      playerUuid_ = "";
       profileUuid_ = "";
       items_ = java.util.Collections.emptyList();
     }
@@ -7434,16 +7413,10 @@ public final class ClientMessages {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              playerUuid_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
               profileUuid_ = s;
               break;
             }
-            case 26: {
+            case 18: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 items_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.InventoryItem>();
                 mutable_bitField0_ |= 0x00000001;
@@ -7487,56 +7460,10 @@ public final class ClientMessages {
               club.thom.tem.models.messages.ClientMessages.InventoryResponse.class, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder.class);
     }
 
-    public static final int PLAYERUUID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object playerUuid_;
-    /**
-     * <pre>
-     * UUID of player
-     * </pre>
-     *
-     * <code>string playerUuid = 1;</code>
-     * @return The playerUuid.
-     */
-    @java.lang.Override
-    public java.lang.String getPlayerUuid() {
-      java.lang.Object ref = playerUuid_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        playerUuid_ = s;
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     * UUID of player
-     * </pre>
-     *
-     * <code>string playerUuid = 1;</code>
-     * @return The bytes for playerUuid.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getPlayerUuidBytes() {
-      java.lang.Object ref = playerUuid_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        playerUuid_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int PROFILEUUID_FIELD_NUMBER = 2;
+    public static final int PROFILEUUID_FIELD_NUMBER = 1;
     private volatile java.lang.Object profileUuid_;
     /**
-     * <code>string profileUuid = 2;</code>
+     * <code>string profileUuid = 1;</code>
      * @return The profileUuid.
      */
     @java.lang.Override
@@ -7553,7 +7480,7 @@ public final class ClientMessages {
       }
     }
     /**
-     * <code>string profileUuid = 2;</code>
+     * <code>string profileUuid = 1;</code>
      * @return The bytes for profileUuid.
      */
     @java.lang.Override
@@ -7571,14 +7498,14 @@ public final class ClientMessages {
       }
     }
 
-    public static final int ITEMS_FIELD_NUMBER = 3;
+    public static final int ITEMS_FIELD_NUMBER = 2;
     private java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem> items_;
     /**
      * <pre>
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     @java.lang.Override
     public java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem> getItemsList() {
@@ -7589,7 +7516,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     @java.lang.Override
     public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder> 
@@ -7601,7 +7528,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     @java.lang.Override
     public int getItemsCount() {
@@ -7612,7 +7539,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ClientMessages.InventoryItem getItems(int index) {
@@ -7623,7 +7550,7 @@ public final class ClientMessages {
      * Includes pet menu, all items, etc
      * </pre>
      *
-     * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+     * <code>repeated .clientMessage.InventoryItem items = 2;</code>
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder getItemsOrBuilder(
@@ -7645,14 +7572,11 @@ public final class ClientMessages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(playerUuid_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, playerUuid_);
-      }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(profileUuid_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, profileUuid_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, profileUuid_);
       }
       for (int i = 0; i < items_.size(); i++) {
-        output.writeMessage(3, items_.get(i));
+        output.writeMessage(2, items_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -7663,15 +7587,12 @@ public final class ClientMessages {
       if (size != -1) return size;
 
       size = 0;
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(playerUuid_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, playerUuid_);
-      }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(profileUuid_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, profileUuid_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, profileUuid_);
       }
       for (int i = 0; i < items_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, items_.get(i));
+          .computeMessageSize(2, items_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -7688,8 +7609,6 @@ public final class ClientMessages {
       }
       club.thom.tem.models.messages.ClientMessages.InventoryResponse other = (club.thom.tem.models.messages.ClientMessages.InventoryResponse) obj;
 
-      if (!getPlayerUuid()
-          .equals(other.getPlayerUuid())) return false;
       if (!getProfileUuid()
           .equals(other.getProfileUuid())) return false;
       if (!getItemsList()
@@ -7705,8 +7624,6 @@ public final class ClientMessages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + PLAYERUUID_FIELD_NUMBER;
-      hash = (53 * hash) + getPlayerUuid().hashCode();
       hash = (37 * hash) + PROFILEUUID_FIELD_NUMBER;
       hash = (53 * hash) + getProfileUuid().hashCode();
       if (getItemsCount() > 0) {
@@ -7847,8 +7764,6 @@ public final class ClientMessages {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        playerUuid_ = "";
-
         profileUuid_ = "";
 
         if (itemsBuilder_ == null) {
@@ -7884,7 +7799,6 @@ public final class ClientMessages {
       public club.thom.tem.models.messages.ClientMessages.InventoryResponse buildPartial() {
         club.thom.tem.models.messages.ClientMessages.InventoryResponse result = new club.thom.tem.models.messages.ClientMessages.InventoryResponse(this);
         int from_bitField0_ = bitField0_;
-        result.playerUuid_ = playerUuid_;
         result.profileUuid_ = profileUuid_;
         if (itemsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
@@ -7943,10 +7857,6 @@ public final class ClientMessages {
 
       public Builder mergeFrom(club.thom.tem.models.messages.ClientMessages.InventoryResponse other) {
         if (other == club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance()) return this;
-        if (!other.getPlayerUuid().isEmpty()) {
-          playerUuid_ = other.playerUuid_;
-          onChanged();
-        }
         if (!other.getProfileUuid().isEmpty()) {
           profileUuid_ = other.profileUuid_;
           onChanged();
@@ -7997,6 +7907,1037 @@ public final class ClientMessages {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (club.thom.tem.models.messages.ClientMessages.InventoryResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object profileUuid_ = "";
+      /**
+       * <code>string profileUuid = 1;</code>
+       * @return The profileUuid.
+       */
+      public java.lang.String getProfileUuid() {
+        java.lang.Object ref = profileUuid_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          profileUuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string profileUuid = 1;</code>
+       * @return The bytes for profileUuid.
+       */
+      public com.google.protobuf.ByteString
+          getProfileUuidBytes() {
+        java.lang.Object ref = profileUuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          profileUuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string profileUuid = 1;</code>
+       * @param value The profileUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProfileUuid(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        profileUuid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string profileUuid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearProfileUuid() {
+        
+        profileUuid_ = getDefaultInstance().getProfileUuid();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string profileUuid = 1;</code>
+       * @param value The bytes for profileUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setProfileUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        profileUuid_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem> items_ =
+        java.util.Collections.emptyList();
+      private void ensureItemsIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          items_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.InventoryItem>(items_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.InventoryItem, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder, club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder> itemsBuilder_;
+
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem> getItemsList() {
+        if (itemsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(items_);
+        } else {
+          return itemsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public int getItemsCount() {
+        if (itemsBuilder_ == null) {
+          return items_.size();
+        } else {
+          return itemsBuilder_.getCount();
+        }
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.InventoryItem getItems(int index) {
+        if (itemsBuilder_ == null) {
+          return items_.get(index);
+        } else {
+          return itemsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder setItems(
+          int index, club.thom.tem.models.messages.ClientMessages.InventoryItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.set(index, value);
+          onChanged();
+        } else {
+          itemsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder setItems(
+          int index, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder addItems(club.thom.tem.models.messages.ClientMessages.InventoryItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.add(value);
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder addItems(
+          int index, club.thom.tem.models.messages.ClientMessages.InventoryItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.add(index, value);
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder addItems(
+          club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder addItems(
+          int index, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder addAllItems(
+          java.lang.Iterable<? extends club.thom.tem.models.messages.ClientMessages.InventoryItem> values) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, items_);
+          onChanged();
+        } else {
+          itemsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder clearItems() {
+        if (itemsBuilder_ == null) {
+          items_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          itemsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public Builder removeItems(int index) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.remove(index);
+          onChanged();
+        } else {
+          itemsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder getItemsBuilder(
+          int index) {
+        return getItemsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder getItemsOrBuilder(
+          int index) {
+        if (itemsBuilder_ == null) {
+          return items_.get(index);  } else {
+          return itemsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder> 
+           getItemsOrBuilderList() {
+        if (itemsBuilder_ != null) {
+          return itemsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(items_);
+        }
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder addItemsBuilder() {
+        return getItemsFieldBuilder().addBuilder(
+            club.thom.tem.models.messages.ClientMessages.InventoryItem.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder addItemsBuilder(
+          int index) {
+        return getItemsFieldBuilder().addBuilder(
+            index, club.thom.tem.models.messages.ClientMessages.InventoryItem.getDefaultInstance());
+      }
+      /**
+       * <pre>
+       * Includes pet menu, all items, etc
+       * </pre>
+       *
+       * <code>repeated .clientMessage.InventoryItem items = 2;</code>
+       */
+      public java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder> 
+           getItemsBuilderList() {
+        return getItemsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.InventoryItem, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder, club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder> 
+          getItemsFieldBuilder() {
+        if (itemsBuilder_ == null) {
+          itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.InventoryItem, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder, club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder>(
+                  items_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          items_ = null;
+        }
+        return itemsBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:clientMessage.InventoryResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:clientMessage.InventoryResponse)
+    private static final club.thom.tem.models.messages.ClientMessages.InventoryResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ClientMessages.InventoryResponse();
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.InventoryResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<InventoryResponse>
+        PARSER = new com.google.protobuf.AbstractParser<InventoryResponse>() {
+      @java.lang.Override
+      public InventoryResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new InventoryResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<InventoryResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InventoryResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.InventoryResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface PlayerResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:clientMessage.PlayerResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * UUID of player
+     * </pre>
+     *
+     * <code>string playerUuid = 1;</code>
+     * @return The playerUuid.
+     */
+    java.lang.String getPlayerUuid();
+    /**
+     * <pre>
+     * UUID of player
+     * </pre>
+     *
+     * <code>string playerUuid = 1;</code>
+     * @return The bytes for playerUuid.
+     */
+    com.google.protobuf.ByteString
+        getPlayerUuidBytes();
+
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryResponse> 
+        getProfilesList();
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.InventoryResponse getProfiles(int index);
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    int getProfilesCount();
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    java.util.List<? extends club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder> 
+        getProfilesOrBuilderList();
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder getProfilesOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code clientMessage.PlayerResponse}
+   */
+  public static final class PlayerResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:clientMessage.PlayerResponse)
+      PlayerResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use PlayerResponse.newBuilder() to construct.
+    private PlayerResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private PlayerResponse() {
+      playerUuid_ = "";
+      profiles_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new PlayerResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PlayerResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              playerUuid_ = s;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                profiles_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.InventoryResponse>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              profiles_.add(
+                  input.readMessage(club.thom.tem.models.messages.ClientMessages.InventoryResponse.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          profiles_ = java.util.Collections.unmodifiableList(profiles_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_PlayerResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_PlayerResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ClientMessages.PlayerResponse.class, club.thom.tem.models.messages.ClientMessages.PlayerResponse.Builder.class);
+    }
+
+    public static final int PLAYERUUID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object playerUuid_;
+    /**
+     * <pre>
+     * UUID of player
+     * </pre>
+     *
+     * <code>string playerUuid = 1;</code>
+     * @return The playerUuid.
+     */
+    @java.lang.Override
+    public java.lang.String getPlayerUuid() {
+      java.lang.Object ref = playerUuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        playerUuid_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * UUID of player
+     * </pre>
+     *
+     * <code>string playerUuid = 1;</code>
+     * @return The bytes for playerUuid.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getPlayerUuidBytes() {
+      java.lang.Object ref = playerUuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        playerUuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PROFILES_FIELD_NUMBER = 2;
+    private java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryResponse> profiles_;
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryResponse> getProfilesList() {
+      return profiles_;
+    }
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder> 
+        getProfilesOrBuilderList() {
+      return profiles_;
+    }
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    @java.lang.Override
+    public int getProfilesCount() {
+      return profiles_.size();
+    }
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.InventoryResponse getProfiles(int index) {
+      return profiles_.get(index);
+    }
+    /**
+     * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder getProfilesOrBuilder(
+        int index) {
+      return profiles_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(playerUuid_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, playerUuid_);
+      }
+      for (int i = 0; i < profiles_.size(); i++) {
+        output.writeMessage(2, profiles_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(playerUuid_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, playerUuid_);
+      }
+      for (int i = 0; i < profiles_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, profiles_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ClientMessages.PlayerResponse)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ClientMessages.PlayerResponse other = (club.thom.tem.models.messages.ClientMessages.PlayerResponse) obj;
+
+      if (!getPlayerUuid()
+          .equals(other.getPlayerUuid())) return false;
+      if (!getProfilesList()
+          .equals(other.getProfilesList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + PLAYERUUID_FIELD_NUMBER;
+      hash = (53 * hash) + getPlayerUuid().hashCode();
+      if (getProfilesCount() > 0) {
+        hash = (37 * hash) + PROFILES_FIELD_NUMBER;
+        hash = (53 * hash) + getProfilesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ClientMessages.PlayerResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code clientMessage.PlayerResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:clientMessage.PlayerResponse)
+        club.thom.tem.models.messages.ClientMessages.PlayerResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_PlayerResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_PlayerResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ClientMessages.PlayerResponse.class, club.thom.tem.models.messages.ClientMessages.PlayerResponse.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ClientMessages.PlayerResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getProfilesFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        playerUuid_ = "";
+
+        if (profilesBuilder_ == null) {
+          profiles_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          profilesBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_PlayerResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.PlayerResponse getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.PlayerResponse build() {
+        club.thom.tem.models.messages.ClientMessages.PlayerResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.PlayerResponse buildPartial() {
+        club.thom.tem.models.messages.ClientMessages.PlayerResponse result = new club.thom.tem.models.messages.ClientMessages.PlayerResponse(this);
+        int from_bitField0_ = bitField0_;
+        result.playerUuid_ = playerUuid_;
+        if (profilesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            profiles_ = java.util.Collections.unmodifiableList(profiles_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.profiles_ = profiles_;
+        } else {
+          result.profiles_ = profilesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ClientMessages.PlayerResponse) {
+          return mergeFrom((club.thom.tem.models.messages.ClientMessages.PlayerResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ClientMessages.PlayerResponse other) {
+        if (other == club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance()) return this;
+        if (!other.getPlayerUuid().isEmpty()) {
+          playerUuid_ = other.playerUuid_;
+          onChanged();
+        }
+        if (profilesBuilder_ == null) {
+          if (!other.profiles_.isEmpty()) {
+            if (profiles_.isEmpty()) {
+              profiles_ = other.profiles_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureProfilesIsMutable();
+              profiles_.addAll(other.profiles_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.profiles_.isEmpty()) {
+            if (profilesBuilder_.isEmpty()) {
+              profilesBuilder_.dispose();
+              profilesBuilder_ = null;
+              profiles_ = other.profiles_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              profilesBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getProfilesFieldBuilder() : null;
+            } else {
+              profilesBuilder_.addAllMessages(other.profiles_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ClientMessages.PlayerResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ClientMessages.PlayerResponse) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -8103,392 +9044,244 @@ public final class ClientMessages {
         return this;
       }
 
-      private java.lang.Object profileUuid_ = "";
-      /**
-       * <code>string profileUuid = 2;</code>
-       * @return The profileUuid.
-       */
-      public java.lang.String getProfileUuid() {
-        java.lang.Object ref = profileUuid_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          profileUuid_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string profileUuid = 2;</code>
-       * @return The bytes for profileUuid.
-       */
-      public com.google.protobuf.ByteString
-          getProfileUuidBytes() {
-        java.lang.Object ref = profileUuid_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          profileUuid_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string profileUuid = 2;</code>
-       * @param value The profileUuid to set.
-       * @return This builder for chaining.
-       */
-      public Builder setProfileUuid(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        profileUuid_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string profileUuid = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearProfileUuid() {
-        
-        profileUuid_ = getDefaultInstance().getProfileUuid();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string profileUuid = 2;</code>
-       * @param value The bytes for profileUuid to set.
-       * @return This builder for chaining.
-       */
-      public Builder setProfileUuidBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        profileUuid_ = value;
-        onChanged();
-        return this;
-      }
-
-      private java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem> items_ =
+      private java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryResponse> profiles_ =
         java.util.Collections.emptyList();
-      private void ensureItemsIsMutable() {
+      private void ensureProfilesIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          items_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.InventoryItem>(items_);
+          profiles_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.InventoryResponse>(profiles_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          club.thom.tem.models.messages.ClientMessages.InventoryItem, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder, club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder> itemsBuilder_;
+          club.thom.tem.models.messages.ClientMessages.InventoryResponse, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder, club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder> profilesBuilder_;
 
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem> getItemsList() {
-        if (itemsBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(items_);
+      public java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryResponse> getProfilesList() {
+        if (profilesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(profiles_);
         } else {
-          return itemsBuilder_.getMessageList();
+          return profilesBuilder_.getMessageList();
         }
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public int getItemsCount() {
-        if (itemsBuilder_ == null) {
-          return items_.size();
+      public int getProfilesCount() {
+        if (profilesBuilder_ == null) {
+          return profiles_.size();
         } else {
-          return itemsBuilder_.getCount();
+          return profilesBuilder_.getCount();
         }
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public club.thom.tem.models.messages.ClientMessages.InventoryItem getItems(int index) {
-        if (itemsBuilder_ == null) {
-          return items_.get(index);
+      public club.thom.tem.models.messages.ClientMessages.InventoryResponse getProfiles(int index) {
+        if (profilesBuilder_ == null) {
+          return profiles_.get(index);
         } else {
-          return itemsBuilder_.getMessage(index);
+          return profilesBuilder_.getMessage(index);
         }
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder setItems(
-          int index, club.thom.tem.models.messages.ClientMessages.InventoryItem value) {
-        if (itemsBuilder_ == null) {
+      public Builder setProfiles(
+          int index, club.thom.tem.models.messages.ClientMessages.InventoryResponse value) {
+        if (profilesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureItemsIsMutable();
-          items_.set(index, value);
+          ensureProfilesIsMutable();
+          profiles_.set(index, value);
           onChanged();
         } else {
-          itemsBuilder_.setMessage(index, value);
+          profilesBuilder_.setMessage(index, value);
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder setItems(
-          int index, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder builderForValue) {
-        if (itemsBuilder_ == null) {
-          ensureItemsIsMutable();
-          items_.set(index, builderForValue.build());
+      public Builder setProfiles(
+          int index, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder builderForValue) {
+        if (profilesBuilder_ == null) {
+          ensureProfilesIsMutable();
+          profiles_.set(index, builderForValue.build());
           onChanged();
         } else {
-          itemsBuilder_.setMessage(index, builderForValue.build());
+          profilesBuilder_.setMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder addItems(club.thom.tem.models.messages.ClientMessages.InventoryItem value) {
-        if (itemsBuilder_ == null) {
+      public Builder addProfiles(club.thom.tem.models.messages.ClientMessages.InventoryResponse value) {
+        if (profilesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureItemsIsMutable();
-          items_.add(value);
+          ensureProfilesIsMutable();
+          profiles_.add(value);
           onChanged();
         } else {
-          itemsBuilder_.addMessage(value);
+          profilesBuilder_.addMessage(value);
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder addItems(
-          int index, club.thom.tem.models.messages.ClientMessages.InventoryItem value) {
-        if (itemsBuilder_ == null) {
+      public Builder addProfiles(
+          int index, club.thom.tem.models.messages.ClientMessages.InventoryResponse value) {
+        if (profilesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureItemsIsMutable();
-          items_.add(index, value);
+          ensureProfilesIsMutable();
+          profiles_.add(index, value);
           onChanged();
         } else {
-          itemsBuilder_.addMessage(index, value);
+          profilesBuilder_.addMessage(index, value);
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder addItems(
-          club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder builderForValue) {
-        if (itemsBuilder_ == null) {
-          ensureItemsIsMutable();
-          items_.add(builderForValue.build());
+      public Builder addProfiles(
+          club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder builderForValue) {
+        if (profilesBuilder_ == null) {
+          ensureProfilesIsMutable();
+          profiles_.add(builderForValue.build());
           onChanged();
         } else {
-          itemsBuilder_.addMessage(builderForValue.build());
+          profilesBuilder_.addMessage(builderForValue.build());
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder addItems(
-          int index, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder builderForValue) {
-        if (itemsBuilder_ == null) {
-          ensureItemsIsMutable();
-          items_.add(index, builderForValue.build());
+      public Builder addProfiles(
+          int index, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder builderForValue) {
+        if (profilesBuilder_ == null) {
+          ensureProfilesIsMutable();
+          profiles_.add(index, builderForValue.build());
           onChanged();
         } else {
-          itemsBuilder_.addMessage(index, builderForValue.build());
+          profilesBuilder_.addMessage(index, builderForValue.build());
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder addAllItems(
-          java.lang.Iterable<? extends club.thom.tem.models.messages.ClientMessages.InventoryItem> values) {
-        if (itemsBuilder_ == null) {
-          ensureItemsIsMutable();
+      public Builder addAllProfiles(
+          java.lang.Iterable<? extends club.thom.tem.models.messages.ClientMessages.InventoryResponse> values) {
+        if (profilesBuilder_ == null) {
+          ensureProfilesIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, items_);
+              values, profiles_);
           onChanged();
         } else {
-          itemsBuilder_.addAllMessages(values);
+          profilesBuilder_.addAllMessages(values);
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder clearItems() {
-        if (itemsBuilder_ == null) {
-          items_ = java.util.Collections.emptyList();
+      public Builder clearProfiles() {
+        if (profilesBuilder_ == null) {
+          profiles_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
-          itemsBuilder_.clear();
+          profilesBuilder_.clear();
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public Builder removeItems(int index) {
-        if (itemsBuilder_ == null) {
-          ensureItemsIsMutable();
-          items_.remove(index);
+      public Builder removeProfiles(int index) {
+        if (profilesBuilder_ == null) {
+          ensureProfilesIsMutable();
+          profiles_.remove(index);
           onChanged();
         } else {
-          itemsBuilder_.remove(index);
+          profilesBuilder_.remove(index);
         }
         return this;
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder getItemsBuilder(
+      public club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder getProfilesBuilder(
           int index) {
-        return getItemsFieldBuilder().getBuilder(index);
+        return getProfilesFieldBuilder().getBuilder(index);
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder getItemsOrBuilder(
+      public club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder getProfilesOrBuilder(
           int index) {
-        if (itemsBuilder_ == null) {
-          return items_.get(index);  } else {
-          return itemsBuilder_.getMessageOrBuilder(index);
+        if (profilesBuilder_ == null) {
+          return profiles_.get(index);  } else {
+          return profilesBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder> 
-           getItemsOrBuilderList() {
-        if (itemsBuilder_ != null) {
-          return itemsBuilder_.getMessageOrBuilderList();
+      public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder> 
+           getProfilesOrBuilderList() {
+        if (profilesBuilder_ != null) {
+          return profilesBuilder_.getMessageOrBuilderList();
         } else {
-          return java.util.Collections.unmodifiableList(items_);
+          return java.util.Collections.unmodifiableList(profiles_);
         }
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder addItemsBuilder() {
-        return getItemsFieldBuilder().addBuilder(
-            club.thom.tem.models.messages.ClientMessages.InventoryItem.getDefaultInstance());
+      public club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder addProfilesBuilder() {
+        return getProfilesFieldBuilder().addBuilder(
+            club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance());
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder addItemsBuilder(
+      public club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder addProfilesBuilder(
           int index) {
-        return getItemsFieldBuilder().addBuilder(
-            index, club.thom.tem.models.messages.ClientMessages.InventoryItem.getDefaultInstance());
+        return getProfilesFieldBuilder().addBuilder(
+            index, club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance());
       }
       /**
-       * <pre>
-       * Includes pet menu, all items, etc
-       * </pre>
-       *
-       * <code>repeated .clientMessage.InventoryItem items = 3;</code>
+       * <code>repeated .clientMessage.InventoryResponse profiles = 2;</code>
        */
-      public java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder> 
-           getItemsBuilderList() {
-        return getItemsFieldBuilder().getBuilderList();
+      public java.util.List<club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder> 
+           getProfilesBuilderList() {
+        return getProfilesFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          club.thom.tem.models.messages.ClientMessages.InventoryItem, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder, club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder> 
-          getItemsFieldBuilder() {
-        if (itemsBuilder_ == null) {
-          itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              club.thom.tem.models.messages.ClientMessages.InventoryItem, club.thom.tem.models.messages.ClientMessages.InventoryItem.Builder, club.thom.tem.models.messages.ClientMessages.InventoryItemOrBuilder>(
-                  items_,
+          club.thom.tem.models.messages.ClientMessages.InventoryResponse, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder, club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder> 
+          getProfilesFieldBuilder() {
+        if (profilesBuilder_ == null) {
+          profilesBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.InventoryResponse, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder, club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder>(
+                  profiles_,
                   ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
-          items_ = null;
+          profiles_ = null;
         }
-        return itemsBuilder_;
+        return profilesBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -8503,41 +9296,41 @@ public final class ClientMessages {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:clientMessage.InventoryResponse)
+      // @@protoc_insertion_point(builder_scope:clientMessage.PlayerResponse)
     }
 
-    // @@protoc_insertion_point(class_scope:clientMessage.InventoryResponse)
-    private static final club.thom.tem.models.messages.ClientMessages.InventoryResponse DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:clientMessage.PlayerResponse)
+    private static final club.thom.tem.models.messages.ClientMessages.PlayerResponse DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ClientMessages.InventoryResponse();
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ClientMessages.PlayerResponse();
     }
 
-    public static club.thom.tem.models.messages.ClientMessages.InventoryResponse getDefaultInstance() {
+    public static club.thom.tem.models.messages.ClientMessages.PlayerResponse getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<InventoryResponse>
-        PARSER = new com.google.protobuf.AbstractParser<InventoryResponse>() {
+    private static final com.google.protobuf.Parser<PlayerResponse>
+        PARSER = new com.google.protobuf.AbstractParser<PlayerResponse>() {
       @java.lang.Override
-      public InventoryResponse parsePartialFrom(
+      public PlayerResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new InventoryResponse(input, extensionRegistry);
+        return new PlayerResponse(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<InventoryResponse> parser() {
+    public static com.google.protobuf.Parser<PlayerResponse> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<InventoryResponse> getParserForType() {
+    public com.google.protobuf.Parser<PlayerResponse> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public club.thom.tem.models.messages.ClientMessages.InventoryResponse getDefaultInstanceForType() {
+    public club.thom.tem.models.messages.ClientMessages.PlayerResponse getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -8573,19 +9366,19 @@ public final class ClientMessages {
     club.thom.tem.models.messages.ClientMessages.FriendsResponseOrBuilder getFriendsListOrBuilder();
 
     /**
-     * <code>.clientMessage.InventoryResponse inventory = 3;</code>
-     * @return Whether the inventory field is set.
+     * <code>.clientMessage.PlayerResponse inventories = 3;</code>
+     * @return Whether the inventories field is set.
      */
-    boolean hasInventory();
+    boolean hasInventories();
     /**
-     * <code>.clientMessage.InventoryResponse inventory = 3;</code>
-     * @return The inventory.
+     * <code>.clientMessage.PlayerResponse inventories = 3;</code>
+     * @return The inventories.
      */
-    club.thom.tem.models.messages.ClientMessages.InventoryResponse getInventory();
+    club.thom.tem.models.messages.ClientMessages.PlayerResponse getInventories();
     /**
-     * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+     * <code>.clientMessage.PlayerResponse inventories = 3;</code>
      */
-    club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder getInventoryOrBuilder();
+    club.thom.tem.models.messages.ClientMessages.PlayerResponseOrBuilder getInventoriesOrBuilder();
 
     public club.thom.tem.models.messages.ClientMessages.Response.MessageCase getMessageCase();
   }
@@ -8654,14 +9447,14 @@ public final class ClientMessages {
               break;
             }
             case 26: {
-              club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder subBuilder = null;
+              club.thom.tem.models.messages.ClientMessages.PlayerResponse.Builder subBuilder = null;
               if (messageCase_ == 3) {
-                subBuilder = ((club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_).toBuilder();
+                subBuilder = ((club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_).toBuilder();
               }
               message_ =
-                  input.readMessage(club.thom.tem.models.messages.ClientMessages.InventoryResponse.parser(), extensionRegistry);
+                  input.readMessage(club.thom.tem.models.messages.ClientMessages.PlayerResponse.parser(), extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom((club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_);
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_);
                 message_ = subBuilder.buildPartial();
               }
               messageCase_ = 3;
@@ -8705,7 +9498,7 @@ public final class ClientMessages {
         implements com.google.protobuf.Internal.EnumLite,
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       FRIENDSLIST(2),
-      INVENTORY(3),
+      INVENTORIES(3),
       MESSAGE_NOT_SET(0);
       private final int value;
       private MessageCase(int value) {
@@ -8724,7 +9517,7 @@ public final class ClientMessages {
       public static MessageCase forNumber(int value) {
         switch (value) {
           case 2: return FRIENDSLIST;
-          case 3: return INVENTORY;
+          case 3: return INVENTORIES;
           case 0: return MESSAGE_NOT_SET;
           default: return null;
         }
@@ -8786,35 +9579,35 @@ public final class ClientMessages {
       return club.thom.tem.models.messages.ClientMessages.FriendsResponse.getDefaultInstance();
     }
 
-    public static final int INVENTORY_FIELD_NUMBER = 3;
+    public static final int INVENTORIES_FIELD_NUMBER = 3;
     /**
-     * <code>.clientMessage.InventoryResponse inventory = 3;</code>
-     * @return Whether the inventory field is set.
+     * <code>.clientMessage.PlayerResponse inventories = 3;</code>
+     * @return Whether the inventories field is set.
      */
     @java.lang.Override
-    public boolean hasInventory() {
+    public boolean hasInventories() {
       return messageCase_ == 3;
     }
     /**
-     * <code>.clientMessage.InventoryResponse inventory = 3;</code>
-     * @return The inventory.
+     * <code>.clientMessage.PlayerResponse inventories = 3;</code>
+     * @return The inventories.
      */
     @java.lang.Override
-    public club.thom.tem.models.messages.ClientMessages.InventoryResponse getInventory() {
+    public club.thom.tem.models.messages.ClientMessages.PlayerResponse getInventories() {
       if (messageCase_ == 3) {
-         return (club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_;
+         return (club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_;
       }
-      return club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance();
+      return club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance();
     }
     /**
-     * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+     * <code>.clientMessage.PlayerResponse inventories = 3;</code>
      */
     @java.lang.Override
-    public club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder getInventoryOrBuilder() {
+    public club.thom.tem.models.messages.ClientMessages.PlayerResponseOrBuilder getInventoriesOrBuilder() {
       if (messageCase_ == 3) {
-         return (club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_;
+         return (club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_;
       }
-      return club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance();
+      return club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -8838,7 +9631,7 @@ public final class ClientMessages {
         output.writeMessage(2, (club.thom.tem.models.messages.ClientMessages.FriendsResponse) message_);
       }
       if (messageCase_ == 3) {
-        output.writeMessage(3, (club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_);
+        output.writeMessage(3, (club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_);
       }
       unknownFields.writeTo(output);
     }
@@ -8859,7 +9652,7 @@ public final class ClientMessages {
       }
       if (messageCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_);
+          .computeMessageSize(3, (club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -8885,8 +9678,8 @@ public final class ClientMessages {
               .equals(other.getFriendsList())) return false;
           break;
         case 3:
-          if (!getInventory()
-              .equals(other.getInventory())) return false;
+          if (!getInventories()
+              .equals(other.getInventories())) return false;
           break;
         case 0:
         default:
@@ -8910,8 +9703,8 @@ public final class ClientMessages {
           hash = (53 * hash) + getFriendsList().hashCode();
           break;
         case 3:
-          hash = (37 * hash) + INVENTORY_FIELD_NUMBER;
-          hash = (53 * hash) + getInventory().hashCode();
+          hash = (37 * hash) + INVENTORIES_FIELD_NUMBER;
+          hash = (53 * hash) + getInventories().hashCode();
           break;
         case 0:
         default:
@@ -9088,10 +9881,10 @@ public final class ClientMessages {
           }
         }
         if (messageCase_ == 3) {
-          if (inventoryBuilder_ == null) {
+          if (inventoriesBuilder_ == null) {
             result.message_ = message_;
           } else {
-            result.message_ = inventoryBuilder_.build();
+            result.message_ = inventoriesBuilder_.build();
           }
         }
         result.messageCase_ = messageCase_;
@@ -9151,8 +9944,8 @@ public final class ClientMessages {
             mergeFriendsList(other.getFriendsList());
             break;
           }
-          case INVENTORY: {
-            mergeInventory(other.getInventory());
+          case INVENTORIES: {
+            mergeInventories(other.getInventories());
             break;
           }
           case MESSAGE_NOT_SET: {
@@ -9388,71 +10181,71 @@ public final class ClientMessages {
       }
 
       private com.google.protobuf.SingleFieldBuilderV3<
-          club.thom.tem.models.messages.ClientMessages.InventoryResponse, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder, club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder> inventoryBuilder_;
+          club.thom.tem.models.messages.ClientMessages.PlayerResponse, club.thom.tem.models.messages.ClientMessages.PlayerResponse.Builder, club.thom.tem.models.messages.ClientMessages.PlayerResponseOrBuilder> inventoriesBuilder_;
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
-       * @return Whether the inventory field is set.
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
+       * @return Whether the inventories field is set.
        */
       @java.lang.Override
-      public boolean hasInventory() {
+      public boolean hasInventories() {
         return messageCase_ == 3;
       }
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
-       * @return The inventory.
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
+       * @return The inventories.
        */
       @java.lang.Override
-      public club.thom.tem.models.messages.ClientMessages.InventoryResponse getInventory() {
-        if (inventoryBuilder_ == null) {
+      public club.thom.tem.models.messages.ClientMessages.PlayerResponse getInventories() {
+        if (inventoriesBuilder_ == null) {
           if (messageCase_ == 3) {
-            return (club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_;
+            return (club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_;
           }
-          return club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance();
+          return club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance();
         } else {
           if (messageCase_ == 3) {
-            return inventoryBuilder_.getMessage();
+            return inventoriesBuilder_.getMessage();
           }
-          return club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance();
+          return club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
        */
-      public Builder setInventory(club.thom.tem.models.messages.ClientMessages.InventoryResponse value) {
-        if (inventoryBuilder_ == null) {
+      public Builder setInventories(club.thom.tem.models.messages.ClientMessages.PlayerResponse value) {
+        if (inventoriesBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
           message_ = value;
           onChanged();
         } else {
-          inventoryBuilder_.setMessage(value);
+          inventoriesBuilder_.setMessage(value);
         }
         messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
        */
-      public Builder setInventory(
-          club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder builderForValue) {
-        if (inventoryBuilder_ == null) {
+      public Builder setInventories(
+          club.thom.tem.models.messages.ClientMessages.PlayerResponse.Builder builderForValue) {
+        if (inventoriesBuilder_ == null) {
           message_ = builderForValue.build();
           onChanged();
         } else {
-          inventoryBuilder_.setMessage(builderForValue.build());
+          inventoriesBuilder_.setMessage(builderForValue.build());
         }
         messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
        */
-      public Builder mergeInventory(club.thom.tem.models.messages.ClientMessages.InventoryResponse value) {
-        if (inventoryBuilder_ == null) {
+      public Builder mergeInventories(club.thom.tem.models.messages.ClientMessages.PlayerResponse value) {
+        if (inventoriesBuilder_ == null) {
           if (messageCase_ == 3 &&
-              message_ != club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance()) {
-            message_ = club.thom.tem.models.messages.ClientMessages.InventoryResponse.newBuilder((club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_)
+              message_ != club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance()) {
+            message_ = club.thom.tem.models.messages.ClientMessages.PlayerResponse.newBuilder((club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_)
                 .mergeFrom(value).buildPartial();
           } else {
             message_ = value;
@@ -9460,18 +10253,18 @@ public final class ClientMessages {
           onChanged();
         } else {
           if (messageCase_ == 3) {
-            inventoryBuilder_.mergeFrom(value);
+            inventoriesBuilder_.mergeFrom(value);
           }
-          inventoryBuilder_.setMessage(value);
+          inventoriesBuilder_.setMessage(value);
         }
         messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
        */
-      public Builder clearInventory() {
-        if (inventoryBuilder_ == null) {
+      public Builder clearInventories() {
+        if (inventoriesBuilder_ == null) {
           if (messageCase_ == 3) {
             messageCase_ = 0;
             message_ = null;
@@ -9482,50 +10275,50 @@ public final class ClientMessages {
             messageCase_ = 0;
             message_ = null;
           }
-          inventoryBuilder_.clear();
+          inventoriesBuilder_.clear();
         }
         return this;
       }
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
        */
-      public club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder getInventoryBuilder() {
-        return getInventoryFieldBuilder().getBuilder();
+      public club.thom.tem.models.messages.ClientMessages.PlayerResponse.Builder getInventoriesBuilder() {
+        return getInventoriesFieldBuilder().getBuilder();
       }
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
        */
       @java.lang.Override
-      public club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder getInventoryOrBuilder() {
-        if ((messageCase_ == 3) && (inventoryBuilder_ != null)) {
-          return inventoryBuilder_.getMessageOrBuilder();
+      public club.thom.tem.models.messages.ClientMessages.PlayerResponseOrBuilder getInventoriesOrBuilder() {
+        if ((messageCase_ == 3) && (inventoriesBuilder_ != null)) {
+          return inventoriesBuilder_.getMessageOrBuilder();
         } else {
           if (messageCase_ == 3) {
-            return (club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_;
+            return (club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_;
           }
-          return club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance();
+          return club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance();
         }
       }
       /**
-       * <code>.clientMessage.InventoryResponse inventory = 3;</code>
+       * <code>.clientMessage.PlayerResponse inventories = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
-          club.thom.tem.models.messages.ClientMessages.InventoryResponse, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder, club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder> 
-          getInventoryFieldBuilder() {
-        if (inventoryBuilder_ == null) {
+          club.thom.tem.models.messages.ClientMessages.PlayerResponse, club.thom.tem.models.messages.ClientMessages.PlayerResponse.Builder, club.thom.tem.models.messages.ClientMessages.PlayerResponseOrBuilder> 
+          getInventoriesFieldBuilder() {
+        if (inventoriesBuilder_ == null) {
           if (!(messageCase_ == 3)) {
-            message_ = club.thom.tem.models.messages.ClientMessages.InventoryResponse.getDefaultInstance();
+            message_ = club.thom.tem.models.messages.ClientMessages.PlayerResponse.getDefaultInstance();
           }
-          inventoryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              club.thom.tem.models.messages.ClientMessages.InventoryResponse, club.thom.tem.models.messages.ClientMessages.InventoryResponse.Builder, club.thom.tem.models.messages.ClientMessages.InventoryResponseOrBuilder>(
-                  (club.thom.tem.models.messages.ClientMessages.InventoryResponse) message_,
+          inventoriesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.PlayerResponse, club.thom.tem.models.messages.ClientMessages.PlayerResponse.Builder, club.thom.tem.models.messages.ClientMessages.PlayerResponseOrBuilder>(
+                  (club.thom.tem.models.messages.ClientMessages.PlayerResponse) message_,
                   getParentForChildren(),
                   isClean());
           message_ = null;
         }
         messageCase_ = 3;
         onChanged();;
-        return inventoryBuilder_;
+        return inventoriesBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -11121,6 +11914,11 @@ public final class ClientMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_clientMessage_InventoryResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_clientMessage_PlayerResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_clientMessage_PlayerResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_clientMessage_Response_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -11155,25 +11953,26 @@ public final class ClientMessages {
       "Timestamp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMes" +
       "sage.PetH\000\022)\n\007petSkin\030\004 \001(\0132\026.clientMess" +
       "age.PetSkinH\000\022,\n\013armourPiece\030\005 \001(\0132\025.cli" +
-      "entMessage.ArmourH\000B\t\n\007message\"i\n\021Invent" +
-      "oryResponse\022\022\n\nplayerUuid\030\001 \001(\t\022\023\n\013profi" +
-      "leUuid\030\002 \001(\t\022+\n\005items\030\003 \003(\0132\034.clientMess" +
-      "age.InventoryItem\"\222\001\n\010Response\022\r\n\005nonce\030" +
-      "\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.clientMessa" +
-      "ge.FriendsResponseH\000\0225\n\tinventory\030\003 \001(\0132" +
-      " .clientMessage.InventoryResponseH\000B\t\n\007m" +
-      "essage\"\200\002\n\rClientMessage\022\025\n\rclientVersio" +
-      "n\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMessage.Au" +
-      "thMessageH\000\0222\n\017requestResponse\030\003 \001(\0132\027.c" +
-      "lientMessage.ResponseH\000\0227\n\014moreRequests\030" +
-      "\004 \001(\0132\037.clientMessage.ReadyForRequestsH\000" +
-      "\0224\n\013infoRequest\030\005 \001(\0132\035.clientMessage.Ge" +
-      "tInformationH\000B\t\n\007message*p\n\006Rarity\022\n\n\006C" +
-      "OMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020" +
-      "\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\013\n\007SPECIAL\020" +
-      "\006\022\020\n\014VERY_SPECIAL\020\007B8\n\035club.thom.tem.mod" +
-      "els.messagesZ\027protobuf/clientMessagesb\006p" +
-      "roto3"
+      "entMessage.ArmourH\000B\t\n\007message\"U\n\021Invent" +
+      "oryResponse\022\023\n\013profileUuid\030\001 \001(\t\022+\n\005item" +
+      "s\030\002 \003(\0132\034.clientMessage.InventoryItem\"X\n" +
+      "\016PlayerResponse\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010p" +
+      "rofiles\030\002 \003(\0132 .clientMessage.InventoryR" +
+      "esponse\"\221\001\n\010Response\022\r\n\005nonce\030\001 \001(\005\0225\n\013f" +
+      "riendsList\030\002 \001(\0132\036.clientMessage.Friends" +
+      "ResponseH\000\0224\n\013inventories\030\003 \001(\0132\035.client" +
+      "Message.PlayerResponseH\000B\t\n\007message\"\200\002\n\r" +
+      "ClientMessage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004" +
+      "auth\030\002 \001(\0132\032.clientMessage.AuthMessageH\000" +
+      "\0222\n\017requestResponse\030\003 \001(\0132\027.clientMessag" +
+      "e.ResponseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.cli" +
+      "entMessage.ReadyForRequestsH\000\0224\n\013infoReq" +
+      "uest\030\005 \001(\0132\035.clientMessage.GetInformatio" +
+      "nH\000B\t\n\007message*p\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010" +
+      "UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGEND" +
+      "ARY\020\004\022\n\n\006MYTHIC\020\005\022\013\n\007SPECIAL\020\006\022\020\n\014VERY_S" +
+      "PECIAL\020\007B8\n\035club.thom.tem.models.message" +
+      "sZ\027protobuf/clientMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -11232,15 +12031,21 @@ public final class ClientMessages {
     internal_static_clientMessage_InventoryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_InventoryResponse_descriptor,
-        new java.lang.String[] { "PlayerUuid", "ProfileUuid", "Items", });
-    internal_static_clientMessage_Response_descriptor =
+        new java.lang.String[] { "ProfileUuid", "Items", });
+    internal_static_clientMessage_PlayerResponse_descriptor =
       getDescriptor().getMessageTypes().get(9);
+    internal_static_clientMessage_PlayerResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_clientMessage_PlayerResponse_descriptor,
+        new java.lang.String[] { "PlayerUuid", "Profiles", });
+    internal_static_clientMessage_Response_descriptor =
+      getDescriptor().getMessageTypes().get(10);
     internal_static_clientMessage_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Response_descriptor,
-        new java.lang.String[] { "Nonce", "FriendsList", "Inventory", "Message", });
+        new java.lang.String[] { "Nonce", "FriendsList", "Inventories", "Message", });
     internal_static_clientMessage_ClientMessage_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_clientMessage_ClientMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_ClientMessage_descriptor,

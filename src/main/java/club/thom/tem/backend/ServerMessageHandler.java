@@ -2,6 +2,8 @@ package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.FriendsListRequest;
+import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
+import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ServerMessages.AuthData;
 import club.thom.tem.models.messages.ServerMessages.RequestMessage;
 import club.thom.tem.models.messages.ServerMessages.ServerMessage;
@@ -121,9 +123,24 @@ public class ServerMessageHandler extends WebSocketAdapter {
                 return;
             }
             ClientResponseHandler.sendFriendsResponse(socket, friends, uuid, request.getNonce());
+        } else if (request.hasInventoryRequest()) {
+            logger.debug("it's an inventory request!");
+            // Player uuid
+            String uuid = request.getInventoryRequest().getPlayerUuid();
+            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(uuid, TEM.api);
+            TEM.api.addToQueue(playerRequest);
+            PlayerData player;
+            try {
+                logger.debug("Getting player future...");
+                player = playerRequest.getFuture().get();
+                logger.debug("Got player future!!!");
+            } catch (ExecutionException | InterruptedException e) {
+                logger.error("Error while getting inventory: ", e);
+                return;
+            }
+            logger.debug("Sending inventory response...");
+            ClientResponseHandler.sendInventoryResponse(socket, player, uuid, request.getNonce());
         }
-        // TODO: Decode request type, add to hypixel request queue, wait for future to complete then send
-        // data back to the server
     }
 
 }
