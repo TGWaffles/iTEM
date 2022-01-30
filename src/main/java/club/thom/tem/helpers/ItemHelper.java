@@ -4,8 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -15,7 +15,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ItemHelper {
-    private static final Logger logger = LoggerFactory.getLogger(ItemHelper.class);
+    private static final Logger logger = LogManager.getLogger(ItemHelper.class);
     private static final String URL = "https://api.hypixel.net/resources/skyblock/items";
     private boolean ready = false;
     private final Lock readyLock = new ReentrantLock();

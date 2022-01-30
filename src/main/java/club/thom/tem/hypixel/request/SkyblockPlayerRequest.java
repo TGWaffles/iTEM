@@ -3,14 +3,14 @@ package club.thom.tem.hypixel.request;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.storage.TEMConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 public class SkyblockPlayerRequest extends Request {
-    private static final Logger logger = LoggerFactory.getLogger(SkyblockPlayerRequest.class);
+    private static final Logger logger = LogManager.getLogger(SkyblockPlayerRequest.class);
     CompletableFuture<PlayerData> future = new CompletableFuture<>();
     final String uuid;
 

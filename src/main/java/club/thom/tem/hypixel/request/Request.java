@@ -6,11 +6,10 @@ import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.MalformedJsonException;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
  * Base Request class for all requests to inherit from
  */
 public abstract class Request {
-    private static final Logger logger = LoggerFactory.getLogger(Request.class);
+    private static final Logger logger = LogManager.getLogger(Request.class);
     protected Hypixel controller;
     protected final String endpoint;
     public final boolean priority;
@@ -133,13 +132,6 @@ public abstract class Request {
             return null;
         } else if (returnedData.getStatus() == -1) {
             logger.error("-1 status, readding request to queue...");
-            controller.addToQueue(this);
-            isComplete.complete(false);
-            isComplete = new CompletableFuture<>();
-            return null;
-        } else if (returnedData.getStatus() == 500) {
-            // Server error?
-            logger.error("500 status, readding request to queue... url was: {}", urlBuilder);
             controller.addToQueue(this);
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();

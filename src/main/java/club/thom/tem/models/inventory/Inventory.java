@@ -4,14 +4,13 @@ import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.InventoryItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.inventory.item.PetSkinData;
-import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.models.messages.ClientMessages.InventoryItem;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -28,7 +27,7 @@ public class Inventory {
         data = processNbtString(base64EncodedNBT);
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(Inventory.class);
+    private static final Logger logger = LogManager.getLogger(Inventory.class);
 
     public static NBTTagCompound processNbtString(String base64EncodedNBT) {
         NBTTagCompound nbtData;

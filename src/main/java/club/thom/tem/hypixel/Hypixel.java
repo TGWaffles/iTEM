@@ -4,8 +4,8 @@ import club.thom.tem.backend.ClientResponseHandler;
 import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
 import club.thom.tem.storage.TEMConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.concurrent.locks.*;
  * Class for talking to the Hypixel API. Uses the API key set in TEMConfig.
  */
 public class Hypixel {
-    private static final Logger logger = LoggerFactory.getLogger(Hypixel.class);
+    private static final Logger logger = LogManager.getLogger(Hypixel.class);
     ReadWriteLock rateLimitLock = new ReentrantReadWriteLock();
     Lock waitingForItemLock = new ReentrantLock();
     Condition newItemInQueue = waitingForItemLock.newCondition();

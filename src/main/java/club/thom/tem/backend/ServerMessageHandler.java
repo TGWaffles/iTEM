@@ -13,15 +13,15 @@ import com.neovisionaries.ws.client.WebSocketAdapter;
 import com.neovisionaries.ws.client.WebSocketFrame;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class ServerMessageHandler extends WebSocketAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(ServerMessageHandler.class);
+    private static final Logger logger = LogManager.getLogger(ServerMessageHandler.class);
 
     @Override
     public void onConnected(WebSocket socket, Map<String, List<String>> headers) {

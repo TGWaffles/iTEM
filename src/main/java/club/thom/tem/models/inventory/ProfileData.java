@@ -5,8 +5,8 @@ import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.models.messages.ClientMessages.InventoryResponse;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class ProfileData {
     // Contains all the inventories (echest, inventory, pets menu) etc for a profile.
     // Can convert them all to items and compile them into an Inventory message to go back to server.
-    private static final Logger logger = LoggerFactory.getLogger(ProfileData.class);
+    private static final Logger logger = LogManager.getLogger(ProfileData.class);
     // Unused: fishing_bag, talisman_bag, quiver,
     private static final String[] inventoryNames = new String[]{"inv_armor", "inv_contents", "wardrobe_contents",
             "ender_chest_contents"};

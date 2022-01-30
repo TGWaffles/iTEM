@@ -4,8 +4,8 @@ import club.thom.tem.models.messages.ClientMessages.InventoryResponse;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 public class PlayerData {
     // Contains data about the various profiles. Can turn them all into Inventory message responses.
     private final JsonObject jsonData;
-    private static final Logger logger = LoggerFactory.getLogger(PlayerData.class);
+    private static final Logger logger = LogManager.getLogger(PlayerData.class);
     private final String playerUuid;
     private final List<ProfileData> profiles = new ArrayList<>();
 
@@ -26,7 +26,8 @@ public class PlayerData {
     }
 
     public void processProfiles() {
-        if (jsonData.get("profiles").isJsonNull()) {
+        // Normally success is only false if internal error 500
+        if (jsonData.get("profiles").isJsonNull() || !jsonData.get("success").getAsBoolean()) {
             fillProfilesWithBlank();
             return;
         }

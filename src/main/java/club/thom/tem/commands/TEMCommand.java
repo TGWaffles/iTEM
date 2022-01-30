@@ -4,15 +4,14 @@ import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.api.EssentialAPI;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TEMCommand extends CommandBase {
-    private static final Logger logger = LoggerFactory.getLogger(TEMCommand.class);
+    private static final Logger logger = LogManager.getLogger(TEMCommand.class);
     @Override
     public String getCommandName() {
         return "tem";

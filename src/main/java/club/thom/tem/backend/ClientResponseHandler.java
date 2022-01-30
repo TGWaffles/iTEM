@@ -4,8 +4,8 @@ import club.thom.tem.TEM;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages.*;
 import com.neovisionaries.ws.client.WebSocket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +14,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientResponseHandler {
-    private static final Logger logger = LoggerFactory.getLogger(ClientResponseHandler.class);
+    private static final Logger logger = LogManager.getLogger(ClientResponseHandler.class);
     public static Lock waitingForRateLimit = new ReentrantLock();
     public static Condition rateLimitChange = waitingForRateLimit.newCondition();
     private static Thread moreRequestsLoop = null;
