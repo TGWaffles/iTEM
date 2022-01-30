@@ -113,7 +113,14 @@ public class PetData extends InventoryItemData {
         if (!extraAttributes.getString("id").equals("PET")) {
             return false;
         }
-        JsonObject jsonData = new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject();
-        return jsonData.has("skin") && !jsonData.get("skin").isJsonNull();
+        try {
+            JsonObject jsonData = new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject();
+            return jsonData.has("skin") && !jsonData.get("skin").isJsonNull();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            System.out.println(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo"));
+            System.out.println("Pet info ^^^ weird couldnt be parsed...");
+            return false;
+        }
     }
 }

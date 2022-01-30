@@ -5,6 +5,8 @@ import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import org.slf4j.Logger;
@@ -52,15 +54,19 @@ public abstract class Request {
         logger.debug("Creating request to url: {}, params: {}", urlString, params);
         URL url = null;
         JsonObject jsonData;
-        HttpURLConnection uc = null;
+        HttpURLConnection uc;
         int status = -1;
         try {
             url = new URL(urlString);
             uc = (HttpURLConnection) url.openConnection();
+            uc.setReadTimeout(5000);
+            uc.setConnectTimeout(5000);
             logger.debug("Opening connection to url: {}, params: {}", urlString, params);
             uc.addRequestProperty("User-Agent",
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            logger.debug("Added request property for url: {}, params: {}, code: {}", urlString, params, status);
             status = uc.getResponseCode();
+            logger.debug("Got response code for url: {}, params: {}, code: {}", urlString, params, status);
             InputStream inputStream;
             if (status != 200) {
                 inputStream = uc.getErrorStream();
@@ -72,17 +78,8 @@ public abstract class Request {
             RequestData data = new RequestData(status, uc.getHeaderFields(), jsonData);
             logger.debug("Successfully parsed data from url: {}, params: {} -- data: {}", urlString, params, jsonData);
             return data;
-        } catch (IOException e) {
-            if (uc != null) {
-                try {
-                    uc.getResponseCode();
-                } catch (IOException ex) {
-                    logger.error("IOException when fetching data... (uc not null)", ex);
-                    logger.error("The url used was: {}", url.toExternalForm());
-                    return null;
-                }
-            }
-            logger.error("IOException when fetching data... (uc maybe null)", e);
+        } catch (IOException | JsonSyntaxException e) {
+            logger.error("Exception when fetching data... (uc maybe null)", e);
             logger.error("URL was: {}", url != null ? url.toExternalForm() : "null url");
             JsonObject errorObject = new JsonObject();
             errorObject.addProperty("success", false);
@@ -107,7 +104,6 @@ public abstract class Request {
             urlBuilder.deleteCharAt(urlBuilder.length() - 1);
         }
         RequestData returnedData = requestToReturnedData(urlBuilder.toString(), parameters);
-        assert returnedData != null;
         if (returnedData.getStatus() == 429) {
             int rateLimitResetSeconds = getNextResetSeconds(returnedData.getHeaders());
             // If there was no reset header
@@ -131,6 +127,12 @@ public abstract class Request {
             }
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Your API key is invalid. " +
                     "You are no longer accruing contributions."));
+            controller.addToQueue(this);
+            isComplete.complete(false);
+            isComplete = new CompletableFuture<>();
+            return null;
+        } else if (returnedData.getStatus() == -1) {
+            logger.error("-1 status, readding request to queue...");
             controller.addToQueue(this);
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();
