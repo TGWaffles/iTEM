@@ -105,6 +105,7 @@ public class TEM {
     @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
     public void onServerConnect(EntityJoinWorldEvent ignored) {
         new Thread(() -> checkAndUpdateUUID(true)).start();
+        new Thread(TEM::tellAboutInvalidKey).start();
     }
 
     private void checkAndUpdateUUID(boolean firstTry) {
@@ -151,7 +152,7 @@ public class TEM {
         WebSocket socket;
         try {
             logger.info("Connecting to socket!");
-            socket = wsFactory.createSocket("ws://localhost:6123", 5000);
+            socket = wsFactory.createSocket("wss://tem-backend.thom.club", 5000);
             logger.info("Connected!");
             socket.addListener(new ServerMessageHandler());
             socket.connect();
@@ -160,6 +161,19 @@ public class TEM {
             // Wait either 1.25 longer or 60s.
             reconnectSocket((long) (Math.min(after * 1.25, 60000)));
         }
+    }
+
+    public static void tellAboutInvalidKey() {
+        if (!TEMConfig.getHypixelKey().equals("")) {
+            return;
+        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            logger.error("Interrupted while waiting to tell about invalid key!", e);
+        }
+        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
+                "Your hypixel API key is set wrong! This means you are no longer earning  Do /tem setkey <api-key> or /api new to set it again!"));
     }
 
     @Mod.EventHandler
