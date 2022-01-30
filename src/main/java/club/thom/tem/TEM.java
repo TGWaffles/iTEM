@@ -159,7 +159,7 @@ public class TEM {
         } catch (IOException | WebSocketException e) {
             logger.error("Error setting up socket", e);
             // Wait either 1.25 longer or 60s.
-            reconnectSocket((long) (Math.max(after * 1.25, 60000)));
+            reconnectSocket((long) (Math.min(after * 1.25, 60000)));
         }
     }
 

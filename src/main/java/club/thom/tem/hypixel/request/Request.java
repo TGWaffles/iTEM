@@ -137,6 +137,13 @@ public abstract class Request {
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();
             return null;
+        } else if (returnedData.getStatus() == 500) {
+            // Server error?
+            logger.error("500 status, readding request to queue... url was: {}", urlBuilder);
+            controller.addToQueue(this);
+            isComplete.complete(false);
+            isComplete = new CompletableFuture<>();
+            return null;
         }
         // TODO: Check for errors, get rate-limit remaining, etc.
         int rateLimitRemaining = getRateLimitRemaining(returnedData.getHeaders());
