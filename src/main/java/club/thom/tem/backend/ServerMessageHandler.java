@@ -26,8 +26,8 @@ public class ServerMessageHandler extends WebSocketAdapter {
     @Override
     public void onConnected(WebSocket socket, Map<String, List<String>> headers) {
         // Authenticates with the server.
-        ClientResponseHandler.sendAuth(socket);
-        ClientResponseHandler.startMoreRequestsLoop(socket);
+        ClientResponseHandler.sendAuth();
+        ClientResponseHandler.startMoreRequestsLoop();
     }
 
     @Override
@@ -50,22 +50,22 @@ public class ServerMessageHandler extends WebSocketAdapter {
                 return;
             }
             if (message.hasAuth()) {
-                handleAuthMessage(socket, message.getAuth());
+                handleAuthMessage(message.getAuth());
                 return;
             }
             if (message.hasSingleRequest()) {
-                handleRequest(socket, message.getSingleRequest());
+                handleRequest(message.getSingleRequest());
                 return;
             }
             if (message.hasMultipleRequests()) {
                 for (RequestMessage request : message.getMultipleRequests().getRequestsList()) {
-                    new Thread(() -> handleRequest(socket, request)).start();
+                    new Thread(() -> handleRequest(request)).start();
                 }
             }
         }).start();
     }
 
-    private void handleAuthMessage(WebSocket socket, AuthData authMessage) {
+    private void handleAuthMessage(AuthData authMessage) {
         if (!authMessage.getSuccess()) {
             TEM.socketWorking = false;
             String humanReadableMessage = EnumChatFormatting.RED.toString() + EnumChatFormatting.BOLD;
@@ -103,11 +103,11 @@ public class ServerMessageHandler extends WebSocketAdapter {
             TEM.sendMessage(new ChatComponentText(humanReadableMessage));
         } else {
             // Ask backend for more requests
-            ClientResponseHandler.askForRequests(socket);
+            ClientResponseHandler.askForRequests();
         }
     }
 
-    private void handleRequest(WebSocket socket, RequestMessage request) {
+    private void handleRequest(RequestMessage request) {
         logger.debug("Received request");
         if (request.hasFriendRequest()) {
             logger.debug("it's a friends request");
@@ -122,7 +122,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
                 logger.error("Error while getting friends list: ", e);
                 return;
             }
-            ClientResponseHandler.sendFriendsResponse(socket, friends, uuid, request.getNonce());
+            ClientResponseHandler.sendFriendsResponse(friends, uuid, request.getNonce());
         } else if (request.hasInventoryRequest()) {
             logger.debug("it's an inventory request!");
             // Player uuid
@@ -139,7 +139,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
                 return;
             }
             logger.debug("Sending inventory response...");
-            ClientResponseHandler.sendInventoryResponse(socket, player, uuid, request.getNonce());
+            ClientResponseHandler.sendInventoryResponse(player, uuid, request.getNonce());
         }
     }
 

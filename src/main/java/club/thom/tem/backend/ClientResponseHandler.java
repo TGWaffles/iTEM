@@ -3,7 +3,6 @@ package club.thom.tem.backend;
 import club.thom.tem.TEM;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages.*;
-import com.neovisionaries.ws.client.WebSocket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +19,7 @@ public class ClientResponseHandler {
     private static Thread moreRequestsLoop = null;
     private static long lastAsked = System.currentTimeMillis();
 
-    public static void startMoreRequestsLoop(WebSocket socket) {
+    public static void startMoreRequestsLoop() {
         if (moreRequestsLoop != null) {
             moreRequestsLoop.interrupt();
         }
@@ -56,7 +55,7 @@ public class ClientResponseHandler {
                 }
                 // Get requests based on how big the queue is and how many requests we can make
                 logger.error("asking for requests!!");
-                askForRequests(socket);
+                askForRequests();
                 // For timeout on asking
                 lastAsked = System.currentTimeMillis();
             }
@@ -64,7 +63,7 @@ public class ClientResponseHandler {
         moreRequestsLoop.start();
     }
 
-    public static void askForRequests(WebSocket socket) {
+    public static void askForRequests() {
         if (!TEM.socketWorking) {
             logger.error("not asking for requests, socket not working...");
             return;
@@ -79,10 +78,10 @@ public class ClientResponseHandler {
         ReadyForRequests.Builder readyForRequests = ReadyForRequests.newBuilder().setNumberOfRequests(requestsAble);
         ClientMessage message = ClientMessage.newBuilder().setMoreRequests(readyForRequests).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        socket.sendBinary(message.toByteArray());
+        TEM.socket.sendBinary(message.toByteArray());
     }
 
-    public static void sendAuth(WebSocket socket) {
+    public static void sendAuth() {
         if (!TEM.socketWorking) {
             return;
         }
@@ -91,10 +90,10 @@ public class ClientResponseHandler {
         AuthMessage.Builder auth = AuthMessage.newBuilder().setUuid(uuid);
         ClientMessage message = ClientMessage.newBuilder().setAuth(auth).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        socket.sendBinary(message.toByteArray());
+        TEM.socket.sendBinary(message.toByteArray());
     }
 
-    public static void sendFriendsResponse(WebSocket socket, List<String> friendUuids, String originUuid, int nonce) {
+    public static void sendFriendsResponse(List<String> friendUuids, String originUuid, int nonce) {
         if (!TEM.socketWorking) {
             return;
         }
@@ -106,10 +105,10 @@ public class ClientResponseHandler {
         Response.Builder response = Response.newBuilder().setFriendsList(friends).setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        socket.sendBinary(message.toByteArray());
+        TEM.socket.sendBinary(message.toByteArray());
     }
 
-    public static void sendInventoryResponse(WebSocket socket, PlayerData playerData, String playerUuid, int nonce) {
+    public static void sendInventoryResponse(PlayerData playerData, String playerUuid, int nonce) {
         if (!TEM.socketWorking) {
             return;
         }
@@ -120,7 +119,7 @@ public class ClientResponseHandler {
                 .setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        socket.sendBinary(message.toByteArray());
+        TEM.socket.sendBinary(message.toByteArray());
         logger.debug("Sent inventory response!");
     }
 

@@ -59,6 +59,7 @@ public class TEM {
     private static final Lock lock = new ReentrantLock();
     private static final Condition waitForUuid = lock.newCondition();
     private static final WebSocketFactory wsFactory = new WebSocketFactory();
+    public static WebSocket socket;
 
 
     public static void forceSaveConfig() {
@@ -149,7 +150,6 @@ public class TEM {
         } catch (InterruptedException e) {
             logger.error("Sleep interrupted in reconnectSocket", e);
         }
-        WebSocket socket;
         try {
             logger.info("Connecting to socket!");
             socket = wsFactory.createSocket("wss://tem-backend.thom.club", 5000);

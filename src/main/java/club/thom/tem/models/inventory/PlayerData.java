@@ -27,7 +27,7 @@ public class PlayerData {
 
     public void processProfiles() {
         // Normally success is only false if internal error 500
-        if (jsonData.get("profiles").isJsonNull() || !jsonData.get("success").getAsBoolean()) {
+        if (!jsonData.get("success").getAsBoolean() || jsonData.get("profiles").isJsonNull()) {
             fillProfilesWithBlank();
             return;
         }

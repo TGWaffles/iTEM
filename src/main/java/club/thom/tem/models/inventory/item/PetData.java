@@ -100,9 +100,10 @@ public class PetData extends InventoryItemData {
                 4237985, 4549685, 4883385, 5241085, 5624785, 6036485, 6478185, 6954885, 7471585, 8033285, 8644985,
                 9311685, 10038385, 10830085, 11691785, 12628485, 13645185, 14746885, 15938585, 17225285, 18611985,
                 20108685, 21725385, 23472085, 25358785};
+        int startingXp = levelData[rarityOffset.get(rarity)];
         for (int i = 0; i < levelData.length; i++) {
-            if (xp < levelData[i]) {
-                return i - rarityOffset.get(rarity);
+            if (xp < levelData[i] - startingXp) {
+                return Math.min(i - rarityOffset.get(rarity), 100);
             }
         }
         return 100;

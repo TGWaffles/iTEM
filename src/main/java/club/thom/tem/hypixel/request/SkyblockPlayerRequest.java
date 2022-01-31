@@ -33,15 +33,13 @@ public class SkyblockPlayerRequest extends Request {
         if (data == null) {
             return;
         }
-        if (data.getStatus() == 200) {
-            logger.debug("Creating player data.");
-            PlayerData playerData = new PlayerData(data.getJson(), uuid);
-            logger.debug("Completing future...");
-            future.complete(playerData);
-            return;
+        logger.debug("Creating player data.");
+        PlayerData playerData = new PlayerData(data.getJson(), uuid);
+        logger.debug("Completing future...");
+        future.complete(playerData);
+        if (data.getStatus() != 200) {
+            logger.error("Code: {} while making player request...", data.getStatus());
         }
-        logger.error("Error code: {} while making player request...", data.getStatus());
-        future.complete(null);
     }
 
     @Override
