@@ -45,13 +45,17 @@ public final class ClientMessages {
      */
     MYTHIC(5),
     /**
-     * <code>SPECIAL = 6;</code>
+     * <code>DIVINE = 6;</code>
      */
-    SPECIAL(6),
+    DIVINE(6),
     /**
-     * <code>VERY_SPECIAL = 7;</code>
+     * <code>SPECIAL = 7;</code>
      */
-    VERY_SPECIAL(7),
+    SPECIAL(7),
+    /**
+     * <code>VERY_SPECIAL = 8;</code>
+     */
+    VERY_SPECIAL(8),
     UNRECOGNIZED(-1),
     ;
 
@@ -80,13 +84,17 @@ public final class ClientMessages {
      */
     public static final int MYTHIC_VALUE = 5;
     /**
-     * <code>SPECIAL = 6;</code>
+     * <code>DIVINE = 6;</code>
      */
-    public static final int SPECIAL_VALUE = 6;
+    public static final int DIVINE_VALUE = 6;
     /**
-     * <code>VERY_SPECIAL = 7;</code>
+     * <code>SPECIAL = 7;</code>
      */
-    public static final int VERY_SPECIAL_VALUE = 7;
+    public static final int SPECIAL_VALUE = 7;
+    /**
+     * <code>VERY_SPECIAL = 8;</code>
+     */
+    public static final int VERY_SPECIAL_VALUE = 8;
 
 
     public final int getNumber() {
@@ -119,8 +127,9 @@ public final class ClientMessages {
         case 3: return EPIC;
         case 4: return LEGENDARY;
         case 5: return MYTHIC;
-        case 6: return SPECIAL;
-        case 7: return VERY_SPECIAL;
+        case 6: return DIVINE;
+        case 7: return SPECIAL;
+        case 8: return VERY_SPECIAL;
         default: return null;
       }
     }
@@ -11968,11 +11977,12 @@ public final class ClientMessages {
       "e.ResponseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.cli" +
       "entMessage.ReadyForRequestsH\000\0224\n\013infoReq" +
       "uest\030\005 \001(\0132\035.clientMessage.GetInformatio" +
-      "nH\000B\t\n\007message*p\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010" +
+      "nH\000B\t\n\007message*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010" +
       "UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGEND" +
-      "ARY\020\004\022\n\n\006MYTHIC\020\005\022\013\n\007SPECIAL\020\006\022\020\n\014VERY_S" +
-      "PECIAL\020\007B8\n\035club.thom.tem.models.message" +
-      "sZ\027protobuf/clientMessagesb\006proto3"
+      "ARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL" +
+      "\020\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035club.thom.tem.mo" +
+      "dels.messagesZ\027protobuf/clientMessagesb\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

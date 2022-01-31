@@ -35,7 +35,12 @@ public class ProfileData {
         logger.debug("Starting profile");
         profileUuid = profileAsJson.get("profile_id").getAsString();
         // Each profile has a members dict with the player uuids as the key.
-        JsonObject playerProfile = profileAsJson.get("members").getAsJsonObject().get(playerUuid).getAsJsonObject();
+        JsonObject playerProfile;
+        try {
+            playerProfile = profileAsJson.get("members").getAsJsonObject().get(playerUuid).getAsJsonObject();
+        } catch (NullPointerException e) {
+            return;
+        }
         for (String inventoryName : inventoryNames) {
             if (!playerProfile.has(inventoryName)) {
                 // Can be missing some if inventory api is disabled!
@@ -51,7 +56,6 @@ public class ProfileData {
             }
         }
         logger.debug("Finished backpacks...");
-
     }
 
     private List<ClientMessages.InventoryItem> getPetsMenuItems() {

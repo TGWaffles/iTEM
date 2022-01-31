@@ -3,6 +3,7 @@ package club.thom.tem.hypixel.request;
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.storage.TEMConfig;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
@@ -77,7 +78,7 @@ public abstract class Request {
             RequestData data = new RequestData(status, uc.getHeaderFields(), jsonData);
             logger.debug("Successfully parsed data from url: {}, params: {} -- data: {}", urlString, params, jsonData);
             return data;
-        } catch (IOException | JsonSyntaxException e) {
+        } catch (IOException | JsonSyntaxException | JsonIOException e) {
             logger.error("Exception when fetching data... (uc maybe null)", e);
             logger.error("URL was: {}", url != null ? url.toExternalForm() : "null url");
             JsonObject errorObject = new JsonObject();
