@@ -53,6 +53,7 @@ public class TEMCommand extends CommandBase {
                     TEMConfig.enableExotics = true;
                     TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + args[1] + "!"));
                 }).start();
+                return;
             } // Prints help on /tem to chat.
             else {
                 TEM.sendMessage(getHelpMessage());
