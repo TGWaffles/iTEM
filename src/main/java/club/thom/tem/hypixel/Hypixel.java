@@ -39,7 +39,7 @@ public class Hypixel {
         rateLimitLock.writeLock().lock();
         try {
             remainingRateLimit = 0;
-            logger.error("Setting remaining rate limit to 0 as we got a 429, for {} seconds", resetSeconds);
+            logger.debug("Setting remaining rate limit to 0 as we got a 429, for {} seconds", resetSeconds);
             rateLimitResetTime = System.currentTimeMillis() + (1000L * resetSeconds);
         } finally {
             rateLimitLock.writeLock().unlock();

@@ -33,13 +33,13 @@ public class ClientResponseHandler {
                     logger.error("Interrupted while waiting for rateLimitChange");
                     return;
                 } finally {
-                    logger.error("releasing lock...");
-                    logger.error("queue size: {}", TEM.api.getQueueSize());
+                    logger.debug("releasing lock...");
+                    logger.debug("queue size: {}", TEM.api.getQueueSize());
                     waitingForRateLimit.unlock();
                 }
                 // 30s cool-down in case there are no requests to update the rate-limit
                 if (!returnedSuccessfully && TEM.api.getQueueSize() > 0) {
-                    logger.error("skip because queue too big");
+                    logger.debug("skip because queue too big");
                     continue;
                 }
                 // 30s in between requests so we dont overwhelm ourselves :)
@@ -54,7 +54,7 @@ public class ClientResponseHandler {
                     }
                 }
                 // Get requests based on how big the queue is and how many requests we can make
-                logger.error("asking for requests!!");
+                logger.debug("asking for requests!!");
                 askForRequests();
                 // For timeout on asking
                 lastAsked = System.currentTimeMillis();
@@ -70,7 +70,7 @@ public class ClientResponseHandler {
         }
         int requestsAble = TEM.api.getRateLimit() - TEM.api.getQueueSize();
         if (requestsAble <= 0) {
-            logger.error("not asking for requests, no requests able: {}, ratelimit: {}", requestsAble,
+            logger.debug("not asking for requests, no requests able: {}, ratelimit: {}", requestsAble,
                     TEM.api.getRateLimit());
             return;
         }

@@ -90,7 +90,8 @@ public class TEM {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        setUpLogging();
+        // Don't set up logging on any version released - log files grow very quickly.
+//        setUpLogging();
         logger.info("Initialising TEM");
         api = new Hypixel();
         config.initialize();
