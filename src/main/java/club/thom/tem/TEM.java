@@ -46,7 +46,9 @@ public class TEM {
     public static final String VERSION = "@@VERSION@@";
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
-
+    private static final String[] WEBSOCKET_APIS = new String[]{"wss://tem-backend.thom.club",
+            "ws://tem-backend.thom.club"};
+    private static int websocketIndex = 0;
     public static final int CLIENT_VERSION = clientVersionFromVersion();
 
     public static TEMConfig config = new TEMConfig();
@@ -95,6 +97,7 @@ public class TEM {
         logger.info("Initialising TEM");
         api = new Hypixel();
         config.initialize();
+        wsFactory.setVerifyHostname(false);
         new Thread(() -> reconnectSocket(100)).start();
         // Create global API/rate-limit handler
         // Start the requests loop
@@ -153,12 +156,16 @@ public class TEM {
         }
         try {
             logger.info("Connecting to socket!");
-            socket = wsFactory.createSocket("wss://tem-backend.thom.club", 5000);
+            socket = wsFactory.createSocket(WEBSOCKET_APIS[websocketIndex], 5000);
             logger.info("Connected!");
             socket.addListener(new ServerMessageHandler());
             socket.connect();
         } catch (IOException | WebSocketException e) {
             logger.error("Error setting up socket", e);
+            websocketIndex++;
+            if (websocketIndex >= WEBSOCKET_APIS.length) {
+                websocketIndex = 0;
+            }
             // Wait either 1.25 longer or 60s.
             reconnectSocket((long) (Math.min(after * 1.25, 60000)));
         }
