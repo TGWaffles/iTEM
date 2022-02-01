@@ -23,6 +23,25 @@ public class TEMConfig extends Vigilant {
     @Property(
             type = PropertyType.SWITCH,
             category = "TEM",
+            subcategory = "Contributions",
+            name = "Enable Contributions",
+            description = "Enable Earning Contributions"
+    )
+    public static boolean enableContributions = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Contributions",
+            name = "Maximum Contributions",
+            description = "Earn the most contributions by maxing out your rate-limit every minute (may make commands " +
+                    "like /pv and /nw break, I recommend using this for alts or when you're AFK)"
+    )
+    public static boolean useWholeRateLimit = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
             subcategory = "Toggles",
             name = "Enable Exotics",
             description = "Enable Exotic Armour"

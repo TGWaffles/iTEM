@@ -39,7 +39,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 // Restriction: never make one of the subversion numbers > 255 due to how versioning works.
-version = "0.0.0.1"
+version = "0.0.0.2"
 group= "club.thom.tem" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TEM"
 
@@ -59,8 +59,10 @@ dependencies {
     implementation "gg.essential:loader-launchwrapper:1.1.2"
     implementation "gg.essential:essential-1.8.9-forge:1543+release-launch"
     // Included in essentials but just in case
-    implementation "com.electronwill.night-config:core:3.6.0"
+    //noinspection GradlePackageUpdate
     implementation "com.electronwill.night-config:toml:3.6.0"
+    //noinspection GradlePackageUpdate
+    implementation "com.electronwill.night-config:core:3.6.0"
     // Tests for MCForge
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.awaitility:awaitility-groovy:4.1.1'
@@ -68,7 +70,8 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:2.0.9'
     testCompile 'org.powermock:powermock-api-mockito2:2.0.9'
 
-    // Log4J (this is safe as of 2.17!)
+    // Log4J (already packaged with forge)
+    //noinspection GradlePackageUpdate
     implementation 'org.apache.logging.log4j:log4j:2.0-beta9'
 
     // For talking to the backend
