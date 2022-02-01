@@ -6028,17 +6028,29 @@ public final class ServerMessages {
         getAuctionUuidBytes();
 
     /**
-     * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+     * <code>string auctioneerUuid = 2;</code>
+     * @return The auctioneerUuid.
+     */
+    java.lang.String getAuctioneerUuid();
+    /**
+     * <code>string auctioneerUuid = 2;</code>
+     * @return The bytes for auctioneerUuid.
+     */
+    com.google.protobuf.ByteString
+        getAuctioneerUuidBytes();
+
+    /**
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
      * @return Whether the armour field is set.
      */
     boolean hasArmour();
     /**
-     * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
      * @return The armour.
      */
     club.thom.tem.models.messages.ServerMessages.ArmourSnipe getArmour();
     /**
-     * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
      */
     club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder getArmourOrBuilder();
 
@@ -6058,6 +6070,7 @@ public final class ServerMessages {
     }
     private SniperMessage() {
       auctionUuid_ = "";
+      auctioneerUuid_ = "";
     }
 
     @java.lang.Override
@@ -6097,8 +6110,14 @@ public final class ServerMessages {
               break;
             }
             case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              auctioneerUuid_ = s;
+              break;
+            }
+            case 26: {
               club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder subBuilder = null;
-              if (messageCase_ == 2) {
+              if (messageCase_ == 3) {
                 subBuilder = ((club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_).toBuilder();
               }
               message_ =
@@ -6107,7 +6126,7 @@ public final class ServerMessages {
                 subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_);
                 message_ = subBuilder.buildPartial();
               }
-              messageCase_ = 2;
+              messageCase_ = 3;
               break;
             }
             default: {
@@ -6147,7 +6166,7 @@ public final class ServerMessages {
     public enum MessageCase
         implements com.google.protobuf.Internal.EnumLite,
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
-      ARMOUR(2),
+      ARMOUR(3),
       MESSAGE_NOT_SET(0);
       private final int value;
       private MessageCase(int value) {
@@ -6165,7 +6184,7 @@ public final class ServerMessages {
 
       public static MessageCase forNumber(int value) {
         switch (value) {
-          case 2: return ARMOUR;
+          case 3: return ARMOUR;
           case 0: return MESSAGE_NOT_SET;
           default: return null;
         }
@@ -6219,32 +6238,70 @@ public final class ServerMessages {
       }
     }
 
-    public static final int ARMOUR_FIELD_NUMBER = 2;
+    public static final int AUCTIONEERUUID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object auctioneerUuid_;
     /**
-     * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+     * <code>string auctioneerUuid = 2;</code>
+     * @return The auctioneerUuid.
+     */
+    @java.lang.Override
+    public java.lang.String getAuctioneerUuid() {
+      java.lang.Object ref = auctioneerUuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        auctioneerUuid_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string auctioneerUuid = 2;</code>
+     * @return The bytes for auctioneerUuid.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAuctioneerUuidBytes() {
+      java.lang.Object ref = auctioneerUuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        auctioneerUuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ARMOUR_FIELD_NUMBER = 3;
+    /**
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
      * @return Whether the armour field is set.
      */
     @java.lang.Override
     public boolean hasArmour() {
-      return messageCase_ == 2;
+      return messageCase_ == 3;
     }
     /**
-     * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
      * @return The armour.
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ServerMessages.ArmourSnipe getArmour() {
-      if (messageCase_ == 2) {
+      if (messageCase_ == 3) {
          return (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_;
       }
       return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
     }
     /**
-     * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder getArmourOrBuilder() {
-      if (messageCase_ == 2) {
+      if (messageCase_ == 3) {
          return (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_;
       }
       return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
@@ -6267,8 +6324,11 @@ public final class ServerMessages {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(auctionUuid_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, auctionUuid_);
       }
-      if (messageCase_ == 2) {
-        output.writeMessage(2, (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_);
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(auctioneerUuid_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, auctioneerUuid_);
+      }
+      if (messageCase_ == 3) {
+        output.writeMessage(3, (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_);
       }
       unknownFields.writeTo(output);
     }
@@ -6282,9 +6342,12 @@ public final class ServerMessages {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(auctionUuid_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, auctionUuid_);
       }
-      if (messageCase_ == 2) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(auctioneerUuid_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, auctioneerUuid_);
+      }
+      if (messageCase_ == 3) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_);
+          .computeMessageSize(3, (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6303,9 +6366,11 @@ public final class ServerMessages {
 
       if (!getAuctionUuid()
           .equals(other.getAuctionUuid())) return false;
+      if (!getAuctioneerUuid()
+          .equals(other.getAuctioneerUuid())) return false;
       if (!getMessageCase().equals(other.getMessageCase())) return false;
       switch (messageCase_) {
-        case 2:
+        case 3:
           if (!getArmour()
               .equals(other.getArmour())) return false;
           break;
@@ -6325,8 +6390,10 @@ public final class ServerMessages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + AUCTIONUUID_FIELD_NUMBER;
       hash = (53 * hash) + getAuctionUuid().hashCode();
+      hash = (37 * hash) + AUCTIONEERUUID_FIELD_NUMBER;
+      hash = (53 * hash) + getAuctioneerUuid().hashCode();
       switch (messageCase_) {
-        case 2:
+        case 3:
           hash = (37 * hash) + ARMOUR_FIELD_NUMBER;
           hash = (53 * hash) + getArmour().hashCode();
           break;
@@ -6468,6 +6535,8 @@ public final class ServerMessages {
         super.clear();
         auctionUuid_ = "";
 
+        auctioneerUuid_ = "";
+
         messageCase_ = 0;
         message_ = null;
         return this;
@@ -6497,7 +6566,8 @@ public final class ServerMessages {
       public club.thom.tem.models.messages.ServerMessages.SniperMessage buildPartial() {
         club.thom.tem.models.messages.ServerMessages.SniperMessage result = new club.thom.tem.models.messages.ServerMessages.SniperMessage(this);
         result.auctionUuid_ = auctionUuid_;
-        if (messageCase_ == 2) {
+        result.auctioneerUuid_ = auctioneerUuid_;
+        if (messageCase_ == 3) {
           if (armourBuilder_ == null) {
             result.message_ = message_;
           } else {
@@ -6555,6 +6625,10 @@ public final class ServerMessages {
         if (other == club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance()) return this;
         if (!other.getAuctionUuid().isEmpty()) {
           auctionUuid_ = other.auctionUuid_;
+          onChanged();
+        }
+        if (!other.getAuctioneerUuid().isEmpty()) {
+          auctioneerUuid_ = other.auctioneerUuid_;
           onChanged();
         }
         switch (other.getMessageCase()) {
@@ -6686,36 +6760,112 @@ public final class ServerMessages {
         return this;
       }
 
+      private java.lang.Object auctioneerUuid_ = "";
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @return The auctioneerUuid.
+       */
+      public java.lang.String getAuctioneerUuid() {
+        java.lang.Object ref = auctioneerUuid_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          auctioneerUuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @return The bytes for auctioneerUuid.
+       */
+      public com.google.protobuf.ByteString
+          getAuctioneerUuidBytes() {
+        java.lang.Object ref = auctioneerUuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          auctioneerUuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @param value The auctioneerUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAuctioneerUuid(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        auctioneerUuid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAuctioneerUuid() {
+        
+        auctioneerUuid_ = getDefaultInstance().getAuctioneerUuid();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @param value The bytes for auctioneerUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAuctioneerUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        auctioneerUuid_ = value;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ServerMessages.ArmourSnipe, club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder, club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder> armourBuilder_;
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        * @return Whether the armour field is set.
        */
       @java.lang.Override
       public boolean hasArmour() {
-        return messageCase_ == 2;
+        return messageCase_ == 3;
       }
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        * @return The armour.
        */
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.ArmourSnipe getArmour() {
         if (armourBuilder_ == null) {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 3) {
             return (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_;
           }
           return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
         } else {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 3) {
             return armourBuilder_.getMessage();
           }
           return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        */
       public Builder setArmour(club.thom.tem.models.messages.ServerMessages.ArmourSnipe value) {
         if (armourBuilder_ == null) {
@@ -6727,11 +6877,11 @@ public final class ServerMessages {
         } else {
           armourBuilder_.setMessage(value);
         }
-        messageCase_ = 2;
+        messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        */
       public Builder setArmour(
           club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder builderForValue) {
@@ -6741,15 +6891,15 @@ public final class ServerMessages {
         } else {
           armourBuilder_.setMessage(builderForValue.build());
         }
-        messageCase_ = 2;
+        messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        */
       public Builder mergeArmour(club.thom.tem.models.messages.ServerMessages.ArmourSnipe value) {
         if (armourBuilder_ == null) {
-          if (messageCase_ == 2 &&
+          if (messageCase_ == 3 &&
               message_ != club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance()) {
             message_ = club.thom.tem.models.messages.ServerMessages.ArmourSnipe.newBuilder((club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_)
                 .mergeFrom(value).buildPartial();
@@ -6758,26 +6908,26 @@ public final class ServerMessages {
           }
           onChanged();
         } else {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 3) {
             armourBuilder_.mergeFrom(value);
           }
           armourBuilder_.setMessage(value);
         }
-        messageCase_ = 2;
+        messageCase_ = 3;
         return this;
       }
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        */
       public Builder clearArmour() {
         if (armourBuilder_ == null) {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 3) {
             messageCase_ = 0;
             message_ = null;
             onChanged();
           }
         } else {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 3) {
             messageCase_ = 0;
             message_ = null;
           }
@@ -6786,33 +6936,33 @@ public final class ServerMessages {
         return this;
       }
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        */
       public club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder getArmourBuilder() {
         return getArmourFieldBuilder().getBuilder();
       }
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        */
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder getArmourOrBuilder() {
-        if ((messageCase_ == 2) && (armourBuilder_ != null)) {
+        if ((messageCase_ == 3) && (armourBuilder_ != null)) {
           return armourBuilder_.getMessageOrBuilder();
         } else {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 3) {
             return (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_;
           }
           return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.ArmourSnipe armour = 2;</code>
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ServerMessages.ArmourSnipe, club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder, club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder> 
           getArmourFieldBuilder() {
         if (armourBuilder_ == null) {
-          if (!(messageCase_ == 2)) {
+          if (!(messageCase_ == 3)) {
             message_ = club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
           }
           armourBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -6822,7 +6972,7 @@ public final class ServerMessages {
                   isClean());
           message_ = null;
         }
-        messageCase_ = 2;
+        messageCase_ = 3;
         onChanged();;
         return armourBuilder_;
       }
@@ -8676,22 +8826,22 @@ public final class ServerMessages {
       "stMessage\"w\n\013ArmourSnipe\022\016\n\006itemId\030\001 \001(\t" +
       "\022\017\n\007hexCode\030\002 \001(\t\022%\n\006rarity\030\003 \001(\0162\025.serv" +
       "erMessage.Rarity\022\r\n\005price\030\004 \001(\003\022\021\n\textra" +
-      "Data\030\005 \001(\t\"]\n\rSniperMessage\022\023\n\013auctionUu" +
-      "id\030\001 \001(\t\022,\n\006armour\030\002 \001(\0132\032.serverMessage" +
-      ".ArmourSnipeH\000B\t\n\007message\"\266\002\n\rServerMess" +
-      "age\022\035\n\025expectedClientVersion\030\001 \001(\005\022\'\n\004au" +
-      "th\030\002 \001(\0132\027.serverMessage.AuthDataH\000\0227\n\020m" +
-      "ultipleRequests\030\003 \001(\0132\033.serverMessage.Bu" +
-      "lkRequestsH\000\0226\n\rsingleRequest\030\004 \001(\0132\035.se" +
-      "rverMessage.RequestMessageH\000\0222\n\004info\030\005 \001" +
-      "(\0132\".serverMessage.InformationResponseH\000" +
-      "\022-\n\005snipe\030\006 \001(\0132\034.serverMessage.SniperMe" +
-      "ssageH\000B\t\n\007message*|\n\006Rarity\022\n\n\006COMMON\020\000" +
-      "\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLE" +
-      "GENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPE" +
-      "CIAL\020\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035club.thom.te" +
-      "m.models.messagesZ\027protobuf/serverMessag" +
-      "esb\006proto3"
+      "Data\030\005 \001(\t\"u\n\rSniperMessage\022\023\n\013auctionUu" +
+      "id\030\001 \001(\t\022\026\n\016auctioneerUuid\030\002 \001(\t\022,\n\006armo" +
+      "ur\030\003 \001(\0132\032.serverMessage.ArmourSnipeH\000B\t" +
+      "\n\007message\"\266\002\n\rServerMessage\022\035\n\025expectedC" +
+      "lientVersion\030\001 \001(\005\022\'\n\004auth\030\002 \001(\0132\027.serve" +
+      "rMessage.AuthDataH\000\0227\n\020multipleRequests\030" +
+      "\003 \001(\0132\033.serverMessage.BulkRequestsH\000\0226\n\r" +
+      "singleRequest\030\004 \001(\0132\035.serverMessage.Requ" +
+      "estMessageH\000\0222\n\004info\030\005 \001(\0132\".serverMessa" +
+      "ge.InformationResponseH\000\022-\n\005snipe\030\006 \001(\0132" +
+      "\034.serverMessage.SniperMessageH\000B\t\n\007messa" +
+      "ge*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010" +
+      "\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYT" +
+      "HIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY_S" +
+      "PECIAL\020\010B8\n\035club.thom.tem.models.message" +
+      "sZ\027protobuf/serverMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -8744,7 +8894,7 @@ public final class ServerMessages {
     internal_static_serverMessage_SniperMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_SniperMessage_descriptor,
-        new java.lang.String[] { "AuctionUuid", "Armour", "Message", });
+        new java.lang.String[] { "AuctionUuid", "AuctioneerUuid", "Armour", "Message", });
     internal_static_serverMessage_ServerMessage_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_serverMessage_ServerMessage_fieldAccessorTable = new

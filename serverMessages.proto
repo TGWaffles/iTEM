@@ -79,8 +79,9 @@ message ArmourSnipe {
 
 message SniperMessage {
   string auctionUuid = 1;
+  string auctioneerUuid = 2;
   oneof message {
-    ArmourSnipe armour = 2;
+    ArmourSnipe armour = 3;
   }
 }
 
