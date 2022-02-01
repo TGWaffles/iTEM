@@ -4,6 +4,7 @@ import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.api.EssentialAPI;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -31,10 +32,13 @@ public class TEMCommand extends CommandBase {
 
 
     @Override
-    public void processCommand(ICommandSender sender, String[] args) {
+    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if (args.length == 1) {
             if (args[0].toLowerCase().startsWith("con")) {
                 EssentialAPI.getGuiUtil().openScreen(TEM.config.gui());
+            }else if(args[0].toLowerCase().startsWith("b")){
+                System.arraycopy(args, 1, args, 0, args.length);
+              BlacklistCommand.processCommand(sender,args);
             } else {
                 TEM.waitForPlayer();
                 TEM.sendMessage(getHelpMessage());

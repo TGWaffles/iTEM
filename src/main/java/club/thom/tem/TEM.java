@@ -104,7 +104,6 @@ public class TEM {
         // Start the requests loop
         new Thread(api::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
-        ClientCommandHandler.instance.registerCommand(new BlacklistCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(this);
     }
