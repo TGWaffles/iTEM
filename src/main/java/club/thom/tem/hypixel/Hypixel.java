@@ -158,6 +158,12 @@ public class Hypixel {
                     rateLimitLock.readLock().unlock();
                 }
                 List<CompletableFuture<?>> requestFutures = new ArrayList<>();
+
+                if (requestQueue.peek() instanceof KeyLookupRequest) {
+                    Request request = requestQueue.take();
+                    requestFutures.add(request.getCompletionFuture());
+                    new Thread(request::makeRequest).start();
+                }
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
                     logger.debug("LOOP-> for loop!");
