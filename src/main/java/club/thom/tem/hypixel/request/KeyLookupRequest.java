@@ -7,12 +7,15 @@ import java.util.concurrent.CompletableFuture;
 
 public class KeyLookupRequest extends Request {
     CompletableFuture<Boolean> future = new CompletableFuture<>();
+    final String key;
 
     public KeyLookupRequest(String key, Hypixel controller) {
-        super("key", generateParameters(key), controller, true);
+        super("key", controller, true);
+        this.key = key;
     }
 
-    public static HashMap<String, String> generateParameters(String key) {
+    @Override
+    public HashMap<String, String> generateParameters() {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("key", key);
         return parameters;
@@ -26,6 +29,7 @@ public class KeyLookupRequest extends Request {
         }
         if (data.getStatus() == 200) {
             future.complete(true);
+            return;
         }
         future.complete(false);
     }

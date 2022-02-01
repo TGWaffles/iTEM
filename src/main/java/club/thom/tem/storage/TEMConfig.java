@@ -5,13 +5,11 @@ import club.thom.tem.hypixel.request.KeyLookupRequest;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,7 +18,7 @@ import java.util.function.Consumer;
 
 public class TEMConfig extends Vigilant {
 
-    private static final Logger logger = LoggerFactory.getLogger(TEMConfig.class);
+    private static final Logger logger = LogManager.getLogger(TEMConfig.class);
 
     @Property(
             type = PropertyType.SWITCH,
@@ -93,7 +91,19 @@ public class TEMConfig extends Vigilant {
         KeyLookupRequest request = new KeyLookupRequest(key, TEM.api);
         TEM.api.addToQueue(request);
         try {
-            return request.getFuture().get();
+            boolean result = request.getFuture().get();
+            if (result) {
+                TEM.api.hasValidApiKey = true;
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        logger.error("Thread interrupted while waiting to trigger api key set.", e);
+                    }
+                    TEM.api.signalApiKeySet();
+                }).start();
+            }
+            return result;
         } catch (InterruptedException | ExecutionException e) {
             logger.error("Error checking key validity", e);
             return false;

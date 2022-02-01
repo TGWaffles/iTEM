@@ -1,8 +1,10 @@
-package club.thom.tem.storage;
+package club.thom.tem.models;
 
 import club.thom.tem.TEM;
+import club.thom.tem.helpers.ItemHelper;
 import club.thom.tem.helpers.TestHelper;
-import org.junit.After;
+import club.thom.tem.models.messages.ClientMessages;
+import club.thom.tem.storage.TEMConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,26 +12,22 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import static org.junit.Assert.assertFalse;
-
+import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.management.*")
-@PrepareForTest({TEM.class})
-public class TestTEMConfig {
+@PrepareForTest({TEMConfig.class, TEM.class})
+public class TestRarityConverter {
     @Before
     public void setup() throws NoSuchFieldException, IllegalAccessException {
         TestHelper.setupTEMConfigAndMainClass();
-        TestHelper.startRequestsLoop();
-    }
-
-    @After
-    public void after() {
-        TestHelper.cleanUp();
     }
 
     @Test
-    public void testInvalidKey() {
-        assertFalse(TEMConfig.isKeyValid("abc123"));
+    public void testRarityFromItemId() {
+        TEM.items = new ItemHelper();
+        TEM.items.waitForInit();
+        assertEquals(ClientMessages.Rarity.LEGENDARY, RarityConverter.getRarityFromItemId("SPEED_WITHER_BOOTS"));
     }
+
 }

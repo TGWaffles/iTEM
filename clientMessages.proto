@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+option go_package = "protobuf/clientMessages";
+option java_package = "club.thom.tem.models.messages";
+package clientMessage;
+
+message AuthMessage {
+  // Minecraft UUID for player.
+  string uuid = 1;
+}
+
+message ReadyForRequests {
+  // Ideally, the rate limit of the client remaining.
+  uint32 numberOfRequests = 1;
+}
+
+message GetInformation {
+  string uuid = 1;
+}
+
+message FriendsResponse {
+  // Origin player uuid
+  string userUuid = 1;
+  // List of friends.
+  repeated string friendUuid = 2;
+}
+
+enum Rarity {
+  COMMON = 0;
+  UNCOMMON = 1;
+  RARE = 2;
+  EPIC = 3;
+  LEGENDARY = 4;
+  MYTHIC = 5;
+  DIVINE = 6;
+  SPECIAL = 7;
+  VERY_SPECIAL = 8;
+}
+
+message Armour {
+  // Item ID of the armour piece
+  string itemId = 1;
+  // Colour (hex code) of the armour piece.
+  string hexCode = 2;
+  // Rarity of the armour piece
+  Rarity rarity = 3;
+  // Reforge (can be blank if none)
+  string reforge = 4;
+}
+
+message PetSkin {
+  // Item ID of the skin
+  string skinId = 1;
+}
+
+message Pet {
+  // Skin equipped by the pet
+  PetSkin skin = 1;
+  // Whether the pet is candied or not
+  bool candied = 2;
+  // BASE rarity of the pet (excluding tier boosts)
+  Rarity rarity = 3;
+  // Item held (eg tier boost, textbook, minos relic, etc)
+  string heldItem = 4;
+  // Pet level
+  int32 level = 5;
+  // Type of pet
+  string name = 6;
+}
+
+message InventoryItem {
+  // Can be blank if the item doesn't have a UUID
+  string uuid = 1;
+  // Can be -1 if the item doesn't have a creation timestamp
+  int64 creationTimestamp = 2;
+  oneof message {
+    Pet pet = 3;
+    PetSkin petSkin = 4;
+    Armour armourPiece = 5;
+  }
+}
+
+message InventoryResponse {
+  string profileUuid = 1;
+  // Includes pet menu, all items, etc
+  repeated InventoryItem items = 2;
+}
+
+message PlayerResponse {
+  // UUID of player
+  string playerUuid = 1;
+  repeated InventoryResponse profiles = 2;
+}
+
+message Response {
+  // Nonce of Request
+  int32 nonce = 1;
+  oneof message {
+    FriendsResponse friendsList = 2;
+    PlayerResponse inventories = 3;
+  }
+}
+
+message ClientMessage {
+  // Client version as integer, so we can deprecate old clients if needed.
+  int32 clientVersion = 1;
+
+  // Message data
+  oneof message {
+    AuthMessage auth = 2;
+    Response requestResponse = 3;
+    ReadyForRequests moreRequests = 4;
+    GetInformation infoRequest = 5;
+  }
+}

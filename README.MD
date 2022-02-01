@@ -18,3 +18,13 @@ Includes an AH sniper to snipe any exotics/crystal/fairy armour listed on the AH
 Brought to you by the creator of TFM, the fastest AH sniper. 
 
 [Join TFM's Discord](https://discord.gg/tfmmod)
+
+
+---
+## How to build?
+
+### Protoc Files
+
+`protoc -I=. --java_out=annotate_code:src/main/java/ clientMessages.proto`
+
+`protoc -I=. --java_out=annotate_code:src/main/java/ serverMessages.proto`

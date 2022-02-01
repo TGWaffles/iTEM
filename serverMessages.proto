@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+option go_package = "protobuf/serverMessages";
+option java_package = "club.thom.tem.models.messages";
+package serverMessage;
+
+
+message AuthData {
+  // true if authenticated successfully, false otherwise.
+  bool success = 1;
+
+  // reason for success message
+  enum Reason {
+    SUCCESS = 0;
+    BLACKLISTED = 1;
+    INVALID = 2;
+    OUTDATED_CLIENT = 3;
+    INVALID_UUID = 4;
+  }
+  Reason reason = 2;
+}
+
+message InformationResponse {
+  // Player who the information is about
+  string playerUuid = 1;
+
+  // invalid + valid contributions
+  int32 contributionsThisSession = 2;
+  // valid contributions only
+  int32 validContributionsThisSession = 3;
+
+  // total valid contributions
+  int32 totalContributions = 4;
+
+}
+
+message FriendRequest {
+  // Player uuid to lookup from
+  string uuid = 1;
+}
+
+message InventoryRequest {
+  // Player uuid to lookup from
+  string playerUuid = 1;
+}
+
+message RequestMessage {
+  // nonce to be acknowledged in Responses
+  int32 nonce = 1;
+  oneof message {
+    FriendRequest friendRequest = 2;
+    InventoryRequest inventoryRequest = 3;
+  }
+}
+
+message BulkRequests {
+  // List of requests
+  repeated RequestMessage requests = 1;
+}
+
+
+message ServerMessage {
+  // Client version expected (most up-to-date client version)
+  int32 expectedClientVersion = 1;
+  oneof message {
+    AuthData auth = 2;
+    BulkRequests multipleRequests = 3;
+    RequestMessage singleRequest = 4;
+    InformationResponse info = 5;
+  }
+}

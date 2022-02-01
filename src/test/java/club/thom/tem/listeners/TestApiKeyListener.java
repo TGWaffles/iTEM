@@ -8,6 +8,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,11 @@ public class TestApiKeyListener {
     @Before
     public void before() throws Exception {
         TestHelper.mockMainClassAndConfig();
+    }
+
+    @After
+    public void after() {
+        TestHelper.cleanUp();
     }
 
     @Test

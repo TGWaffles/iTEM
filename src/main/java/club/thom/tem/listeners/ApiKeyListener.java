@@ -7,11 +7,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ApiKeyListener {
-    private static final Logger logger = LoggerFactory.getLogger(ApiKeyListener.class);
+    private static final Logger logger = LogManager.getLogger(ApiKeyListener.class);
 
     @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
     public void onChat(ClientChatReceivedEvent event) {
