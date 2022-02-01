@@ -64,7 +64,7 @@ public class Hypixel {
     public int getRateLimit() {
         rateLimitLock.readLock().lock();
         try {
-            return remainingRateLimit;
+            return remainingRateLimit - getMinRateLimit();
         } finally {
             rateLimitLock.readLock().unlock();
         }
@@ -125,6 +125,21 @@ public class Hypixel {
                 ClientResponseHandler.waitingForRateLimit.unlock();
             }
         }
+    }
+
+    /**
+     * So the mod doesn't break other commands by using your whole rate limit every minute.
+     *
+     * Default is to leave 10 spare requests, but can be reconfigured to leave none if eg. running on an alt or
+     * you're AFK.
+     *
+     * @return Number to exhaust your rate limit to.
+     */
+    private static int getMinRateLimit() {
+        if (TEMConfig.useWholeRateLimit) {
+            return 0;
+        }
+        return 10;
     }
 
     /**
