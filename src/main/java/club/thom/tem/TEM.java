@@ -1,6 +1,7 @@
 package club.thom.tem;
 
 import club.thom.tem.backend.ServerMessageHandler;
+import club.thom.tem.commands.BlacklistCommand;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.helpers.ItemHelper;
 import club.thom.tem.helpers.KeyFetcher;
@@ -103,6 +104,7 @@ public class TEM {
         // Start the requests loop
         new Thread(api::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
+        ClientCommandHandler.instance.registerCommand(new BlacklistCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(this);
     }

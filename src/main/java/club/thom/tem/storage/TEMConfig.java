@@ -5,6 +5,7 @@ import club.thom.tem.hypixel.request.KeyLookupRequest;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
@@ -46,6 +49,35 @@ public class TEMConfig extends Vigilant {
             description = "Enable Fairy Armour"
     )
     public static boolean enableFairy = false;
+
+    @Property(
+            type = PropertyType.TEXT,
+            category = "Blacklist",
+            subcategory = "Blacklist",
+            name = "User Blacklist",
+            hidden = true
+    )
+    private static String userBlacklistString = "";
+
+    private static HashSet<String> userBlacklist = null;
+
+    public static HashSet<String> getUserBlacklist() {
+        if (userBlacklist == null) {
+            if (userBlacklistString.length() != 0) {
+                userBlacklist = new HashSet<>(Arrays.asList(userBlacklistString.split(",")));
+            } else {
+                userBlacklist = new HashSet<>();
+            }
+        }
+        return userBlacklist;
+    }
+
+    public static void setUserBlacklist(HashSet<String> newBlacklist) {
+        userBlacklist = newBlacklist;
+        userBlacklist.removeIf(entry -> entry.length() == 0);
+        userBlacklistString = StringUtils.join(userBlacklist,",");
+        TEM.forceSaveConfig();
+    }
 
     @Property(
             type = PropertyType.TEXT,
