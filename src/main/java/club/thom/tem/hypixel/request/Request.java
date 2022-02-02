@@ -116,6 +116,13 @@ public abstract class Request {
             isComplete = new CompletableFuture<>();
             return null;
         } else if (returnedData.getStatus() == 403 && !(this instanceof KeyLookupRequest)) {
+            // User changed their key since request started!
+            if (!parameters.get("key").equals(TEMConfig.getHypixelKey())) {
+                controller.addToQueue(this);
+                isComplete.complete(false);
+                isComplete = new CompletableFuture<>();
+                return null;
+            }
             // API Key is now invalid.
             controller.hasValidApiKey = false;
             TEMConfig.setHypixelKey("");

@@ -64,7 +64,7 @@ public class Hypixel {
     public int getRateLimit() {
         rateLimitLock.readLock().lock();
         try {
-            return remainingRateLimit;
+            return remainingRateLimit - getMinRateLimit();
         } finally {
             rateLimitLock.readLock().unlock();
         }
@@ -128,6 +128,21 @@ public class Hypixel {
     }
 
     /**
+     * So the mod doesn't break other commands by using your whole rate limit every minute.
+     *
+     * Default is to leave 10 spare requests, but can be reconfigured to leave none if eg. running on an alt or
+     * you're AFK.
+     *
+     * @return Number to exhaust your rate limit to.
+     */
+    private static int getMinRateLimit() {
+        if (TEMConfig.useWholeRateLimit) {
+            return 0;
+        }
+        return 10;
+    }
+
+    /**
      * Runs the request loop, dealing with rate-limit etc.
      */
     public void run() {
@@ -143,6 +158,12 @@ public class Hypixel {
                     rateLimitLock.readLock().unlock();
                 }
                 List<CompletableFuture<?>> requestFutures = new ArrayList<>();
+
+                if (requestQueue.peek() instanceof KeyLookupRequest) {
+                    Request request = requestQueue.take();
+                    requestFutures.add(request.getCompletionFuture());
+                    new Thread(request::makeRequest).start();
+                }
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
                     logger.debug("LOOP-> for loop!");
