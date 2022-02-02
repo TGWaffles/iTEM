@@ -87,10 +87,18 @@ public class ArmourPieceData extends InventoryItemData {
         return convertIntArrayToHex(colourArray);
     }
 
+    public static String convertIntegerToTwoDigitHex(int colourValue) {
+        String result = Integer.toHexString(colourValue);
+        if (result.length() == 1) {
+            result = "0" + result;
+        }
+        return result;
+    }
+
     public static String convertIntArrayToHex(int[] colourArray) {
         StringBuilder hexData = new StringBuilder();
         for (int colourValue : colourArray) {
-            hexData.append(Integer.toHexString(colourValue));
+            hexData.append(convertIntegerToTwoDigitHex(colourValue));
         }
         return hexData.toString();
     }
