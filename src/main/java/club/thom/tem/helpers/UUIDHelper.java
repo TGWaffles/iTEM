@@ -3,16 +3,7 @@ package club.thom.tem.helpers;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.apache.commons.io.IOUtils;
-import scala.actors.threadpool.Arrays;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +17,7 @@ public class UUIDHelper {
             uuidArray.add(uuid);
         }
         data.add("uuids", uuidArray);
-        JsonObject response = sendPostRequest("https://api.thom.club/", "bulk_uuids", data);
+        JsonObject response = RequestHelper.sendPostRequest("https://api.thom.club/", "bulk_uuids", data);
         assert response != null;
         HashMap<String, String> uuidToUsernameMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : response.getAsJsonObject("uuids").entrySet()) {
@@ -53,7 +44,7 @@ public class UUIDHelper {
             usernameArray.add(username);
         }
         data.add("usernames", usernameArray);
-        JsonObject response = sendPostRequest("https://api.thom.club/", "bulk_usernames", data);
+        JsonObject response = RequestHelper.sendPostRequest("https://api.thom.club/", "bulk_usernames", data);
         assert response != null;
         HashMap<String, String> usernameToUUIDMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : response.getAsJsonObject("usernames").entrySet()) {
@@ -86,50 +77,4 @@ public class UUIDHelper {
         return uuid;
     }
 
-    private static JsonObject sendPostRequest(String urlString, String endpoint, JsonObject data) {
-        urlString = urlString + endpoint;
-        URL url = null;
-        HttpURLConnection uc = null;
-        JsonObject jsonData;
-        int status;
-        try {
-            url = new URL(urlString);
-            uc = (HttpURLConnection) url.openConnection();
-            uc.setRequestMethod("POST");
-            uc.addRequestProperty("User-Agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
-            uc.setRequestProperty("Content-Type", "application/json; utf-8");
-            uc.setRequestProperty("Accept", "application/json");
-            uc.setDoOutput(true);
-            try (OutputStream os = uc.getOutputStream()) {
-                byte[] input = data.toString().getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
-            jsonData = new JsonParser().parse(new InputStreamReader(uc.getInputStream())).getAsJsonObject();
-            return jsonData;
-        } catch (IOException e) {
-            if (uc != null) {
-                try {
-                    status = uc.getResponseCode();
-                } catch (IOException ex) {
-                    System.out.println("TFM: IOException when posting data... (uc not null)");
-                    System.out.println(url.toExternalForm());
-                    e.printStackTrace();
-                    return null;
-                }
-                if (status == 401) {
-                    System.out.println("TFM: sendPostRequest returned unauthorised.");
-                    return null;
-                } else if (status == 402) {
-                    JsonObject fakeObject = new JsonObject();
-                    fakeObject.addProperty("status", 402);
-                    return fakeObject;
-                }
-            }
-            System.out.println("TFM: IOException when fetching data... (uc maybe null)");
-            System.out.println(url != null ? url.toExternalForm() : "null url");
-            e.printStackTrace();
-            return null;
-        }
-    }
 }
