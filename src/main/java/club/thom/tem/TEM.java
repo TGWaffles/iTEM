@@ -181,7 +181,8 @@ public class TEM {
             logger.error("Interrupted while waiting to tell about invalid key!", e);
         }
         TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
-                "Your hypixel API key is set wrong! This means you are no longer earning  Do /tem setkey <api-key> or /api new to set it again!"));
+                "Your hypixel API key is set wrong! This means you are no longer earning contributions! " +
+                "Do /tem setkey <api-key> or /api new to set it again!"));
     }
 
     @Mod.EventHandler
