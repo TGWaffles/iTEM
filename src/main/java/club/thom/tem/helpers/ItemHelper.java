@@ -94,8 +94,8 @@ public class ItemHelper {
         }
         String[] colourAsString = itemJson.get("color").getAsString().split(",");
         colourArray[0] = Integer.parseInt(colourAsString[0]);
-        colourArray[1] = Integer.parseInt(colourAsString[0]);
-        colourArray[2] = Integer.parseInt(colourAsString[0]);
+        colourArray[1] = Integer.parseInt(colourAsString[1]);
+        colourArray[2] = Integer.parseInt(colourAsString[2]);
         return colourArray;
     }
 }
