@@ -4,6 +4,7 @@ import club.thom.tem.backend.ServerMessageHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.helpers.ItemHelper;
 import club.thom.tem.helpers.KeyFetcher;
+import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.storage.TEMConfig;
@@ -116,7 +117,20 @@ public class TEM {
     private void checkAndUpdateUUID(boolean firstTry) {
         UUID possibleUuid = Minecraft.getMinecraft().thePlayer.getGameProfile().getId();
         if (possibleUuid != null) {
-            uuid = possibleUuid.toString().replaceAll("-", "");
+            String possibleUuidString = possibleUuid.toString().replaceAll("-", "");
+            if (UUIDHelper.usernameFromUuid(possibleUuidString) == null) {
+                logger.info("UUID was not valid!");
+                if (firstTry) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    checkAndUpdateUUID(false);
+                }
+                return;
+            }
+            uuid = possibleUuidString;
             lock.lock();
             try {
                 waitForUuid.signalAll();
