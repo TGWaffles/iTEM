@@ -92,7 +92,7 @@ public class ArmourPieceData extends InventoryItemData {
         if (result.length() == 1) {
             result = "0" + result;
         }
-        return result;
+        return result.toUpperCase();
     }
 
     public static String convertIntArrayToHex(int[] colourArray) {
