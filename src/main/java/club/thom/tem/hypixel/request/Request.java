@@ -123,6 +123,13 @@ public abstract class Request {
                 isComplete = new CompletableFuture<>();
                 return null;
             }
+            // Already a thread waiting to/has sent message.
+            if (!controller.hasValidApiKey) {
+                controller.addToQueue(this);
+                isComplete.complete(false);
+                isComplete = new CompletableFuture<>();
+                return null;
+            }
             // API Key is now invalid.
             controller.hasValidApiKey = false;
             TEMConfig.setHypixelKey("");
