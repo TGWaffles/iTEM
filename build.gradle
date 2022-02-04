@@ -58,6 +58,8 @@ dependencies {
     // Essential for GUI stuff
     implementation "gg.essential:loader-launchwrapper:1.1.2"
     implementation "gg.essential:essential-1.8.9-forge:1543+release-launch"
+    implementation "gg.essential:vigilance-1.8.9-forge:178"
+
     // Included in essentials but just in case
     //noinspection GradlePackageUpdate
     implementation "com.electronwill.night-config:toml:3.6.0"
@@ -72,11 +74,24 @@ dependencies {
 
     // Log4J (already packaged with forge)
     //noinspection GradlePackageUpdate
-    implementation 'org.apache.logging.log4j:log4j:2.0-beta9'
+    implementation 'org.apache.logging.log4j:log4j-api:2.0-beta9'
+    implementation 'org.apache.logging.log4j:log4j-core:2.0-beta9'
+
+    // all for standalone
+    //noinspection DifferentStdlibGradleVersion
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.30'
+    implementation 'com.google.guava:guava:17.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209'
+    implementation 'org.apache.commons:commons-lang3:3.3.2'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'net.minecraftforge:forgeSrc:1.8.9-11.15.1.2318-1.8.9'
+    // standalone ^^
 
     // For talking to the backend
     implementation 'com.google.protobuf:protobuf-java:3.19.3'
     implementation 'com.neovisionaries:nv-websocket-client:2.14'
+
 }
 
 processResources
@@ -115,14 +130,6 @@ shadowJar {
         })
 
         include(dependency {
-            it.moduleGroup == 'org.apache.logging.log4j'
-        })
-
-        include(dependency {
-            it.moduleGroup == 'org.slf4j'
-        })
-
-        include(dependency {
             it.moduleGroup == 'com.google.protobuf'
         })
 
@@ -132,6 +139,55 @@ shadowJar {
     }
     // TEM-0.0.0.1.jar for example
     archiveFileName = "${baseName}-${version}.${extension}"
+}
+
+//noinspection UnnecessaryQualifiedReference
+task standaloneShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    group = "shadow"
+    description = "Builds a standalone jar"
+    manifest.attributes 'Main-Class': 'club.thom.tem.StandaloneStart'
+    classifier = 'standaloneShadowJar'
+    from(project.convention.getPlugin(JavaPluginConvention).sourceSets.main.output)
+    configurations = [project.configurations.runtimeClasspath]
+    exclude(
+            "META-INF/versions/**"
+    )
+
+    dependencies {
+        include(dependency("gg.essential:loader-launchwrapper:1.1.2"))
+
+        // standalone
+        include(dependency("org.jetbrains.kotlin:kotlin-stdlib:1.5.30"))
+        include(dependency("gg.essential:vigilance-1.8.9-forge:178"))
+        include(dependency("gg.essential:elementa-1.8.9-forge:383"))
+        include(dependency('com.google.guava:guava:17.0'))
+        include(dependency('org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209'))
+        include(dependency('com.google.code.gson:gson:2.8.2'))
+        include(dependency('org.apache.commons:commons-lang3:3.3.2'))
+        include(dependency('commons-io:commons-io:2.4'))
+
+        include(dependency {
+            it.moduleGroup == 'com.electronwill.night-config'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'org.apache.logging.log4j'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'com.google.protobuf'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'com.neovisionaries'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'net.minecraftforge'
+        })
+    }
+    // TEM-0.0.0.1.jar for example
+    archiveFileName = "${baseName}-standalone-${version}.${extension}"
 }
 
 reobf {
