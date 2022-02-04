@@ -79,6 +79,15 @@ public class ServerMessageHandler extends WebSocketAdapter {
                     // returned invalid.
                     humanReadableMessage += "There has been an error communicating with the TEM backend. Make sure " +
                             "you're using an unmodified version of the mod!";
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(20000);
+                        } catch (InterruptedException e) {
+                            logger.error("Interrupted while retrying server connection: ", e);
+                        }
+                        TEM.socketWorking = true;
+                        TEM.reconnectSocket(1);
+                    }).start();
                     break;
                 case OUTDATED_CLIENT:
                     // Out of acceptable parameters - the messages will not be valid.
@@ -90,6 +99,15 @@ public class ServerMessageHandler extends WebSocketAdapter {
                     // the user's uuid. I advise against doing this.
                     humanReadableMessage += "Your UUID is not a valid Mojang UUID. Make sure you're not using a " +
                             "pirated version of Minecraft, and that you haven't modified TEM's code.";
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(20000);
+                        } catch (InterruptedException e) {
+                            logger.error("Interrupted while retrying server connection: ", e);
+                        }
+                        TEM.socketWorking = true;
+                        TEM.reconnectSocket(1);
+                    }).start();
                     break;
             }
             // Wait until they join a server.
