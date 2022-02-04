@@ -144,6 +144,16 @@ public abstract class Request {
             controller.addToQueue(this);
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();
+
+            new Thread(() -> {
+                try {
+                    Thread.sleep(120000);
+                } catch (InterruptedException e) {
+                    logger.error("Interrupted while waiting to add new KeyLookupRequest", e);
+                }
+                KeyLookupRequest request = new KeyLookupRequest(TEMConfig.getHypixelKey(), this.controller);
+                this.controller.addToQueue(request);
+            }).start();
             return null;
         } else if (returnedData.getStatus() == -1) {
             logger.error("-1 status, readding request to queue...");

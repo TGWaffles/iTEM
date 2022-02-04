@@ -1,6 +1,7 @@
 package club.thom.tem.hypixel;
 
 import club.thom.tem.backend.ClientResponseHandler;
+import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
 import club.thom.tem.storage.TEMConfig;
@@ -24,6 +25,7 @@ public class Hypixel {
     Condition newItemInQueue = waitingForItemLock.newCondition();
 
     public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
+    private int triesWithoutValidKey = 0;
 
     protected final LinkedBlockingDeque<Request> requestQueue = new LinkedBlockingDeque<>();
 
@@ -175,6 +177,14 @@ public class Hypixel {
                             newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
                             if (rateLimitResetTime < System.currentTimeMillis()) {
                                 setRateLimitRemaining(120, 5);
+                            }
+                            triesWithoutValidKey++;
+                            if (triesWithoutValidKey % 20 == 0) {
+                                new Thread(KeyFetcher::checkForApiKey).start();
+                                //noinspection BusyWait
+                                Thread.sleep(5000);
+                                KeyLookupRequest request = new KeyLookupRequest(TEMConfig.getHypixelKey(), this);
+                                addToQueue(request);
                             }
                         }
                     } finally {
