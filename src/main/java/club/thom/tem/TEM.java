@@ -118,17 +118,22 @@ public class TEM {
         UUID possibleUuid = Minecraft.getMinecraft().thePlayer.getGameProfile().getId();
         if (possibleUuid != null) {
             String possibleUuidString = possibleUuid.toString().replaceAll("-", "");
-            if (UUIDHelper.usernameFromUuid(possibleUuidString) == null) {
-                logger.info("UUID was not valid!");
-                if (firstTry) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            try {
+                if (UUIDHelper.usernameFromUuid(possibleUuidString) == null) {
+                    logger.info("UUID was not valid!");
+                    if (firstTry) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        checkAndUpdateUUID(false);
                     }
-                    checkAndUpdateUUID(false);
+                    return;
                 }
-                return;
+            } catch (NullPointerException e) {
+                // This will be thrown when/if the API server is down. Ignore it and act as if the uuid is valid
+                // until the server comes back up.
             }
             uuid = possibleUuidString;
             lock.lock();
