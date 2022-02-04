@@ -18,10 +18,17 @@ pipeline {
                 }
             }
         }
-        stage ('Deploy') {
+        stage ('Build Mod') {
             steps {
                 withGradle {
                     sh './gradlew reobfShadowJar'
+                }
+            }
+        }
+        stage ('Build Standalone') {
+            steps {
+                withGradle {
+                    sh './gradlew standaloneShadowJar'
                 }
             }
         }
