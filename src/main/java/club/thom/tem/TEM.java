@@ -56,6 +56,7 @@ public class TEM {
     public static Hypixel api;
     public static boolean socketWorking = true;
     public static String uuid = null;
+    public static boolean standAlone = false;
 
     public static ItemHelper items = new ItemHelper();
 
@@ -224,6 +225,10 @@ public class TEM {
      * @param message ChatComponentText message to send in chat
      */
     public static void sendMessage(ChatComponentText message) {
+        if (standAlone) {
+            logger.info(message.getUnformattedTextForChat());
+            return;
+        }
         String text = message.getUnformattedTextForChat();
         String prefix = EnumChatFormatting.AQUA + "TEM" + EnumChatFormatting.GRAY + "> ";
         String[] splitText = text.split("\n");
@@ -245,5 +250,23 @@ public class TEM {
     public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
         System.out.println("You are using an unofficial build of TEM. " +
                 "I cannot guarantee the safety/performance of this mod.");
+    }
+
+    public static void main(String[] args) {
+        standAlone = true;
+        if (args.length < 2) {
+            logger.error("You must include the uuid and API key as an argument to this program!\nUsage: java -jar TEMStandalone.jar <uuid> <api-key>");
+            Runtime.getRuntime().exit(1);
+        }
+        uuid = args[0];
+        api = new Hypixel();
+        TEMConfig.setHypixelKey(args[1]);
+        TEMConfig.useWholeRateLimit = true;
+        TEMConfig.enableContributions = true;
+        wsFactory.setVerifyHostname(false);
+        new Thread(() -> reconnectSocket(100)).start();
+        // Create global API/rate-limit handler
+        // Start the requests loop
+        new Thread(api::run).start();
     }
 }
