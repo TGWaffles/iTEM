@@ -60,7 +60,12 @@ public class ProfileData {
 
     private List<ClientMessages.InventoryItem> getPetsMenuItems() {
         List<ClientMessages.InventoryItem> pets = new ArrayList<>();
-        JsonObject playerProfile = profileAsJson.get("members").getAsJsonObject().get(playerUuid).getAsJsonObject();
+        JsonObject playerProfile;
+        try {
+            playerProfile = profileAsJson.get("members").getAsJsonObject().get(playerUuid).getAsJsonObject();
+        } catch (NullPointerException e) {
+            return pets;
+        }
         if (!playerProfile.has("pets") || playerProfile.get("pets").isJsonNull()) {
             return pets;
         }
