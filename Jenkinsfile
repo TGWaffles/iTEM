@@ -11,6 +11,13 @@ pipeline {
                 }
             }
         }
+        stage ('Setup Workspace') {
+            steps {
+                withGradle {
+                    sh './gradlew setupDecompWorkspace'
+                }
+            }
+        }
         stage ('Test') {
             steps {
                 withGradle {
