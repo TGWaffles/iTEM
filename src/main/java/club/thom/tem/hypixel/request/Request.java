@@ -111,6 +111,7 @@ public abstract class Request {
                 rateLimitResetSeconds = 10;
             }
             controller.setRateLimited(rateLimitResetSeconds);
+            logger.debug("REQUEST-> Rate limited, readding to queue.");
             controller.addToQueue(this);
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();
@@ -118,6 +119,7 @@ public abstract class Request {
         } else if (returnedData.getStatus() == 403 && !(this instanceof KeyLookupRequest)) {
             // User changed their key since request started!
             if (!parameters.get("key").equals(TEMConfig.getHypixelKey())) {
+                logger.info("REQUEST-> Key changed, readding to queue.");
                 controller.addToQueue(this);
                 isComplete.complete(false);
                 isComplete = new CompletableFuture<>();
@@ -125,6 +127,7 @@ public abstract class Request {
             }
             // Already a thread waiting to/has sent message.
             if (!controller.hasValidApiKey) {
+                logger.info("REQUEST-> Invalid key, readding to queue.");
                 controller.addToQueue(this);
                 isComplete.complete(false);
                 isComplete = new CompletableFuture<>();
@@ -141,6 +144,7 @@ public abstract class Request {
             }
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Your API key is invalid. " +
                     "You are no longer accruing contributions."));
+            logger.info("REQUEST-> Told player about invalid key, readding to queue.");
             controller.addToQueue(this);
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();
@@ -156,7 +160,7 @@ public abstract class Request {
             }).start();
             return null;
         } else if (returnedData.getStatus() == -1) {
-            logger.error("-1 status, readding request to queue...");
+            logger.error("REQUEST-> -1 status, readding request to queue...");
             controller.addToQueue(this);
             isComplete.complete(false);
             isComplete = new CompletableFuture<>();

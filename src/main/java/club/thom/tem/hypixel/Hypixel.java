@@ -66,7 +66,7 @@ public class Hypixel {
     public int getRateLimit() {
         rateLimitLock.readLock().lock();
         try {
-            return remainingRateLimit - getMinRateLimit();
+            return Math.max(remainingRateLimit - getMinRateLimit(), 0);
         } finally {
             rateLimitLock.readLock().unlock();
         }
@@ -172,7 +172,7 @@ public class Hypixel {
                     waitingForItemLock.lock();
                     try {
                         while (!hasValidApiKey && !(requestQueue.peek() instanceof KeyLookupRequest)) {
-                            logger.info("LOOP-> API key is invalid. Waiting for new API key.");
+                            logger.debug("LOOP-> API key is invalid. Waiting for new API key.");
                             //noinspection ResultOfMethodCallIgnored
                             newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
                             if (rateLimitResetTime < System.currentTimeMillis()) {
@@ -210,7 +210,7 @@ public class Hypixel {
                 requestFutures.forEach(CompletableFuture::join);
                 logger.debug("LOOP-> all requests collected!");
                 // If we *did* successfully exhaust all requests, wait the given time.
-                if (getRateLimit() == 0) {
+                if (getRateLimit() <= 0) {
                     long sleepTime = rateLimitResetTime - System.currentTimeMillis();
                     if (sleepTime <= 0) {
                         // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
