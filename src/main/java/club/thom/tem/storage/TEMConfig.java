@@ -92,7 +92,7 @@ public class TEMConfig extends Vigilant {
     }
 
     public static String saveFolder = "config/tem/";
-    public static final String fileName = "preferences.toml";
+    public static String fileName = "preferences.toml";
     public static File CONFIG_FILE = null;
 
     private void checkFolderExists() {

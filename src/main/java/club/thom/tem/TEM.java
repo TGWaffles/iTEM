@@ -257,15 +257,11 @@ public class TEM {
                 "I cannot guarantee the safety/performance of this mod.");
     }
 
-    public static void main(String[] args) {
+    public static void main(String inputUuid, String apiKey) {
+        uuid = inputUuid;
         standAlone = true;
-        if (args.length < 2) {
-            logger.error("You must include the uuid and API key as an argument to this program!\nUsage: java -jar TEMStandalone.jar <uuid> <api-key>");
-            Runtime.getRuntime().exit(1);
-        }
-        uuid = args[0];
         api = new Hypixel();
-        TEMConfig.setHypixelKey(args[1]);
+        TEMConfig.setHypixelKey(apiKey);
         TEMConfig.useWholeRateLimit = true;
         TEMConfig.enableContributions = true;
         wsFactory.setVerifyHostname(false);
