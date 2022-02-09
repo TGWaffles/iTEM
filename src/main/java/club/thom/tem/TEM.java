@@ -58,6 +58,8 @@ public class TEM {
     public static String uuid = null;
     public static boolean standAlone = false;
 
+    private static boolean waitingToTellAboutAPI = false;
+
     public static ItemHelper items = new ItemHelper();
 
     private static final Lock lock = new ReentrantLock();
@@ -192,8 +194,14 @@ public class TEM {
     }
 
     public static void tellAboutInvalidKey() {
-        if (!TEMConfig.getHypixelKey().equals("")) {
-            return;
+        lock.lock();
+        try {
+            if (!TEMConfig.getHypixelKey().equals("") || waitingToTellAboutAPI) {
+                return;
+            }
+            waitingToTellAboutAPI = true;
+        } finally {
+            lock.unlock();
         }
         try {
             Thread.sleep(2000);
