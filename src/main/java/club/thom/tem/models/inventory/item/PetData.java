@@ -26,9 +26,12 @@ public class PetData extends InventoryItemData {
 
     @Override
     public InventoryItem toInventoryItem() {
-        Pet.Builder builder = Pet.newBuilder().setCandied(isCandied()).setSkin(getSkin())
+        Pet.Builder builder = Pet.newBuilder().setCandied(isCandied())
                 .setRarity(getRarity()).setHeldItem(getHeldItem()).setLevel(getPetLevel(getExp(), getRarity()))
-                .setName(getName());
+                .setName(getName()).setCandy(getCandyCount());
+        if (getSkin() != null) {
+            builder.setSkin(getSkin());
+        }
         return InventoryItem.newBuilder().setPet(builder).setUuid(getUuid()).setCreationTimestamp(getCreationTimestamp()).build();
     }
 
@@ -60,6 +63,10 @@ public class PetData extends InventoryItemData {
 
     private boolean isCandied() {
         return petJson.get("candyUsed").getAsInt() > 0;
+    }
+
+    private int getCandyCount() {
+        return petJson.get("candyUsed").getAsInt();
     }
 
     public PetSkin getSkin() {
@@ -115,8 +122,9 @@ public class PetData extends InventoryItemData {
             return false;
         }
         try {
-            JsonObject jsonData = new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject();
-            return jsonData.has("skin") && !jsonData.get("skin").isJsonNull();
+            new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject();
+            // json was able to be successfully parsed, contains a valid pet (probably)
+            return true;
         } catch (IllegalStateException e) {
             e.printStackTrace();
             System.out.println(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo"));

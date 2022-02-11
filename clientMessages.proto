@@ -55,7 +55,7 @@ message PetSkin {
 
 message Pet {
   // Skin equipped by the pet
-  PetSkin skin = 1;
+  optional PetSkin skin = 1;
   // Whether the pet is candied or not
   bool candied = 2;
   // BASE rarity of the pet (excluding tier boosts)
