@@ -6930,6 +6930,12 @@ public final class ClientMessages {
      */
     com.google.protobuf.ByteString
         getReforgeBytes();
+
+    /**
+     * <code>int32 itemCount = 7;</code>
+     * @return The itemCount.
+     */
+    int getItemCount();
   }
   /**
    * Protobuf type {@code clientMessage.MiscItem}
@@ -7027,6 +7033,11 @@ public final class ClientMessages {
               java.lang.String s = input.readStringRequireUtf8();
               bitField0_ |= 0x00000001;
               reforge_ = s;
+              break;
+            }
+            case 56: {
+
+              itemCount_ = input.readInt32();
               break;
             }
             default: {
@@ -7408,6 +7419,17 @@ public final class ClientMessages {
       }
     }
 
+    public static final int ITEMCOUNT_FIELD_NUMBER = 7;
+    private int itemCount_;
+    /**
+     * <code>int32 itemCount = 7;</code>
+     * @return The itemCount.
+     */
+    @java.lang.Override
+    public int getItemCount() {
+      return itemCount_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -7445,6 +7467,9 @@ public final class ClientMessages {
           5);
       if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, reforge_);
+      }
+      if (itemCount_ != 0) {
+        output.writeInt32(7, itemCount_);
       }
       unknownFields.writeTo(output);
     }
@@ -7489,6 +7514,10 @@ public final class ClientMessages {
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, reforge_);
       }
+      if (itemCount_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, itemCount_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -7518,6 +7547,8 @@ public final class ClientMessages {
         if (!getReforge()
             .equals(other.getReforge())) return false;
       }
+      if (getItemCount()
+          != other.getItemCount()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -7547,6 +7578,8 @@ public final class ClientMessages {
         hash = (37 * hash) + REFORGE_FIELD_NUMBER;
         hash = (53 * hash) + getReforge().hashCode();
       }
+      hash = (37 * hash) + ITEMCOUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getItemCount();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -7716,6 +7749,8 @@ public final class ClientMessages {
         internalGetMutableExtraAttributes().clear();
         reforge_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        itemCount_ = 0;
+
         return this;
       }
 
@@ -7755,6 +7790,7 @@ public final class ClientMessages {
           to_bitField0_ |= 0x00000001;
         }
         result.reforge_ = reforge_;
+        result.itemCount_ = itemCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7822,6 +7858,9 @@ public final class ClientMessages {
           bitField0_ |= 0x00000004;
           reforge_ = other.reforge_;
           onChanged();
+        }
+        if (other.getItemCount() != 0) {
+          setItemCount(other.getItemCount());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -8464,6 +8503,37 @@ public final class ClientMessages {
   checkByteStringIsUtf8(value);
         bitField0_ |= 0x00000004;
         reforge_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int itemCount_ ;
+      /**
+       * <code>int32 itemCount = 7;</code>
+       * @return The itemCount.
+       */
+      @java.lang.Override
+      public int getItemCount() {
+        return itemCount_;
+      }
+      /**
+       * <code>int32 itemCount = 7;</code>
+       * @param value The itemCount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setItemCount(int value) {
+        
+        itemCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 itemCount = 7;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearItemCount() {
+        
+        itemCount_ = 0;
         onChanged();
         return this;
       }
@@ -14918,43 +14988,43 @@ public final class ClientMessages {
       "ldItem\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\014\n\004name\030\006 \001(" +
       "\t\022\r\n\005candy\030\007 \001(\005B\007\n\005_skin\"I\n\023ExtraAttrib" +
       "uteValue\022\025\n\013stringValue\030\001 \001(\tH\000\022\022\n\010intVa" +
-      "lue\030\002 \001(\005H\000B\007\n\005value\"\215\003\n\010MiscItem\022\016\n\006ite" +
+      "lue\030\002 \001(\005H\000B\007\n\005value\"\240\003\n\010MiscItem\022\016\n\006ite" +
       "mId\030\001 \001(\t\022%\n\006rarity\030\002 \001(\0162\025.clientMessag" +
       "e.Rarity\022?\n\014enchantments\030\003 \003(\0132).clientM" +
       "essage.MiscItem.EnchantmentsEntry\022\017\n\007hex" +
       "Code\030\004 \001(\005\022E\n\017extraAttributes\030\005 \003(\0132,.cl" +
       "ientMessage.MiscItem.ExtraAttributesEntr" +
-      "y\022\024\n\007reforge\030\006 \001(\tH\000\210\001\001\0323\n\021EnchantmentsE" +
-      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\032Z\n\024" +
-      "ExtraAttributesEntry\022\013\n\003key\030\001 \001(\t\0221\n\005val" +
-      "ue\030\002 \001(\0132\".clientMessage.ExtraAttributeV" +
-      "alue:\0028\001B\n\n\010_reforge\"\366\001\n\rInventoryItem\022\021" +
-      "\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021creationTimestamp\030\002" +
-      " \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMessage.PetH\000\022" +
-      ")\n\007petSkin\030\004 \001(\0132\026.clientMessage.PetSkin" +
-      "H\000\022,\n\013armourPiece\030\005 \001(\0132\025.clientMessage." +
-      "ArmourH\000\022\'\n\004item\030\006 \001(\0132\027.clientMessage.M" +
-      "iscItemH\000B\t\n\007messageB\007\n\005_uuid\"U\n\021Invento" +
-      "ryResponse\022\023\n\013profileUuid\030\001 \001(\t\022+\n\005items" +
-      "\030\002 \003(\0132\034.clientMessage.InventoryItem\"X\n\016" +
-      "PlayerResponse\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010pr" +
-      "ofiles\030\002 \003(\0132 .clientMessage.InventoryRe" +
-      "sponse\"\221\001\n\010Response\022\r\n\005nonce\030\001 \001(\005\0225\n\013fr" +
-      "iendsList\030\002 \001(\0132\036.clientMessage.FriendsR" +
-      "esponseH\000\0224\n\013inventories\030\003 \001(\0132\035.clientM" +
-      "essage.PlayerResponseH\000B\t\n\007message\"\200\002\n\rC" +
-      "lientMessage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004a" +
-      "uth\030\002 \001(\0132\032.clientMessage.AuthMessageH\000\022" +
-      "2\n\017requestResponse\030\003 \001(\0132\027.clientMessage" +
-      ".ResponseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.clie" +
-      "ntMessage.ReadyForRequestsH\000\0224\n\013infoRequ" +
-      "est\030\005 \001(\0132\035.clientMessage.GetInformation" +
-      "H\000B\t\n\007message*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010U" +
-      "NCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDA" +
-      "RY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020" +
-      "\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035club.thom.tem.mod" +
-      "els.messagesZ\027protobuf/clientMessagesb\006p" +
-      "roto3"
+      "y\022\024\n\007reforge\030\006 \001(\tH\000\210\001\001\022\021\n\titemCount\030\007 \001" +
+      "(\005\0323\n\021EnchantmentsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
+      "value\030\002 \001(\005:\0028\001\032Z\n\024ExtraAttributesEntry\022" +
+      "\013\n\003key\030\001 \001(\t\0221\n\005value\030\002 \001(\0132\".clientMess" +
+      "age.ExtraAttributeValue:\0028\001B\n\n\010_reforge\"" +
+      "\366\001\n\rInventoryItem\022\021\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021" +
+      "creationTimestamp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.c" +
+      "lientMessage.PetH\000\022)\n\007petSkin\030\004 \001(\0132\026.cl" +
+      "ientMessage.PetSkinH\000\022,\n\013armourPiece\030\005 \001" +
+      "(\0132\025.clientMessage.ArmourH\000\022\'\n\004item\030\006 \001(" +
+      "\0132\027.clientMessage.MiscItemH\000B\t\n\007messageB" +
+      "\007\n\005_uuid\"U\n\021InventoryResponse\022\023\n\013profile" +
+      "Uuid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.clientMessag" +
+      "e.InventoryItem\"X\n\016PlayerResponse\022\022\n\npla" +
+      "yerUuid\030\001 \001(\t\0222\n\010profiles\030\002 \003(\0132 .client" +
+      "Message.InventoryResponse\"\221\001\n\010Response\022\r" +
+      "\n\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.cli" +
+      "entMessage.FriendsResponseH\000\0224\n\013inventor" +
+      "ies\030\003 \001(\0132\035.clientMessage.PlayerResponse" +
+      "H\000B\t\n\007message\"\200\002\n\rClientMessage\022\025\n\rclien" +
+      "tVersion\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMes" +
+      "sage.AuthMessageH\000\0222\n\017requestResponse\030\003 " +
+      "\001(\0132\027.clientMessage.ResponseH\000\0227\n\014moreRe" +
+      "quests\030\004 \001(\0132\037.clientMessage.ReadyForReq" +
+      "uestsH\000\0224\n\013infoRequest\030\005 \001(\0132\035.clientMes" +
+      "sage.GetInformationH\000B\t\n\007message*|\n\006Rari" +
+      "ty\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010" +
+      "\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006D" +
+      "IVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY_SPECIAL\020\010B8" +
+      "\n\035club.thom.tem.models.messagesZ\027protobu" +
+      "f/clientMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -15013,7 +15083,7 @@ public final class ClientMessages {
     internal_static_clientMessage_MiscItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_MiscItem_descriptor,
-        new java.lang.String[] { "ItemId", "Rarity", "Enchantments", "HexCode", "ExtraAttributes", "Reforge", "Reforge", });
+        new java.lang.String[] { "ItemId", "Rarity", "Enchantments", "HexCode", "ExtraAttributes", "Reforge", "ItemCount", "Reforge", });
     internal_static_clientMessage_MiscItem_EnchantmentsEntry_descriptor =
       internal_static_clientMessage_MiscItem_descriptor.getNestedTypes().get(0);
     internal_static_clientMessage_MiscItem_EnchantmentsEntry_fieldAccessorTable = new

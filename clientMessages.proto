@@ -93,6 +93,8 @@ message MiscItem {
 
   // item reforge if exists
   optional string reforge = 6;
+
+  int32 itemCount = 7;
 }
 
 message InventoryItem {

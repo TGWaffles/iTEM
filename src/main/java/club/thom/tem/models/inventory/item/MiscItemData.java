@@ -29,6 +29,7 @@ public class MiscItemData extends InventoryItemData {
         addEnchantments();
         dataBuilder.setHexCode(getHexCode());
         addExtraAttributes();
+        dataBuilder.setItemCount(getItemCount());
     }
 
     @Override
@@ -46,6 +47,10 @@ public class MiscItemData extends InventoryItemData {
             itemBuilder.setUuid(getUuid());
         }
         return itemBuilder.build();
+    }
+
+    private int getItemCount() {
+        return itemData.getInteger("count");
     }
 
     private String getItemId() {
