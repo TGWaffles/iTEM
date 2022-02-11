@@ -51,7 +51,7 @@ public class MiscItemData extends InventoryItemData {
     }
 
     private int getItemCount() {
-        return itemData.getByte("count");
+        return itemData.getByte("Count");
     }
 
     private String getItemId() {
