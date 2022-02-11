@@ -1,9 +1,6 @@
 package club.thom.tem.models.inventory;
 
-import club.thom.tem.models.inventory.item.ArmourPieceData;
-import club.thom.tem.models.inventory.item.InventoryItemData;
-import club.thom.tem.models.inventory.item.PetData;
-import club.thom.tem.models.inventory.item.PetSkinData;
+import club.thom.tem.models.inventory.item.*;
 import club.thom.tem.models.messages.ClientMessages.InventoryItem;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -46,12 +43,18 @@ public class Inventory {
         NBTTagList list = data.getTagList("i", Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound item = list.getCompoundTagAt(i);
+            // adds to tem's database
             if (ArmourPieceData.isValidItem(item)) {
                 items.add(new ArmourPieceData(item));
-            } else if (PetData.isValidItem(item)) {
-                items.add(new PetData(item));
-            } else if (PetSkinData.isValidItem(item)) {
+            }  else if (PetSkinData.isValidItem(item)) {
                 items.add(new PetSkinData(item));
+            }
+
+            // goes to combined db
+            if (PetData.isValidItem(item)) {
+                items.add(new PetData(item));
+            } else if (MiscItemData.isValidItem(item)) {
+                items.add(new MiscItemData(item));
             }
         }
         return items;
