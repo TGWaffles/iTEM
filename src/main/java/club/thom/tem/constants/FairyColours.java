@@ -3,14 +3,13 @@ package club.thom.tem.constants;
 import com.google.common.collect.ImmutableSet;
 
 public class FairyColours {
-    public static final ImmutableSet<String> fairycoloursConstats = ImmutableSet.of(
-            "660066", "660033", "99004C", "CC0066", "FF007F", "FF3399", "FF66B2", "FF99CC", "FFCCE5", "FF99CC", "FF66B2",
-            "FF3399", "FF007F", "CC0066", "99004C", "660033", "660066", "990099", "CC00CC", "FF00FF", "FF33FF", "FF66FF",
-            "FF99FF", "FFCCFF", "E5CCFF", "CC99FF", "B266FF", "9933FF", "7F00FF", "9933FF", "B266FF", "CC99FF", "E5CCFF",
-            "FFCCFF", "FF99FF", "FF66FF", "FF33FF", "FF00FF", "CC00CC", "990099"
+    public static final ImmutableSet<String> fairyColourConstants = ImmutableSet.of(
+            "330066", "4C0099", "660033", "660066", "6600CC", "7F00FF", "99004C", "990099", "9933FF", "B266FF",
+            "CC0066", "CC00CC", "CC99FF", "E5CCFF", "FF007F", "FF00FF", "FF3399", "FF33FF", "FF66B2", "FF66FF",
+            "FF99CC", "FF99FF", "FFCCE5", "FFCCFF"
     );
 
     public static boolean isFairyColour(String hex) {
-        return fairycoloursConstats.contains(hex);
+        return fairyColourConstants.contains(hex.toUpperCase());
     }
 }
