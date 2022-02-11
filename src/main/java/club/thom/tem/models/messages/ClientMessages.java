@@ -4490,7 +4490,7 @@ public final class ClientMessages {
      * Skin equipped by the pet
      * </pre>
      *
-     * <code>.clientMessage.PetSkin skin = 1;</code>
+     * <code>optional .clientMessage.PetSkin skin = 1;</code>
      * @return Whether the skin field is set.
      */
     boolean hasSkin();
@@ -4499,7 +4499,7 @@ public final class ClientMessages {
      * Skin equipped by the pet
      * </pre>
      *
-     * <code>.clientMessage.PetSkin skin = 1;</code>
+     * <code>optional .clientMessage.PetSkin skin = 1;</code>
      * @return The skin.
      */
     club.thom.tem.models.messages.ClientMessages.PetSkin getSkin();
@@ -4508,7 +4508,7 @@ public final class ClientMessages {
      * Skin equipped by the pet
      * </pre>
      *
-     * <code>.clientMessage.PetSkin skin = 1;</code>
+     * <code>optional .clientMessage.PetSkin skin = 1;</code>
      */
     club.thom.tem.models.messages.ClientMessages.PetSkinOrBuilder getSkinOrBuilder();
 
@@ -4639,6 +4639,7 @@ public final class ClientMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4651,7 +4652,7 @@ public final class ClientMessages {
               break;
             case 10: {
               club.thom.tem.models.messages.ClientMessages.PetSkin.Builder subBuilder = null;
-              if (skin_ != null) {
+              if (((bitField0_ & 0x00000001) != 0)) {
                 subBuilder = skin_.toBuilder();
               }
               skin_ = input.readMessage(club.thom.tem.models.messages.ClientMessages.PetSkin.parser(), extensionRegistry);
@@ -4659,7 +4660,7 @@ public final class ClientMessages {
                 subBuilder.mergeFrom(skin_);
                 skin_ = subBuilder.buildPartial();
               }
-
+              bitField0_ |= 0x00000001;
               break;
             }
             case 16: {
@@ -4727,6 +4728,7 @@ public final class ClientMessages {
               club.thom.tem.models.messages.ClientMessages.Pet.class, club.thom.tem.models.messages.ClientMessages.Pet.Builder.class);
     }
 
+    private int bitField0_;
     public static final int SKIN_FIELD_NUMBER = 1;
     private club.thom.tem.models.messages.ClientMessages.PetSkin skin_;
     /**
@@ -4734,19 +4736,19 @@ public final class ClientMessages {
      * Skin equipped by the pet
      * </pre>
      *
-     * <code>.clientMessage.PetSkin skin = 1;</code>
+     * <code>optional .clientMessage.PetSkin skin = 1;</code>
      * @return Whether the skin field is set.
      */
     @java.lang.Override
     public boolean hasSkin() {
-      return skin_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
      * Skin equipped by the pet
      * </pre>
      *
-     * <code>.clientMessage.PetSkin skin = 1;</code>
+     * <code>optional .clientMessage.PetSkin skin = 1;</code>
      * @return The skin.
      */
     @java.lang.Override
@@ -4758,11 +4760,11 @@ public final class ClientMessages {
      * Skin equipped by the pet
      * </pre>
      *
-     * <code>.clientMessage.PetSkin skin = 1;</code>
+     * <code>optional .clientMessage.PetSkin skin = 1;</code>
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ClientMessages.PetSkinOrBuilder getSkinOrBuilder() {
-      return getSkin();
+      return skin_ == null ? club.thom.tem.models.messages.ClientMessages.PetSkin.getDefaultInstance() : skin_;
     }
 
     public static final int CANDIED_FIELD_NUMBER = 2;
@@ -4943,7 +4945,7 @@ public final class ClientMessages {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (skin_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getSkin());
       }
       if (candied_ != false) {
@@ -4973,7 +4975,7 @@ public final class ClientMessages {
       if (size != -1) return size;
 
       size = 0;
-      if (skin_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getSkin());
       }
@@ -5186,6 +5188,7 @@ public final class ClientMessages {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getSkinFieldBuilder();
         }
       }
       @java.lang.Override
@@ -5194,9 +5197,9 @@ public final class ClientMessages {
         if (skinBuilder_ == null) {
           skin_ = null;
         } else {
-          skin_ = null;
-          skinBuilder_ = null;
+          skinBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000001);
         candied_ = false;
 
         rarity_ = 0;
@@ -5235,10 +5238,15 @@ public final class ClientMessages {
       @java.lang.Override
       public club.thom.tem.models.messages.ClientMessages.Pet buildPartial() {
         club.thom.tem.models.messages.ClientMessages.Pet result = new club.thom.tem.models.messages.ClientMessages.Pet(this);
-        if (skinBuilder_ == null) {
-          result.skin_ = skin_;
-        } else {
-          result.skin_ = skinBuilder_.build();
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          if (skinBuilder_ == null) {
+            result.skin_ = skin_;
+          } else {
+            result.skin_ = skinBuilder_.build();
+          }
+          to_bitField0_ |= 0x00000001;
         }
         result.candied_ = candied_;
         result.rarity_ = rarity_;
@@ -5246,6 +5254,7 @@ public final class ClientMessages {
         result.level_ = level_;
         result.name_ = name_;
         result.candy_ = candy_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -5345,6 +5354,7 @@ public final class ClientMessages {
         }
         return this;
       }
+      private int bitField0_;
 
       private club.thom.tem.models.messages.ClientMessages.PetSkin skin_;
       private com.google.protobuf.SingleFieldBuilderV3<
@@ -5354,18 +5364,18 @@ public final class ClientMessages {
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        * @return Whether the skin field is set.
        */
       public boolean hasSkin() {
-        return skinBuilder_ != null || skin_ != null;
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <pre>
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        * @return The skin.
        */
       public club.thom.tem.models.messages.ClientMessages.PetSkin getSkin() {
@@ -5380,7 +5390,7 @@ public final class ClientMessages {
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        */
       public Builder setSkin(club.thom.tem.models.messages.ClientMessages.PetSkin value) {
         if (skinBuilder_ == null) {
@@ -5392,7 +5402,7 @@ public final class ClientMessages {
         } else {
           skinBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
@@ -5400,7 +5410,7 @@ public final class ClientMessages {
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        */
       public Builder setSkin(
           club.thom.tem.models.messages.ClientMessages.PetSkin.Builder builderForValue) {
@@ -5410,7 +5420,7 @@ public final class ClientMessages {
         } else {
           skinBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
@@ -5418,11 +5428,13 @@ public final class ClientMessages {
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        */
       public Builder mergeSkin(club.thom.tem.models.messages.ClientMessages.PetSkin value) {
         if (skinBuilder_ == null) {
-          if (skin_ != null) {
+          if (((bitField0_ & 0x00000001) != 0) &&
+              skin_ != null &&
+              skin_ != club.thom.tem.models.messages.ClientMessages.PetSkin.getDefaultInstance()) {
             skin_ =
               club.thom.tem.models.messages.ClientMessages.PetSkin.newBuilder(skin_).mergeFrom(value).buildPartial();
           } else {
@@ -5432,7 +5444,7 @@ public final class ClientMessages {
         } else {
           skinBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000001;
         return this;
       }
       /**
@@ -5440,17 +5452,16 @@ public final class ClientMessages {
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        */
       public Builder clearSkin() {
         if (skinBuilder_ == null) {
           skin_ = null;
           onChanged();
         } else {
-          skin_ = null;
-          skinBuilder_ = null;
+          skinBuilder_.clear();
         }
-
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
       /**
@@ -5458,10 +5469,10 @@ public final class ClientMessages {
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        */
       public club.thom.tem.models.messages.ClientMessages.PetSkin.Builder getSkinBuilder() {
-        
+        bitField0_ |= 0x00000001;
         onChanged();
         return getSkinFieldBuilder().getBuilder();
       }
@@ -5470,7 +5481,7 @@ public final class ClientMessages {
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        */
       public club.thom.tem.models.messages.ClientMessages.PetSkinOrBuilder getSkinOrBuilder() {
         if (skinBuilder_ != null) {
@@ -5485,7 +5496,7 @@ public final class ClientMessages {
        * Skin equipped by the pet
        * </pre>
        *
-       * <code>.clientMessage.PetSkin skin = 1;</code>
+       * <code>optional .clientMessage.PetSkin skin = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ClientMessages.PetSkin, club.thom.tem.models.messages.ClientMessages.PetSkin.Builder, club.thom.tem.models.messages.ClientMessages.PetSkinOrBuilder> 
@@ -14901,48 +14912,49 @@ public final class ClientMessages {
       "\t\"a\n\006Armour\022\016\n\006itemId\030\001 \001(\t\022\017\n\007hexCode\030\002" +
       " \001(\t\022%\n\006rarity\030\003 \001(\0162\025.clientMessage.Rar" +
       "ity\022\017\n\007reforge\030\004 \001(\t\"\031\n\007PetSkin\022\016\n\006skinI" +
-      "d\030\001 \001(\t\"\241\001\n\003Pet\022$\n\004skin\030\001 \001(\0132\026.clientMe" +
-      "ssage.PetSkin\022\017\n\007candied\030\002 \001(\010\022%\n\006rarity" +
-      "\030\003 \001(\0162\025.clientMessage.Rarity\022\020\n\010heldIte" +
-      "m\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\014\n\004name\030\006 \001(\t\022\r\n\005" +
-      "candy\030\007 \001(\005\"I\n\023ExtraAttributeValue\022\025\n\013st" +
-      "ringValue\030\001 \001(\tH\000\022\022\n\010intValue\030\002 \001(\005H\000B\007\n" +
-      "\005value\"\215\003\n\010MiscItem\022\016\n\006itemId\030\001 \001(\t\022%\n\006r" +
-      "arity\030\002 \001(\0162\025.clientMessage.Rarity\022?\n\014en" +
-      "chantments\030\003 \003(\0132).clientMessage.MiscIte" +
-      "m.EnchantmentsEntry\022\017\n\007hexCode\030\004 \001(\005\022E\n\017" +
-      "extraAttributes\030\005 \003(\0132,.clientMessage.Mi" +
-      "scItem.ExtraAttributesEntry\022\024\n\007reforge\030\006" +
-      " \001(\tH\000\210\001\001\0323\n\021EnchantmentsEntry\022\013\n\003key\030\001 " +
-      "\001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\032Z\n\024ExtraAttribute" +
-      "sEntry\022\013\n\003key\030\001 \001(\t\0221\n\005value\030\002 \001(\0132\".cli" +
-      "entMessage.ExtraAttributeValue:\0028\001B\n\n\010_r" +
-      "eforge\"\366\001\n\rInventoryItem\022\021\n\004uuid\030\001 \001(\tH\001" +
-      "\210\001\001\022\031\n\021creationTimestamp\030\002 \001(\003\022!\n\003pet\030\003 " +
-      "\001(\0132\022.clientMessage.PetH\000\022)\n\007petSkin\030\004 \001" +
-      "(\0132\026.clientMessage.PetSkinH\000\022,\n\013armourPi" +
-      "ece\030\005 \001(\0132\025.clientMessage.ArmourH\000\022\'\n\004it" +
-      "em\030\006 \001(\0132\027.clientMessage.MiscItemH\000B\t\n\007m" +
-      "essageB\007\n\005_uuid\"U\n\021InventoryResponse\022\023\n\013" +
-      "profileUuid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.clien" +
-      "tMessage.InventoryItem\"X\n\016PlayerResponse" +
-      "\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010profiles\030\002 \003(\0132 " +
-      ".clientMessage.InventoryResponse\"\221\001\n\010Res" +
-      "ponse\022\r\n\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(" +
-      "\0132\036.clientMessage.FriendsResponseH\000\0224\n\013i" +
-      "nventories\030\003 \001(\0132\035.clientMessage.PlayerR" +
-      "esponseH\000B\t\n\007message\"\200\002\n\rClientMessage\022\025" +
-      "\n\rclientVersion\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.cl" +
-      "ientMessage.AuthMessageH\000\0222\n\017requestResp" +
-      "onse\030\003 \001(\0132\027.clientMessage.ResponseH\000\0227\n" +
-      "\014moreRequests\030\004 \001(\0132\037.clientMessage.Read" +
-      "yForRequestsH\000\0224\n\013infoRequest\030\005 \001(\0132\035.cl" +
-      "ientMessage.GetInformationH\000B\t\n\007message*" +
-      "|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004R" +
-      "ARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC" +
-      "\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY_SPEC" +
-      "IAL\020\010B8\n\035club.thom.tem.models.messagesZ\027" +
-      "protobuf/clientMessagesb\006proto3"
+      "d\030\001 \001(\t\"\257\001\n\003Pet\022)\n\004skin\030\001 \001(\0132\026.clientMe" +
+      "ssage.PetSkinH\000\210\001\001\022\017\n\007candied\030\002 \001(\010\022%\n\006r" +
+      "arity\030\003 \001(\0162\025.clientMessage.Rarity\022\020\n\010he" +
+      "ldItem\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\014\n\004name\030\006 \001(" +
+      "\t\022\r\n\005candy\030\007 \001(\005B\007\n\005_skin\"I\n\023ExtraAttrib" +
+      "uteValue\022\025\n\013stringValue\030\001 \001(\tH\000\022\022\n\010intVa" +
+      "lue\030\002 \001(\005H\000B\007\n\005value\"\215\003\n\010MiscItem\022\016\n\006ite" +
+      "mId\030\001 \001(\t\022%\n\006rarity\030\002 \001(\0162\025.clientMessag" +
+      "e.Rarity\022?\n\014enchantments\030\003 \003(\0132).clientM" +
+      "essage.MiscItem.EnchantmentsEntry\022\017\n\007hex" +
+      "Code\030\004 \001(\005\022E\n\017extraAttributes\030\005 \003(\0132,.cl" +
+      "ientMessage.MiscItem.ExtraAttributesEntr" +
+      "y\022\024\n\007reforge\030\006 \001(\tH\000\210\001\001\0323\n\021EnchantmentsE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\032Z\n\024" +
+      "ExtraAttributesEntry\022\013\n\003key\030\001 \001(\t\0221\n\005val" +
+      "ue\030\002 \001(\0132\".clientMessage.ExtraAttributeV" +
+      "alue:\0028\001B\n\n\010_reforge\"\366\001\n\rInventoryItem\022\021" +
+      "\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021creationTimestamp\030\002" +
+      " \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMessage.PetH\000\022" +
+      ")\n\007petSkin\030\004 \001(\0132\026.clientMessage.PetSkin" +
+      "H\000\022,\n\013armourPiece\030\005 \001(\0132\025.clientMessage." +
+      "ArmourH\000\022\'\n\004item\030\006 \001(\0132\027.clientMessage.M" +
+      "iscItemH\000B\t\n\007messageB\007\n\005_uuid\"U\n\021Invento" +
+      "ryResponse\022\023\n\013profileUuid\030\001 \001(\t\022+\n\005items" +
+      "\030\002 \003(\0132\034.clientMessage.InventoryItem\"X\n\016" +
+      "PlayerResponse\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010pr" +
+      "ofiles\030\002 \003(\0132 .clientMessage.InventoryRe" +
+      "sponse\"\221\001\n\010Response\022\r\n\005nonce\030\001 \001(\005\0225\n\013fr" +
+      "iendsList\030\002 \001(\0132\036.clientMessage.FriendsR" +
+      "esponseH\000\0224\n\013inventories\030\003 \001(\0132\035.clientM" +
+      "essage.PlayerResponseH\000B\t\n\007message\"\200\002\n\rC" +
+      "lientMessage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004a" +
+      "uth\030\002 \001(\0132\032.clientMessage.AuthMessageH\000\022" +
+      "2\n\017requestResponse\030\003 \001(\0132\027.clientMessage" +
+      ".ResponseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.clie" +
+      "ntMessage.ReadyForRequestsH\000\0224\n\013infoRequ" +
+      "est\030\005 \001(\0132\035.clientMessage.GetInformation" +
+      "H\000B\t\n\007message*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010U" +
+      "NCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDA" +
+      "RY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020" +
+      "\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035club.thom.tem.mod" +
+      "els.messagesZ\027protobuf/clientMessagesb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -14989,7 +15001,7 @@ public final class ClientMessages {
     internal_static_clientMessage_Pet_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Pet_descriptor,
-        new java.lang.String[] { "Skin", "Candied", "Rarity", "HeldItem", "Level", "Name", "Candy", });
+        new java.lang.String[] { "Skin", "Candied", "Rarity", "HeldItem", "Level", "Name", "Candy", "Skin", });
     internal_static_clientMessage_ExtraAttributeValue_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_clientMessage_ExtraAttributeValue_fieldAccessorTable = new
