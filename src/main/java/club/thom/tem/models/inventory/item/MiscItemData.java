@@ -46,6 +46,7 @@ public class MiscItemData extends InventoryItemData {
         if (getUuid() != null) {
             itemBuilder.setUuid(getUuid());
         }
+        itemBuilder.setItem(dataBuilder);
         return itemBuilder.build();
     }
 
