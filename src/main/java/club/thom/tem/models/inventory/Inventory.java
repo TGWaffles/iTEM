@@ -43,12 +43,16 @@ public class Inventory {
         NBTTagList list = data.getTagList("i", Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound item = list.getCompoundTagAt(i);
+            // adds to tem's database
             if (ArmourPieceData.isValidItem(item)) {
                 items.add(new ArmourPieceData(item));
-            } else if (PetData.isValidItem(item)) {
-                items.add(new PetData(item));
-            } else if (PetSkinData.isValidItem(item)) {
+            }  else if (PetSkinData.isValidItem(item)) {
                 items.add(new PetSkinData(item));
+            }
+
+            // goes to combined db
+            if (PetData.isValidItem(item)) {
+                items.add(new PetData(item));
             } else if (MiscItemData.isValidItem(item)) {
                 items.add(new MiscItemData(item));
             }
