@@ -62,10 +62,16 @@ public class PetData extends InventoryItemData {
     }
 
     private boolean isCandied() {
+        if (!petJson.has("candyUsed")) {
+            return false;
+        }
         return petJson.get("candyUsed").getAsInt() > 0;
     }
 
     private int getCandyCount() {
+        if (!petJson.has("candyUsed")) {
+            return 0;
+        }
         return petJson.get("candyUsed").getAsInt();
     }
 
@@ -122,9 +128,9 @@ public class PetData extends InventoryItemData {
             return false;
         }
         try {
-            new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject();
+            JsonObject petData = new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject();
             // json was able to be successfully parsed, contains a valid pet (probably)
-            return true;
+            return petData.has("type");
         } catch (IllegalStateException e) {
             e.printStackTrace();
             System.out.println(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo"));
