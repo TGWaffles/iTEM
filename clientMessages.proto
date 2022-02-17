@@ -75,6 +75,7 @@ message ExtraAttributeValue {
   oneof value {
     string stringValue = 1;
     int32 intValue = 2;
+    int64 longValue = 3;
   }
 }
 

@@ -171,8 +171,9 @@ public class Hypixel {
                     logger.debug("LOOP-> for loop!");
                     waitingForItemLock.lock();
                     try {
-                        while (!hasValidApiKey && !(requestQueue.peek() instanceof KeyLookupRequest)) {
-                            logger.debug("LOOP-> API key is invalid. Waiting for new API key.");
+                        while (!(requestQueue.peek() instanceof KeyLookupRequest) && !hasValidApiKey || (!TEMConfig.enableContributions && !(requestQueue.peek() instanceof KeyLookupRequest))) {
+                            logger.debug("LOOP-> API key is invalid or contributions disabled. " +
+                                    "Waiting for new API key or contributions to be re-enabled.");
                             //noinspection ResultOfMethodCallIgnored
                             newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
                             if (rateLimitResetTime < System.currentTimeMillis()) {

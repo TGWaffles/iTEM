@@ -5991,6 +5991,17 @@ public final class ClientMessages {
      */
     int getIntValue();
 
+    /**
+     * <code>int64 longValue = 3;</code>
+     * @return Whether the longValue field is set.
+     */
+    boolean hasLongValue();
+    /**
+     * <code>int64 longValue = 3;</code>
+     * @return The longValue.
+     */
+    long getLongValue();
+
     public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.ValueCase getValueCase();
   }
   /**
@@ -6049,6 +6060,11 @@ public final class ClientMessages {
               valueCase_ = 2;
               break;
             }
+            case 24: {
+              value_ = input.readInt64();
+              valueCase_ = 3;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -6088,6 +6104,7 @@ public final class ClientMessages {
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
       STRINGVALUE(1),
       INTVALUE(2),
+      LONGVALUE(3),
       VALUE_NOT_SET(0);
       private final int value;
       private ValueCase(int value) {
@@ -6107,6 +6124,7 @@ public final class ClientMessages {
         switch (value) {
           case 1: return STRINGVALUE;
           case 2: return INTVALUE;
+          case 3: return LONGVALUE;
           case 0: return VALUE_NOT_SET;
           default: return null;
         }
@@ -6195,6 +6213,27 @@ public final class ClientMessages {
       return 0;
     }
 
+    public static final int LONGVALUE_FIELD_NUMBER = 3;
+    /**
+     * <code>int64 longValue = 3;</code>
+     * @return Whether the longValue field is set.
+     */
+    @java.lang.Override
+    public boolean hasLongValue() {
+      return valueCase_ == 3;
+    }
+    /**
+     * <code>int64 longValue = 3;</code>
+     * @return The longValue.
+     */
+    @java.lang.Override
+    public long getLongValue() {
+      if (valueCase_ == 3) {
+        return (java.lang.Long) value_;
+      }
+      return 0L;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6216,6 +6255,10 @@ public final class ClientMessages {
         output.writeInt32(
             2, (int)((java.lang.Integer) value_));
       }
+      if (valueCase_ == 3) {
+        output.writeInt64(
+            3, (long)((java.lang.Long) value_));
+      }
       unknownFields.writeTo(output);
     }
 
@@ -6232,6 +6275,11 @@ public final class ClientMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(
               2, (int)((java.lang.Integer) value_));
+      }
+      if (valueCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(
+              3, (long)((java.lang.Long) value_));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6258,6 +6306,10 @@ public final class ClientMessages {
           if (getIntValue()
               != other.getIntValue()) return false;
           break;
+        case 3:
+          if (getLongValue()
+              != other.getLongValue()) return false;
+          break;
         case 0:
         default:
       }
@@ -6280,6 +6332,11 @@ public final class ClientMessages {
         case 2:
           hash = (37 * hash) + INTVALUE_FIELD_NUMBER;
           hash = (53 * hash) + getIntValue();
+          break;
+        case 3:
+          hash = (37 * hash) + LONGVALUE_FIELD_NUMBER;
+          hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+              getLongValue());
           break;
         case 0:
         default:
@@ -6451,6 +6508,9 @@ public final class ClientMessages {
         if (valueCase_ == 2) {
           result.value_ = value_;
         }
+        if (valueCase_ == 3) {
+          result.value_ = value_;
+        }
         result.valueCase_ = valueCase_;
         onBuilt();
         return result;
@@ -6509,6 +6569,10 @@ public final class ClientMessages {
           }
           case INTVALUE: {
             setIntValue(other.getIntValue());
+            break;
+          }
+          case LONGVALUE: {
+            setLongValue(other.getLongValue());
             break;
           }
           case VALUE_NOT_SET: {
@@ -6690,6 +6754,47 @@ public final class ClientMessages {
        */
       public Builder clearIntValue() {
         if (valueCase_ == 2) {
+          valueCase_ = 0;
+          value_ = null;
+          onChanged();
+        }
+        return this;
+      }
+
+      /**
+       * <code>int64 longValue = 3;</code>
+       * @return Whether the longValue field is set.
+       */
+      public boolean hasLongValue() {
+        return valueCase_ == 3;
+      }
+      /**
+       * <code>int64 longValue = 3;</code>
+       * @return The longValue.
+       */
+      public long getLongValue() {
+        if (valueCase_ == 3) {
+          return (java.lang.Long) value_;
+        }
+        return 0L;
+      }
+      /**
+       * <code>int64 longValue = 3;</code>
+       * @param value The longValue to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLongValue(long value) {
+        valueCase_ = 3;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 longValue = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLongValue() {
+        if (valueCase_ == 3) {
           valueCase_ = 0;
           value_ = null;
           onChanged();
@@ -14986,45 +15091,46 @@ public final class ClientMessages {
       "ssage.PetSkinH\000\210\001\001\022\017\n\007candied\030\002 \001(\010\022%\n\006r" +
       "arity\030\003 \001(\0162\025.clientMessage.Rarity\022\020\n\010he" +
       "ldItem\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\014\n\004name\030\006 \001(" +
-      "\t\022\r\n\005candy\030\007 \001(\005B\007\n\005_skin\"I\n\023ExtraAttrib" +
+      "\t\022\r\n\005candy\030\007 \001(\005B\007\n\005_skin\"^\n\023ExtraAttrib" +
       "uteValue\022\025\n\013stringValue\030\001 \001(\tH\000\022\022\n\010intVa" +
-      "lue\030\002 \001(\005H\000B\007\n\005value\"\240\003\n\010MiscItem\022\016\n\006ite" +
-      "mId\030\001 \001(\t\022%\n\006rarity\030\002 \001(\0162\025.clientMessag" +
-      "e.Rarity\022?\n\014enchantments\030\003 \003(\0132).clientM" +
-      "essage.MiscItem.EnchantmentsEntry\022\017\n\007hex" +
-      "Code\030\004 \001(\005\022E\n\017extraAttributes\030\005 \003(\0132,.cl" +
-      "ientMessage.MiscItem.ExtraAttributesEntr" +
-      "y\022\024\n\007reforge\030\006 \001(\tH\000\210\001\001\022\021\n\titemCount\030\007 \001" +
-      "(\005\0323\n\021EnchantmentsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005" +
-      "value\030\002 \001(\005:\0028\001\032Z\n\024ExtraAttributesEntry\022" +
-      "\013\n\003key\030\001 \001(\t\0221\n\005value\030\002 \001(\0132\".clientMess" +
-      "age.ExtraAttributeValue:\0028\001B\n\n\010_reforge\"" +
-      "\366\001\n\rInventoryItem\022\021\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021" +
-      "creationTimestamp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.c" +
-      "lientMessage.PetH\000\022)\n\007petSkin\030\004 \001(\0132\026.cl" +
-      "ientMessage.PetSkinH\000\022,\n\013armourPiece\030\005 \001" +
-      "(\0132\025.clientMessage.ArmourH\000\022\'\n\004item\030\006 \001(" +
-      "\0132\027.clientMessage.MiscItemH\000B\t\n\007messageB" +
-      "\007\n\005_uuid\"U\n\021InventoryResponse\022\023\n\013profile" +
-      "Uuid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.clientMessag" +
-      "e.InventoryItem\"X\n\016PlayerResponse\022\022\n\npla" +
-      "yerUuid\030\001 \001(\t\0222\n\010profiles\030\002 \003(\0132 .client" +
-      "Message.InventoryResponse\"\221\001\n\010Response\022\r" +
-      "\n\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.cli" +
-      "entMessage.FriendsResponseH\000\0224\n\013inventor" +
-      "ies\030\003 \001(\0132\035.clientMessage.PlayerResponse" +
-      "H\000B\t\n\007message\"\200\002\n\rClientMessage\022\025\n\rclien" +
-      "tVersion\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMes" +
-      "sage.AuthMessageH\000\0222\n\017requestResponse\030\003 " +
-      "\001(\0132\027.clientMessage.ResponseH\000\0227\n\014moreRe" +
-      "quests\030\004 \001(\0132\037.clientMessage.ReadyForReq" +
-      "uestsH\000\0224\n\013infoRequest\030\005 \001(\0132\035.clientMes" +
-      "sage.GetInformationH\000B\t\n\007message*|\n\006Rari" +
-      "ty\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010" +
-      "\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006D" +
-      "IVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY_SPECIAL\020\010B8" +
-      "\n\035club.thom.tem.models.messagesZ\027protobu" +
-      "f/clientMessagesb\006proto3"
+      "lue\030\002 \001(\005H\000\022\023\n\tlongValue\030\003 \001(\003H\000B\007\n\005valu" +
+      "e\"\240\003\n\010MiscItem\022\016\n\006itemId\030\001 \001(\t\022%\n\006rarity" +
+      "\030\002 \001(\0162\025.clientMessage.Rarity\022?\n\014enchant" +
+      "ments\030\003 \003(\0132).clientMessage.MiscItem.Enc" +
+      "hantmentsEntry\022\017\n\007hexCode\030\004 \001(\005\022E\n\017extra" +
+      "Attributes\030\005 \003(\0132,.clientMessage.MiscIte" +
+      "m.ExtraAttributesEntry\022\024\n\007reforge\030\006 \001(\tH" +
+      "\000\210\001\001\022\021\n\titemCount\030\007 \001(\005\0323\n\021EnchantmentsE" +
+      "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\032Z\n\024" +
+      "ExtraAttributesEntry\022\013\n\003key\030\001 \001(\t\0221\n\005val" +
+      "ue\030\002 \001(\0132\".clientMessage.ExtraAttributeV" +
+      "alue:\0028\001B\n\n\010_reforge\"\366\001\n\rInventoryItem\022\021" +
+      "\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021creationTimestamp\030\002" +
+      " \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMessage.PetH\000\022" +
+      ")\n\007petSkin\030\004 \001(\0132\026.clientMessage.PetSkin" +
+      "H\000\022,\n\013armourPiece\030\005 \001(\0132\025.clientMessage." +
+      "ArmourH\000\022\'\n\004item\030\006 \001(\0132\027.clientMessage.M" +
+      "iscItemH\000B\t\n\007messageB\007\n\005_uuid\"U\n\021Invento" +
+      "ryResponse\022\023\n\013profileUuid\030\001 \001(\t\022+\n\005items" +
+      "\030\002 \003(\0132\034.clientMessage.InventoryItem\"X\n\016" +
+      "PlayerResponse\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010pr" +
+      "ofiles\030\002 \003(\0132 .clientMessage.InventoryRe" +
+      "sponse\"\221\001\n\010Response\022\r\n\005nonce\030\001 \001(\005\0225\n\013fr" +
+      "iendsList\030\002 \001(\0132\036.clientMessage.FriendsR" +
+      "esponseH\000\0224\n\013inventories\030\003 \001(\0132\035.clientM" +
+      "essage.PlayerResponseH\000B\t\n\007message\"\200\002\n\rC" +
+      "lientMessage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004a" +
+      "uth\030\002 \001(\0132\032.clientMessage.AuthMessageH\000\022" +
+      "2\n\017requestResponse\030\003 \001(\0132\027.clientMessage" +
+      ".ResponseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.clie" +
+      "ntMessage.ReadyForRequestsH\000\0224\n\013infoRequ" +
+      "est\030\005 \001(\0132\035.clientMessage.GetInformation" +
+      "H\000B\t\n\007message*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010U" +
+      "NCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDA" +
+      "RY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020" +
+      "\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035club.thom.tem.mod" +
+      "els.messagesZ\027protobuf/clientMessagesb\006p" +
+      "roto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -15077,7 +15183,7 @@ public final class ClientMessages {
     internal_static_clientMessage_ExtraAttributeValue_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_ExtraAttributeValue_descriptor,
-        new java.lang.String[] { "StringValue", "IntValue", "Value", });
+        new java.lang.String[] { "StringValue", "IntValue", "LongValue", "Value", });
     internal_static_clientMessage_MiscItem_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_clientMessage_MiscItem_fieldAccessorTable = new
