@@ -138,6 +138,9 @@ public class MiscItemData extends InventoryItemData {
             } else if (tagId == Constants.NBT.TAG_STRING) {
                 // string
                 dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setStringValue(extraAttributes.getString(key)).build());
+            } else if (tagId == Constants.NBT.TAG_LONG) {
+                // long
+                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setLongValue(extraAttributes.getLong(key)).build());
             }
             // anything else not supported, so not stored
         }

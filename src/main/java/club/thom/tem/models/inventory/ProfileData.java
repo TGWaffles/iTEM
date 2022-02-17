@@ -18,7 +18,7 @@ public class ProfileData {
     private static final Logger logger = LogManager.getLogger(ProfileData.class);
     // Unused: fishing_bag, talisman_bag, quiver,
     private static final String[] inventoryNames = new String[]{"inv_armor", "inv_contents", "wardrobe_contents",
-            "ender_chest_contents", "personal_vault_contents"};
+            "ender_chest_contents", "personal_vault_contents", "talisman_bag"};
     // `backpack_contents` is an array of these, pets has only json to deal with
     private final List<Inventory> inventories = new ArrayList<>();
 
