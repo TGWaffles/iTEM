@@ -80,16 +80,16 @@ dependencies {
     // all for standalone
     //noinspection DifferentStdlibGradleVersion
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.30'
-    implementation 'com.google.guava:guava:31.0.1-jre'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.guava:guava:17.0'
+    implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209'
-    implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation 'commons-io:commons-io:20030203.000550'
+    implementation 'org.apache.commons:commons-lang3:3.3.2'
+    implementation 'commons-io:commons-io:2.4'
     implementation 'net.minecraftforge:forgeSrc:1.8.9-11.15.1.2318-1.8.9'
     // standalone ^^
 
     // For talking to the backend
-    implementation 'com.google.protobuf:protobuf-java:3.19.4'
+    implementation 'com.google.protobuf:protobuf-java:3.19.3'
     implementation 'com.neovisionaries:nv-websocket-client:2.14'
 
 }
