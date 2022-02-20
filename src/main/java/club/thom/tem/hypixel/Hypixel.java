@@ -166,6 +166,7 @@ public class Hypixel {
                     requestFutures.add(request.getCompletionFuture());
                     new Thread(request::makeRequest).start();
                 }
+                logger.info("LOOP-> {} requests in queue.", requestQueue.size());
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
                     logger.debug("LOOP-> for loop!");
