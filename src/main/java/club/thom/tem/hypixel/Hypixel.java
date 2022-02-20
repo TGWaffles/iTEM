@@ -169,11 +169,11 @@ public class Hypixel {
                 logger.info("LOOP-> {} requests in queue.", requestQueue.size());
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
-                    logger.debug("LOOP-> for loop!");
+                    logger.info("LOOP-> for loop!");
                     waitingForItemLock.lock();
                     try {
                         while (!(requestQueue.peek() instanceof KeyLookupRequest) && !hasValidApiKey || (!TEMConfig.enableContributions && !(requestQueue.peek() instanceof KeyLookupRequest))) {
-                            logger.debug("LOOP-> API key is invalid or contributions disabled. " +
+                            logger.info("LOOP-> API key is invalid or contributions disabled. " +
                                     "Waiting for new API key or contributions to be re-enabled.");
                             //noinspection ResultOfMethodCallIgnored
                             newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
@@ -194,44 +194,44 @@ public class Hypixel {
                     }
                     // Blocking operation. This whole for loop could take minutes to complete, so we need to make sure
                     // we haven't passed the resetTime afterwards.
-                    logger.debug("LOOP-> Taking request...");
+                    logger.info("LOOP-> Taking request...");
                     Request request = requestQueue.poll(30000, TimeUnit.MILLISECONDS);
                     if (request != null) {
-                        logger.debug("LOOP-> Taken.");
+                        logger.info("LOOP-> Taken.");
                         requestFutures.add(request.getCompletionFuture());
                         new Thread(request::makeRequest).start();
                     } else {
-                        logger.debug("LOOP-> Quit due to timeout...");
+                        logger.info("LOOP-> Quit due to timeout...");
                         break;
                     }
                     // So we can wait for all items to complete before spinning next request set up.
                 }
-                logger.debug("LOOP-> Collecting requests");
+                logger.info("LOOP-> Collecting requests");
                 // Now we're out of the for loop, we must have run out of requests.
                 // Waits for requests to finish before checking that...
                 requestFutures.forEach(CompletableFuture::join);
-                logger.debug("LOOP-> all requests collected!");
+                logger.info("LOOP-> all requests collected!");
                 // If we *did* successfully exhaust all requests, wait the given time.
                 if (getRateLimit() <= 0) {
                     long sleepTime = rateLimitResetTime - System.currentTimeMillis();
                     if (sleepTime <= 0) {
                         // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
-                        logger.debug("LOOP-> Setting ratelimit to 1, 5 as sleepTime is {}, ratelimit is 0, " +
+                        logger.info("LOOP-> Setting ratelimit to 1, 5 as sleepTime is {}, ratelimit is 0, " +
                                 "rateLimitReset: {}", sleepTime, rateLimitResetTime);
                         setRateLimitRemaining(1, 5);
                         continue;
                     }
                     // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
-                    logger.debug("LOOP-> waiting for rate limit reset...");
+                    logger.info("LOOP-> waiting for rate limit reset...");
                     //noinspection BusyWait
                     Thread.sleep(sleepTime);
                     // Sets the next resetTime as 60 seconds in the future.
                     setRateLimitRemaining(120, 60);
-                    logger.debug("LOOP-> finished waiting");
+                    logger.info("LOOP-> finished waiting");
                     continue;
                 }
                 logger.info("LOOP-> {} requests in queue.", requestQueue.size());
-                logger.debug("LOOP-> Locking item lock");
+                logger.info("LOOP-> Locking item lock");
                 // No point having this thread spin in an infinite while loop while there's no requests waiting to be made.
                 waitingForItemLock.lock();
                 try {
