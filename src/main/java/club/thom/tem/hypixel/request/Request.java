@@ -135,6 +135,7 @@ public abstract class Request {
             }
             // API Key is now invalid.
             controller.hasValidApiKey = false;
+            logger.warn("REQUEST-> API KEY IS INVALID!");
             TEMConfig.setHypixelKey("");
             TEM.waitForPlayer();
             try {
