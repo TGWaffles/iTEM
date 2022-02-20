@@ -230,6 +230,7 @@ public class Hypixel {
                     logger.debug("LOOP-> finished waiting");
                     continue;
                 }
+                logger.info("LOOP-> {} requests in queue.", requestQueue.size());
                 logger.debug("LOOP-> Locking item lock");
                 // No point having this thread spin in an infinite while loop while there's no requests waiting to be made.
                 waitingForItemLock.lock();
