@@ -166,6 +166,7 @@ public class Hypixel {
                     requestFutures.add(request.getCompletionFuture());
                     new Thread(request::makeRequest).start();
                 }
+                logger.debug("LOOP-> {} requests in queue.", requestQueue.size());
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
                     logger.debug("LOOP-> for loop!");
@@ -229,6 +230,7 @@ public class Hypixel {
                     logger.debug("LOOP-> finished waiting");
                     continue;
                 }
+                logger.debug("LOOP-> {} requests in queue.", requestQueue.size());
                 logger.debug("LOOP-> Locking item lock");
                 // No point having this thread spin in an infinite while loop while there's no requests waiting to be made.
                 waitingForItemLock.lock();

@@ -121,6 +121,8 @@ public class TEMConfig extends Vigilant {
                     }
                     TEM.api.signalApiKeySet();
                 }).start();
+            } else {
+                logger.warn("TEMConfig - warning: API key is invalid!");
             }
             return result;
         } catch (InterruptedException | ExecutionException e) {
