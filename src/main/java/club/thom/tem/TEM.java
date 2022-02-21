@@ -268,8 +268,8 @@ public class TEM {
     public static void main(String inputUuid, String apiKey) {
         uuid = inputUuid;
         standAlone = true;
-        TEMConfig.setHypixelKey(apiKey);
         api = new Hypixel();
+        TEMConfig.setHypixelKey(apiKey);
         TEMConfig.useWholeRateLimit = true;
         TEMConfig.enableContributions = true;
         wsFactory.setVerifyHostname(false);
