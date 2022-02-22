@@ -109,6 +109,7 @@ message InventoryItem {
     Armour armourPiece = 5;
     MiscItem item = 6;
   }
+  string location = 15;
 }
 
 message InventoryResponse {

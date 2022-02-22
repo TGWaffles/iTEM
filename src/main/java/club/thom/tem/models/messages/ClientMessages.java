@@ -8798,6 +8798,18 @@ public final class ClientMessages {
      */
     club.thom.tem.models.messages.ClientMessages.MiscItemOrBuilder getItemOrBuilder();
 
+    /**
+     * <code>string location = 15;</code>
+     * @return The location.
+     */
+    java.lang.String getLocation();
+    /**
+     * <code>string location = 15;</code>
+     * @return The bytes for location.
+     */
+    com.google.protobuf.ByteString
+        getLocationBytes();
+
     public club.thom.tem.models.messages.ClientMessages.InventoryItem.MessageCase getMessageCase();
   }
   /**
@@ -8814,6 +8826,7 @@ public final class ClientMessages {
     }
     private InventoryItem() {
       uuid_ = "";
+      location_ = "";
     }
 
     @java.lang.Override
@@ -8912,6 +8925,12 @@ public final class ClientMessages {
                 message_ = subBuilder.buildPartial();
               }
               messageCase_ = 6;
+              break;
+            }
+            case 122: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              location_ = s;
               break;
             }
             default: {
@@ -9189,6 +9208,44 @@ public final class ClientMessages {
       return club.thom.tem.models.messages.ClientMessages.MiscItem.getDefaultInstance();
     }
 
+    public static final int LOCATION_FIELD_NUMBER = 15;
+    private volatile java.lang.Object location_;
+    /**
+     * <code>string location = 15;</code>
+     * @return The location.
+     */
+    @java.lang.Override
+    public java.lang.String getLocation() {
+      java.lang.Object ref = location_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        location_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string location = 15;</code>
+     * @return The bytes for location.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLocationBytes() {
+      java.lang.Object ref = location_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        location_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -9220,6 +9277,9 @@ public final class ClientMessages {
       }
       if (messageCase_ == 6) {
         output.writeMessage(6, (club.thom.tem.models.messages.ClientMessages.MiscItem) message_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(location_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 15, location_);
       }
       unknownFields.writeTo(output);
     }
@@ -9253,6 +9313,9 @@ public final class ClientMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, (club.thom.tem.models.messages.ClientMessages.MiscItem) message_);
       }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(location_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(15, location_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -9275,6 +9338,8 @@ public final class ClientMessages {
       }
       if (getCreationTimestamp()
           != other.getCreationTimestamp()) return false;
+      if (!getLocation()
+          .equals(other.getLocation())) return false;
       if (!getMessageCase().equals(other.getMessageCase())) return false;
       switch (messageCase_) {
         case 3:
@@ -9314,6 +9379,8 @@ public final class ClientMessages {
       hash = (37 * hash) + CREATIONTIMESTAMP_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getCreationTimestamp());
+      hash = (37 * hash) + LOCATION_FIELD_NUMBER;
+      hash = (53 * hash) + getLocation().hashCode();
       switch (messageCase_) {
         case 3:
           hash = (37 * hash) + PET_FIELD_NUMBER;
@@ -9471,6 +9538,8 @@ public final class ClientMessages {
         bitField0_ = (bitField0_ & ~0x00000001);
         creationTimestamp_ = 0L;
 
+        location_ = "";
+
         messageCase_ = 0;
         message_ = null;
         return this;
@@ -9534,6 +9603,7 @@ public final class ClientMessages {
             result.message_ = itemBuilder_.build();
           }
         }
+        result.location_ = location_;
         result.bitField0_ = to_bitField0_;
         result.messageCase_ = messageCase_;
         onBuilt();
@@ -9591,6 +9661,10 @@ public final class ClientMessages {
         }
         if (other.getCreationTimestamp() != 0L) {
           setCreationTimestamp(other.getCreationTimestamp());
+        }
+        if (!other.getLocation().isEmpty()) {
+          location_ = other.location_;
+          onChanged();
         }
         switch (other.getMessageCase()) {
           case PET: {
@@ -10370,6 +10444,82 @@ public final class ClientMessages {
         messageCase_ = 6;
         onChanged();;
         return itemBuilder_;
+      }
+
+      private java.lang.Object location_ = "";
+      /**
+       * <code>string location = 15;</code>
+       * @return The location.
+       */
+      public java.lang.String getLocation() {
+        java.lang.Object ref = location_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          location_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string location = 15;</code>
+       * @return The bytes for location.
+       */
+      public com.google.protobuf.ByteString
+          getLocationBytes() {
+        java.lang.Object ref = location_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          location_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string location = 15;</code>
+       * @param value The location to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLocation(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        location_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string location = 15;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLocation() {
+        
+        location_ = getDefaultInstance().getLocation();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string location = 15;</code>
+       * @param value The bytes for location to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLocationBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        location_ = value;
+        onChanged();
+        return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -15104,33 +15254,33 @@ public final class ClientMessages {
       "ntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028\001\032Z\n\024" +
       "ExtraAttributesEntry\022\013\n\003key\030\001 \001(\t\0221\n\005val" +
       "ue\030\002 \001(\0132\".clientMessage.ExtraAttributeV" +
-      "alue:\0028\001B\n\n\010_reforge\"\366\001\n\rInventoryItem\022\021" +
+      "alue:\0028\001B\n\n\010_reforge\"\210\002\n\rInventoryItem\022\021" +
       "\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021creationTimestamp\030\002" +
       " \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMessage.PetH\000\022" +
       ")\n\007petSkin\030\004 \001(\0132\026.clientMessage.PetSkin" +
       "H\000\022,\n\013armourPiece\030\005 \001(\0132\025.clientMessage." +
       "ArmourH\000\022\'\n\004item\030\006 \001(\0132\027.clientMessage.M" +
-      "iscItemH\000B\t\n\007messageB\007\n\005_uuid\"U\n\021Invento" +
-      "ryResponse\022\023\n\013profileUuid\030\001 \001(\t\022+\n\005items" +
-      "\030\002 \003(\0132\034.clientMessage.InventoryItem\"X\n\016" +
-      "PlayerResponse\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010pr" +
-      "ofiles\030\002 \003(\0132 .clientMessage.InventoryRe" +
-      "sponse\"\221\001\n\010Response\022\r\n\005nonce\030\001 \001(\005\0225\n\013fr" +
-      "iendsList\030\002 \001(\0132\036.clientMessage.FriendsR" +
-      "esponseH\000\0224\n\013inventories\030\003 \001(\0132\035.clientM" +
-      "essage.PlayerResponseH\000B\t\n\007message\"\200\002\n\rC" +
-      "lientMessage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004a" +
-      "uth\030\002 \001(\0132\032.clientMessage.AuthMessageH\000\022" +
-      "2\n\017requestResponse\030\003 \001(\0132\027.clientMessage" +
-      ".ResponseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.clie" +
-      "ntMessage.ReadyForRequestsH\000\0224\n\013infoRequ" +
-      "est\030\005 \001(\0132\035.clientMessage.GetInformation" +
-      "H\000B\t\n\007message*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010U" +
-      "NCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDA" +
-      "RY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020" +
-      "\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035club.thom.tem.mod" +
-      "els.messagesZ\027protobuf/clientMessagesb\006p" +
-      "roto3"
+      "iscItemH\000\022\020\n\010location\030\017 \001(\tB\t\n\007messageB\007" +
+      "\n\005_uuid\"U\n\021InventoryResponse\022\023\n\013profileU" +
+      "uid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.clientMessage" +
+      ".InventoryItem\"X\n\016PlayerResponse\022\022\n\nplay" +
+      "erUuid\030\001 \001(\t\0222\n\010profiles\030\002 \003(\0132 .clientM" +
+      "essage.InventoryResponse\"\221\001\n\010Response\022\r\n" +
+      "\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.clie" +
+      "ntMessage.FriendsResponseH\000\0224\n\013inventori" +
+      "es\030\003 \001(\0132\035.clientMessage.PlayerResponseH" +
+      "\000B\t\n\007message\"\200\002\n\rClientMessage\022\025\n\rclient" +
+      "Version\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMess" +
+      "age.AuthMessageH\000\0222\n\017requestResponse\030\003 \001" +
+      "(\0132\027.clientMessage.ResponseH\000\0227\n\014moreReq" +
+      "uests\030\004 \001(\0132\037.clientMessage.ReadyForRequ" +
+      "estsH\000\0224\n\013infoRequest\030\005 \001(\0132\035.clientMess" +
+      "age.GetInformationH\000B\t\n\007message*|\n\006Rarit" +
+      "y\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n" +
+      "\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DI" +
+      "VINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY_SPECIAL\020\010B8\n" +
+      "\035club.thom.tem.models.messagesZ\027protobuf" +
+      "/clientMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -15207,7 +15357,7 @@ public final class ClientMessages {
     internal_static_clientMessage_InventoryItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_InventoryItem_descriptor,
-        new java.lang.String[] { "Uuid", "CreationTimestamp", "Pet", "PetSkin", "ArmourPiece", "Item", "Message", "Uuid", });
+        new java.lang.String[] { "Uuid", "CreationTimestamp", "Pet", "PetSkin", "ArmourPiece", "Item", "Location", "Message", "Uuid", });
     internal_static_clientMessage_InventoryResponse_descriptor =
       getDescriptor().getMessageTypes().get(10);
     internal_static_clientMessage_InventoryResponse_fieldAccessorTable = new

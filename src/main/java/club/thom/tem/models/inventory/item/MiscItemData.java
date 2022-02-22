@@ -12,10 +12,12 @@ import java.util.List;
 public class MiscItemData extends InventoryItemData {
     public final NBTTagCompound itemData;
     public final NBTTagCompound extraAttributes;
+    private final String inventoryName;
 
-    public MiscItemData(NBTTagCompound itemData) {
+    public MiscItemData(String inventoryName, NBTTagCompound itemData) {
         this.itemData = itemData;
         extraAttributes = getExtraAttributes();
+        this.inventoryName = inventoryName;
     }
 
     ClientMessages.MiscItem.Builder dataBuilder = ClientMessages.MiscItem.newBuilder();
@@ -46,7 +48,8 @@ public class MiscItemData extends InventoryItemData {
         if (getUuid() != null) {
             itemBuilder.setUuid(getUuid());
         }
-        itemBuilder.setItem(dataBuilder);
+        itemBuilder.setItem(dataBuilder)
+                .setLocation(inventoryName);
         return itemBuilder.build();
     }
 

@@ -20,8 +20,10 @@ public class Inventory {
     // Can be enderchest, storage, pets menu, actual inventory, etc
     // Contains InventoryItemData array of items
     private final NBTTagCompound data;
-    public Inventory(String base64EncodedNBT) {
+    private final String name;
+    public Inventory(String inventoryName, String base64EncodedNBT) {
         data = processNbtString(base64EncodedNBT);
+        name = inventoryName;
     }
 
     private static final Logger logger = LogManager.getLogger(Inventory.class);
@@ -38,23 +40,23 @@ public class Inventory {
         return nbtData;
     }
 
-    public static List<InventoryItemData> nbtToItems(NBTTagCompound data) {
+    public static List<InventoryItemData> nbtToItems(String name, NBTTagCompound data) {
         ArrayList<InventoryItemData> items = new ArrayList<>();
         NBTTagList list = data.getTagList("i", Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound item = list.getCompoundTagAt(i);
             // adds to tem's database
             if (ArmourPieceData.isValidItem(item)) {
-                items.add(new ArmourPieceData(item));
+                items.add(new ArmourPieceData(name, item));
             }  else if (PetSkinData.isValidItem(item)) {
-                items.add(new PetSkinData(item));
+                items.add(new PetSkinData(name, item));
             }
 
             // goes to combined db
             if (PetData.isValidItem(item)) {
-                items.add(new PetData(item));
+                items.add(new PetData(name, item));
             } else if (MiscItemData.isValidItem(item)) {
-                items.add(new MiscItemData(item));
+                items.add(new MiscItemData(name, item));
             }
         }
         return items;
@@ -62,9 +64,13 @@ public class Inventory {
 
     public List<InventoryItem> getItems() {
         List<InventoryItem> items = new ArrayList<>();
-        for (InventoryItemData itemData : nbtToItems(data)) {
+        for (InventoryItemData itemData : nbtToItems(name, data)) {
             items.add(itemData.toInventoryItem());
         }
         return items;
+    }
+
+    public String getName() {
+        return name;
     }
 }
