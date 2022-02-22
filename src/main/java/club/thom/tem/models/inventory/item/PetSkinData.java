@@ -7,20 +7,24 @@ import net.minecraft.nbt.NBTTagCompound;
 public class PetSkinData extends InventoryItemData {
     private final String skinId;
     private NBTTagCompound itemData = null;
+    private String inventoryName;
 
-    public PetSkinData(NBTTagCompound itemData) {
+    public PetSkinData(String inventoryName, NBTTagCompound itemData) {
         this(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("id").replace("PET_SKIN_", ""));
         this.itemData = itemData;
+        this.inventoryName = inventoryName;
     }
 
     public PetSkinData(String petSkinId) {
         this.skinId = "PET_SKIN_" + petSkinId;
+        inventoryName = "applied_on_pet";
     }
 
     @Override
     public InventoryItem toInventoryItem() {
         return InventoryItem.newBuilder().setPetSkin(toPetSkinMessage()).setUuid(getUuid())
-                .setCreationTimestamp(getCreationTimestamp("")).build();
+                .setCreationTimestamp(getCreationTimestamp(""))
+                .setLocation(inventoryName).build();
     }
 
     private String getUuid() {

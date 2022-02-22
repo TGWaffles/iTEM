@@ -47,12 +47,14 @@ public class ProfileData {
                 continue;
             }
             logger.debug("Starting inventory: {}", inventoryName);
-            inventories.add(new Inventory(playerProfile.get(inventoryName).getAsJsonObject().get("data").getAsString()));
+            inventories.add(new Inventory(inventoryName, playerProfile.get(inventoryName).getAsJsonObject().get("data").getAsString()));
         }
         logger.debug("Starting backpacks...");
+        int backpackNumber = 0;
         if (playerProfile.has("backpack_contents") && !playerProfile.get("backpack_contents").isJsonNull()) {
             for (Map.Entry<String, JsonElement> entry : playerProfile.get("backpack_contents").getAsJsonObject().entrySet()) {
-                inventories.add(new Inventory(entry.getValue().getAsJsonObject().get("data").getAsString()));
+                inventories.add(new Inventory("backpack-" + backpackNumber, entry.getValue().getAsJsonObject().get("data").getAsString()));
+                backpackNumber++;
             }
         }
         logger.debug("Finished backpacks...");

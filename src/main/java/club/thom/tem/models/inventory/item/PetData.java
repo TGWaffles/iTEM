@@ -12,15 +12,17 @@ import java.util.HashMap;
 
 public class PetData extends InventoryItemData {
     private final JsonObject petJson;
-
+    private String inventoryName;
     /**
      * @param itemData NBT data of a pet in an inventory. This method gets the json and runs the json init method.
      */
-    public PetData(NBTTagCompound itemData) {
+    public PetData(String inventoryName, NBTTagCompound itemData) {
         this(new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject());
+        this.inventoryName = inventoryName;
     }
 
     public PetData(JsonObject petJson) {
+        inventoryName = "pet_menu";
         this.petJson = petJson;
     }
 
@@ -32,7 +34,10 @@ public class PetData extends InventoryItemData {
         if (getSkin() != null) {
             builder.setSkin(getSkin());
         }
-        return InventoryItem.newBuilder().setPet(builder).setUuid(getUuid()).setCreationTimestamp(getCreationTimestamp()).build();
+        return InventoryItem.newBuilder()
+                .setPet(builder).setUuid(getUuid())
+                .setCreationTimestamp(getCreationTimestamp())
+                .setLocation(inventoryName).build();
     }
 
     private String getUuid() {

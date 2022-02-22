@@ -7,8 +7,10 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class ArmourPieceData extends InventoryItemData {
     private final NBTTagCompound itemData;
-    public ArmourPieceData(NBTTagCompound itemData) {
+    private final String inventoryName;
+    public ArmourPieceData(String inventoryName, NBTTagCompound itemData) {
         this.itemData = itemData;
+        this.inventoryName = inventoryName;
     }
 
     @Override
@@ -18,7 +20,10 @@ public class ArmourPieceData extends InventoryItemData {
         String itemId = getItemId();
         builder.setItemId(itemId).setRarity(getRarity()).setReforge(getReforge()).setHexCode(getHexCode());
         return ClientMessages.InventoryItem.newBuilder().setUuid(getUuid()).
-                setArmourPiece(builder).setCreationTimestamp(getCreationTimestamp(extraAttributes.getString("timestamp"))).build();
+                setArmourPiece(builder)
+                .setCreationTimestamp(getCreationTimestamp(extraAttributes.getString("timestamp")))
+                .setLocation(inventoryName)
+                .build();
     }
 
     /**
