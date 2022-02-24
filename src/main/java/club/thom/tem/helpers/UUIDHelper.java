@@ -17,7 +17,7 @@ public class UUIDHelper {
             uuidArray.add(uuid);
         }
         data.add("uuids", uuidArray);
-        JsonObject response = RequestHelper.sendPostRequest("https://api.thom.club/", "bulk_uuids", data);
+        JsonObject response = RequestHelper.sendPostRequest("https://api.thom.club/bulk_uuids", data).getJson();
         assert response != null;
         HashMap<String, String> uuidToUsernameMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : response.getAsJsonObject("uuids").entrySet()) {
@@ -44,7 +44,7 @@ public class UUIDHelper {
             usernameArray.add(username);
         }
         data.add("usernames", usernameArray);
-        JsonObject response = RequestHelper.sendPostRequest("https://api.thom.club/", "bulk_usernames", data);
+        JsonObject response = RequestHelper.sendPostRequest("https://api.thom.club/bulk_usernames", data).getJson();
         assert response != null;
         HashMap<String, String> usernameToUUIDMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : response.getAsJsonObject("usernames").entrySet()) {

@@ -91,6 +91,20 @@ public class TEMConfig extends Vigilant {
         return hypixelKey;
     }
 
+    @Property(
+            type = PropertyType.TEXT,
+            category = "API",
+            subcategory = "TEM API",
+            name = "TEM API Key",
+            description = "TEM API Key - given from the TEMBot by doing /api on Discord.",
+            protectedText = true
+    )
+    private static String temApiKey = "";
+
+    public static String getTemApiKey() {
+        return temApiKey;
+    }
+
     public static String saveFolder = "config/tem/";
     public static String fileName = "preferences.toml";
     public static File CONFIG_FILE = null;

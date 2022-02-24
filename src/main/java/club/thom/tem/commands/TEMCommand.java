@@ -1,6 +1,7 @@
 package club.thom.tem.commands;
 
 import club.thom.tem.TEM;
+import club.thom.tem.backend.ScanLobby;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.api.EssentialAPI;
 import net.minecraft.command.CommandBase;
@@ -33,14 +34,18 @@ public class TEMCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 1) {
+            // /tem config -- opens the configuration gui
             if (args[0].toLowerCase().startsWith("con")) {
                 EssentialAPI.getGuiUtil().openScreen(TEM.config.gui());
-            } else {
-                TEM.waitForPlayer();
-                TEM.sendMessage(getHelpMessage());
+                return;
             }
-            TEM.forceSaveConfig();
-            return;
+            // /tem scan -- runs the lobby scanner
+            if (args[0].toLowerCase().startsWith("s")) {
+                new Thread(ScanLobby::scan).start();
+                return;
+            }
+            // Unknown command.
+            TEM.sendMessage(getHelpMessage());
         } else if (args.length == 2) {
             if (args[0].equals("setkey")) {
                 new Thread(() -> {
@@ -54,20 +59,10 @@ public class TEMCommand extends CommandBase {
                     TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + args[1] + "!"));
                 }).start();
                 return;
-            } // Prints help on /tem to chat.
-            else {
-                TEM.sendMessage(getHelpMessage());
             }
-            return;
+            // Prints help on /tem to chat.
+            TEM.sendMessage(getHelpMessage());
         }
-        boolean newState = !TEMConfig.enableExotics;
-        TEMConfig.enableExotics = newState;
-        if (newState) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Enabled TEM!"));
-        } else {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Disabled TEM!"));
-        }
-        TEM.forceSaveConfig();
     }
     @Override
     public int getRequiredPermissionLevel() {
