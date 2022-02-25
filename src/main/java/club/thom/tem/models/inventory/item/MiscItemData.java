@@ -27,7 +27,7 @@ public class MiscItemData extends InventoryItemData {
      */
     public void assembleItem() {
         // add all attributes to dataBuilder
-        dataBuilder.setItemId(getItemId()).setRarity(getItemRarity());
+        dataBuilder.setItemId(getItemId()).setRarity(getItemRarity()).setReforge(getReforge());
         addEnchantments();
         dataBuilder.setHexCode(getHexCode());
         addExtraAttributes();
@@ -51,6 +51,14 @@ public class MiscItemData extends InventoryItemData {
         itemBuilder.setItem(dataBuilder)
                 .setLocation(inventoryName);
         return itemBuilder.build();
+    }
+
+    private String getReforge() {
+        NBTTagCompound extraAttributes = getExtraAttributes();
+        if (extraAttributes.hasKey("modifier")) {
+            return extraAttributes.getString("modifier");
+        }
+        return "";
     }
 
     private int getItemCount() {
