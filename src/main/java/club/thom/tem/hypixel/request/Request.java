@@ -12,10 +12,10 @@ import net.minecraft.util.EnumChatFormatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -54,11 +54,12 @@ public abstract class Request {
         logger.debug("Creating request to url: {}, params: {}", urlString, params);
         URL url = null;
         JsonObject jsonData;
-        HttpURLConnection uc;
+        HttpsURLConnection uc;
         int status = -1;
         try {
             url = new URL(urlString);
-            uc = (HttpURLConnection) url.openConnection();
+            uc = (HttpsURLConnection) url.openConnection();
+            uc.setSSLSocketFactory(TEM.getAllowAllFactory());
             uc.setReadTimeout(5000);
             uc.setConnectTimeout(5000);
             logger.debug("Opening connection to url: {}, params: {}", urlString, params);

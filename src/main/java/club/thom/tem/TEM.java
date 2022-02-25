@@ -33,6 +33,10 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.locks.Condition;
@@ -105,6 +109,7 @@ public class TEM {
         logger.info("Initialising TEM");
         api = new Hypixel();
         config.initialize();
+        wsFactory.setSSLSocketFactory(getAllowAllFactory());
         wsFactory.setVerifyHostname(false);
         new Thread(() -> reconnectSocket(100)).start();
         // Create global API/rate-limit handler
@@ -292,5 +297,31 @@ public class TEM {
         // Create global API/rate-limit handler
         // Start the requests loop
         new Thread(api::run).start();
+    }
+
+    public static SSLSocketFactory getAllowAllFactory() {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+                    public void checkClientTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                    public void checkServerTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                }
+        };
+
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            return sc.getSocketFactory();
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 }
