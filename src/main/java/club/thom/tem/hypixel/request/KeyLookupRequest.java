@@ -27,11 +27,7 @@ public class KeyLookupRequest extends Request {
         if (data == null) {
             return;
         }
-        if (data.getStatus() == 200) {
-            future.complete(true);
-            return;
-        }
-        future.complete(false);
+        future.complete(data.getStatus() != 403);
     }
 
     public CompletableFuture<Boolean> getFuture() {
