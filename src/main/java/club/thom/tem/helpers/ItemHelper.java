@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -97,5 +98,13 @@ public class ItemHelper {
         colourArray[1] = Integer.parseInt(colourAsString[1]);
         colourArray[2] = Integer.parseInt(colourAsString[2]);
         return colourArray;
+    }
+
+    public String nameFromId(String itemId) {
+        JsonObject itemData = items.get(itemId);
+        if (itemData == null) {
+            return WordUtils.capitalizeFully(itemId.replaceAll("_", " "));
+        }
+        return itemData.get("name").getAsString();
     }
 }

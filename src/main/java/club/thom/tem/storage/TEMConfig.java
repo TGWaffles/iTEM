@@ -96,7 +96,8 @@ public class TEMConfig extends Vigilant {
             category = "API",
             subcategory = "TEM API",
             name = "TEM API Key",
-            description = "TEM API Key - given from the TEMBot by doing /api on Discord.",
+            description = "TEM API Key - given from the Discord TEMBot by doing /api in your Discord DMs with the bot, " +
+                    "or in the Discord server.",
             protectedText = true
     )
     private static String temApiKey = "";

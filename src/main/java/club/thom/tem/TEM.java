@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -258,10 +259,16 @@ public class TEM {
             }
             text = String.join("\n", splitText);
             ChatStyle style = message.getChatStyle();
-            message = new ChatComponentText(text);
-            message.setChatStyle(style);
+
+            ChatComponentText newMessage = new ChatComponentText(text);
+
+            for (IChatComponent sibling : message.getSiblings()) {
+                newMessage.appendSibling(sibling);
+            }
+
+            newMessage.setChatStyle(style);
             waitForPlayer();
-            Minecraft.getMinecraft().thePlayer.addChatMessage(message);
+            Minecraft.getMinecraft().thePlayer.addChatMessage(newMessage);
         } finally {
             chatSendLock.unlock();
         }

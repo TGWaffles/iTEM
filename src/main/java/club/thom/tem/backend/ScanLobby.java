@@ -1,6 +1,8 @@
 package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
+import club.thom.tem.constants.ColourNames;
+import club.thom.tem.constants.PureColours;
 import club.thom.tem.helpers.HexHelper;
 import club.thom.tem.helpers.HexHelper.Modifier;
 import club.thom.tem.helpers.RequestHelper;
@@ -11,7 +13,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.ArrayList;
@@ -31,6 +36,7 @@ public class ScanLobby {
         public final Modifier modifier;
 
         public String username = "Unknown Player";
+        public String plainUsername = "";
 
         public ArmourWithOwner(JsonElement element) {
             JsonObject jsonData = element.getAsJsonObject();
@@ -50,14 +56,22 @@ public class ScanLobby {
                 this.username = username;
             }
         }
+
+        public void setPlainUsername(String plainUsername) {
+            if (plainUsername != null) {
+                this.plainUsername = plainUsername;
+            }
+        }
     }
 
     public static void scan() {
         TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Starting scan..."));
-        HashMap<String, String> uuidLookupMap = new HashMap<>();
+        HashMap<String, String> colouredNameMap = new HashMap<>();
+        HashMap<String, String> commandNameMap = new HashMap<>();
         List<EntityPlayer> players = Minecraft.getMinecraft().theWorld.playerEntities;
         for (EntityPlayer player : players) {
             String displayName;
+            String uuid = player.getGameProfile().getId().toString().replaceAll("-", "");
             try {
                 // tries to get coloured name
                 displayName = player.getDisplayName().getSiblings().get(0).getFormattedText();
@@ -65,8 +79,8 @@ public class ScanLobby {
                 // falls back to blank name
                 displayName = player.getDisplayNameString();
             }
-            uuidLookupMap.put(player.getGameProfile().getId().toString().replaceAll("-", ""),
-                    displayName);
+            colouredNameMap.put(uuid, displayName);
+            commandNameMap.put(uuid, player.getName());
         }
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() == 401 || returnedData.getStatus() == 403) {
@@ -87,7 +101,8 @@ public class ScanLobby {
             }
         }
         for (ArmourWithOwner armourPiece : armourToSend) {
-            armourPiece.setUsername(uuidLookupMap.get(armourPiece.ownerUuid));
+            armourPiece.setUsername(colouredNameMap.get(armourPiece.ownerUuid));
+            armourPiece.setPlainUsername(commandNameMap.get(armourPiece.ownerUuid));
             sendItemMessage(armourPiece);
         }
         TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Scan complete!"));
@@ -123,9 +138,33 @@ public class ScanLobby {
                 prefixColour = EnumChatFormatting.GOLD;
                 break;
         }
-        TEM.sendMessage(new ChatComponentText(prefixColour + "[" + item.modifier + "]" + " " + EnumChatFormatting.RESET +
-                item.username + EnumChatFormatting.GRAY + " has " + EnumChatFormatting.GREEN +  "#" + item.hexCode +
-                EnumChatFormatting.RESET + " " + item.itemId + "!"));
+        String itemName = TEM.items.nameFromId(item.itemId);
+
+        String pureColourText = "";
+        if (PureColours.isPureColour(item.hexCode)) {
+            pureColourText = "PURE " + PureColours.getPureColour(item.hexCode) + "\n";
+        }
+        // Player name!
+        ChatComponentText playerText = new ChatComponentText(item.username);
+        playerText.setChatStyle(new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/pv " + item.plainUsername)));
+
+        // Hex code!
+        ChatComponentText hoverOverHexText = new ChatComponentText(
+                EnumChatFormatting.YELLOW + "----------------\n" +
+                        EnumChatFormatting.GRAY + ColourNames.getColorNameFromHex(Integer.parseInt(item.hexCode, 16)) + "\n" +
+                        pureColourText +
+                        EnumChatFormatting.YELLOW + "----------------"
+        );
+        ChatComponentText hexCodeText = new ChatComponentText(EnumChatFormatting.GREEN + "#" + item.hexCode);
+
+
+        ChatComponentText message = new ChatComponentText(prefixColour + "[" + item.modifier + "]" + " " + EnumChatFormatting.RESET);
+        message.appendSibling(playerText);
+        message.appendSibling(new ChatComponentText(EnumChatFormatting.GRAY + " has "));
+        message.appendSibling(hexCodeText);
+        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "!"));
+        hexCodeText.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverOverHexText)));
+        TEM.sendMessage(message);
     }
 
     public static RequestData scanPlayers(List<EntityPlayer> players) {
