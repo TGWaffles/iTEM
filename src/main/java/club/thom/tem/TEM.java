@@ -15,6 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -64,6 +65,9 @@ public class TEM {
 
     private static final Lock lock = new ReentrantLock();
     private static final Condition waitForUuid = lock.newCondition();
+
+    private static final Lock chatSendLock = new ReentrantLock();
+
     private static final WebSocketFactory wsFactory = new WebSocketFactory();
     public static WebSocket socket;
 
@@ -242,21 +246,32 @@ public class TEM {
             logger.info(message.getUnformattedTextForChat());
             return;
         }
-        String text = message.getUnformattedTextForChat();
-        String prefix = EnumChatFormatting.AQUA + "TEM" + EnumChatFormatting.GRAY + "> ";
-        String[] splitText = text.split("\n");
-        for (int i = 0; i < splitText.length; i++) {
-            if (splitText[i].equals("")) {
-                continue;
+        chatSendLock.lock();
+        try {
+            String text = message.getUnformattedTextForChat();
+            String prefix = EnumChatFormatting.AQUA + "TEM" + EnumChatFormatting.GRAY + "> ";
+            String[] splitText = text.split("\n");
+            for (int i = 0; i < splitText.length; i++) {
+                if (splitText[i].equals("")) {
+                    continue;
+                }
+                splitText[i] = prefix + EnumChatFormatting.RESET + splitText[i];
             }
-            splitText[i] = prefix + EnumChatFormatting.RESET + splitText[i];
+            text = String.join("\n", splitText);
+            ChatStyle style = message.getChatStyle();
+
+            ChatComponentText newMessage = new ChatComponentText(text);
+
+            for (IChatComponent sibling : message.getSiblings()) {
+                newMessage.appendSibling(sibling);
+            }
+
+            newMessage.setChatStyle(style);
+            waitForPlayer();
+            Minecraft.getMinecraft().thePlayer.addChatMessage(newMessage);
+        } finally {
+            chatSendLock.unlock();
         }
-        text = String.join("\n", splitText);
-        ChatStyle style = message.getChatStyle();
-        message = new ChatComponentText(text);
-        message.setChatStyle(style);
-        waitForPlayer();
-        Minecraft.getMinecraft().thePlayer.addChatMessage(message);
     }
 
     @Mod.EventHandler
