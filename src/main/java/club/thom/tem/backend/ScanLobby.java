@@ -124,7 +124,7 @@ public class ScanLobby {
         if (item.modifier == Modifier.CRYSTAL) {
             return TEMConfig.enableCrystal;
         }
-        if (item.modifier == Modifier.FAIRY) {
+        if (item.modifier == Modifier.FAIRY || item.modifier == Modifier.OG_FAIRY) {
             return TEMConfig.enableFairy;
         }
         return false;
@@ -138,6 +138,9 @@ public class ScanLobby {
                 break;
             case FAIRY:
                 prefixColour = EnumChatFormatting.LIGHT_PURPLE;
+                break;
+            case OG_FAIRY:
+                prefixColour = EnumChatFormatting.DARK_PURPLE;
                 break;
             case EXOTIC:
                 prefixColour = EnumChatFormatting.GOLD;

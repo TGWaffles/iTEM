@@ -36,6 +36,7 @@ public class HexHelper {
     public enum Modifier {
         CRYSTAL,
         FAIRY,
+        OG_FAIRY,
         UNDYED,
         ORIGINAL,
         EXOTIC,
@@ -45,6 +46,9 @@ public class HexHelper {
         if (checkOriginal(itemId, hexCode)) {
             return Modifier.ORIGINAL;
         } else if (FairyColours.isFairyColour(hexCode)) {
+            if (FairyColours.isOGFairyColour(hexCode)) {
+                return Modifier.OG_FAIRY;
+            }
             return Modifier.FAIRY;
         } else if (hexCode.equals("A06540") || hexCode.equals("UNDYED")) {
             return Modifier.UNDYED;

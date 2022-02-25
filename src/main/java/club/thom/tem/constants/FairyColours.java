@@ -9,7 +9,16 @@ public class FairyColours {
             "FF99CC", "FF99FF", "FFCCE5", "FFCCFF"
     );
 
+    public static final ImmutableSet<String> ogFairyColourConstants = ImmutableSet.of(
+            "FF99FF", "FFCCFF", "E5CCFF", "CC99FF", "CC00CC", "FF00FF", "FF33FF", "FF66FF",
+            "B266FF", "9933FF", "7F00FF", "660066", "6600CC", "4C0099", "330066", "990099"
+    );
+
     public static boolean isFairyColour(String hex) {
         return fairyColourConstants.contains(hex.toUpperCase());
+    }
+
+    public static boolean isOGFairyColour(String hex) {
+        return ogFairyColourConstants.contains(hex.toUpperCase());
     }
 }
