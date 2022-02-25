@@ -60,12 +60,13 @@ public abstract class Request {
             url = new URL(urlString);
             uc = (HttpsURLConnection) url.openConnection();
             uc.setSSLSocketFactory(TEM.getAllowAllFactory());
-            uc.setReadTimeout(5000);
-            uc.setConnectTimeout(5000);
+            uc.setReadTimeout(10000);
+            uc.setConnectTimeout(10000);
             logger.debug("Opening connection to url: {}, params: {}", urlString, params);
             uc.addRequestProperty("User-Agent",
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
             logger.debug("Added request property for url: {}, params: {}, code: {}", urlString, params, status);
+            uc.connect();
             status = uc.getResponseCode();
             logger.debug("Got response code for url: {}, params: {}, code: {}", urlString, params, status);
             InputStream inputStream;
