@@ -88,6 +88,11 @@ public class ScanLobby {
                     "(NOT HYPIXEL API KEY!) is invalid! Set it in /tem config!"));
             return;
         }
+        if (returnedData.getStatus() == 402) {
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
+            return;
+        }
+
         if (returnedData.getStatus() != 200) {
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error scanning lobby ("
                     + returnedData.getStatus() + ")"));
