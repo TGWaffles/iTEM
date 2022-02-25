@@ -124,7 +124,7 @@ public class ScanLobby {
         if (item.modifier == Modifier.CRYSTAL) {
             return TEMConfig.enableCrystal;
         }
-        if (item.modifier == Modifier.FAIRY) {
+        if (item.modifier == Modifier.FAIRY || item.modifier == Modifier.OG_FAIRY) {
             return TEMConfig.enableFairy;
         }
         return false;
