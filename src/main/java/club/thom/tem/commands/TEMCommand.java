@@ -20,8 +20,9 @@ public class TEMCommand extends CommandBase {
 
     private static ChatComponentText getHelpMessage() {
         String sb = EnumChatFormatting.GOLD + "/tem con" + EnumChatFormatting.GRAY + " <-- Opens the configuration GUI.\n" +
-                EnumChatFormatting.GOLD + "/tem setkey key-here" + EnumChatFormatting.GRAY + " <-- Set API key.\n" +
-                EnumChatFormatting.GOLD + "/tem" + EnumChatFormatting.GRAY + " <-- Enables/Disables TEM\n";
+                EnumChatFormatting.GOLD + "/tem setkey key-here" + EnumChatFormatting.GRAY + " <-- Set HYPIXEL API key.\n" +
+                EnumChatFormatting.GOLD + "/tem scan" + EnumChatFormatting.GRAY + " <-- Scans the players in your lobby for armour!\n" +
+                EnumChatFormatting.GOLD + "/tem" + EnumChatFormatting.GRAY + " <-- Shows this message.\n";
         return new ChatComponentText(sb);
     }
 
@@ -44,8 +45,6 @@ public class TEMCommand extends CommandBase {
                 new Thread(ScanLobby::scan).start();
                 return;
             }
-            // Unknown command.
-            TEM.sendMessage(getHelpMessage());
         } else if (args.length == 2) {
             if (args[0].equals("setkey")) {
                 new Thread(() -> {
@@ -60,9 +59,9 @@ public class TEMCommand extends CommandBase {
                 }).start();
                 return;
             }
-            // Prints help on /tem to chat.
-            TEM.sendMessage(getHelpMessage());
         }
+        // Prints help on /tem to chat.
+        TEM.sendMessage(getHelpMessage());
     }
     @Override
     public int getRequiredPermissionLevel() {
