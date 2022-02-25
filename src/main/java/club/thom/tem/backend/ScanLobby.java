@@ -4,7 +4,6 @@ import club.thom.tem.TEM;
 import club.thom.tem.helpers.HexHelper;
 import club.thom.tem.helpers.HexHelper.Modifier;
 import club.thom.tem.helpers.RequestHelper;
-import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
@@ -15,7 +14,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ScanLobby {
     static class ArmourWithOwner {
@@ -56,7 +57,16 @@ public class ScanLobby {
         HashMap<String, String> uuidLookupMap = new HashMap<>();
         List<EntityPlayer> players = Minecraft.getMinecraft().theWorld.playerEntities;
         for (EntityPlayer player : players) {
-            uuidLookupMap.put(player.getGameProfile().getId().toString().replaceAll("-", ""), player.getDisplayNameString());
+            String displayName;
+            try {
+                // tries to get coloured name
+                displayName = player.getDisplayName().getSiblings().get(0).getFormattedText();
+            } catch (IndexOutOfBoundsException e) {
+                // falls back to blank name
+                displayName = player.getDisplayNameString();
+            }
+            uuidLookupMap.put(player.getGameProfile().getId().toString().replaceAll("-", ""),
+                    displayName);
         }
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() == 401 || returnedData.getStatus() == 403) {
