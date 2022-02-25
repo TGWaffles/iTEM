@@ -109,7 +109,6 @@ public class TEM {
         logger.info("Initialising TEM");
         api = new Hypixel();
         config.initialize();
-        wsFactory.setSSLSocketFactory(getAllowAllFactory());
         wsFactory.setVerifyHostname(false);
         new Thread(() -> reconnectSocket(100)).start();
         // Create global API/rate-limit handler
