@@ -139,6 +139,9 @@ public class ScanLobby {
             case FAIRY:
                 prefixColour = EnumChatFormatting.LIGHT_PURPLE;
                 break;
+            case OG_FAIRY:
+                prefixColour = EnumChatFormatting.DARK_PURPLE;
+                break;
             case EXOTIC:
                 prefixColour = EnumChatFormatting.GOLD;
                 break;
