@@ -69,9 +69,14 @@ public class ScanLobby {
         HashMap<String, String> colouredNameMap = new HashMap<>();
         HashMap<String, String> commandNameMap = new HashMap<>();
         List<EntityPlayer> players = Minecraft.getMinecraft().theWorld.playerEntities;
+        EntityPlayer me = null;
         for (EntityPlayer player : players) {
             String displayName;
             String uuid = player.getGameProfile().getId().toString().replaceAll("-", "");
+            // Remove your player from the scanned list.
+            if (uuid.equals(TEM.getUUID())) {
+                me = player;
+            }
             try {
                 // tries to get coloured name
                 displayName = player.getDisplayName().getSiblings().get(0).getFormattedText();
@@ -82,6 +87,7 @@ public class ScanLobby {
             colouredNameMap.put(uuid, displayName);
             commandNameMap.put(uuid, player.getName());
         }
+        players.remove(me);
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() == 401 || returnedData.getStatus() == 403) {
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
