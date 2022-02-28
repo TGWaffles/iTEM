@@ -7,6 +7,7 @@ import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
+import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.storage.TEMConfig;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -116,6 +117,7 @@ public class TEM {
         new Thread(api::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
+        MinecraftForge.EVENT_BUS.register(new ToolTipListener());
         MinecraftForge.EVENT_BUS.register(this);
     }
 

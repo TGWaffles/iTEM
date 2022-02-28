@@ -107,7 +107,7 @@ public class ScanLobby {
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();
         for (JsonElement element : returnedData.getJson().get("armour").getAsJsonArray()) {
             ArmourWithOwner armour = new ArmourWithOwner(element);
-            if (checkItem(armour)) {
+            if (checkItem(armour.modifier)) {
                 armourToSend.add(armour);
             }
         }
@@ -119,26 +119,26 @@ public class ScanLobby {
         TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Scan complete!"));
     }
 
-    public static boolean checkItem(ArmourWithOwner item) {
+    public static boolean checkItem(Modifier modifier) {
         // ignores original armour for now, future version could show it :)
-        if (item.modifier == Modifier.ORIGINAL) {
+        if (modifier == Modifier.ORIGINAL) {
             return false;
         }
-        if (item.modifier == Modifier.EXOTIC) {
+        if (modifier == Modifier.EXOTIC) {
             return TEMConfig.enableExotics;
         }
-        if (item.modifier == Modifier.CRYSTAL) {
+        if (modifier == Modifier.CRYSTAL) {
             return TEMConfig.enableCrystal;
         }
-        if (item.modifier == Modifier.FAIRY || item.modifier == Modifier.OG_FAIRY) {
+        if (modifier == Modifier.FAIRY || modifier == Modifier.OG_FAIRY) {
             return TEMConfig.enableFairy;
         }
         return false;
     }
 
-    public static void sendItemMessage(ArmourWithOwner item) {
+    public static EnumChatFormatting getColourCode(Modifier modifier) {
         EnumChatFormatting prefixColour = EnumChatFormatting.WHITE;
-        switch (item.modifier) {
+        switch (modifier) {
             case CRYSTAL:
                 prefixColour = EnumChatFormatting.AQUA;
                 break;
@@ -151,7 +151,19 @@ public class ScanLobby {
             case EXOTIC:
                 prefixColour = EnumChatFormatting.GOLD;
                 break;
+            case ORIGINAL:
+                prefixColour = EnumChatFormatting.DARK_GRAY;
+                break;
+            case UNDYED:
+                prefixColour = EnumChatFormatting.GRAY;
+                break;
         }
+        return prefixColour;
+    }
+
+    public static void sendItemMessage(ArmourWithOwner item) {
+        EnumChatFormatting prefixColour = getColourCode(item.modifier);
+
         String itemName = TEM.items.nameFromId(item.itemId);
 
         String pureColourText = "";

@@ -46,7 +46,7 @@ public class ArmourPieceData extends InventoryItemData {
         return itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes");
     }
 
-    private String getItemId() {
+    public String getItemId() {
         NBTTagCompound extraAttributes = getExtraAttributes();
         String itemId = extraAttributes.getString("id");
         itemId = itemId.split(":")[0];
@@ -79,10 +79,10 @@ public class ArmourPieceData extends InventoryItemData {
         return "";
     }
 
-    private String getHexCode() {
+    public String getHexCode() {
         NBTTagCompound extraAttributes = getExtraAttributes();
         if (!extraAttributes.hasKey("color")) {
-            return "undyed";
+            return "UNDYED";
         }
         String[] colourArrayAsString = extraAttributes.getString("color").split(":");
         int[] colourArray = new int[3];
