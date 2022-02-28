@@ -89,19 +89,8 @@ public class ScanLobby {
         }
         players.remove(me);
         RequestData returnedData = scanPlayers(players);
-        if (returnedData.getStatus() == 401 || returnedData.getStatus() == 403) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
-                    "(NOT HYPIXEL API KEY!) is invalid! Set it in /tem config!"));
-            return;
-        }
-        if (returnedData.getStatus() == 402) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
-            return;
-        }
-
         if (returnedData.getStatus() != 200) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error scanning lobby ("
-                    + returnedData.getStatus() + ")"));
+            RequestHelper.tellPlayerAboutFailedRequest(returnedData.getStatus());
             return;
         }
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();

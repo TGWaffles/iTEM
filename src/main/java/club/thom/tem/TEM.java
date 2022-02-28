@@ -8,6 +8,7 @@ import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.listeners.ToolTipListener;
+import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.storage.TEMConfig;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -24,6 +25,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Level;
@@ -101,6 +103,11 @@ public class TEM {
         FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
                 null, null, null, null, null, null, null, null);
         rootLoggerConfig.addAppender(fa, Level.ALL, null);
+    }
+
+    @Mod.EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        KeyBinds.registerKeyBinds();
     }
 
     @Mod.EventHandler
