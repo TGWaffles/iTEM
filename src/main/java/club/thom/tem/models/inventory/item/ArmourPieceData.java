@@ -3,7 +3,12 @@ package club.thom.tem.models.inventory.item;
 import club.thom.tem.TEM;
 import club.thom.tem.models.RarityConverter;
 import club.thom.tem.models.messages.ClientMessages;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.nbt.NBTTagString;
+
+import java.util.Arrays;
 
 public class ArmourPieceData extends InventoryItemData {
     private final NBTTagCompound itemData;
@@ -110,8 +115,18 @@ public class ArmourPieceData extends InventoryItemData {
 
     public static boolean isValidItem(NBTTagCompound itemData) {
         // I only care about leather armour here.
-        short minecraftItemId = itemData.getShort("id");
-        // 298, 299, 300, 301 is leather helm, chest, legs & boots
-        return minecraftItemId > 297 && minecraftItemId < 302;
+        NBTBase itemId = itemData.getTag("id");
+        if (itemId instanceof NBTTagShort) {
+            // method 1 - from hypixel API
+            short minecraftItemId = itemData.getShort("id");
+            // 298, 299, 300, 301 is leather helm, chest, legs & boots
+            return minecraftItemId > 297 && minecraftItemId < 302;
+        } else if (itemId instanceof NBTTagString) {
+            // method 2 - from inventory
+            String minecraftItemId = itemData.getString("id");
+            return Arrays.asList("minecraft:leather_boots", "minecraft:leather_leggings",
+                    "minecraft:leather_chestplate", "minecraft:leather_helmet").contains(minecraftItemId);
+        }
+        return false;
     }
 }
