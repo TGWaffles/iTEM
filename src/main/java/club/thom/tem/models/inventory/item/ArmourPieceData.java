@@ -86,7 +86,7 @@ public class ArmourPieceData extends InventoryItemData {
 
     public String getHexCode() {
         NBTTagCompound extraAttributes = getExtraAttributes();
-        if (!extraAttributes.hasKey("color")) {
+        if (!extraAttributes.hasKey("color") || extraAttributes.getString("color").equals("160:101:64")) {
             return "UNDYED";
         }
         String[] colourArrayAsString = extraAttributes.getString("color").split(":");
