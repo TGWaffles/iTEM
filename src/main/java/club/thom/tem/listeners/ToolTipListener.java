@@ -7,10 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ToolTipListener {
-    @SubscribeEvent()
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onItemToolTipEvent(ItemTooltipEvent event) {
         ItemStack item = event.itemStack;
         NBTTagCompound itemNbt;
@@ -27,7 +28,25 @@ public class ToolTipListener {
         ArmourPieceData armour = new ArmourPieceData("inventory", itemNbt);
         HexHelper.Modifier armourTypeModifier = HexHelper.getModifier(armour.getItemId(), armour.getHexCode());
         EnumChatFormatting colourCode = ScanLobby.getColourCode(armourTypeModifier);
-        event.toolTip.add(colourCode + armourTypeModifier.toString());
+        addToTooltip(event, colourCode + armourTypeModifier.toString());
+    }
+
+    public void addToTooltip(ItemTooltipEvent event, String hexWithColour) {
+        boolean foundColour = false;
+        for (int i = 0; i < event.toolTip.size(); i++) {
+            String existingTooltip = event.toolTip.get(i);
+            if (existingTooltip.startsWith("Color: ")) {
+                foundColour = true;
+                // Color: #123456 (EXOTIC)
+                event.toolTip.set(i, existingTooltip +
+                        EnumChatFormatting.DARK_GRAY + " (" + hexWithColour + EnumChatFormatting.DARK_GRAY + ")");
+                break;
+            }
+        }
+        if (!foundColour) {
+            // Sits just underneath the item name.
+            event.toolTip.add(1, hexWithColour);
+        }
     }
 
 }
