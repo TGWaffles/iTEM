@@ -46,6 +46,8 @@ message Armour {
   Rarity rarity = 3;
   // Reforge (can be blank if none)
   string reforge = 4;
+  // Uses new hypixel purchasable dyes
+  bool isCustomDyed = 5;
 }
 
 message PetSkin {

@@ -23,7 +23,8 @@ public class ArmourPieceData extends InventoryItemData {
         ClientMessages.Armour.Builder builder = ClientMessages.Armour.newBuilder();
         NBTTagCompound extraAttributes = getExtraAttributes();
         String itemId = getItemId();
-        builder.setItemId(itemId).setRarity(getRarity()).setReforge(getReforge()).setHexCode(getHexCode());
+        builder.setItemId(itemId).setRarity(getRarity()).setReforge(getReforge()).setHexCode(getHexCode())
+                .setIsCustomDyed(isCustomDyed());
         return ClientMessages.InventoryItem.newBuilder().setUuid(getUuid()).
                 setArmourPiece(builder)
                 .setCreationTimestamp(getCreationTimestamp(extraAttributes.getString("timestamp")))
@@ -45,6 +46,10 @@ public class ArmourPieceData extends InventoryItemData {
             fakeUuid += "_+_" + getHexCode();
         }
         return fakeUuid;
+    }
+
+    public boolean isCustomDyed() {
+        return getExtraAttributes().hasKey("dye_item");
     }
 
     private NBTTagCompound getExtraAttributes() {
