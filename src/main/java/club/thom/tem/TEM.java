@@ -55,8 +55,8 @@ public class TEM {
     public static final String VERSION = "@@VERSION@@";
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
-    private static final String[] WEBSOCKET_APIS = new String[]{"wss://tem-backend.thom.club",
-            "ws://tem-backend.thom.club"};
+    private static final String[] WEBSOCKET_APIS = new String[]{"wss://backend.tem.cx",
+            "ws://backend.tem.cx"};
     private static int websocketIndex = 0;
     public static final int CLIENT_VERSION = clientVersionFromVersion();
 
