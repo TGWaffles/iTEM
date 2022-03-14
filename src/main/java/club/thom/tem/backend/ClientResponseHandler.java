@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -126,14 +127,17 @@ public class ClientResponseHandler {
         logger.debug("Sent inventory response!");
     }
 
-    public static void sendMiscResponse(RequestData data, String requestUrl, int nonce) {
+    public static void sendMiscResponse(RequestData data, String requestUrl, Map<String, String> parameters, int nonce) {
         if (!TEM.socketWorking) {
             return;
         }
         logger.debug("Sending misc response...");
         ByteString responseData = ByteString.copyFrom(data.getJson().toString(), StandardCharsets.UTF_8);
         Response.Builder response = Response.newBuilder()
-                .setMiscResponse(MiscResponse.newBuilder().setRequestURL(requestUrl).setResponseData(responseData).setStatusCode(data.getStatus()))
+                .setMiscResponse(MiscResponse.newBuilder().setRequestURL(requestUrl)
+                        .setResponseData(responseData).setStatusCode(data.getStatus())
+                        .putAllParameters(parameters)
+                )
                 .setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();

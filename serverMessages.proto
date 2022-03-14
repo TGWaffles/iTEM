@@ -49,6 +49,7 @@ message MiscRequest {
   string requestURL = 1;
   // Whether the client should add their api key as a parameter
   bool useApiKey = 2;
+  map<string, string> parameters = 3;
 }
 
 message RequestMessage {

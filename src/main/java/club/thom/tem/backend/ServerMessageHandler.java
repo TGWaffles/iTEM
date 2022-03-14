@@ -173,7 +173,8 @@ public class ServerMessageHandler extends WebSocketAdapter {
                 logger.error("Error while running misc request: ", e);
                 return;
             }
-            ClientResponseHandler.sendMiscResponse(data, serverRequest.getRequestURL(), request.getNonce());
+            ClientResponseHandler.sendMiscResponse(data, serverRequest.getRequestURL(),
+                    serverRequest.getParametersMap(), request.getNonce());
         }
     }
 
