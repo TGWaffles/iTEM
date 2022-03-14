@@ -132,8 +132,10 @@ public class TEM {
 
     @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
     public void onServerConnect(EntityJoinWorldEvent ignored) {
-        new Thread(() -> checkAndUpdateUUID(true)).start();
-        new Thread(TEM::tellAboutInvalidKey).start();
+        if (uuid == null) {
+            new Thread(() -> checkAndUpdateUUID(true)).start();
+            new Thread(TEM::tellAboutInvalidKey).start();
+        }
     }
 
     private void checkAndUpdateUUID(boolean firstTry) {
