@@ -71,11 +71,12 @@ message Pet {
 }
 
 message ExtraAttributeValue {
-  // only support strings and ints in extra attributes, i don't know of any other types that aren't covered
+  // only support strings, ints, and doubles in extra attributes, i don't know of any other types that aren't covered
   oneof value {
     string stringValue = 1;
     int32 intValue = 2;
     int64 longValue = 3;
+    double doubleValue = 4;
   }
 }
 

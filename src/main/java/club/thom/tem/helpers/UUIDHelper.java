@@ -1,9 +1,16 @@
 package club.thom.tem.helpers;
 
+import club.thom.tem.TEM;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.commons.io.IOUtils;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +67,28 @@ public class UUIDHelper {
                 return null;
             }
             return uuid;
+        }
+        return null;
+    }
+
+    public static String mojangFetchUsernameFromUUID(String uuid) {
+        String url = "https://api.mojang.com/user/profiles/" + uuid.replace("-", "")+"/names";
+        try {
+            URL urlObject = new URL(url);
+            HttpsURLConnection uc = (HttpsURLConnection) urlObject.openConnection();
+            uc.setSSLSocketFactory(TEM.getAllowAllFactory());
+            String json = IOUtils.toString(uc.getInputStream());
+            JsonElement element = new JsonParser().parse(json);
+            JsonArray nameArray = element.getAsJsonArray();
+            JsonObject nameElement = nameArray.get(nameArray.size()-1).getAsJsonObject();
+            return nameElement.get("name").getAsString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            if (e.getMessage().contains("response code: 400")) {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

@@ -138,9 +138,12 @@ public class MiscItemData extends InventoryItemData {
             if (ignoredKeys.contains(key)) {
                 continue;
             }
-            // currently, only implemented are string and int
+            // currently, only implemented are string, int, short, long
             byte tagId = extraAttributes.getTagId(key);
-            if (tagId == Constants.NBT.TAG_SHORT) {
+            if (tagId == Constants.NBT.TAG_BYTE) {
+                // byte (cast to int)
+                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(extraAttributes.getByte(key)).build());
+            } else if (tagId == Constants.NBT.TAG_SHORT) {
                 // short (cast to int)
                 dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(extraAttributes.getShort(key)).build());
             } else if (tagId == Constants.NBT.TAG_INT) {
@@ -152,6 +155,15 @@ public class MiscItemData extends InventoryItemData {
             } else if (tagId == Constants.NBT.TAG_LONG) {
                 // long
                 dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setLongValue(extraAttributes.getLong(key)).build());
+            } else if (tagId == Constants.NBT.TAG_FLOAT) {
+                // float (cast to double)
+                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setDoubleValue(
+                        // To prevent adding extra "fake" accuracy, float -> string -> double
+                        Double.parseDouble(Float.valueOf(extraAttributes.getFloat(key)).toString())
+                ).build());
+            } else if (tagId == Constants.NBT.TAG_DOUBLE) {
+                // double
+                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setDoubleValue(extraAttributes.getDouble(key)).build());
             }
             // anything else not supported, so not stored
         }
