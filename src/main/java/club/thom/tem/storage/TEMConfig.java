@@ -162,7 +162,7 @@ public class TEMConfig extends Vigilant {
     }).start();
 
     public TEMConfig() {
-        super(new File(saveFolder + fileName), "TFM Configuration");
+        super(new File(saveFolder + fileName), "TEM Configuration");
         checkFolderExists();
         CONFIG_FILE = new File(saveFolder + fileName);
         initialize();

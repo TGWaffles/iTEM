@@ -73,11 +73,12 @@ message Pet {
 }
 
 message ExtraAttributeValue {
-  // only support strings and ints in extra attributes, i don't know of any other types that aren't covered
+  // only support strings, ints, and doubles in extra attributes, i don't know of any other types that aren't covered
   oneof value {
     string stringValue = 1;
     int32 intValue = 2;
     int64 longValue = 3;
+    double doubleValue = 4;
   }
 }
 
@@ -126,12 +127,24 @@ message PlayerResponse {
   repeated InventoryResponse profiles = 2;
 }
 
+message MiscResponse {
+  // for future proofing, to limit compulsory updates
+  // data given in response
+  bytes responseData = 1;
+  // status code of response
+  int32 statusCode = 2;
+  // original request url (does not contain any api key)
+  string requestURL = 3;
+  map<string, string> parameters = 4;
+}
+
 message Response {
   // Nonce of Request
   int32 nonce = 1;
   oneof message {
     FriendsResponse friendsList = 2;
     PlayerResponse inventories = 3;
+    MiscResponse miscResponse = 4;
   }
 }
 

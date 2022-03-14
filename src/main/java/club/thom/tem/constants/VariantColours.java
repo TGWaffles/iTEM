@@ -43,6 +43,9 @@ public class VariantColours {
         if (itemId.startsWith("LEATHER")) {
             return true;
         }
+        if (itemId.equals("GHOST_BOOTS")) {
+            return true;
+        }
         ImmutableSet<String> possibleColoursForItem = variants.get(itemId);
         if (possibleColoursForItem == null) {
             return false;

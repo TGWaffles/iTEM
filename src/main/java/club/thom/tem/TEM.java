@@ -139,7 +139,7 @@ public class TEM {
         if (possibleUuid != null) {
             String possibleUuidString = possibleUuid.toString().replaceAll("-", "");
             try {
-                if (UUIDHelper.usernameFromUuid(possibleUuidString) == null) {
+                if (UUIDHelper.mojangFetchUsernameFromUUID(possibleUuidString) == null) {
                     logger.info("UUID was not valid!");
                     if (firstTry) {
                         try {

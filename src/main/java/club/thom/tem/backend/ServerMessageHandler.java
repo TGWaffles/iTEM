@@ -2,8 +2,11 @@ package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.FriendsListRequest;
+import club.thom.tem.hypixel.request.MiscRequest;
+import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.models.inventory.PlayerData;
+import club.thom.tem.models.messages.ServerMessages;
 import club.thom.tem.models.messages.ServerMessages.AuthData;
 import club.thom.tem.models.messages.ServerMessages.RequestMessage;
 import club.thom.tem.models.messages.ServerMessages.ServerMessage;
@@ -131,7 +134,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
             logger.debug("it's a friends request");
             // Origin player uuid
             String uuid = request.getFriendRequest().getUuid();
-            FriendsListRequest friendRequest = new FriendsListRequest(uuid, TEM.api);
+            FriendsListRequest friendRequest = new FriendsListRequest(uuid);
             TEM.api.addToQueue(friendRequest);
             List<String> friends;
             try {
@@ -145,7 +148,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
             logger.debug("it's an inventory request!");
             // Player uuid
             String uuid = request.getInventoryRequest().getPlayerUuid();
-            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(uuid, TEM.api);
+            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(uuid);
             TEM.api.addToQueue(playerRequest);
             PlayerData player;
             try {
@@ -158,6 +161,20 @@ public class ServerMessageHandler extends WebSocketAdapter {
             }
             logger.debug("Sending inventory response...");
             ClientResponseHandler.sendInventoryResponse(player, uuid, request.getNonce());
+        } else if (request.hasMiscRequest()) {
+            logger.debug("Misc request!");
+            ServerMessages.MiscRequest serverRequest = request.getMiscRequest();
+            MiscRequest miscRequest = new MiscRequest(serverRequest);
+            TEM.api.addToQueue(miscRequest);
+            RequestData data;
+            try {
+                data = miscRequest.getFuture().get();
+            } catch (ExecutionException | InterruptedException e) {
+                logger.error("Error while running misc request: ", e);
+                return;
+            }
+            ClientResponseHandler.sendMiscResponse(data, serverRequest.getRequestURL(),
+                    serverRequest.getParametersMap(), request.getNonce());
         }
     }
 
