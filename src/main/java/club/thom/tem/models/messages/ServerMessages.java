@@ -15,6 +15,177 @@ public final class ServerMessages {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  /**
+   * Protobuf enum {@code serverMessage.Rarity}
+   */
+  public enum Rarity
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>COMMON = 0;</code>
+     */
+    COMMON(0),
+    /**
+     * <code>UNCOMMON = 1;</code>
+     */
+    UNCOMMON(1),
+    /**
+     * <code>RARE = 2;</code>
+     */
+    RARE(2),
+    /**
+     * <code>EPIC = 3;</code>
+     */
+    EPIC(3),
+    /**
+     * <code>LEGENDARY = 4;</code>
+     */
+    LEGENDARY(4),
+    /**
+     * <code>MYTHIC = 5;</code>
+     */
+    MYTHIC(5),
+    /**
+     * <code>DIVINE = 6;</code>
+     */
+    DIVINE(6),
+    /**
+     * <code>SPECIAL = 7;</code>
+     */
+    SPECIAL(7),
+    /**
+     * <code>VERY_SPECIAL = 8;</code>
+     */
+    VERY_SPECIAL(8),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>COMMON = 0;</code>
+     */
+    public static final int COMMON_VALUE = 0;
+    /**
+     * <code>UNCOMMON = 1;</code>
+     */
+    public static final int UNCOMMON_VALUE = 1;
+    /**
+     * <code>RARE = 2;</code>
+     */
+    public static final int RARE_VALUE = 2;
+    /**
+     * <code>EPIC = 3;</code>
+     */
+    public static final int EPIC_VALUE = 3;
+    /**
+     * <code>LEGENDARY = 4;</code>
+     */
+    public static final int LEGENDARY_VALUE = 4;
+    /**
+     * <code>MYTHIC = 5;</code>
+     */
+    public static final int MYTHIC_VALUE = 5;
+    /**
+     * <code>DIVINE = 6;</code>
+     */
+    public static final int DIVINE_VALUE = 6;
+    /**
+     * <code>SPECIAL = 7;</code>
+     */
+    public static final int SPECIAL_VALUE = 7;
+    /**
+     * <code>VERY_SPECIAL = 8;</code>
+     */
+    public static final int VERY_SPECIAL_VALUE = 8;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static Rarity valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static Rarity forNumber(int value) {
+      switch (value) {
+        case 0: return COMMON;
+        case 1: return UNCOMMON;
+        case 2: return RARE;
+        case 3: return EPIC;
+        case 4: return LEGENDARY;
+        case 5: return MYTHIC;
+        case 6: return DIVINE;
+        case 7: return SPECIAL;
+        case 8: return VERY_SPECIAL;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<Rarity>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        Rarity> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<Rarity>() {
+            public Rarity findValueByNumber(int number) {
+              return Rarity.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ServerMessages.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final Rarity[] VALUES = values();
+
+    public static Rarity valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private Rarity(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:serverMessage.Rarity)
+  }
+
   public interface AuthDataOrBuilder extends
       // @@protoc_insertion_point(interface_extends:serverMessage.AuthData)
       com.google.protobuf.MessageOrBuilder {
@@ -2885,40 +3056,6 @@ public final class ServerMessages {
      * @return The useApiKey.
      */
     boolean getUseApiKey();
-
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-    int getParametersCount();
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-    boolean containsParameters(
-        java.lang.String key);
-    /**
-     * Use {@link #getParametersMap()} instead.
-     */
-    @java.lang.Deprecated
-    java.util.Map<java.lang.String, java.lang.String>
-    getParameters();
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-    java.util.Map<java.lang.String, java.lang.String>
-    getParametersMap();
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-
-    java.lang.String getParametersOrDefault(
-        java.lang.String key,
-        java.lang.String defaultValue);
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-
-    java.lang.String getParametersOrThrow(
-        java.lang.String key);
   }
   /**
    * Protobuf type {@code serverMessage.MiscRequest}
@@ -2956,7 +3093,6 @@ public final class ServerMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -2976,19 +3112,6 @@ public final class ServerMessages {
             case 16: {
 
               useApiKey_ = input.readBool();
-              break;
-            }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                parameters_ = com.google.protobuf.MapField.newMapField(
-                    ParametersDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000001;
-              }
-              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
-              parameters__ = input.readMessage(
-                  ParametersDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              parameters_.getMutableMap().put(
-                  parameters__.getKey(), parameters__.getValue());
               break;
             }
             default: {
@@ -3015,18 +3138,6 @@ public final class ServerMessages {
       return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_MiscRequest_descriptor;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    @java.lang.Override
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 3:
-          return internalGetParameters();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -3096,87 +3207,6 @@ public final class ServerMessages {
       return useApiKey_;
     }
 
-    public static final int PARAMETERS_FIELD_NUMBER = 3;
-    private static final class ParametersDefaultEntryHolder {
-      static final com.google.protobuf.MapEntry<
-          java.lang.String, java.lang.String> defaultEntry =
-              com.google.protobuf.MapEntry
-              .<java.lang.String, java.lang.String>newDefaultInstance(
-                  club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_MiscRequest_ParametersEntry_descriptor, 
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "",
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "");
-    }
-    private com.google.protobuf.MapField<
-        java.lang.String, java.lang.String> parameters_;
-    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-    internalGetParameters() {
-      if (parameters_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            ParametersDefaultEntryHolder.defaultEntry);
-      }
-      return parameters_;
-    }
-
-    public int getParametersCount() {
-      return internalGetParameters().getMap().size();
-    }
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-
-    @java.lang.Override
-    public boolean containsParameters(
-        java.lang.String key) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      return internalGetParameters().getMap().containsKey(key);
-    }
-    /**
-     * Use {@link #getParametersMap()} instead.
-     */
-    @java.lang.Override
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.String, java.lang.String> getParameters() {
-      return getParametersMap();
-    }
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-    @java.lang.Override
-
-    public java.util.Map<java.lang.String, java.lang.String> getParametersMap() {
-      return internalGetParameters().getMap();
-    }
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getParametersOrDefault(
-        java.lang.String key,
-        java.lang.String defaultValue) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, java.lang.String> map =
-          internalGetParameters().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;string, string&gt; parameters = 3;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getParametersOrThrow(
-        java.lang.String key) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, java.lang.String> map =
-          internalGetParameters().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3197,12 +3227,6 @@ public final class ServerMessages {
       if (useApiKey_ != false) {
         output.writeBool(2, useApiKey_);
       }
-      com.google.protobuf.GeneratedMessageV3
-        .serializeStringMapTo(
-          output,
-          internalGetParameters(),
-          ParametersDefaultEntryHolder.defaultEntry,
-          3);
       unknownFields.writeTo(output);
     }
 
@@ -3218,16 +3242,6 @@ public final class ServerMessages {
       if (useApiKey_ != false) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, useApiKey_);
-      }
-      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
-           : internalGetParameters().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
-        parameters__ = ParametersDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
-        size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(3, parameters__);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3248,8 +3262,6 @@ public final class ServerMessages {
           .equals(other.getRequestURL())) return false;
       if (getUseApiKey()
           != other.getUseApiKey()) return false;
-      if (!internalGetParameters().equals(
-          other.internalGetParameters())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3266,10 +3278,6 @@ public final class ServerMessages {
       hash = (37 * hash) + USEAPIKEY_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
           getUseApiKey());
-      if (!internalGetParameters().getMap().isEmpty()) {
-        hash = (37 * hash) + PARAMETERS_FIELD_NUMBER;
-        hash = (53 * hash) + internalGetParameters().hashCode();
-      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3377,28 +3385,6 @@ public final class ServerMessages {
         return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_MiscRequest_descriptor;
       }
 
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMapField(
-          int number) {
-        switch (number) {
-          case 3:
-            return internalGetParameters();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMutableMapField(
-          int number) {
-        switch (number) {
-          case 3:
-            return internalGetMutableParameters();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -3429,7 +3415,6 @@ public final class ServerMessages {
 
         useApiKey_ = false;
 
-        internalGetMutableParameters().clear();
         return this;
       }
 
@@ -3456,11 +3441,8 @@ public final class ServerMessages {
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.MiscRequest buildPartial() {
         club.thom.tem.models.messages.ServerMessages.MiscRequest result = new club.thom.tem.models.messages.ServerMessages.MiscRequest(this);
-        int from_bitField0_ = bitField0_;
         result.requestURL_ = requestURL_;
         result.useApiKey_ = useApiKey_;
-        result.parameters_ = internalGetParameters();
-        result.parameters_.makeImmutable();
         onBuilt();
         return result;
       }
@@ -3516,8 +3498,6 @@ public final class ServerMessages {
         if (other.getUseApiKey() != false) {
           setUseApiKey(other.getUseApiKey());
         }
-        internalGetMutableParameters().mergeFrom(
-            other.internalGetParameters());
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -3546,7 +3526,6 @@ public final class ServerMessages {
         }
         return this;
       }
-      private int bitField0_;
 
       private java.lang.Object requestURL_ = "";
       /**
@@ -3684,137 +3663,6 @@ public final class ServerMessages {
         
         useApiKey_ = false;
         onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.MapField<
-          java.lang.String, java.lang.String> parameters_;
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-      internalGetParameters() {
-        if (parameters_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              ParametersDefaultEntryHolder.defaultEntry);
-        }
-        return parameters_;
-      }
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-      internalGetMutableParameters() {
-        onChanged();;
-        if (parameters_ == null) {
-          parameters_ = com.google.protobuf.MapField.newMapField(
-              ParametersDefaultEntryHolder.defaultEntry);
-        }
-        if (!parameters_.isMutable()) {
-          parameters_ = parameters_.copy();
-        }
-        return parameters_;
-      }
-
-      public int getParametersCount() {
-        return internalGetParameters().getMap().size();
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 3;</code>
-       */
-
-      @java.lang.Override
-      public boolean containsParameters(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        return internalGetParameters().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getParametersMap()} instead.
-       */
-      @java.lang.Override
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String> getParameters() {
-        return getParametersMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 3;</code>
-       */
-      @java.lang.Override
-
-      public java.util.Map<java.lang.String, java.lang.String> getParametersMap() {
-        return internalGetParameters().getMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 3;</code>
-       */
-      @java.lang.Override
-
-      public java.lang.String getParametersOrDefault(
-          java.lang.String key,
-          java.lang.String defaultValue) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, java.lang.String> map =
-            internalGetParameters().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 3;</code>
-       */
-      @java.lang.Override
-
-      public java.lang.String getParametersOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, java.lang.String> map =
-            internalGetParameters().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
-        }
-        return map.get(key);
-      }
-
-      public Builder clearParameters() {
-        internalGetMutableParameters().getMutableMap()
-            .clear();
-        return this;
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 3;</code>
-       */
-
-      public Builder removeParameters(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        internalGetMutableParameters().getMutableMap()
-            .remove(key);
-        return this;
-      }
-      /**
-       * Use alternate mutation accessors instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String>
-      getMutableParameters() {
-        return internalGetMutableParameters().getMutableMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 3;</code>
-       */
-      public Builder putParameters(
-          java.lang.String key,
-          java.lang.String value) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        if (value == null) {
-  throw new NullPointerException("map value");
-}
-
-        internalGetMutableParameters().getMutableMap()
-            .put(key, value);
-        return this;
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 3;</code>
-       */
-
-      public Builder putAllParameters(
-          java.util.Map<java.lang.String, java.lang.String> values) {
-        internalGetMutableParameters().getMutableMap()
-            .putAll(values);
         return this;
       }
       @java.lang.Override
@@ -6041,6 +5889,2070 @@ public final class ServerMessages {
 
   }
 
+  public interface ArmourSnipeOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:serverMessage.ArmourSnipe)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string itemId = 1;</code>
+     * @return The itemId.
+     */
+    java.lang.String getItemId();
+    /**
+     * <code>string itemId = 1;</code>
+     * @return The bytes for itemId.
+     */
+    com.google.protobuf.ByteString
+        getItemIdBytes();
+
+    /**
+     * <code>string hexCode = 2;</code>
+     * @return The hexCode.
+     */
+    java.lang.String getHexCode();
+    /**
+     * <code>string hexCode = 2;</code>
+     * @return The bytes for hexCode.
+     */
+    com.google.protobuf.ByteString
+        getHexCodeBytes();
+
+    /**
+     * <code>.serverMessage.Rarity rarity = 3;</code>
+     * @return The enum numeric value on the wire for rarity.
+     */
+    int getRarityValue();
+    /**
+     * <code>.serverMessage.Rarity rarity = 3;</code>
+     * @return The rarity.
+     */
+    club.thom.tem.models.messages.ServerMessages.Rarity getRarity();
+
+    /**
+     * <code>int64 price = 4;</code>
+     * @return The price.
+     */
+    long getPrice();
+
+    /**
+     * <code>string extraData = 5;</code>
+     * @return The extraData.
+     */
+    java.lang.String getExtraData();
+    /**
+     * <code>string extraData = 5;</code>
+     * @return The bytes for extraData.
+     */
+    com.google.protobuf.ByteString
+        getExtraDataBytes();
+  }
+  /**
+   * Protobuf type {@code serverMessage.ArmourSnipe}
+   */
+  public static final class ArmourSnipe extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:serverMessage.ArmourSnipe)
+      ArmourSnipeOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ArmourSnipe.newBuilder() to construct.
+    private ArmourSnipe(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ArmourSnipe() {
+      itemId_ = "";
+      hexCode_ = "";
+      rarity_ = 0;
+      extraData_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ArmourSnipe();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ArmourSnipe(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              itemId_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              hexCode_ = s;
+              break;
+            }
+            case 24: {
+              int rawValue = input.readEnum();
+
+              rarity_ = rawValue;
+              break;
+            }
+            case 32: {
+
+              price_ = input.readInt64();
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              extraData_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_ArmourSnipe_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_ArmourSnipe_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ServerMessages.ArmourSnipe.class, club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder.class);
+    }
+
+    public static final int ITEMID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object itemId_;
+    /**
+     * <code>string itemId = 1;</code>
+     * @return The itemId.
+     */
+    @java.lang.Override
+    public java.lang.String getItemId() {
+      java.lang.Object ref = itemId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        itemId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string itemId = 1;</code>
+     * @return The bytes for itemId.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getItemIdBytes() {
+      java.lang.Object ref = itemId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        itemId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HEXCODE_FIELD_NUMBER = 2;
+    private volatile java.lang.Object hexCode_;
+    /**
+     * <code>string hexCode = 2;</code>
+     * @return The hexCode.
+     */
+    @java.lang.Override
+    public java.lang.String getHexCode() {
+      java.lang.Object ref = hexCode_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        hexCode_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string hexCode = 2;</code>
+     * @return The bytes for hexCode.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getHexCodeBytes() {
+      java.lang.Object ref = hexCode_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        hexCode_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int RARITY_FIELD_NUMBER = 3;
+    private int rarity_;
+    /**
+     * <code>.serverMessage.Rarity rarity = 3;</code>
+     * @return The enum numeric value on the wire for rarity.
+     */
+    @java.lang.Override public int getRarityValue() {
+      return rarity_;
+    }
+    /**
+     * <code>.serverMessage.Rarity rarity = 3;</code>
+     * @return The rarity.
+     */
+    @java.lang.Override public club.thom.tem.models.messages.ServerMessages.Rarity getRarity() {
+      @SuppressWarnings("deprecation")
+      club.thom.tem.models.messages.ServerMessages.Rarity result = club.thom.tem.models.messages.ServerMessages.Rarity.valueOf(rarity_);
+      return result == null ? club.thom.tem.models.messages.ServerMessages.Rarity.UNRECOGNIZED : result;
+    }
+
+    public static final int PRICE_FIELD_NUMBER = 4;
+    private long price_;
+    /**
+     * <code>int64 price = 4;</code>
+     * @return The price.
+     */
+    @java.lang.Override
+    public long getPrice() {
+      return price_;
+    }
+
+    public static final int EXTRADATA_FIELD_NUMBER = 5;
+    private volatile java.lang.Object extraData_;
+    /**
+     * <code>string extraData = 5;</code>
+     * @return The extraData.
+     */
+    @java.lang.Override
+    public java.lang.String getExtraData() {
+      java.lang.Object ref = extraData_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        extraData_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string extraData = 5;</code>
+     * @return The bytes for extraData.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getExtraDataBytes() {
+      java.lang.Object ref = extraData_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        extraData_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(itemId_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, itemId_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(hexCode_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, hexCode_);
+      }
+      if (rarity_ != club.thom.tem.models.messages.ServerMessages.Rarity.COMMON.getNumber()) {
+        output.writeEnum(3, rarity_);
+      }
+      if (price_ != 0L) {
+        output.writeInt64(4, price_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(extraData_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, extraData_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(itemId_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, itemId_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(hexCode_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, hexCode_);
+      }
+      if (rarity_ != club.thom.tem.models.messages.ServerMessages.Rarity.COMMON.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(3, rarity_);
+      }
+      if (price_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, price_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(extraData_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, extraData_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ServerMessages.ArmourSnipe)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ServerMessages.ArmourSnipe other = (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) obj;
+
+      if (!getItemId()
+          .equals(other.getItemId())) return false;
+      if (!getHexCode()
+          .equals(other.getHexCode())) return false;
+      if (rarity_ != other.rarity_) return false;
+      if (getPrice()
+          != other.getPrice()) return false;
+      if (!getExtraData()
+          .equals(other.getExtraData())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ITEMID_FIELD_NUMBER;
+      hash = (53 * hash) + getItemId().hashCode();
+      hash = (37 * hash) + HEXCODE_FIELD_NUMBER;
+      hash = (53 * hash) + getHexCode().hashCode();
+      hash = (37 * hash) + RARITY_FIELD_NUMBER;
+      hash = (53 * hash) + rarity_;
+      hash = (37 * hash) + PRICE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getPrice());
+      hash = (37 * hash) + EXTRADATA_FIELD_NUMBER;
+      hash = (53 * hash) + getExtraData().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ServerMessages.ArmourSnipe prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code serverMessage.ArmourSnipe}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:serverMessage.ArmourSnipe)
+        club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_ArmourSnipe_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_ArmourSnipe_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ServerMessages.ArmourSnipe.class, club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ServerMessages.ArmourSnipe.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        itemId_ = "";
+
+        hexCode_ = "";
+
+        rarity_ = 0;
+
+        price_ = 0L;
+
+        extraData_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_ArmourSnipe_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.ArmourSnipe getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.ArmourSnipe build() {
+        club.thom.tem.models.messages.ServerMessages.ArmourSnipe result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.ArmourSnipe buildPartial() {
+        club.thom.tem.models.messages.ServerMessages.ArmourSnipe result = new club.thom.tem.models.messages.ServerMessages.ArmourSnipe(this);
+        result.itemId_ = itemId_;
+        result.hexCode_ = hexCode_;
+        result.rarity_ = rarity_;
+        result.price_ = price_;
+        result.extraData_ = extraData_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ServerMessages.ArmourSnipe) {
+          return mergeFrom((club.thom.tem.models.messages.ServerMessages.ArmourSnipe)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ServerMessages.ArmourSnipe other) {
+        if (other == club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance()) return this;
+        if (!other.getItemId().isEmpty()) {
+          itemId_ = other.itemId_;
+          onChanged();
+        }
+        if (!other.getHexCode().isEmpty()) {
+          hexCode_ = other.hexCode_;
+          onChanged();
+        }
+        if (other.rarity_ != 0) {
+          setRarityValue(other.getRarityValue());
+        }
+        if (other.getPrice() != 0L) {
+          setPrice(other.getPrice());
+        }
+        if (!other.getExtraData().isEmpty()) {
+          extraData_ = other.extraData_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ServerMessages.ArmourSnipe parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object itemId_ = "";
+      /**
+       * <code>string itemId = 1;</code>
+       * @return The itemId.
+       */
+      public java.lang.String getItemId() {
+        java.lang.Object ref = itemId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          itemId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string itemId = 1;</code>
+       * @return The bytes for itemId.
+       */
+      public com.google.protobuf.ByteString
+          getItemIdBytes() {
+        java.lang.Object ref = itemId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          itemId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string itemId = 1;</code>
+       * @param value The itemId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setItemId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string itemId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearItemId() {
+        
+        itemId_ = getDefaultInstance().getItemId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string itemId = 1;</code>
+       * @param value The bytes for itemId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setItemIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        itemId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object hexCode_ = "";
+      /**
+       * <code>string hexCode = 2;</code>
+       * @return The hexCode.
+       */
+      public java.lang.String getHexCode() {
+        java.lang.Object ref = hexCode_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          hexCode_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string hexCode = 2;</code>
+       * @return The bytes for hexCode.
+       */
+      public com.google.protobuf.ByteString
+          getHexCodeBytes() {
+        java.lang.Object ref = hexCode_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hexCode_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string hexCode = 2;</code>
+       * @param value The hexCode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHexCode(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        hexCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hexCode = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHexCode() {
+        
+        hexCode_ = getDefaultInstance().getHexCode();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hexCode = 2;</code>
+       * @param value The bytes for hexCode to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHexCodeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        hexCode_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int rarity_ = 0;
+      /**
+       * <code>.serverMessage.Rarity rarity = 3;</code>
+       * @return The enum numeric value on the wire for rarity.
+       */
+      @java.lang.Override public int getRarityValue() {
+        return rarity_;
+      }
+      /**
+       * <code>.serverMessage.Rarity rarity = 3;</code>
+       * @param value The enum numeric value on the wire for rarity to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRarityValue(int value) {
+        
+        rarity_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.serverMessage.Rarity rarity = 3;</code>
+       * @return The rarity.
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.Rarity getRarity() {
+        @SuppressWarnings("deprecation")
+        club.thom.tem.models.messages.ServerMessages.Rarity result = club.thom.tem.models.messages.ServerMessages.Rarity.valueOf(rarity_);
+        return result == null ? club.thom.tem.models.messages.ServerMessages.Rarity.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.serverMessage.Rarity rarity = 3;</code>
+       * @param value The rarity to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRarity(club.thom.tem.models.messages.ServerMessages.Rarity value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        rarity_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.serverMessage.Rarity rarity = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRarity() {
+        
+        rarity_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long price_ ;
+      /**
+       * <code>int64 price = 4;</code>
+       * @return The price.
+       */
+      @java.lang.Override
+      public long getPrice() {
+        return price_;
+      }
+      /**
+       * <code>int64 price = 4;</code>
+       * @param value The price to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPrice(long value) {
+        
+        price_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 price = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPrice() {
+        
+        price_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object extraData_ = "";
+      /**
+       * <code>string extraData = 5;</code>
+       * @return The extraData.
+       */
+      public java.lang.String getExtraData() {
+        java.lang.Object ref = extraData_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          extraData_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string extraData = 5;</code>
+       * @return The bytes for extraData.
+       */
+      public com.google.protobuf.ByteString
+          getExtraDataBytes() {
+        java.lang.Object ref = extraData_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          extraData_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string extraData = 5;</code>
+       * @param value The extraData to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExtraData(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        extraData_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string extraData = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExtraData() {
+        
+        extraData_ = getDefaultInstance().getExtraData();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string extraData = 5;</code>
+       * @param value The bytes for extraData to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExtraDataBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        extraData_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:serverMessage.ArmourSnipe)
+    }
+
+    // @@protoc_insertion_point(class_scope:serverMessage.ArmourSnipe)
+    private static final club.thom.tem.models.messages.ServerMessages.ArmourSnipe DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ServerMessages.ArmourSnipe();
+    }
+
+    public static club.thom.tem.models.messages.ServerMessages.ArmourSnipe getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ArmourSnipe>
+        PARSER = new com.google.protobuf.AbstractParser<ArmourSnipe>() {
+      @java.lang.Override
+      public ArmourSnipe parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ArmourSnipe(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ArmourSnipe> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ArmourSnipe> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.ArmourSnipe getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface SniperMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:serverMessage.SniperMessage)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string auctionUuid = 1;</code>
+     * @return The auctionUuid.
+     */
+    java.lang.String getAuctionUuid();
+    /**
+     * <code>string auctionUuid = 1;</code>
+     * @return The bytes for auctionUuid.
+     */
+    com.google.protobuf.ByteString
+        getAuctionUuidBytes();
+
+    /**
+     * <code>string auctioneerUuid = 2;</code>
+     * @return The auctioneerUuid.
+     */
+    java.lang.String getAuctioneerUuid();
+    /**
+     * <code>string auctioneerUuid = 2;</code>
+     * @return The bytes for auctioneerUuid.
+     */
+    com.google.protobuf.ByteString
+        getAuctioneerUuidBytes();
+
+    /**
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+     * @return Whether the armour field is set.
+     */
+    boolean hasArmour();
+    /**
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+     * @return The armour.
+     */
+    club.thom.tem.models.messages.ServerMessages.ArmourSnipe getArmour();
+    /**
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+     */
+    club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder getArmourOrBuilder();
+
+    public club.thom.tem.models.messages.ServerMessages.SniperMessage.MessageCase getMessageCase();
+  }
+  /**
+   * Protobuf type {@code serverMessage.SniperMessage}
+   */
+  public static final class SniperMessage extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:serverMessage.SniperMessage)
+      SniperMessageOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use SniperMessage.newBuilder() to construct.
+    private SniperMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private SniperMessage() {
+      auctionUuid_ = "";
+      auctioneerUuid_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new SniperMessage();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SniperMessage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              auctionUuid_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              auctioneerUuid_ = s;
+              break;
+            }
+            case 26: {
+              club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder subBuilder = null;
+              if (messageCase_ == 3) {
+                subBuilder = ((club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(club.thom.tem.models.messages.ServerMessages.ArmourSnipe.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 3;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_SniperMessage_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_SniperMessage_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ServerMessages.SniperMessage.class, club.thom.tem.models.messages.ServerMessages.SniperMessage.Builder.class);
+    }
+
+    private int messageCase_ = 0;
+    private java.lang.Object message_;
+    public enum MessageCase
+        implements com.google.protobuf.Internal.EnumLite,
+            com.google.protobuf.AbstractMessage.InternalOneOfEnum {
+      ARMOUR(3),
+      MESSAGE_NOT_SET(0);
+      private final int value;
+      private MessageCase(int value) {
+        this.value = value;
+      }
+      /**
+       * @param value The number of the enum to look for.
+       * @return The enum associated with the given number.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static MessageCase valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static MessageCase forNumber(int value) {
+        switch (value) {
+          case 3: return ARMOUR;
+          case 0: return MESSAGE_NOT_SET;
+          default: return null;
+        }
+      }
+      public int getNumber() {
+        return this.value;
+      }
+    };
+
+    public MessageCase
+    getMessageCase() {
+      return MessageCase.forNumber(
+          messageCase_);
+    }
+
+    public static final int AUCTIONUUID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object auctionUuid_;
+    /**
+     * <code>string auctionUuid = 1;</code>
+     * @return The auctionUuid.
+     */
+    @java.lang.Override
+    public java.lang.String getAuctionUuid() {
+      java.lang.Object ref = auctionUuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        auctionUuid_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string auctionUuid = 1;</code>
+     * @return The bytes for auctionUuid.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAuctionUuidBytes() {
+      java.lang.Object ref = auctionUuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        auctionUuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int AUCTIONEERUUID_FIELD_NUMBER = 2;
+    private volatile java.lang.Object auctioneerUuid_;
+    /**
+     * <code>string auctioneerUuid = 2;</code>
+     * @return The auctioneerUuid.
+     */
+    @java.lang.Override
+    public java.lang.String getAuctioneerUuid() {
+      java.lang.Object ref = auctioneerUuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        auctioneerUuid_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string auctioneerUuid = 2;</code>
+     * @return The bytes for auctioneerUuid.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getAuctioneerUuidBytes() {
+      java.lang.Object ref = auctioneerUuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        auctioneerUuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int ARMOUR_FIELD_NUMBER = 3;
+    /**
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+     * @return Whether the armour field is set.
+     */
+    @java.lang.Override
+    public boolean hasArmour() {
+      return messageCase_ == 3;
+    }
+    /**
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+     * @return The armour.
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.ArmourSnipe getArmour() {
+      if (messageCase_ == 3) {
+         return (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_;
+      }
+      return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
+    }
+    /**
+     * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder getArmourOrBuilder() {
+      if (messageCase_ == 3) {
+         return (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_;
+      }
+      return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(auctionUuid_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, auctionUuid_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(auctioneerUuid_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, auctioneerUuid_);
+      }
+      if (messageCase_ == 3) {
+        output.writeMessage(3, (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(auctionUuid_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, auctionUuid_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(auctioneerUuid_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, auctioneerUuid_);
+      }
+      if (messageCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ServerMessages.SniperMessage)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ServerMessages.SniperMessage other = (club.thom.tem.models.messages.ServerMessages.SniperMessage) obj;
+
+      if (!getAuctionUuid()
+          .equals(other.getAuctionUuid())) return false;
+      if (!getAuctioneerUuid()
+          .equals(other.getAuctioneerUuid())) return false;
+      if (!getMessageCase().equals(other.getMessageCase())) return false;
+      switch (messageCase_) {
+        case 3:
+          if (!getArmour()
+              .equals(other.getArmour())) return false;
+          break;
+        case 0:
+        default:
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + AUCTIONUUID_FIELD_NUMBER;
+      hash = (53 * hash) + getAuctionUuid().hashCode();
+      hash = (37 * hash) + AUCTIONEERUUID_FIELD_NUMBER;
+      hash = (53 * hash) + getAuctioneerUuid().hashCode();
+      switch (messageCase_) {
+        case 3:
+          hash = (37 * hash) + ARMOUR_FIELD_NUMBER;
+          hash = (53 * hash) + getArmour().hashCode();
+          break;
+        case 0:
+        default:
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ServerMessages.SniperMessage prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code serverMessage.SniperMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:serverMessage.SniperMessage)
+        club.thom.tem.models.messages.ServerMessages.SniperMessageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_SniperMessage_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_SniperMessage_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ServerMessages.SniperMessage.class, club.thom.tem.models.messages.ServerMessages.SniperMessage.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ServerMessages.SniperMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        auctionUuid_ = "";
+
+        auctioneerUuid_ = "";
+
+        messageCase_ = 0;
+        message_ = null;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_SniperMessage_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.SniperMessage getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.SniperMessage build() {
+        club.thom.tem.models.messages.ServerMessages.SniperMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.SniperMessage buildPartial() {
+        club.thom.tem.models.messages.ServerMessages.SniperMessage result = new club.thom.tem.models.messages.ServerMessages.SniperMessage(this);
+        result.auctionUuid_ = auctionUuid_;
+        result.auctioneerUuid_ = auctioneerUuid_;
+        if (messageCase_ == 3) {
+          if (armourBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = armourBuilder_.build();
+          }
+        }
+        result.messageCase_ = messageCase_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ServerMessages.SniperMessage) {
+          return mergeFrom((club.thom.tem.models.messages.ServerMessages.SniperMessage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ServerMessages.SniperMessage other) {
+        if (other == club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance()) return this;
+        if (!other.getAuctionUuid().isEmpty()) {
+          auctionUuid_ = other.auctionUuid_;
+          onChanged();
+        }
+        if (!other.getAuctioneerUuid().isEmpty()) {
+          auctioneerUuid_ = other.auctioneerUuid_;
+          onChanged();
+        }
+        switch (other.getMessageCase()) {
+          case ARMOUR: {
+            mergeArmour(other.getArmour());
+            break;
+          }
+          case MESSAGE_NOT_SET: {
+            break;
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ServerMessages.SniperMessage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ServerMessages.SniperMessage) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int messageCase_ = 0;
+      private java.lang.Object message_;
+      public MessageCase
+          getMessageCase() {
+        return MessageCase.forNumber(
+            messageCase_);
+      }
+
+      public Builder clearMessage() {
+        messageCase_ = 0;
+        message_ = null;
+        onChanged();
+        return this;
+      }
+
+
+      private java.lang.Object auctionUuid_ = "";
+      /**
+       * <code>string auctionUuid = 1;</code>
+       * @return The auctionUuid.
+       */
+      public java.lang.String getAuctionUuid() {
+        java.lang.Object ref = auctionUuid_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          auctionUuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string auctionUuid = 1;</code>
+       * @return The bytes for auctionUuid.
+       */
+      public com.google.protobuf.ByteString
+          getAuctionUuidBytes() {
+        java.lang.Object ref = auctionUuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          auctionUuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string auctionUuid = 1;</code>
+       * @param value The auctionUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAuctionUuid(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        auctionUuid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string auctionUuid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAuctionUuid() {
+        
+        auctionUuid_ = getDefaultInstance().getAuctionUuid();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string auctionUuid = 1;</code>
+       * @param value The bytes for auctionUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAuctionUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        auctionUuid_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object auctioneerUuid_ = "";
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @return The auctioneerUuid.
+       */
+      public java.lang.String getAuctioneerUuid() {
+        java.lang.Object ref = auctioneerUuid_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          auctioneerUuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @return The bytes for auctioneerUuid.
+       */
+      public com.google.protobuf.ByteString
+          getAuctioneerUuidBytes() {
+        java.lang.Object ref = auctioneerUuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          auctioneerUuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @param value The auctioneerUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAuctioneerUuid(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        auctioneerUuid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAuctioneerUuid() {
+        
+        auctioneerUuid_ = getDefaultInstance().getAuctioneerUuid();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string auctioneerUuid = 2;</code>
+       * @param value The bytes for auctioneerUuid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAuctioneerUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        auctioneerUuid_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ServerMessages.ArmourSnipe, club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder, club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder> armourBuilder_;
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       * @return Whether the armour field is set.
+       */
+      @java.lang.Override
+      public boolean hasArmour() {
+        return messageCase_ == 3;
+      }
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       * @return The armour.
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.ArmourSnipe getArmour() {
+        if (armourBuilder_ == null) {
+          if (messageCase_ == 3) {
+            return (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_;
+          }
+          return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
+        } else {
+          if (messageCase_ == 3) {
+            return armourBuilder_.getMessage();
+          }
+          return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       */
+      public Builder setArmour(club.thom.tem.models.messages.ServerMessages.ArmourSnipe value) {
+        if (armourBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          armourBuilder_.setMessage(value);
+        }
+        messageCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       */
+      public Builder setArmour(
+          club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder builderForValue) {
+        if (armourBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          armourBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       */
+      public Builder mergeArmour(club.thom.tem.models.messages.ServerMessages.ArmourSnipe value) {
+        if (armourBuilder_ == null) {
+          if (messageCase_ == 3 &&
+              message_ != club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance()) {
+            message_ = club.thom.tem.models.messages.ServerMessages.ArmourSnipe.newBuilder((club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 3) {
+            armourBuilder_.mergeFrom(value);
+          }
+          armourBuilder_.setMessage(value);
+        }
+        messageCase_ = 3;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       */
+      public Builder clearArmour() {
+        if (armourBuilder_ == null) {
+          if (messageCase_ == 3) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 3) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          armourBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       */
+      public club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder getArmourBuilder() {
+        return getArmourFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder getArmourOrBuilder() {
+        if ((messageCase_ == 3) && (armourBuilder_ != null)) {
+          return armourBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 3) {
+            return (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_;
+          }
+          return club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.serverMessage.ArmourSnipe armour = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ServerMessages.ArmourSnipe, club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder, club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder> 
+          getArmourFieldBuilder() {
+        if (armourBuilder_ == null) {
+          if (!(messageCase_ == 3)) {
+            message_ = club.thom.tem.models.messages.ServerMessages.ArmourSnipe.getDefaultInstance();
+          }
+          armourBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ServerMessages.ArmourSnipe, club.thom.tem.models.messages.ServerMessages.ArmourSnipe.Builder, club.thom.tem.models.messages.ServerMessages.ArmourSnipeOrBuilder>(
+                  (club.thom.tem.models.messages.ServerMessages.ArmourSnipe) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 3;
+        onChanged();;
+        return armourBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:serverMessage.SniperMessage)
+    }
+
+    // @@protoc_insertion_point(class_scope:serverMessage.SniperMessage)
+    private static final club.thom.tem.models.messages.ServerMessages.SniperMessage DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ServerMessages.SniperMessage();
+    }
+
+    public static club.thom.tem.models.messages.ServerMessages.SniperMessage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<SniperMessage>
+        PARSER = new com.google.protobuf.AbstractParser<SniperMessage>() {
+      @java.lang.Override
+      public SniperMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SniperMessage(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<SniperMessage> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SniperMessage> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.SniperMessage getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface ServerMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:serverMessage.ServerMessage)
       com.google.protobuf.MessageOrBuilder {
@@ -6114,6 +8026,21 @@ public final class ServerMessages {
      * <code>.serverMessage.InformationResponse info = 5;</code>
      */
     club.thom.tem.models.messages.ServerMessages.InformationResponseOrBuilder getInfoOrBuilder();
+
+    /**
+     * <code>.serverMessage.SniperMessage snipe = 6;</code>
+     * @return Whether the snipe field is set.
+     */
+    boolean hasSnipe();
+    /**
+     * <code>.serverMessage.SniperMessage snipe = 6;</code>
+     * @return The snipe.
+     */
+    club.thom.tem.models.messages.ServerMessages.SniperMessage getSnipe();
+    /**
+     * <code>.serverMessage.SniperMessage snipe = 6;</code>
+     */
+    club.thom.tem.models.messages.ServerMessages.SniperMessageOrBuilder getSnipeOrBuilder();
 
     public club.thom.tem.models.messages.ServerMessages.ServerMessage.MessageCase getMessageCase();
   }
@@ -6223,6 +8150,20 @@ public final class ServerMessages {
               messageCase_ = 5;
               break;
             }
+            case 50: {
+              club.thom.tem.models.messages.ServerMessages.SniperMessage.Builder subBuilder = null;
+              if (messageCase_ == 6) {
+                subBuilder = ((club.thom.tem.models.messages.ServerMessages.SniperMessage) message_).toBuilder();
+              }
+              message_ =
+                  input.readMessage(club.thom.tem.models.messages.ServerMessages.SniperMessage.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.SniperMessage) message_);
+                message_ = subBuilder.buildPartial();
+              }
+              messageCase_ = 6;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -6264,6 +8205,7 @@ public final class ServerMessages {
       MULTIPLEREQUESTS(3),
       SINGLEREQUEST(4),
       INFO(5),
+      SNIPE(6),
       MESSAGE_NOT_SET(0);
       private final int value;
       private MessageCase(int value) {
@@ -6285,6 +8227,7 @@ public final class ServerMessages {
           case 3: return MULTIPLEREQUESTS;
           case 4: return SINGLEREQUEST;
           case 5: return INFO;
+          case 6: return SNIPE;
           case 0: return MESSAGE_NOT_SET;
           default: return null;
         }
@@ -6439,6 +8382,37 @@ public final class ServerMessages {
       return club.thom.tem.models.messages.ServerMessages.InformationResponse.getDefaultInstance();
     }
 
+    public static final int SNIPE_FIELD_NUMBER = 6;
+    /**
+     * <code>.serverMessage.SniperMessage snipe = 6;</code>
+     * @return Whether the snipe field is set.
+     */
+    @java.lang.Override
+    public boolean hasSnipe() {
+      return messageCase_ == 6;
+    }
+    /**
+     * <code>.serverMessage.SniperMessage snipe = 6;</code>
+     * @return The snipe.
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.SniperMessage getSnipe() {
+      if (messageCase_ == 6) {
+         return (club.thom.tem.models.messages.ServerMessages.SniperMessage) message_;
+      }
+      return club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance();
+    }
+    /**
+     * <code>.serverMessage.SniperMessage snipe = 6;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ServerMessages.SniperMessageOrBuilder getSnipeOrBuilder() {
+      if (messageCase_ == 6) {
+         return (club.thom.tem.models.messages.ServerMessages.SniperMessage) message_;
+      }
+      return club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6468,6 +8442,9 @@ public final class ServerMessages {
       if (messageCase_ == 5) {
         output.writeMessage(5, (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_);
       }
+      if (messageCase_ == 6) {
+        output.writeMessage(6, (club.thom.tem.models.messages.ServerMessages.SniperMessage) message_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -6496,6 +8473,10 @@ public final class ServerMessages {
       if (messageCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, (club.thom.tem.models.messages.ServerMessages.InformationResponse) message_);
+      }
+      if (messageCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (club.thom.tem.models.messages.ServerMessages.SniperMessage) message_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6532,6 +8513,10 @@ public final class ServerMessages {
           if (!getInfo()
               .equals(other.getInfo())) return false;
           break;
+        case 6:
+          if (!getSnipe()
+              .equals(other.getSnipe())) return false;
+          break;
         case 0:
         default:
       }
@@ -6564,6 +8549,10 @@ public final class ServerMessages {
         case 5:
           hash = (37 * hash) + INFO_FIELD_NUMBER;
           hash = (53 * hash) + getInfo().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + SNIPE_FIELD_NUMBER;
+          hash = (53 * hash) + getSnipe().hashCode();
           break;
         case 0:
         default:
@@ -6760,6 +8749,13 @@ public final class ServerMessages {
             result.message_ = infoBuilder_.build();
           }
         }
+        if (messageCase_ == 6) {
+          if (snipeBuilder_ == null) {
+            result.message_ = message_;
+          } else {
+            result.message_ = snipeBuilder_.build();
+          }
+        }
         result.messageCase_ = messageCase_;
         onBuilt();
         return result;
@@ -6827,6 +8823,10 @@ public final class ServerMessages {
           }
           case INFO: {
             mergeInfo(other.getInfo());
+            break;
+          }
+          case SNIPE: {
+            mergeSnipe(other.getSnipe());
             break;
           }
           case MESSAGE_NOT_SET: {
@@ -7483,6 +9483,147 @@ public final class ServerMessages {
         onChanged();;
         return infoBuilder_;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ServerMessages.SniperMessage, club.thom.tem.models.messages.ServerMessages.SniperMessage.Builder, club.thom.tem.models.messages.ServerMessages.SniperMessageOrBuilder> snipeBuilder_;
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       * @return Whether the snipe field is set.
+       */
+      @java.lang.Override
+      public boolean hasSnipe() {
+        return messageCase_ == 6;
+      }
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       * @return The snipe.
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.SniperMessage getSnipe() {
+        if (snipeBuilder_ == null) {
+          if (messageCase_ == 6) {
+            return (club.thom.tem.models.messages.ServerMessages.SniperMessage) message_;
+          }
+          return club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance();
+        } else {
+          if (messageCase_ == 6) {
+            return snipeBuilder_.getMessage();
+          }
+          return club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       */
+      public Builder setSnipe(club.thom.tem.models.messages.ServerMessages.SniperMessage value) {
+        if (snipeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          message_ = value;
+          onChanged();
+        } else {
+          snipeBuilder_.setMessage(value);
+        }
+        messageCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       */
+      public Builder setSnipe(
+          club.thom.tem.models.messages.ServerMessages.SniperMessage.Builder builderForValue) {
+        if (snipeBuilder_ == null) {
+          message_ = builderForValue.build();
+          onChanged();
+        } else {
+          snipeBuilder_.setMessage(builderForValue.build());
+        }
+        messageCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       */
+      public Builder mergeSnipe(club.thom.tem.models.messages.ServerMessages.SniperMessage value) {
+        if (snipeBuilder_ == null) {
+          if (messageCase_ == 6 &&
+              message_ != club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance()) {
+            message_ = club.thom.tem.models.messages.ServerMessages.SniperMessage.newBuilder((club.thom.tem.models.messages.ServerMessages.SniperMessage) message_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            message_ = value;
+          }
+          onChanged();
+        } else {
+          if (messageCase_ == 6) {
+            snipeBuilder_.mergeFrom(value);
+          }
+          snipeBuilder_.setMessage(value);
+        }
+        messageCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       */
+      public Builder clearSnipe() {
+        if (snipeBuilder_ == null) {
+          if (messageCase_ == 6) {
+            messageCase_ = 0;
+            message_ = null;
+            onChanged();
+          }
+        } else {
+          if (messageCase_ == 6) {
+            messageCase_ = 0;
+            message_ = null;
+          }
+          snipeBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       */
+      public club.thom.tem.models.messages.ServerMessages.SniperMessage.Builder getSnipeBuilder() {
+        return getSnipeFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ServerMessages.SniperMessageOrBuilder getSnipeOrBuilder() {
+        if ((messageCase_ == 6) && (snipeBuilder_ != null)) {
+          return snipeBuilder_.getMessageOrBuilder();
+        } else {
+          if (messageCase_ == 6) {
+            return (club.thom.tem.models.messages.ServerMessages.SniperMessage) message_;
+          }
+          return club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.serverMessage.SniperMessage snipe = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ServerMessages.SniperMessage, club.thom.tem.models.messages.ServerMessages.SniperMessage.Builder, club.thom.tem.models.messages.ServerMessages.SniperMessageOrBuilder> 
+          getSnipeFieldBuilder() {
+        if (snipeBuilder_ == null) {
+          if (!(messageCase_ == 6)) {
+            message_ = club.thom.tem.models.messages.ServerMessages.SniperMessage.getDefaultInstance();
+          }
+          snipeBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ServerMessages.SniperMessage, club.thom.tem.models.messages.ServerMessages.SniperMessage.Builder, club.thom.tem.models.messages.ServerMessages.SniperMessageOrBuilder>(
+                  (club.thom.tem.models.messages.ServerMessages.SniperMessage) message_,
+                  getParentForChildren(),
+                  isClean());
+          message_ = null;
+        }
+        messageCase_ = 6;
+        onChanged();;
+        return snipeBuilder_;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7562,11 +9703,6 @@ public final class ServerMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_serverMessage_MiscRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_serverMessage_MiscRequest_ParametersEntry_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_serverMessage_MiscRequest_ParametersEntry_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_serverMessage_RequestMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -7576,6 +9712,16 @@ public final class ServerMessages {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_serverMessage_BulkRequests_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_serverMessage_ArmourSnipe_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_serverMessage_ArmourSnipe_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_serverMessage_SniperMessage_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_serverMessage_SniperMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_serverMessage_ServerMessage_descriptor;
   private static final 
@@ -7600,27 +9746,34 @@ public final class ServerMessages {
       "\002 \001(\005\022%\n\035validContributionsThisSession\030\003" +
       " \001(\005\022\032\n\022totalContributions\030\004 \001(\005\"\035\n\rFrie" +
       "ndRequest\022\014\n\004uuid\030\001 \001(\t\"&\n\020InventoryRequ" +
-      "est\022\022\n\nplayerUuid\030\001 \001(\t\"\247\001\n\013MiscRequest\022" +
-      "\022\n\nrequestURL\030\001 \001(\t\022\021\n\tuseApiKey\030\002 \001(\010\022>" +
-      "\n\nparameters\030\003 \003(\0132*.serverMessage.MiscR" +
-      "equest.ParametersEntry\0321\n\017ParametersEntr" +
-      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\321\001\n\016Re" +
-      "questMessage\022\r\n\005nonce\030\001 \001(\005\0225\n\rfriendReq" +
-      "uest\030\002 \001(\0132\034.serverMessage.FriendRequest" +
-      "H\000\022;\n\020inventoryRequest\030\003 \001(\0132\037.serverMes" +
-      "sage.InventoryRequestH\000\0221\n\013miscRequest\030\004" +
-      " \001(\0132\032.serverMessage.MiscRequestH\000B\t\n\007me" +
-      "ssage\"?\n\014BulkRequests\022/\n\010requests\030\001 \003(\0132" +
-      "\035.serverMessage.RequestMessage\"\207\002\n\rServe" +
-      "rMessage\022\035\n\025expectedClientVersion\030\001 \001(\005\022" +
-      "\'\n\004auth\030\002 \001(\0132\027.serverMessage.AuthDataH\000" +
-      "\0227\n\020multipleRequests\030\003 \001(\0132\033.serverMessa" +
-      "ge.BulkRequestsH\000\0226\n\rsingleRequest\030\004 \001(\013" +
-      "2\035.serverMessage.RequestMessageH\000\0222\n\004inf" +
-      "o\030\005 \001(\0132\".serverMessage.InformationRespo" +
-      "nseH\000B\t\n\007messageB8\n\035club.thom.tem.models" +
-      ".messagesZ\027protobuf/serverMessagesb\006prot" +
-      "o3"
+      "est\022\022\n\nplayerUuid\030\001 \001(\t\"4\n\013MiscRequest\022\022" +
+      "\n\nrequestURL\030\001 \001(\t\022\021\n\tuseApiKey\030\002 \001(\010\"\321\001" +
+      "\n\016RequestMessage\022\r\n\005nonce\030\001 \001(\005\0225\n\rfrien" +
+      "dRequest\030\002 \001(\0132\034.serverMessage.FriendReq" +
+      "uestH\000\022;\n\020inventoryRequest\030\003 \001(\0132\037.serve" +
+      "rMessage.InventoryRequestH\000\0221\n\013miscReque" +
+      "st\030\004 \001(\0132\032.serverMessage.MiscRequestH\000B\t" +
+      "\n\007message\"?\n\014BulkRequests\022/\n\010requests\030\001 " +
+      "\003(\0132\035.serverMessage.RequestMessage\"w\n\013Ar" +
+      "mourSnipe\022\016\n\006itemId\030\001 \001(\t\022\017\n\007hexCode\030\002 \001" +
+      "(\t\022%\n\006rarity\030\003 \001(\0162\025.serverMessage.Rarit" +
+      "y\022\r\n\005price\030\004 \001(\003\022\021\n\textraData\030\005 \001(\t\"u\n\rS" +
+      "niperMessage\022\023\n\013auctionUuid\030\001 \001(\t\022\026\n\016auc" +
+      "tioneerUuid\030\002 \001(\t\022,\n\006armour\030\003 \001(\0132\032.serv" +
+      "erMessage.ArmourSnipeH\000B\t\n\007message\"\266\002\n\rS" +
+      "erverMessage\022\035\n\025expectedClientVersion\030\001 " +
+      "\001(\005\022\'\n\004auth\030\002 \001(\0132\027.serverMessage.AuthDa" +
+      "taH\000\0227\n\020multipleRequests\030\003 \001(\0132\033.serverM" +
+      "essage.BulkRequestsH\000\0226\n\rsingleRequest\030\004" +
+      " \001(\0132\035.serverMessage.RequestMessageH\000\0222\n" +
+      "\004info\030\005 \001(\0132\".serverMessage.InformationR" +
+      "esponseH\000\022-\n\005snipe\030\006 \001(\0132\034.serverMessage" +
+      ".SniperMessageH\000B\t\n\007message*|\n\006Rarity\022\n\n" +
+      "\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPI" +
+      "C\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE" +
+      "\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035clu" +
+      "b.thom.tem.models.messagesZ\027protobuf/ser" +
+      "verMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7655,13 +9808,7 @@ public final class ServerMessages {
     internal_static_serverMessage_MiscRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_MiscRequest_descriptor,
-        new java.lang.String[] { "RequestURL", "UseApiKey", "Parameters", });
-    internal_static_serverMessage_MiscRequest_ParametersEntry_descriptor =
-      internal_static_serverMessage_MiscRequest_descriptor.getNestedTypes().get(0);
-    internal_static_serverMessage_MiscRequest_ParametersEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_serverMessage_MiscRequest_ParametersEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
+        new java.lang.String[] { "RequestURL", "UseApiKey", });
     internal_static_serverMessage_RequestMessage_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_serverMessage_RequestMessage_fieldAccessorTable = new
@@ -7674,12 +9821,24 @@ public final class ServerMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_BulkRequests_descriptor,
         new java.lang.String[] { "Requests", });
-    internal_static_serverMessage_ServerMessage_descriptor =
+    internal_static_serverMessage_ArmourSnipe_descriptor =
       getDescriptor().getMessageTypes().get(7);
+    internal_static_serverMessage_ArmourSnipe_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_serverMessage_ArmourSnipe_descriptor,
+        new java.lang.String[] { "ItemId", "HexCode", "Rarity", "Price", "ExtraData", });
+    internal_static_serverMessage_SniperMessage_descriptor =
+      getDescriptor().getMessageTypes().get(8);
+    internal_static_serverMessage_SniperMessage_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_serverMessage_SniperMessage_descriptor,
+        new java.lang.String[] { "AuctionUuid", "AuctioneerUuid", "Armour", "Message", });
+    internal_static_serverMessage_ServerMessage_descriptor =
+      getDescriptor().getMessageTypes().get(9);
     internal_static_serverMessage_ServerMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_ServerMessage_descriptor,
-        new java.lang.String[] { "ExpectedClientVersion", "Auth", "MultipleRequests", "SingleRequest", "Info", "Message", });
+        new java.lang.String[] { "ExpectedClientVersion", "Auth", "MultipleRequests", "SingleRequest", "Info", "Snipe", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

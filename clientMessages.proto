@@ -135,7 +135,6 @@ message MiscResponse {
   int32 statusCode = 2;
   // original request url (does not contain any api key)
   string requestURL = 3;
-  map<string, string> parameters = 4;
 }
 
 message Response {

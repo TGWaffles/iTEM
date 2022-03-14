@@ -49,7 +49,6 @@ message MiscRequest {
   string requestURL = 1;
   // Whether the client should add their api key as a parameter
   bool useApiKey = 2;
-  map<string, string> parameters = 3;
 }
 
 message RequestMessage {
@@ -67,6 +66,34 @@ message BulkRequests {
   repeated RequestMessage requests = 1;
 }
 
+enum Rarity {
+  COMMON = 0;
+  UNCOMMON = 1;
+  RARE = 2;
+  EPIC = 3;
+  LEGENDARY = 4;
+  MYTHIC = 5;
+  DIVINE = 6;
+  SPECIAL = 7;
+  VERY_SPECIAL = 8;
+}
+
+message ArmourSnipe {
+  string itemId = 1;
+  string hexCode = 2;
+  Rarity rarity = 3;
+  int64 price = 4;
+  string extraData = 5;
+}
+
+message SniperMessage {
+  string auctionUuid = 1;
+  string auctioneerUuid = 2;
+  oneof message {
+    ArmourSnipe armour = 3;
+  }
+}
+
 
 message ServerMessage {
   // Client version expected (most up-to-date client version)
@@ -76,5 +103,6 @@ message ServerMessage {
     BulkRequests multipleRequests = 3;
     RequestMessage singleRequest = 4;
     InformationResponse info = 5;
+    SniperMessage snipe = 6;
   }
 }

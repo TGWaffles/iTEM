@@ -2840,6 +2840,16 @@ public final class ClientMessages {
      */
     com.google.protobuf.ByteString
         getReforgeBytes();
+
+    /**
+     * <pre>
+     * Uses new hypixel purchasable dyes
+     * </pre>
+     *
+     * <code>bool isCustomDyed = 5;</code>
+     * @return The isCustomDyed.
+     */
+    boolean getIsCustomDyed();
   }
   /**
    * Protobuf type {@code clientMessage.Armour}
@@ -2912,6 +2922,11 @@ public final class ClientMessages {
               java.lang.String s = input.readStringRequireUtf8();
 
               reforge_ = s;
+              break;
+            }
+            case 40: {
+
+              isCustomDyed_ = input.readBool();
               break;
             }
             default: {
@@ -3111,6 +3126,21 @@ public final class ClientMessages {
       }
     }
 
+    public static final int ISCUSTOMDYED_FIELD_NUMBER = 5;
+    private boolean isCustomDyed_;
+    /**
+     * <pre>
+     * Uses new hypixel purchasable dyes
+     * </pre>
+     *
+     * <code>bool isCustomDyed = 5;</code>
+     * @return The isCustomDyed.
+     */
+    @java.lang.Override
+    public boolean getIsCustomDyed() {
+      return isCustomDyed_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3137,6 +3167,9 @@ public final class ClientMessages {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(reforge_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, reforge_);
       }
+      if (isCustomDyed_ != false) {
+        output.writeBool(5, isCustomDyed_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3158,6 +3191,10 @@ public final class ClientMessages {
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(reforge_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, reforge_);
+      }
+      if (isCustomDyed_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, isCustomDyed_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3181,6 +3218,8 @@ public final class ClientMessages {
       if (rarity_ != other.rarity_) return false;
       if (!getReforge()
           .equals(other.getReforge())) return false;
+      if (getIsCustomDyed()
+          != other.getIsCustomDyed()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3200,6 +3239,9 @@ public final class ClientMessages {
       hash = (53 * hash) + rarity_;
       hash = (37 * hash) + REFORGE_FIELD_NUMBER;
       hash = (53 * hash) + getReforge().hashCode();
+      hash = (37 * hash) + ISCUSTOMDYED_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getIsCustomDyed());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -3341,6 +3383,8 @@ public final class ClientMessages {
 
         reforge_ = "";
 
+        isCustomDyed_ = false;
+
         return this;
       }
 
@@ -3371,6 +3415,7 @@ public final class ClientMessages {
         result.hexCode_ = hexCode_;
         result.rarity_ = rarity_;
         result.reforge_ = reforge_;
+        result.isCustomDyed_ = isCustomDyed_;
         onBuilt();
         return result;
       }
@@ -3433,6 +3478,9 @@ public final class ClientMessages {
         if (!other.getReforge().isEmpty()) {
           reforge_ = other.reforge_;
           onChanged();
+        }
+        if (other.getIsCustomDyed() != false) {
+          setIsCustomDyed(other.getIsCustomDyed());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -3821,6 +3869,49 @@ public final class ClientMessages {
   checkByteStringIsUtf8(value);
         
         reforge_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean isCustomDyed_ ;
+      /**
+       * <pre>
+       * Uses new hypixel purchasable dyes
+       * </pre>
+       *
+       * <code>bool isCustomDyed = 5;</code>
+       * @return The isCustomDyed.
+       */
+      @java.lang.Override
+      public boolean getIsCustomDyed() {
+        return isCustomDyed_;
+      }
+      /**
+       * <pre>
+       * Uses new hypixel purchasable dyes
+       * </pre>
+       *
+       * <code>bool isCustomDyed = 5;</code>
+       * @param value The isCustomDyed to set.
+       * @return This builder for chaining.
+       */
+      public Builder setIsCustomDyed(boolean value) {
+        
+        isCustomDyed_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Uses new hypixel purchasable dyes
+       * </pre>
+       *
+       * <code>bool isCustomDyed = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearIsCustomDyed() {
+        
+        isCustomDyed_ = false;
         onChanged();
         return this;
       }
@@ -12758,40 +12849,6 @@ public final class ClientMessages {
      */
     com.google.protobuf.ByteString
         getRequestURLBytes();
-
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-    int getParametersCount();
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-    boolean containsParameters(
-        java.lang.String key);
-    /**
-     * Use {@link #getParametersMap()} instead.
-     */
-    @java.lang.Deprecated
-    java.util.Map<java.lang.String, java.lang.String>
-    getParameters();
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-    java.util.Map<java.lang.String, java.lang.String>
-    getParametersMap();
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-
-    java.lang.String getParametersOrDefault(
-        java.lang.String key,
-        java.lang.String defaultValue);
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-
-    java.lang.String getParametersOrThrow(
-        java.lang.String key);
   }
   /**
    * Protobuf type {@code clientMessage.MiscResponse}
@@ -12830,7 +12887,6 @@ public final class ClientMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -12857,19 +12913,6 @@ public final class ClientMessages {
               requestURL_ = s;
               break;
             }
-            case 34: {
-              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                parameters_ = com.google.protobuf.MapField.newMapField(
-                    ParametersDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000001;
-              }
-              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
-              parameters__ = input.readMessage(
-                  ParametersDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              parameters_.getMutableMap().put(
-                  parameters__.getKey(), parameters__.getValue());
-              break;
-            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -12894,18 +12937,6 @@ public final class ClientMessages {
       return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_MiscResponse_descriptor;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    @java.lang.Override
-    protected com.google.protobuf.MapField internalGetMapField(
-        int number) {
-      switch (number) {
-        case 4:
-          return internalGetParameters();
-        default:
-          throw new RuntimeException(
-              "Invalid map field number: " + number);
-      }
-    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -12991,87 +13022,6 @@ public final class ClientMessages {
       }
     }
 
-    public static final int PARAMETERS_FIELD_NUMBER = 4;
-    private static final class ParametersDefaultEntryHolder {
-      static final com.google.protobuf.MapEntry<
-          java.lang.String, java.lang.String> defaultEntry =
-              com.google.protobuf.MapEntry
-              .<java.lang.String, java.lang.String>newDefaultInstance(
-                  club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_MiscResponse_ParametersEntry_descriptor, 
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "",
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "");
-    }
-    private com.google.protobuf.MapField<
-        java.lang.String, java.lang.String> parameters_;
-    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-    internalGetParameters() {
-      if (parameters_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            ParametersDefaultEntryHolder.defaultEntry);
-      }
-      return parameters_;
-    }
-
-    public int getParametersCount() {
-      return internalGetParameters().getMap().size();
-    }
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-
-    @java.lang.Override
-    public boolean containsParameters(
-        java.lang.String key) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      return internalGetParameters().getMap().containsKey(key);
-    }
-    /**
-     * Use {@link #getParametersMap()} instead.
-     */
-    @java.lang.Override
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.String, java.lang.String> getParameters() {
-      return getParametersMap();
-    }
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-    @java.lang.Override
-
-    public java.util.Map<java.lang.String, java.lang.String> getParametersMap() {
-      return internalGetParameters().getMap();
-    }
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getParametersOrDefault(
-        java.lang.String key,
-        java.lang.String defaultValue) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, java.lang.String> map =
-          internalGetParameters().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;string, string&gt; parameters = 4;</code>
-     */
-    @java.lang.Override
-
-    public java.lang.String getParametersOrThrow(
-        java.lang.String key) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, java.lang.String> map =
-          internalGetParameters().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
-    }
-
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -13095,12 +13045,6 @@ public final class ClientMessages {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(requestURL_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, requestURL_);
       }
-      com.google.protobuf.GeneratedMessageV3
-        .serializeStringMapTo(
-          output,
-          internalGetParameters(),
-          ParametersDefaultEntryHolder.defaultEntry,
-          4);
       unknownFields.writeTo(output);
     }
 
@@ -13120,16 +13064,6 @@ public final class ClientMessages {
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(requestURL_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, requestURL_);
-      }
-      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
-           : internalGetParameters().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
-        parameters__ = ParametersDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
-        size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(4, parameters__);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -13152,8 +13086,6 @@ public final class ClientMessages {
           != other.getStatusCode()) return false;
       if (!getRequestURL()
           .equals(other.getRequestURL())) return false;
-      if (!internalGetParameters().equals(
-          other.internalGetParameters())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -13171,10 +13103,6 @@ public final class ClientMessages {
       hash = (53 * hash) + getStatusCode();
       hash = (37 * hash) + REQUESTURL_FIELD_NUMBER;
       hash = (53 * hash) + getRequestURL().hashCode();
-      if (!internalGetParameters().getMap().isEmpty()) {
-        hash = (37 * hash) + PARAMETERS_FIELD_NUMBER;
-        hash = (53 * hash) + internalGetParameters().hashCode();
-      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -13282,28 +13210,6 @@ public final class ClientMessages {
         return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_MiscResponse_descriptor;
       }
 
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMapField(
-          int number) {
-        switch (number) {
-          case 4:
-            return internalGetParameters();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      @SuppressWarnings({"rawtypes"})
-      protected com.google.protobuf.MapField internalGetMutableMapField(
-          int number) {
-        switch (number) {
-          case 4:
-            return internalGetMutableParameters();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -13336,7 +13242,6 @@ public final class ClientMessages {
 
         requestURL_ = "";
 
-        internalGetMutableParameters().clear();
         return this;
       }
 
@@ -13363,12 +13268,9 @@ public final class ClientMessages {
       @java.lang.Override
       public club.thom.tem.models.messages.ClientMessages.MiscResponse buildPartial() {
         club.thom.tem.models.messages.ClientMessages.MiscResponse result = new club.thom.tem.models.messages.ClientMessages.MiscResponse(this);
-        int from_bitField0_ = bitField0_;
         result.responseData_ = responseData_;
         result.statusCode_ = statusCode_;
         result.requestURL_ = requestURL_;
-        result.parameters_ = internalGetParameters();
-        result.parameters_.makeImmutable();
         onBuilt();
         return result;
       }
@@ -13427,8 +13329,6 @@ public final class ClientMessages {
           requestURL_ = other.requestURL_;
           onChanged();
         }
-        internalGetMutableParameters().mergeFrom(
-            other.internalGetParameters());
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -13457,7 +13357,6 @@ public final class ClientMessages {
         }
         return this;
       }
-      private int bitField0_;
 
       private com.google.protobuf.ByteString responseData_ = com.google.protobuf.ByteString.EMPTY;
       /**
@@ -13644,137 +13543,6 @@ public final class ClientMessages {
         
         requestURL_ = value;
         onChanged();
-        return this;
-      }
-
-      private com.google.protobuf.MapField<
-          java.lang.String, java.lang.String> parameters_;
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-      internalGetParameters() {
-        if (parameters_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              ParametersDefaultEntryHolder.defaultEntry);
-        }
-        return parameters_;
-      }
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-      internalGetMutableParameters() {
-        onChanged();;
-        if (parameters_ == null) {
-          parameters_ = com.google.protobuf.MapField.newMapField(
-              ParametersDefaultEntryHolder.defaultEntry);
-        }
-        if (!parameters_.isMutable()) {
-          parameters_ = parameters_.copy();
-        }
-        return parameters_;
-      }
-
-      public int getParametersCount() {
-        return internalGetParameters().getMap().size();
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 4;</code>
-       */
-
-      @java.lang.Override
-      public boolean containsParameters(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        return internalGetParameters().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getParametersMap()} instead.
-       */
-      @java.lang.Override
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String> getParameters() {
-        return getParametersMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 4;</code>
-       */
-      @java.lang.Override
-
-      public java.util.Map<java.lang.String, java.lang.String> getParametersMap() {
-        return internalGetParameters().getMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 4;</code>
-       */
-      @java.lang.Override
-
-      public java.lang.String getParametersOrDefault(
-          java.lang.String key,
-          java.lang.String defaultValue) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, java.lang.String> map =
-            internalGetParameters().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 4;</code>
-       */
-      @java.lang.Override
-
-      public java.lang.String getParametersOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, java.lang.String> map =
-            internalGetParameters().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
-        }
-        return map.get(key);
-      }
-
-      public Builder clearParameters() {
-        internalGetMutableParameters().getMutableMap()
-            .clear();
-        return this;
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 4;</code>
-       */
-
-      public Builder removeParameters(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        internalGetMutableParameters().getMutableMap()
-            .remove(key);
-        return this;
-      }
-      /**
-       * Use alternate mutation accessors instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String>
-      getMutableParameters() {
-        return internalGetMutableParameters().getMutableMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 4;</code>
-       */
-      public Builder putParameters(
-          java.lang.String key,
-          java.lang.String value) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        if (value == null) {
-  throw new NullPointerException("map value");
-}
-
-        internalGetMutableParameters().getMutableMap()
-            .put(key, value);
-        return this;
-      }
-      /**
-       * <code>map&lt;string, string&gt; parameters = 4;</code>
-       */
-
-      public Builder putAllParameters(
-          java.util.Map<java.lang.String, java.lang.String> values) {
-        internalGetMutableParameters().getMutableMap()
-            .putAll(values);
         return this;
       }
       @java.lang.Override
@@ -16667,11 +16435,6 @@ public final class ClientMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_clientMessage_MiscResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_clientMessage_MiscResponse_ParametersEntry_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_clientMessage_MiscResponse_ParametersEntry_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_clientMessage_Response_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -16695,60 +16458,57 @@ public final class ClientMessages {
       "quests\022\030\n\020numberOfRequests\030\001 \001(\r\"\036\n\016GetI" +
       "nformation\022\014\n\004uuid\030\001 \001(\t\"7\n\017FriendsRespo" +
       "nse\022\020\n\010userUuid\030\001 \001(\t\022\022\n\nfriendUuid\030\002 \003(" +
-      "\t\"a\n\006Armour\022\016\n\006itemId\030\001 \001(\t\022\017\n\007hexCode\030\002" +
+      "\t\"w\n\006Armour\022\016\n\006itemId\030\001 \001(\t\022\017\n\007hexCode\030\002" +
       " \001(\t\022%\n\006rarity\030\003 \001(\0162\025.clientMessage.Rar" +
-      "ity\022\017\n\007reforge\030\004 \001(\t\"\031\n\007PetSkin\022\016\n\006skinI" +
-      "d\030\001 \001(\t\"\257\001\n\003Pet\022)\n\004skin\030\001 \001(\0132\026.clientMe" +
-      "ssage.PetSkinH\000\210\001\001\022\017\n\007candied\030\002 \001(\010\022%\n\006r" +
-      "arity\030\003 \001(\0162\025.clientMessage.Rarity\022\020\n\010he" +
-      "ldItem\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\014\n\004name\030\006 \001(" +
-      "\t\022\r\n\005candy\030\007 \001(\005B\007\n\005_skin\"u\n\023ExtraAttrib" +
-      "uteValue\022\025\n\013stringValue\030\001 \001(\tH\000\022\022\n\010intVa" +
-      "lue\030\002 \001(\005H\000\022\023\n\tlongValue\030\003 \001(\003H\000\022\025\n\013doub" +
-      "leValue\030\004 \001(\001H\000B\007\n\005value\"\240\003\n\010MiscItem\022\016\n" +
-      "\006itemId\030\001 \001(\t\022%\n\006rarity\030\002 \001(\0162\025.clientMe" +
-      "ssage.Rarity\022?\n\014enchantments\030\003 \003(\0132).cli" +
-      "entMessage.MiscItem.EnchantmentsEntry\022\017\n" +
-      "\007hexCode\030\004 \001(\005\022E\n\017extraAttributes\030\005 \003(\0132" +
-      ",.clientMessage.MiscItem.ExtraAttributes" +
-      "Entry\022\024\n\007reforge\030\006 \001(\tH\000\210\001\001\022\021\n\titemCount" +
-      "\030\007 \001(\005\0323\n\021EnchantmentsEntry\022\013\n\003key\030\001 \001(\t" +
-      "\022\r\n\005value\030\002 \001(\005:\0028\001\032Z\n\024ExtraAttributesEn" +
-      "try\022\013\n\003key\030\001 \001(\t\0221\n\005value\030\002 \001(\0132\".client" +
-      "Message.ExtraAttributeValue:\0028\001B\n\n\010_refo" +
-      "rge\"\210\002\n\rInventoryItem\022\021\n\004uuid\030\001 \001(\tH\001\210\001\001" +
-      "\022\031\n\021creationTimestamp\030\002 \001(\003\022!\n\003pet\030\003 \001(\013" +
-      "2\022.clientMessage.PetH\000\022)\n\007petSkin\030\004 \001(\0132" +
-      "\026.clientMessage.PetSkinH\000\022,\n\013armourPiece" +
-      "\030\005 \001(\0132\025.clientMessage.ArmourH\000\022\'\n\004item\030" +
-      "\006 \001(\0132\027.clientMessage.MiscItemH\000\022\020\n\010loca" +
-      "tion\030\017 \001(\tB\t\n\007messageB\007\n\005_uuid\"U\n\021Invent" +
-      "oryResponse\022\023\n\013profileUuid\030\001 \001(\t\022+\n\005item" +
-      "s\030\002 \003(\0132\034.clientMessage.InventoryItem\"X\n" +
-      "\016PlayerResponse\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010p" +
-      "rofiles\030\002 \003(\0132 .clientMessage.InventoryR" +
-      "esponse\"\300\001\n\014MiscResponse\022\024\n\014responseData" +
-      "\030\001 \001(\014\022\022\n\nstatusCode\030\002 \001(\005\022\022\n\nrequestURL" +
-      "\030\003 \001(\t\022?\n\nparameters\030\004 \003(\0132+.clientMessa" +
-      "ge.MiscResponse.ParametersEntry\0321\n\017Param" +
-      "etersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\002" +
-      "8\001\"\306\001\n\010Response\022\r\n\005nonce\030\001 \001(\005\0225\n\013friend" +
-      "sList\030\002 \001(\0132\036.clientMessage.FriendsRespo" +
-      "nseH\000\0224\n\013inventories\030\003 \001(\0132\035.clientMessa" +
-      "ge.PlayerResponseH\000\0223\n\014miscResponse\030\004 \001(" +
-      "\0132\033.clientMessage.MiscResponseH\000B\t\n\007mess" +
-      "age\"\200\002\n\rClientMessage\022\025\n\rclientVersion\030\001" +
-      " \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMessage.AuthM" +
-      "essageH\000\0222\n\017requestResponse\030\003 \001(\0132\027.clie" +
-      "ntMessage.ResponseH\000\0227\n\014moreRequests\030\004 \001" +
-      "(\0132\037.clientMessage.ReadyForRequestsH\000\0224\n" +
-      "\013infoRequest\030\005 \001(\0132\035.clientMessage.GetIn" +
-      "formationH\000B\t\n\007message*|\n\006Rarity\022\n\n\006COMM" +
-      "ON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r" +
-      "\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n" +
-      "\007SPECIAL\020\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035club.tho" +
-      "m.tem.models.messagesZ\027protobuf/clientMe" +
-      "ssagesb\006proto3"
+      "ity\022\017\n\007reforge\030\004 \001(\t\022\024\n\014isCustomDyed\030\005 \001" +
+      "(\010\"\031\n\007PetSkin\022\016\n\006skinId\030\001 \001(\t\"\257\001\n\003Pet\022)\n" +
+      "\004skin\030\001 \001(\0132\026.clientMessage.PetSkinH\000\210\001\001" +
+      "\022\017\n\007candied\030\002 \001(\010\022%\n\006rarity\030\003 \001(\0162\025.clie" +
+      "ntMessage.Rarity\022\020\n\010heldItem\030\004 \001(\t\022\r\n\005le" +
+      "vel\030\005 \001(\005\022\014\n\004name\030\006 \001(\t\022\r\n\005candy\030\007 \001(\005B\007" +
+      "\n\005_skin\"u\n\023ExtraAttributeValue\022\025\n\013string" +
+      "Value\030\001 \001(\tH\000\022\022\n\010intValue\030\002 \001(\005H\000\022\023\n\tlon" +
+      "gValue\030\003 \001(\003H\000\022\025\n\013doubleValue\030\004 \001(\001H\000B\007\n" +
+      "\005value\"\240\003\n\010MiscItem\022\016\n\006itemId\030\001 \001(\t\022%\n\006r" +
+      "arity\030\002 \001(\0162\025.clientMessage.Rarity\022?\n\014en" +
+      "chantments\030\003 \003(\0132).clientMessage.MiscIte" +
+      "m.EnchantmentsEntry\022\017\n\007hexCode\030\004 \001(\005\022E\n\017" +
+      "extraAttributes\030\005 \003(\0132,.clientMessage.Mi" +
+      "scItem.ExtraAttributesEntry\022\024\n\007reforge\030\006" +
+      " \001(\tH\000\210\001\001\022\021\n\titemCount\030\007 \001(\005\0323\n\021Enchantm" +
+      "entsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028" +
+      "\001\032Z\n\024ExtraAttributesEntry\022\013\n\003key\030\001 \001(\t\0221" +
+      "\n\005value\030\002 \001(\0132\".clientMessage.ExtraAttri" +
+      "buteValue:\0028\001B\n\n\010_reforge\"\210\002\n\rInventoryI" +
+      "tem\022\021\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021creationTimest" +
+      "amp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMessage.P" +
+      "etH\000\022)\n\007petSkin\030\004 \001(\0132\026.clientMessage.Pe" +
+      "tSkinH\000\022,\n\013armourPiece\030\005 \001(\0132\025.clientMes" +
+      "sage.ArmourH\000\022\'\n\004item\030\006 \001(\0132\027.clientMess" +
+      "age.MiscItemH\000\022\020\n\010location\030\017 \001(\tB\t\n\007mess" +
+      "ageB\007\n\005_uuid\"U\n\021InventoryResponse\022\023\n\013pro" +
+      "fileUuid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.clientMe" +
+      "ssage.InventoryItem\"X\n\016PlayerResponse\022\022\n" +
+      "\nplayerUuid\030\001 \001(\t\0222\n\010profiles\030\002 \003(\0132 .cl" +
+      "ientMessage.InventoryResponse\"L\n\014MiscRes" +
+      "ponse\022\024\n\014responseData\030\001 \001(\014\022\022\n\nstatusCod" +
+      "e\030\002 \001(\005\022\022\n\nrequestURL\030\003 \001(\t\"\306\001\n\010Response" +
+      "\022\r\n\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.c" +
+      "lientMessage.FriendsResponseH\000\0224\n\013invent" +
+      "ories\030\003 \001(\0132\035.clientMessage.PlayerRespon" +
+      "seH\000\0223\n\014miscResponse\030\004 \001(\0132\033.clientMessa" +
+      "ge.MiscResponseH\000B\t\n\007message\"\200\002\n\rClientM" +
+      "essage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004auth\030\002 " +
+      "\001(\0132\032.clientMessage.AuthMessageH\000\0222\n\017req" +
+      "uestResponse\030\003 \001(\0132\027.clientMessage.Respo" +
+      "nseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.clientMess" +
+      "age.ReadyForRequestsH\000\0224\n\013infoRequest\030\005 " +
+      "\001(\0132\035.clientMessage.GetInformationH\000B\t\n\007" +
+      "message*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMO" +
+      "N\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n" +
+      "\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014V" +
+      "ERY_SPECIAL\020\010B8\n\035club.thom.tem.models.me" +
+      "ssagesZ\027protobuf/clientMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -16783,7 +16543,7 @@ public final class ClientMessages {
     internal_static_clientMessage_Armour_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Armour_descriptor,
-        new java.lang.String[] { "ItemId", "HexCode", "Rarity", "Reforge", });
+        new java.lang.String[] { "ItemId", "HexCode", "Rarity", "Reforge", "IsCustomDyed", });
     internal_static_clientMessage_PetSkin_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_clientMessage_PetSkin_fieldAccessorTable = new
@@ -16843,13 +16603,7 @@ public final class ClientMessages {
     internal_static_clientMessage_MiscResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_MiscResponse_descriptor,
-        new java.lang.String[] { "ResponseData", "StatusCode", "RequestURL", "Parameters", });
-    internal_static_clientMessage_MiscResponse_ParametersEntry_descriptor =
-      internal_static_clientMessage_MiscResponse_descriptor.getNestedTypes().get(0);
-    internal_static_clientMessage_MiscResponse_ParametersEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_clientMessage_MiscResponse_ParametersEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
+        new java.lang.String[] { "ResponseData", "StatusCode", "RequestURL", });
     internal_static_clientMessage_Response_descriptor =
       getDescriptor().getMessageTypes().get(13);
     internal_static_clientMessage_Response_fieldAccessorTable = new
