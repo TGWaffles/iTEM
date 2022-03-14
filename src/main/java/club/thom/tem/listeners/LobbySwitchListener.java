@@ -21,6 +21,7 @@ public class LobbySwitchListener {
     public int ticksSpentWaiting = 0;
     public boolean isInHub = false;
     public long hubJoinTime = 0;
+    public long lastScanTime = 0;
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onLobbySwitch(EntityJoinWorldEvent event) {
@@ -97,8 +98,9 @@ public class LobbySwitchListener {
     public void processHubJoin() {
         hubJoinTime = System.currentTimeMillis();
         isInHub = true;
-        if (TEMConfig.autoScan) {
-            ScanLobby.scan();
+        if (TEMConfig.autoScan && System.currentTimeMillis() - lastScanTime > 1000) {
+            lastScanTime = System.currentTimeMillis();
+            new Thread(ScanLobby::scan).start();
         }
     }
 
