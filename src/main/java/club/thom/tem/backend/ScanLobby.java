@@ -94,6 +94,10 @@ public class ScanLobby {
             return;
         }
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();
+        if (!returnedData.getJson().has("armour")) {
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error (no armour!)"));
+            return;
+        }
         for (JsonElement element : returnedData.getJson().get("armour").getAsJsonArray()) {
             ArmourWithOwner armour = new ArmourWithOwner(element);
             if (checkItem(armour.modifier)) {
