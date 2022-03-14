@@ -13,7 +13,7 @@ public class KeyLookupRequest extends Request {
     final String key;
 
     public KeyLookupRequest(String key, Hypixel controller) {
-        super("key", controller, true);
+        super("key", true);
         this.key = key;
     }
 

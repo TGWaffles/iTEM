@@ -1,11 +1,14 @@
 package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
+import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages.*;
+import com.google.protobuf.ByteString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -121,6 +124,21 @@ public class ClientResponseHandler {
                 TEM.CLIENT_VERSION).build();
         TEM.socket.sendBinary(message.toByteArray());
         logger.debug("Sent inventory response!");
+    }
+
+    public static void sendMiscResponse(RequestData data, String requestUrl, int nonce) {
+        if (!TEM.socketWorking) {
+            return;
+        }
+        logger.debug("Sending misc response...");
+        ByteString responseData = ByteString.copyFrom(data.getJson().toString(), StandardCharsets.UTF_8);
+        Response.Builder response = Response.newBuilder()
+                .setMiscResponse(MiscResponse.newBuilder().setRequestURL(requestUrl).setResponseData(responseData).setStatusCode(data.getStatus()))
+                .setNonce(nonce);
+        ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
+                TEM.CLIENT_VERSION).build();
+        TEM.socket.sendBinary(message.toByteArray());
+        logger.debug("Sent misc response!");
     }
 
 }

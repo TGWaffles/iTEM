@@ -1,6 +1,5 @@
 package club.thom.tem.hypixel.request;
 
-import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.storage.TEMConfig;
 import org.apache.logging.log4j.LogManager;
@@ -14,8 +13,8 @@ public class SkyblockPlayerRequest extends Request {
     CompletableFuture<PlayerData> future = new CompletableFuture<>();
     final String uuid;
 
-    public SkyblockPlayerRequest(String uuid, Hypixel controller) {
-        super("skyblock/profiles", controller);
+    public SkyblockPlayerRequest(String uuid) {
+        super("skyblock/profiles");
         this.uuid = uuid;
     }
 

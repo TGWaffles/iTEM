@@ -27,24 +27,22 @@ import java.util.concurrent.CompletableFuture;
  */
 public abstract class Request {
     private static final Logger logger = LogManager.getLogger(Request.class);
-    protected Hypixel controller;
+    protected Hypixel controller = TEM.api;
     protected final String endpoint;
     public final boolean priority;
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
     // Hypixel API
     protected final String apiUrl = "https://api.hypixel.net/";
 
-    public Request(String endpoint, Hypixel controller, boolean runAsap) {
-        // Hypixel class, so we can communicate and update rate-limit data, etc.
-        this.controller = controller;
+    public Request(String endpoint, boolean runAsap) {
         // To be appended to the apiUrl (no preceding /)
         this.endpoint = endpoint;
         // Run it as soon as we have a "rate-limit spot" available.
         this.priority = runAsap;
     }
 
-    public Request(String endpoint, Hypixel controller) {
-        this(endpoint, controller, false);
+    public Request(String endpoint) {
+        this(endpoint, false);
     }
 
     // Parameters, eg user to look-up, api key, etc.
