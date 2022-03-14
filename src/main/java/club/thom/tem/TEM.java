@@ -7,6 +7,7 @@ import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
+import club.thom.tem.listeners.LobbySwitchListener;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.storage.TEMConfig;
@@ -125,6 +126,7 @@ public class TEM {
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener());
+        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener());
         MinecraftForge.EVENT_BUS.register(this);
     }
 
