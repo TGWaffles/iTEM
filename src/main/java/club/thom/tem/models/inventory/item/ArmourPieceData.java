@@ -90,7 +90,7 @@ public class ArmourPieceData extends InventoryItemData {
     }
 
     public String getHexFromDisplayColour() {
-        NBTTagCompound displayData = itemData.getCompoundTag("display");
+        NBTTagCompound displayData = itemData.getCompoundTag("tag").getCompoundTag("display");
         if (!displayData.hasKey("color")) {
             return "UNDYED";
         }
