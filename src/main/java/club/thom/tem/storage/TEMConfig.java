@@ -67,6 +67,24 @@ public class TEMConfig extends Vigilant {
     public static boolean enableFairy = false;
 
     @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Enable Auto-Scan",
+            description = "Enable Auto TEM scan"
+    )
+    public static boolean autoScan = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Scan Red-Names",
+            description = "Choose whether to scan red-name players (WATCHDOG FAKE PLAYERS, but also YTs and Admins)"
+    )
+    public static boolean scanRedNames = true;
+
+    @Property(
             type = PropertyType.TEXT,
             category = "API",
             subcategory = "Hypixel Api",
