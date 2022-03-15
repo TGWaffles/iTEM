@@ -69,13 +69,14 @@ public class ScanLobby {
         HashMap<String, String> colouredNameMap = new HashMap<>();
         HashMap<String, String> commandNameMap = new HashMap<>();
         List<EntityPlayer> players = Minecraft.getMinecraft().theWorld.playerEntities;
-        EntityPlayer me = null;
+        List<EntityPlayer> playersToRemove = new ArrayList<>();
         for (EntityPlayer player : players) {
             String displayName;
             String uuid = player.getGameProfile().getId().toString().replaceAll("-", "");
             // Remove your player from the scanned list.
             if (uuid.equals(TEM.getUUID())) {
-                me = player;
+                // yourself
+                playersToRemove.add(player);
             }
             try {
                 // tries to get coloured name
@@ -84,10 +85,14 @@ public class ScanLobby {
                 // falls back to blank name
                 displayName = player.getDisplayNameString();
             }
+            if (displayName.contains("\u00A7c") && !TEMConfig.scanRedNames) {
+                // helps in not scanning watchdog "players"
+                playersToRemove.add(player);
+            }
             colouredNameMap.put(uuid, displayName);
             commandNameMap.put(uuid, player.getName());
         }
-        players.remove(me);
+        players.removeAll(playersToRemove);
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() != 200) {
             RequestHelper.tellPlayerAboutFailedRequest(returnedData.getStatus());
