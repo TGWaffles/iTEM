@@ -46,6 +46,9 @@ public class ToolTipListener {
     }
 
     public void addToTooltip(ItemTooltipEvent event, String hexWithColour) {
+        if (event.toolTip.size() == 0) {
+            return;
+        }
         boolean foundColour = false;
         for (int i = 0; i < event.toolTip.size(); i++) {
             String existingTooltip = event.toolTip.get(i);
