@@ -98,6 +98,24 @@ public class Hypixel {
         }
     }
 
+    public void addToQueue(Request request, boolean priority) {
+        waitingForItemLock.lock();
+        try {
+            // If it needs to run asap, add to the front of the queue.
+            if (priority || request.priority) {
+                requestQueue.addFirst(request);
+                newItemInQueue.signalAll();
+                return;
+            }
+            // Add to the back of the queue to complete after other methods.
+            requestQueue.add(request);
+            newItemInQueue.signalAll();
+        }
+        finally {
+            waitingForItemLock.unlock();
+        }
+    }
+
     public void setRateLimitRemaining(int remaining, int rateLimitResetSeconds) {
         logger.debug("New rate limit attempting to be set: {} for the next {} seconds.", remaining, rateLimitResetSeconds);
         // Only allow one thread to edit this rate limit at once.

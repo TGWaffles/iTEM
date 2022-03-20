@@ -14,7 +14,12 @@ public class CoflAuctionModel {
         sellerUuid = data.get("seller").getAsString();
         auctionUuid = data.get("uuid").getAsString();
         buyerUuid = data.get("buyer").getAsString();
-        timestamp = Instant.parse(data.get("timestamp").getAsString()).toEpochMilli();
+        String timestampString = data.get("timestamp").getAsString();
+        // needs timezone to work properly :)
+        if (timestampString.charAt(timestampString.length() - 1) != 'Z') {
+            timestampString = timestampString + "Z";
+        }
+        timestamp = Instant.parse(timestampString).toEpochMilli();
     }
 
 }

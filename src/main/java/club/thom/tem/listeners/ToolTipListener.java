@@ -2,6 +2,7 @@ package club.thom.tem.listeners;
 
 import club.thom.tem.backend.ScanLobby;
 import club.thom.tem.backend.requests.RequestsCache;
+import club.thom.tem.backend.requests.dupe_lookup.FindUUIDSalesRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
@@ -31,7 +32,7 @@ public class ToolTipListener {
             return;
         }
         if (Keyboard.isKeyDown(KeyBinds.checkDuped.getKeyCode())) {
-            new Thread(() -> checkDuped(itemNbt)).start();
+            checkDuped(itemNbt);
         }
         if (!ArmourPieceData.isValidItem(itemNbt)) {
             // We're only caring about armour on tooltips, to add colour.
@@ -100,7 +101,7 @@ public class ToolTipListener {
             return;
         }
         String uuid = item.getUuid();
-        DupeChecker.checkDuped(uuid);
+        RequestsCache.getInstance().addToQueue(new FindUUIDSalesRequest(uuid));
     }
 
 }
