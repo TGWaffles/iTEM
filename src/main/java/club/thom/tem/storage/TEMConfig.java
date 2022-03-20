@@ -16,28 +16,12 @@ import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
+@SuppressWarnings("FieldMayBeFinal")
 public class TEMConfig extends Vigilant {
 
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);
 
-    @Property(
-            type = PropertyType.SWITCH,
-            category = "TEM",
-            subcategory = "Contributions",
-            name = "Enable Contributions",
-            description = "Enable Earning Contributions"
-    )
-    public static boolean enableContributions = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
-            category = "TEM",
-            subcategory = "Contributions",
-            name = "Maximum Contributions",
-            description = "Earn the most contributions by maxing out your rate-limit every minute (may make commands " +
-                    "like /pv and /nw break, I recommend using this for alts or when you're AFK)"
-    )
-    public static boolean useWholeRateLimit = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -123,6 +107,51 @@ public class TEMConfig extends Vigilant {
     public static String getTemApiKey() {
         return temApiKey;
     }
+
+    @Property(
+            type = PropertyType.NUMBER,
+            category = "API",
+            subcategory = "Hypixel Api",
+            name = "Simultaneous Threads",
+            description = "The number of simultaneous threads to start. (requires game restart, " +
+                    "the higher the faster you earn contributions, but the higher the cpu usage)",
+            min = 1,
+            max = 120,
+            increment = 5
+    )
+    public static int maxSimultaneousThreads = 120;
+
+    @Property(
+            type = PropertyType.NUMBER,
+            category = "API",
+            subcategory = "Hypixel Api",
+            name = "Time Offset",
+            description = "Seconds to wait after refresh before starting contributions (make this lower if " +
+                    "you are earning low contributions, or have a low simultaneous threads value)",
+            max = 60
+    )
+    public static int timeOffset = 50;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "API",
+            subcategory = "Hypixel Api",
+            name = "Enable Contributions",
+            description = "Enable Earning Contributions"
+    )
+    public static boolean enableContributions = true;
+
+    @Property(
+            type = PropertyType.NUMBER,
+            category = "API",
+            subcategory = "Hypixel Api",
+            name = "Spare Api Requests",
+            description = "How many API requests to leave spare (the lower the more contributions, too low may make " +
+                    "commands like /pv and /nw break, I recommend 0 for alts or when you're AFK)",
+            max = 120,
+            increment = 5
+    )
+    public static int spareRateLimit = 10;
 
     public static String saveFolder = "config/tem/";
     public static String fileName = "preferences.toml";

@@ -302,7 +302,10 @@ public class TEM {
         standAlone = true;
         api = new Hypixel();
         TEMConfig.setHypixelKey(apiKey);
-        TEMConfig.useWholeRateLimit = true;
+        TEMConfig.spareRateLimit = 0;
+        // 15 is a decent number for minimising ram usage
+        TEMConfig.maxSimultaneousThreads = 15;
+        TEMConfig.timeOffset = 0;
         TEMConfig.enableContributions = true;
         wsFactory.setVerifyHostname(false);
         new Thread(() -> reconnectSocket(100)).start();
