@@ -2,11 +2,12 @@ package club.thom.tem.listeners;
 
 import club.thom.tem.backend.ScanLobby;
 import club.thom.tem.backend.requests.RequestsCache;
+import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
+import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
 import club.thom.tem.backend.requests.dupe_lookup.FindUUIDSalesRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
-import club.thom.tem.dupes.DupeChecker;
 import club.thom.tem.helpers.HexHelper;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
@@ -31,8 +32,11 @@ public class ToolTipListener {
             // Possible bugs where items don't have nbt, ignore the item.
             return;
         }
+        if (checkDuped(itemNbt)) {
+            event.toolTip.add(1, EnumChatFormatting.RED + "DEFINITELY DUPED");
+        }
         if (Keyboard.isKeyDown(KeyBinds.checkDuped.getKeyCode())) {
-            checkDuped(itemNbt);
+            fetchDuped(itemNbt);
         }
         if (!ArmourPieceData.isValidItem(itemNbt)) {
             // We're only caring about armour on tooltips, to add colour.
@@ -46,13 +50,13 @@ public class ToolTipListener {
         if (ownerCount != -1) {
             toolTipString += EnumChatFormatting.DARK_GRAY + " - " + ownerCount;
         }
-        addToTooltip(event, toolTipString);
+        addColourToTooltip(event, toolTipString);
         if (Keyboard.isKeyDown(KeyBinds.getArmourRarityKey.getKeyCode())) {
             fetchArmourOwners(armour);
         }
     }
 
-    public void addToTooltip(ItemTooltipEvent event, String hexWithColour) {
+    public void addColourToTooltip(ItemTooltipEvent event, String hexWithColour) {
         if (event.toolTip.size() == 0) {
             return;
         }
@@ -91,7 +95,7 @@ public class ToolTipListener {
         RequestsCache.getInstance().addToQueue(new HexFromItemIdRequest(armour.getItemId()));
     }
 
-    public void checkDuped(NBTTagCompound itemNbt) {
+    public void fetchDuped(NBTTagCompound itemNbt) {
         if (!MiscItemData.isValidItem(itemNbt)) {
             return;
         }
@@ -101,7 +105,25 @@ public class ToolTipListener {
             return;
         }
         String uuid = item.getUuid();
-        RequestsCache.getInstance().addToQueue(new FindUUIDSalesRequest(uuid));
+        RequestsCache.getInstance().addToQueue(new CombinedDupeRequest(uuid));
+    }
+
+    public boolean checkDuped(NBTTagCompound itemNbt) {
+        if (!MiscItemData.isValidItem(itemNbt)) {
+            return false;
+        }
+        MiscItemData itemData = new MiscItemData("", itemNbt);
+        ClientMessages.InventoryItem item = itemData.toInventoryItem();
+        if (!item.hasUuid() || item.getUuid().length() == 0) {
+            return false;
+        }
+        String uuid = item.getUuid();
+        CombinedDupeResponse response = (CombinedDupeResponse) RequestsCache.getInstance().getIfExists(
+                new CombinedDupeRequest(uuid));
+        if (response == null) {
+            return false;
+        }
+        return response.verifiedOwners.size() > 1;
     }
 
 }

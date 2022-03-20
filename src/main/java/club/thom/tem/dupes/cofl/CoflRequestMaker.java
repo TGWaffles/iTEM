@@ -2,12 +2,8 @@ package club.thom.tem.dupes.cofl;
 
 import club.thom.tem.TEM;
 import club.thom.tem.helpers.RequestHelper;
-import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.request.RequestData;
-import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.models.CoflAuctionModel;
-import club.thom.tem.models.inventory.PlayerData;
-import club.thom.tem.models.messages.ClientMessages;
 import com.google.gson.JsonElement;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -15,17 +11,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class CoflRequestMaker {
     private static final Logger logger = LogManager.getLogger(CoflRequestMaker.class);
     // amazing endpoint to get all auctions for an item uuid
     @SuppressWarnings("FieldCanBeLocal")
     private static final String COFL_URL = "https://sky.coflnet.com/api/auctions/uid/%s/sold";
+
 
 
     /**
@@ -49,7 +42,7 @@ public class CoflRequestMaker {
      * @param uuid UUID of the item to get possible current owners of
      * @return All possible current owners of that item, from auction data.
      */
-    public static List<String> getPossibleOwners(String uuid) {
+    public List<String> getPossibleOwners(String uuid) {
         logger.info("Fetching all auctions...");
         ArrayList<String> possibleOwners = new ArrayList<>();
         long startTime = System.currentTimeMillis();
@@ -78,44 +71,8 @@ public class CoflRequestMaker {
             return possibleOwners;
         }
         TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
-        ArrayList<CompletableFuture<PlayerData>> inventories = new ArrayList<>();
-        HashSet<String> verifiedOwners = new HashSet<>();
-        for (String possibleOwner : possibleOwners) {
-            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(possibleOwner);
-            TEM.api.addToQueue(playerRequest, true);
-            inventories.add(playerRequest.getFuture());
-        }
-        HashMap<String, String> lookupMap = UUIDHelper.usernamesFromUUIDs(possibleOwners);
-        for (CompletableFuture<PlayerData> future : inventories) {
-            PlayerData playerData;
-            try {
-                playerData = future.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-                continue;
-            }
-            String playerUuid = playerData.playerUuid;
-            for (ClientMessages.InventoryResponse inventory : playerData.getInventoryResponses()) {
-                for (ClientMessages.InventoryItem item : inventory.getItemsList()) {
-                    if (item.getUuid().equals(uuid)) {
-                        verifiedOwners.add(playerData.playerUuid);
-                        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW +
-                                String.format("Definitely owned by %s", lookupMap.getOrDefault(playerUuid,
-                                        playerUuid))));
-                        break;
-                    }
-                }
-                if (verifiedOwners.contains(playerUuid)) {
-                    break;
-                }
-            }
-        }
-        if (verifiedOwners.size() < 2) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely not duped!"));
-        } else {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely duped!"));
-        }
-
-        return new ArrayList<>(verifiedOwners);
+        return possibleOwners;
     }
+
+
 }

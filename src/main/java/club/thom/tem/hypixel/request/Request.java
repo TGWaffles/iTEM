@@ -29,7 +29,7 @@ public abstract class Request {
     private static final Logger logger = LogManager.getLogger(Request.class);
     protected Hypixel controller = TEM.api;
     protected final String endpoint;
-    public final boolean priority;
+    public boolean priority;
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
     // Hypixel API
     protected final String apiUrl = "https://api.hypixel.net/";

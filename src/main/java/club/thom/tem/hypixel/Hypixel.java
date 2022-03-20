@@ -33,8 +33,8 @@ public class Hypixel {
 
     private long rateLimitResetTime = System.currentTimeMillis();
 
-    private long getRateLimitResetTime() {
-        return rateLimitResetTime + (TEMConfig.timeOffset * 1000L);
+    public long getRateLimitResetTime() {
+        return (rateLimitResetTime + (TEMConfig.timeOffset * 1000L) % 60);
     }
 
     private void setRateLimitResetTime(long resetTime) {
@@ -80,29 +80,20 @@ public class Hypixel {
         }
     }
 
+    public int getTrueRateLimit() {
+        rateLimitLock.readLock().lock();
+        try {
+            return Math.max(remainingRateLimit, 0);
+        } finally {
+            rateLimitLock.readLock().unlock();
+        }
+    }
+
     public void addToQueue(Request request) {
         waitingForItemLock.lock();
         try {
             // If it needs to run asap, add to the front of the queue.
             if (request.priority) {
-                requestQueue.addFirst(request);
-                newItemInQueue.signalAll();
-                return;
-            }
-            // Add to the back of the queue to complete after other methods.
-            requestQueue.add(request);
-            newItemInQueue.signalAll();
-        }
-        finally {
-            waitingForItemLock.unlock();
-        }
-    }
-
-    public void addToQueue(Request request, boolean priority) {
-        waitingForItemLock.lock();
-        try {
-            // If it needs to run asap, add to the front of the queue.
-            if (priority || request.priority) {
                 requestQueue.addFirst(request);
                 newItemInQueue.signalAll();
                 return;
@@ -236,22 +227,7 @@ public class Hypixel {
                 logger.debug("LOOP-> all requests collected!");
                 // If we *did* successfully exhaust all requests, wait the given time.
                 if (getRateLimit() <= 0) {
-                    long sleepTime = getRateLimitResetTime() - System.currentTimeMillis();
-                    if (sleepTime <= 0) {
-                        // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
-                        logger.debug("LOOP-> Setting ratelimit to 1, 5 as sleepTime is {}, ratelimit is 0, " +
-                                "rateLimitReset: {}", sleepTime, getRateLimitResetTime());
-                        setRateLimitRemaining(1, 5);
-                        continue;
-                    }
-                    // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
-                    logger.debug("LOOP-> waiting for rate limit reset...");
-                    //noinspection BusyWait
-                    Thread.sleep(sleepTime);
-                    // Sets the next resetTime as 60 seconds in the future.
-                    setRateLimitRemaining(120, 60);
-                    logger.debug("LOOP-> finished waiting");
-                    continue;
+                    sleepUntilPriorityOrRateLimit();
                 }
                 logger.debug("LOOP-> {} requests in queue.", requestQueue.size());
                 logger.debug("LOOP-> Locking item lock");
@@ -275,5 +251,40 @@ public class Hypixel {
                 return;
             }
         }
+    }
+
+    public void sleepUntilPriorityOrRateLimit() throws InterruptedException {
+        long sleepTime = getRateLimitResetTime() - System.currentTimeMillis();
+        if (sleepTime <= 0) {
+            // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
+            logger.debug("LOOP-> Setting ratelimit to {}, 5 as sleepTime is {}, ratelimit is 0, " +
+                    "rateLimitReset: {}", TEMConfig.spareRateLimit + 1, sleepTime, getRateLimitResetTime());
+            setRateLimitRemaining(TEMConfig.spareRateLimit + 1, 5);
+            return;
+        }
+        // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
+        logger.debug("LOOP-> waiting for rate limit reset...");
+        if (getTrueRateLimit() > 0) {
+            waitingForItemLock.lock();
+            try {
+                if (requestQueue.peek() != null && requestQueue.peek().priority) {
+                    return;
+                }
+                // Waits for a new item in the queue.
+                boolean found = newItemInQueue.await(sleepTime, TimeUnit.MILLISECONDS);
+                if (found && requestQueue.peek() != null && requestQueue.peek().priority) {
+                    return;
+                }
+            } finally {
+                waitingForItemLock.unlock();
+            }
+            sleepUntilPriorityOrRateLimit();
+            return;
+        }
+        logger.debug("No true rate limit left either...");
+        Thread.sleep(sleepTime);
+        // Sets the next resetTime as 60 seconds in the future.
+        setRateLimitRemaining(120, 60);
+        logger.debug("LOOP-> finished waiting");
     }
 }

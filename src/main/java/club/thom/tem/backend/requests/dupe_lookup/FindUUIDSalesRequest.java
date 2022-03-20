@@ -29,6 +29,6 @@ public class FindUUIDSalesRequest implements BackendRequest {
 
     @Override
     public BackendResponse makeRequest() {
-        return new FindUUIDSalesResponse(CoflRequestMaker.getPossibleOwners(uuid));
+        return new FindUUIDSalesResponse(new CoflRequestMaker().getPossibleOwners(uuid));
     }
 }

@@ -69,6 +69,24 @@ public class TEMConfig extends Vigilant {
     public static boolean scanRedNames = true;
 
     @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Dupe Checker",
+            name = "Use Cofl",
+            description = "Use Cofl's api to aid dupe checks."
+    )
+    public static boolean useCofl = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Dupe Checker",
+            name = "Use TEM",
+            description = "Use TEM's api (costs contributions) to aid dupe checks."
+    )
+    public static boolean useTEMApiForDupes = true;
+
+    @Property(
             type = PropertyType.TEXT,
             category = "API",
             subcategory = "Hypixel Api",
