@@ -14,7 +14,7 @@ public class CheckContributions {
     public static void check() {
         if (!TEMConfig.getTemApiKey().equals("")) {
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Checking Contributions... API Key found, checking total contributions."));
-            RequestData req = RequestHelper.sendGetRequest("api.tem.cx/my_contributions?key=" + TEMConfig.getTemApiKey());
+            RequestData req = RequestHelper.sendGetRequest("https://api.tem.cx/my_contributions?key=" + TEMConfig.getTemApiKey());
             if (req.getStatus() != 200) {
                 RequestHelper.tellPlayerAboutFailedRequest(req.getStatus());
                 return;
@@ -28,7 +28,7 @@ public class CheckContributions {
         } else {
             String username = UUIDHelper.usernameFromUuid(TEM.getUUID());
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Checking Contributions... API Key not found, checking total contributions for " + username + "."));
-            RequestData req = RequestHelper.sendGetRequest("api.tem.cx/contributions?uuid=" + TEM.getUUID());
+            RequestData req = RequestHelper.sendGetRequest("https://api.tem.cx/contributions?uuid=" + TEM.getUUID());
             if (req.getStatus() != 200) {
                 RequestHelper.tellPlayerAboutFailedRequest(req.getStatus());
                 return;
