@@ -2,10 +2,7 @@ package club.thom.tem.helpers;
 
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +22,7 @@ public class RequestHelper {
     
     public static RequestData sendPostRequest(String urlString, JsonObject postData) {
         URL url = null;
-        JsonObject jsonData;
+        JsonElement jsonData;
         HttpsURLConnection uc;
         int status = -1;
         try {
@@ -51,7 +48,7 @@ public class RequestHelper {
             } else {
                 inputStream = uc.getInputStream();
             }
-            jsonData = new JsonParser().parse(new InputStreamReader(inputStream)).getAsJsonObject();
+            jsonData = new JsonParser().parse(new InputStreamReader(inputStream));
             return new RequestData(status, uc.getHeaderFields(), jsonData);
         } catch (IOException | JsonSyntaxException | JsonIOException e) {
             logger.error("Exception when fetching data... (uc maybe null)", e);
@@ -65,7 +62,7 @@ public class RequestHelper {
 
     public static RequestData sendGetRequest(String urlString) {
         URL url = null;
-        JsonObject jsonData;
+        JsonElement jsonData;
         HttpsURLConnection uc;
         int status = -1;
         try {
@@ -86,7 +83,7 @@ public class RequestHelper {
             } else {
                 inputStream = uc.getInputStream();
             }
-            jsonData = new JsonParser().parse(new InputStreamReader(inputStream)).getAsJsonObject();
+            jsonData = new JsonParser().parse(new InputStreamReader(inputStream));
             return new RequestData(status, uc.getHeaderFields(), jsonData);
         } catch (IOException | JsonSyntaxException | JsonIOException e) {
             logger.error("Exception when fetching data... (uc maybe null)", e);

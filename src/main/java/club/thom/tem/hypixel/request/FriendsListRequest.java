@@ -33,7 +33,7 @@ public class FriendsListRequest extends Request {
             return;
         }
         if (data.getStatus() == 200) {
-            JsonObject dataJson = data.getJson();
+            JsonObject dataJson = data.getJsonAsObject();
             String originUuid = dataJson.get("uuid").getAsString();
             JsonObject friendObject;
             List<String> friendUuids = new ArrayList<>();

@@ -25,7 +25,7 @@ public class CoflRequestMaker {
         ArrayList<CoflAuctionModel> auctions = new ArrayList<>();
         RequestData returnedData = RequestHelper.sendGetRequest(String.format(COFL_URL, itemUuid));
         if (returnedData.getStatus() != 200) {
-            logger.warn("Invalid Status: {}, Data: {}", returnedData.getStatus(), returnedData.getJson());
+            logger.warn("Invalid Status: {}, Data: {}", returnedData.getStatus(), returnedData.getJsonAsObject());
             return auctions;
         }
         for (JsonElement element : returnedData.getJson().getAsJsonArray()) {

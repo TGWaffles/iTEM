@@ -132,7 +132,7 @@ public class ClientResponseHandler {
             return;
         }
         logger.debug("Sending misc response...");
-        ByteString responseData = ByteString.copyFrom(data.getJson().toString(), StandardCharsets.UTF_8);
+        ByteString responseData = ByteString.copyFrom(data.getJsonAsObject().toString(), StandardCharsets.UTF_8);
         Response.Builder response = Response.newBuilder()
                 .setMiscResponse(MiscResponse.newBuilder().setRequestURL(requestUrl)
                         .setResponseData(responseData).setStatusCode(data.getStatus())

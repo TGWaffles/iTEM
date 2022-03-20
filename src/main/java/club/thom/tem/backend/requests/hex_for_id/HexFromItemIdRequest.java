@@ -36,7 +36,7 @@ public class HexFromItemIdRequest implements BackendRequest {
             RequestHelper.tellPlayerAboutFailedRequest(response.getStatus());
             return null;
         }
-        return new HexFromItemIdResponse(response.getJson());
+        return new HexFromItemIdResponse(response.getJsonAsObject());
     }
 
     public RequestData submitRequest() {

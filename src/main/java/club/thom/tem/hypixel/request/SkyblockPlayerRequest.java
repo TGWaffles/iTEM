@@ -33,7 +33,7 @@ public class SkyblockPlayerRequest extends Request {
             return;
         }
         logger.debug("Creating player data.");
-        PlayerData playerData = new PlayerData(data.getJson(), uuid);
+        PlayerData playerData = new PlayerData(data.getJsonAsObject(), uuid);
         logger.debug("Completing future...");
         future.complete(playerData);
         if (data.getStatus() != 200) {

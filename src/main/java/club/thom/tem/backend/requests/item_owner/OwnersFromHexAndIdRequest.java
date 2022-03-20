@@ -38,7 +38,7 @@ public class OwnersFromHexAndIdRequest implements BackendRequest {
             RequestHelper.tellPlayerAboutFailedRequest(response.getStatus());
             return null;
         }
-        return new OwnersFromHexAndIdResponse(response.getJson());
+        return new OwnersFromHexAndIdResponse(response.getJsonAsObject());
     }
 
     public RequestData submitRequest() {
