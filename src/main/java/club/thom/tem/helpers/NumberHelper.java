@@ -7,8 +7,9 @@ import java.util.regex.Pattern;
 
 public class NumberHelper {
     //Copied from TFM
-    private static final String[] exponent_symbols = new String[] {"", "K", "M", "B", "T", "Q"};
+    private static final String[] exponent_symbols = new String[]{"", "K", "M", "B", "T", "Q"};
     private static final Pattern REGEX = Pattern.compile("(-?\\d+(?:\\.\\d+)?)([KMBTQ]?)");
+    private static final DecimalFormat niceFormat = new DecimalFormat("#,##0");
 
     public static String formatWithSuffix(double number) {
         int i = 0;
@@ -45,5 +46,9 @@ public class NumberHelper {
             scale *= 1000;
         }
         return Double.parseDouble(m.group(1)) * scale;
+    }
+
+    public static String formatNicely(int value) {
+        return niceFormat.format(value);
     }
 }

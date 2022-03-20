@@ -1,6 +1,7 @@
 package club.thom.tem.commands;
 
 import club.thom.tem.TEM;
+import club.thom.tem.backend.CheckContributions;
 import club.thom.tem.backend.ScanLobby;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.api.EssentialAPI;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 public class TEMCommand extends CommandBase {
     private static final Logger logger = LogManager.getLogger(TEMCommand.class);
+
     @Override
     public String getCommandName() {
         return "tem";
@@ -22,6 +24,7 @@ public class TEMCommand extends CommandBase {
         String sb = EnumChatFormatting.GOLD + "/tem con" + EnumChatFormatting.GRAY + " <-- Opens the configuration GUI.\n" +
                 EnumChatFormatting.GOLD + "/tem setkey key-here" + EnumChatFormatting.GRAY + " <-- Set HYPIXEL API key.\n" +
                 EnumChatFormatting.GOLD + "/tem scan" + EnumChatFormatting.GRAY + " <-- Scans the players in your lobby for armour!\n" +
+                EnumChatFormatting.GOLD + "/tem contribs" + EnumChatFormatting.GRAY + "<-- Tells you how many contributions you have!\n" +
                 EnumChatFormatting.GOLD + "/tem" + EnumChatFormatting.GRAY + " <-- Shows this message.\n";
         return new ChatComponentText(sb);
     }
@@ -35,6 +38,11 @@ public class TEMCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (args.length == 1) {
+            // /tem contributes -- checks how many contributions the user has
+            if (args[0].toLowerCase().startsWith("cont")) {
+                new Thread(CheckContributions::check).start();
+                return;
+            }
             // /tem config -- opens the configuration gui
             if (args[0].toLowerCase().startsWith("con")) {
                 EssentialAPI.getGuiUtil().openScreen(TEM.config.gui());
@@ -63,6 +71,7 @@ public class TEMCommand extends CommandBase {
         // Prints help on /tem to chat.
         TEM.sendMessage(getHelpMessage());
     }
+
     @Override
     public int getRequiredPermissionLevel() {
         return 0;
