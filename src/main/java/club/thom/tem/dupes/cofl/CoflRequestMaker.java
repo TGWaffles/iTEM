@@ -18,8 +18,11 @@ public class CoflRequestMaker {
     // amazing endpoint to get all auctions for an item uuid
     @SuppressWarnings("FieldCanBeLocal")
     private static final String COFL_URL = "https://sky.coflnet.com/api/auctions/uid/%s/sold";
+    private boolean sendMessages;
 
-
+    public CoflRequestMaker(boolean sendMessages) {
+        this.sendMessages = sendMessages;
+    }
 
     /**
      * @param itemUuid UUID of the item to get auctions from
@@ -67,10 +70,14 @@ public class CoflRequestMaker {
             }
         }
         if (possibleOwners.size() == 0) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not find any auctions!"));
+            if (sendMessages) {
+                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not find any auctions!"));
+            }
             return possibleOwners;
         }
-        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
+        if (sendMessages) {
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
+        }
         return possibleOwners;
     }
 

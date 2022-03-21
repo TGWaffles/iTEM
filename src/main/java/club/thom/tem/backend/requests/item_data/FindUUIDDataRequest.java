@@ -10,9 +10,15 @@ import java.util.Objects;
 
 public class FindUUIDDataRequest implements BackendRequest {
     String uuid;
+    boolean sendMessages = true;
 
     public FindUUIDDataRequest(String itemUuid) {
         uuid = itemUuid;
+    }
+
+    public FindUUIDDataRequest(String itemUuid, boolean sendMessages) {
+        uuid = itemUuid;
+        this.sendMessages = sendMessages;
     }
 
     @Override
@@ -33,7 +39,9 @@ public class FindUUIDDataRequest implements BackendRequest {
     public BackendResponse makeRequest() {
         RequestData response = submitRequest();
         if (response.getStatus() != 200) {
-            RequestHelper.tellPlayerAboutFailedRequest(response.getStatus());
+            if (sendMessages) {
+                RequestHelper.tellPlayerAboutFailedRequest(response.getStatus());
+            }
             return null;
         }
 

@@ -25,12 +25,14 @@ public class CombinedDupeRequest implements BackendRequest {
     private boolean found = false;
     private final Condition foundCondition = foundLock.newCondition();
     private String foundMessage = "";
-    private final String itemUuid;
+    public final String itemUuid;
+    private final boolean printMessages;
 
     private Supplier<String> getTimeRemainingSupplier;
 
-    public CombinedDupeRequest(String itemUuid) {
+    public CombinedDupeRequest(String itemUuid, boolean printMessages) {
         this.itemUuid = itemUuid;
+        this.printMessages = printMessages;
     }
 
     @Override
@@ -90,7 +92,7 @@ public class CombinedDupeRequest implements BackendRequest {
         }
         foundMessage = "Checking owners...";
         getTimeRemainingSupplier = () -> Long.toString((TEM.api.getRateLimitResetTime() - System.currentTimeMillis()) / 1000);
-        HashSet<DupeChecker.ItemWithLocation> verifiedOwners = DupeChecker.findVerifiedOwners(itemUuid, new ArrayList<>(possibleOwners));
+        HashSet<DupeChecker.ItemWithLocation> verifiedOwners = new DupeChecker(printMessages).findVerifiedOwners(itemUuid, new ArrayList<>(possibleOwners));
         foundLock.lock();
         try {
             found = true;

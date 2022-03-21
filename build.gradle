@@ -71,6 +71,7 @@ dependencies {
     testCompile 'org.powermock:powermock-core:2.0.9'
     testCompile 'org.powermock:powermock-module-junit4:2.0.9'
     testCompile 'org.powermock:powermock-api-mockito2:2.0.9'
+    implementation('org.reflections:reflections:0.10.2')
 
     // Log4J (already packaged with forge)
     //noinspection GradlePackageUpdate
@@ -136,6 +137,14 @@ shadowJar {
         include(dependency {
             it.moduleGroup == 'com.neovisionaries'
         })
+
+        include(dependency {
+            it.moduleGroup == 'org.slf4j'
+        })
+        include(dependency {
+            it.moduleGroup == 'org.javassist'
+        })
+        include(dependency('org.reflections:reflections:0.10.2'))
     }
     // TEM-0.0.0.1.jar for example
     archiveFileName = "${baseName}-${version}.${extension}"
@@ -155,6 +164,7 @@ task standaloneShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.
 
     dependencies {
         include(dependency("gg.essential:loader-launchwrapper:1.1.2"))
+        include(dependency('org.reflections:reflections:0.10.2'))
 
         // standalone
         include(dependency("org.jetbrains.kotlin:kotlin-stdlib:1.5.30"))

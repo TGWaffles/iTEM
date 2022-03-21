@@ -17,9 +17,15 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class DupeChecker {
+    public boolean enableMessages;
+
+    public DupeChecker(boolean enableMessages) {
+        this.enableMessages = enableMessages;
+    }
+
     public static class ItemWithLocation {
-        String playerName;
-        String location;
+        public String playerName;
+        public String location;
 
         @Override
         public int hashCode() {
@@ -41,7 +47,7 @@ public class DupeChecker {
         }
     }
 
-    public static HashSet<ItemWithLocation> findVerifiedOwners(String uuid, List<String> possibleOwners) {
+    public HashSet<ItemWithLocation> findVerifiedOwners(String uuid, List<String> possibleOwners) {
         ArrayList<CompletableFuture<PlayerData>> inventories = new ArrayList<>();
         HashSet<ItemWithLocation> verifiedOwners = new HashSet<>();
         HashMap<String, String> lookupMap = UUIDHelper.usernamesFromUUIDs(possibleOwners);
@@ -63,8 +69,9 @@ public class DupeChecker {
                     chatMessage.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                             new ChatComponentText(String.join("\n", ToolTipListener.uuidToLore.get(uuid))))));
                 }
-
-                TEM.sendMessage(chatMessage);
+                if (enableMessages) {
+                    TEM.sendMessage(chatMessage);
+                }
             }
             SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(possibleOwner);
             playerRequest.priority = true;
@@ -94,7 +101,9 @@ public class DupeChecker {
                             chatMessage.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                     new ChatComponentText(String.join("\n", ToolTipListener.uuidToLore.get(uuid))))));
                         }
-                        TEM.sendMessage(chatMessage);
+                        if (enableMessages) {
+                            TEM.sendMessage(chatMessage);
+                        }
                         break;
                     }
                 }
@@ -103,10 +112,12 @@ public class DupeChecker {
                 }
             }
         }
-        if (verifiedOwners.size() < 2) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely not duped!"));
-        } else {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely duped!"));
+        if (enableMessages) {
+            if (verifiedOwners.size() < 2) {
+                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely not duped!"));
+            } else {
+                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely duped!"));
+            }
         }
         return verifiedOwners;
     }
