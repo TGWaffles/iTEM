@@ -21,7 +21,12 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.lwjgl.input.Keyboard;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class ToolTipListener {
+    public static HashMap<String, List<String>> uuidToLore = new HashMap<>();
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onItemToolTipEvent(ItemTooltipEvent event) {
         ItemStack item = event.itemStack;
@@ -36,7 +41,7 @@ public class ToolTipListener {
             event.toolTip.add(1, EnumChatFormatting.RED + "DEFINITELY DUPED");
         }
         if (Keyboard.isKeyDown(KeyBinds.checkDuped.getKeyCode())) {
-            fetchDuped(itemNbt);
+            fetchDuped(itemNbt, event.toolTip);
         }
         if (!ArmourPieceData.isValidItem(itemNbt)) {
             // We're only caring about armour on tooltips, to add colour.
@@ -95,16 +100,26 @@ public class ToolTipListener {
         RequestsCache.getInstance().addToQueue(new HexFromItemIdRequest(armour.getItemId()));
     }
 
-    public void fetchDuped(NBTTagCompound itemNbt) {
-        if (!MiscItemData.isValidItem(itemNbt)) {
+    public void fetchDuped(NBTTagCompound itemNbt, List<String> tooltip) {
+        String uuid;
+        if (MiscItemData.isValidItem(itemNbt)) {
+            MiscItemData itemData = new MiscItemData("", itemNbt);
+            ClientMessages.InventoryItem item = itemData.toInventoryItem();
+            if (!item.hasUuid() || item.getUuid().length() == 0) {
+                return;
+            }
+            uuid = item.getUuid();
+        } else if (PetData.isValidItem(itemNbt)) {
+            PetData petData = new PetData("", itemNbt);
+            ClientMessages.InventoryItem item = petData.toInventoryItem();
+            if (!item.hasUuid() || item.getUuid().length() == 0) {
+                return;
+            }
+            uuid = item.getUuid();
+        } else {
             return;
         }
-        MiscItemData itemData = new MiscItemData("", itemNbt);
-        ClientMessages.InventoryItem item = itemData.toInventoryItem();
-        if (!item.hasUuid() || item.getUuid().length() == 0) {
-            return;
-        }
-        String uuid = item.getUuid();
+        uuidToLore.put(uuid, tooltip);
         RequestsCache.getInstance().addToQueue(new CombinedDupeRequest(uuid));
     }
 

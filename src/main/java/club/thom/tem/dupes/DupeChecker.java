@@ -3,10 +3,13 @@ package club.thom.tem.dupes;
 import club.thom.tem.TEM;
 import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
+import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.storage.TEMConfig;
+import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.*;
@@ -50,11 +53,18 @@ public class DupeChecker {
         for (String possibleOwner : possibleOwners) {
             if (verifiedOwners.contains(new ItemWithLocation(lookupMap.getOrDefault(possibleOwner, possibleOwner),
                     "auction_house"))) {
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW +
-                    String.format("Definitely owned by %s, check their auction house!",
-                        lookupMap.getOrDefault(possibleOwner, possibleOwner)
-                    )
-                ));
+                ChatComponentText chatMessage = new ChatComponentText(EnumChatFormatting.YELLOW +
+                        String.format("Definitely owned by %s, check their auction house!",
+                                lookupMap.getOrDefault(possibleOwner, possibleOwner)
+                        )
+                );
+                List<String> lore = ToolTipListener.uuidToLore.get(uuid);
+                if (lore != null && lore.size() > 0) {
+                    chatMessage.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            new ChatComponentText(String.join("\n", ToolTipListener.uuidToLore.get(uuid))))));
+                }
+
+                TEM.sendMessage(chatMessage);
             }
             SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(possibleOwner);
             playerRequest.priority = true;
@@ -76,9 +86,15 @@ public class DupeChecker {
                     if (item.getUuid().equals(uuid)) {
                         verifiedOwners.add(new ItemWithLocation(playerData.playerUuid, item.getLocation()));
                         found = true;
-                        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW +
+                        ChatComponentText chatMessage = new ChatComponentText(EnumChatFormatting.YELLOW +
                                 String.format("Definitely owned by %s, check their %s", lookupMap.getOrDefault(playerUuid,
-                                        playerUuid), item.getLocation())));
+                                        playerUuid), item.getLocation()));
+                        List<String> lore = ToolTipListener.uuidToLore.get(uuid);
+                        if (lore != null && lore.size() > 0) {
+                            chatMessage.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                    new ChatComponentText(String.join("\n", ToolTipListener.uuidToLore.get(uuid))))));
+                        }
+                        TEM.sendMessage(chatMessage);
                         break;
                     }
                 }

@@ -81,7 +81,8 @@ public class AuctionHouse {
     }
 
     public void processAllPages() {
-        oldItemUuidMap = itemUuidMap;
+        oldItemUuidMap = new HashMap<>(itemUuidMap);
+        itemUuidMap.clear();
         processing = true;
         RequestData firstPageData = downloadPage(0);
         if (firstPageData.getStatus() != 200) {
@@ -116,7 +117,7 @@ public class AuctionHouse {
                     e.printStackTrace();
                 }
             }
-            long sleepTime = lastKnownLastUpdated + 80000 - System.currentTimeMillis();
+            long sleepTime = lastKnownLastUpdated + 70000 - System.currentTimeMillis();
             if (sleepTime > 0) {
                 try {
                     //noinspection BusyWait
