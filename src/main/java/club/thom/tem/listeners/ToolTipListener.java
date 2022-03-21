@@ -11,6 +11,7 @@ import club.thom.tem.helpers.HexHelper;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
+import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -108,15 +109,26 @@ public class ToolTipListener {
     }
 
     public boolean checkDuped(NBTTagCompound itemNbt) {
-        if (!MiscItemData.isValidItem(itemNbt)) {
+        String uuid;
+        if (MiscItemData.isValidItem(itemNbt)) {
+            MiscItemData itemData = new MiscItemData("", itemNbt);
+            ClientMessages.InventoryItem item = itemData.toInventoryItem();
+            if (!item.hasUuid() || item.getUuid().length() == 0) {
+                return false;
+            }
+            uuid = item.getUuid();
+
+        } else if (PetData.isValidItem(itemNbt)) {
+            PetData petData = new PetData("", itemNbt);
+            ClientMessages.InventoryItem item = petData.toInventoryItem();
+            if (!item.hasUuid() || item.getUuid().length() == 0) {
+                return false;
+            }
+            uuid = item.getUuid();
+        } else {
             return false;
         }
-        MiscItemData itemData = new MiscItemData("", itemNbt);
-        ClientMessages.InventoryItem item = itemData.toInventoryItem();
-        if (!item.hasUuid() || item.getUuid().length() == 0) {
-            return false;
-        }
-        String uuid = item.getUuid();
+
         CombinedDupeResponse response = (CombinedDupeResponse) RequestsCache.getInstance().getIfExists(
                 new CombinedDupeRequest(uuid));
         if (response == null) {

@@ -4,6 +4,7 @@ import club.thom.tem.helpers.RequestHelper;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.inventory.Inventory;
 import club.thom.tem.models.inventory.item.MiscItemData;
+import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonElement;
@@ -48,14 +49,21 @@ public class AuctionHouse {
                 continue;
             }
             itemNbt = itemNbt.getTagList("i", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(0);
-            if (!MiscItemData.isValidItem(itemNbt)) {
+            ClientMessages.InventoryItem item;
+            if (MiscItemData.isValidItem(itemNbt)) {
+                MiscItemData itemData = new MiscItemData("ah", itemNbt);
+                item = itemData.toInventoryItem();
+
+            } else if (PetData.isValidItem(itemNbt)) {
+                PetData petData = new PetData("", itemNbt);
+                item = petData.toInventoryItem();
+            } else {
                 continue;
             }
-            MiscItemData itemData = new MiscItemData("ah", itemNbt);
-            ClientMessages.InventoryItem item = itemData.toInventoryItem();
             if (item.hasUuid() && item.getUuid().length() != 0) {
                 addOwnerToItemUUIDMap(item.getUuid(), auction.getAsJsonObject().get("auctioneer").getAsString());
             }
+
         }
     }
 

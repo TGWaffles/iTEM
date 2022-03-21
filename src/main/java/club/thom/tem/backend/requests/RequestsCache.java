@@ -3,6 +3,8 @@ package club.thom.tem.backend.requests;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -11,6 +13,8 @@ public class RequestsCache {
     private final HashSet<BackendRequest> queuedRequests = new HashSet<>();
     private final ConcurrentHashMap<BackendRequest, BackendResponse> successfulRequests = new ConcurrentHashMap<>();
     private static RequestsCache instance = null;
+
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(2);
 
     public static RequestsCache getInstance() {
         if (instance == null) {
@@ -28,12 +32,12 @@ public class RequestsCache {
             System.out.println("Making request, not contained in hashmap.");
             System.out.println(Arrays.toString(successfulRequests.keySet().toArray()));
             queuedRequests.add(request);
-            new Thread(() -> {
+            threadPool.submit(() -> {
                 successfulRequests.put(request, request.makeRequest());
                 System.out.println("Got requests.");
                 System.out.println(Arrays.toString(successfulRequests.keySet().toArray()));
                 queuedRequests.remove(request);
-            }).start();
+            });
         } finally {
             queueLock.unlock();
         }
