@@ -90,7 +90,7 @@ public class CombinedDupeRequest implements BackendRequest {
         }
         foundMessage = "Checking owners...";
         getTimeRemainingSupplier = () -> Long.toString((TEM.api.getRateLimitResetTime() - System.currentTimeMillis()) / 1000);
-        HashSet<String> verifiedOwners = DupeChecker.findVerifiedOwners(itemUuid, new ArrayList<>(possibleOwners));
+        HashSet<DupeChecker.ItemWithLocation> verifiedOwners = DupeChecker.findVerifiedOwners(itemUuid, new ArrayList<>(possibleOwners));
         foundLock.lock();
         try {
             found = true;

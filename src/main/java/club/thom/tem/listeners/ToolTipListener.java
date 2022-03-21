@@ -4,7 +4,6 @@ import club.thom.tem.backend.ScanLobby;
 import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
-import club.thom.tem.backend.requests.dupe_lookup.FindUUIDSalesRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;

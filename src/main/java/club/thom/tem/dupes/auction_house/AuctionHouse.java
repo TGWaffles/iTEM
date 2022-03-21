@@ -8,6 +8,7 @@ import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonElement;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AuctionHouse {
+
     HashMap<String, ArrayList<String>> oldItemUuidMap = new HashMap<>();
     HashMap<String, ArrayList<String>> itemUuidMap = new HashMap<>();
     boolean processing = false;
@@ -33,6 +35,7 @@ public class AuctionHouse {
             currentOwners = new ArrayList<>();
         }
         currentOwners.add(owner);
+        itemUuidMap.put(itemUuid, currentOwners);
     }
 
     public void processPage(RequestData pageData) {
@@ -41,7 +44,11 @@ public class AuctionHouse {
         }
         for (JsonElement auction : pageData.getJsonAsObject().getAsJsonArray("auctions")) {
             NBTTagCompound itemNbt = Inventory.processNbtString(auction.getAsJsonObject().get("item_bytes").getAsString());
-            if (itemNbt == null || !MiscItemData.isValidItem(itemNbt)) {
+            if (itemNbt == null) {
+                continue;
+            }
+            itemNbt = itemNbt.getTagList("i", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(0);
+            if (!MiscItemData.isValidItem(itemNbt)) {
                 continue;
             }
             MiscItemData itemData = new MiscItemData("ah", itemNbt);
@@ -101,7 +108,7 @@ public class AuctionHouse {
                     e.printStackTrace();
                 }
             }
-            long sleepTime = lastKnownLastUpdated + 60000 - System.currentTimeMillis();
+            long sleepTime = lastKnownLastUpdated + 80000 - System.currentTimeMillis();
             if (sleepTime > 0) {
                 try {
                     //noinspection BusyWait
