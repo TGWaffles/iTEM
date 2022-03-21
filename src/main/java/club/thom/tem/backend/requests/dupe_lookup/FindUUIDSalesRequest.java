@@ -8,9 +8,11 @@ import java.util.Objects;
 
 public class FindUUIDSalesRequest implements BackendRequest {
     String uuid;
+    boolean sendMessages;
 
-    public FindUUIDSalesRequest(String itemUuid) {
+    public FindUUIDSalesRequest(String itemUuid, boolean sendMessages) {
         uuid = itemUuid;
+        this.sendMessages = sendMessages;
     }
 
     @Override
@@ -29,6 +31,6 @@ public class FindUUIDSalesRequest implements BackendRequest {
 
     @Override
     public BackendResponse makeRequest() {
-        return new FindUUIDSalesResponse(new CoflRequestMaker().getPossibleOwners(uuid));
+        return new FindUUIDSalesResponse(new CoflRequestMaker(sendMessages).getPossibleOwners(uuid));
     }
 }

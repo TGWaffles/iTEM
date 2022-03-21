@@ -15,6 +15,7 @@ import club.thom.tem.storage.TEMConfig;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
+import gg.essential.api.EssentialAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -68,6 +69,8 @@ public class TEM {
     public static String uuid = null;
     public static boolean standAlone = false;
 
+    public static long lastToastTime = 0;
+
     private static boolean waitingToTellAboutAPI = false;
 
     public static ItemHelper items = new ItemHelper();
@@ -82,6 +85,14 @@ public class TEM {
     private static final WebSocketFactory wsFactory = new WebSocketFactory();
     public static WebSocket socket;
 
+    public static void sendToast(String title, String description, float stayTime) {
+        if (System.currentTimeMillis() - lastToastTime < 1000) {
+            return;
+        }
+        EssentialAPI.getNotifications().push(title,
+                description, stayTime);
+        lastToastTime = System.currentTimeMillis();
+    }
 
     public static void forceSaveConfig() {
         config.markDirty();

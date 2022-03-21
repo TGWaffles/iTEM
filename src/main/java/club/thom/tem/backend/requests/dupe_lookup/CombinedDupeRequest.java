@@ -8,12 +8,8 @@ import club.thom.tem.backend.requests.item_data.FindUUIDDataResponse;
 import club.thom.tem.backend.requests.item_data.ItemData;
 import club.thom.tem.dupes.DupeChecker;
 import club.thom.tem.storage.TEMConfig;
-import gg.essential.api.EssentialAPI;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -27,12 +23,19 @@ public class CombinedDupeRequest implements BackendRequest {
     private String foundMessage = "";
     public final String itemUuid;
     private final boolean printMessages;
+    private final ArrayList<String> seedPossibleOwners = new ArrayList<>();
 
     private Supplier<String> getTimeRemainingSupplier;
 
     public CombinedDupeRequest(String itemUuid, boolean printMessages) {
         this.itemUuid = itemUuid;
         this.printMessages = printMessages;
+    }
+
+    public CombinedDupeRequest(String itemUuid, boolean printMessages, List<String> seed) {
+        this.itemUuid = itemUuid;
+        this.printMessages = printMessages;
+        seedPossibleOwners.addAll(seed);
     }
 
     @Override
@@ -60,17 +63,17 @@ public class CombinedDupeRequest implements BackendRequest {
                 e.printStackTrace();
             }
         }).start();
-        HashSet<String> possibleOwners = new HashSet<>();
+        HashSet<String> possibleOwners = new HashSet<>(seedPossibleOwners);
         if (TEMConfig.useCofl) {
             foundMessage = "Getting item auctions...";
             getTimeRemainingSupplier = () -> "?";
-            FindUUIDSalesResponse response = (FindUUIDSalesResponse) new FindUUIDSalesRequest(itemUuid).makeRequest();
+            FindUUIDSalesResponse response = (FindUUIDSalesResponse) new FindUUIDSalesRequest(itemUuid, printMessages).makeRequest();
             possibleOwners.addAll(response.owners);
         }
         if (TEMConfig.useTEMApiForDupes) {
             foundMessage = "Getting item owners...";
             getTimeRemainingSupplier = () -> "?";
-            FindUUIDDataResponse response = (FindUUIDDataResponse) new FindUUIDDataRequest(itemUuid).makeRequest();
+            FindUUIDDataResponse response = (FindUUIDDataResponse) new FindUUIDDataRequest(itemUuid, printMessages).makeRequest();
             if (response != null) {
                 int i = 0;
                 for (Iterator<ItemData.PreviousOwner> it = response.data.previousOwners.descendingIterator(); it.hasNext(); ) {
@@ -119,7 +122,7 @@ public class CombinedDupeRequest implements BackendRequest {
     }
 
     public void updateMessage() {
-        EssentialAPI.getNotifications().push("Checking Inventories",
+        TEM.sendToast("Checking Inventories",
                 String.format("%s (%ss)", foundMessage, getTimeRemainingSupplier.get()), 0.1f);
     }
 }

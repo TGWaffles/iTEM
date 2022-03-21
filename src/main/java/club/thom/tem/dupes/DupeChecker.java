@@ -1,6 +1,7 @@
 package club.thom.tem.dupes;
 
 import club.thom.tem.TEM;
+import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.listeners.ToolTipListener;
@@ -16,6 +17,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+@SuppressWarnings("ALL")
 public class DupeChecker {
     public boolean enableMessages;
 
@@ -73,10 +75,18 @@ public class DupeChecker {
                     TEM.sendMessage(chatMessage);
                 }
             }
-            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(possibleOwner);
-            playerRequest.priority = true;
-            TEM.api.addToQueue(playerRequest);
-            inventories.add(playerRequest.getFuture());
+            PlayerData playerData;
+            playerData = RequestsCache.getInstance().playerDataCache.getIfPresent(uuid);
+            if (playerData == null) {
+                SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(possibleOwner);
+                playerRequest.priority = true;
+                TEM.api.addToQueue(playerRequest);
+                inventories.add(playerRequest.getFuture());
+            } else {
+                CompletableFuture<PlayerData> mockFuture = new CompletableFuture<>();
+                mockFuture.complete(playerData);
+                inventories.add(mockFuture);
+            }
         }
         for (CompletableFuture<PlayerData> future : inventories) {
             PlayerData playerData;
