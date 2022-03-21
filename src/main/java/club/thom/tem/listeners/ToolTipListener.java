@@ -13,6 +13,8 @@ import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -40,7 +42,7 @@ public class ToolTipListener {
         if (checkDuped(itemNbt)) {
             event.toolTip.add(1, EnumChatFormatting.RED + "DEFINITELY DUPED");
         }
-        if (Keyboard.isKeyDown(KeyBinds.checkDuped.getKeyCode())) {
+        if (GameSettings.isKeyDown(KeyBinds.checkDuped)) {
             fetchDuped(itemNbt, event.toolTip);
         }
         if (!ArmourPieceData.isValidItem(itemNbt)) {
@@ -56,7 +58,7 @@ public class ToolTipListener {
             toolTipString += EnumChatFormatting.DARK_GRAY + " - " + ownerCount;
         }
         addColourToTooltip(event, toolTipString);
-        if (Keyboard.isKeyDown(KeyBinds.getArmourRarityKey.getKeyCode())) {
+        if (GameSettings.isKeyDown(KeyBinds.getArmourRarityKey)) {
             fetchArmourOwners(armour);
         }
     }

@@ -5,6 +5,7 @@ import club.thom.tem.hypixel.request.RequestData;
 import com.google.gson.*;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,6 +65,7 @@ public class RequestHelper {
         URL url = null;
         JsonElement jsonData;
         HttpsURLConnection uc;
+        String jsonAsText = "";
         int status = -1;
         try {
             url = new URL(urlString);
@@ -83,11 +85,13 @@ public class RequestHelper {
             } else {
                 inputStream = uc.getInputStream();
             }
-            jsonData = new JsonParser().parse(new InputStreamReader(inputStream));
+            jsonAsText = IOUtils.toString(inputStream);
+            jsonData = new JsonParser().parse(jsonAsText);
             return new RequestData(status, uc.getHeaderFields(), jsonData);
         } catch (IOException | JsonSyntaxException | JsonIOException e) {
             logger.error("Exception when fetching data... (uc maybe null)", e);
             logger.error("URL was: {}", url != null ? url.toExternalForm() : "null url");
+            logger.error("Json data: {}", jsonAsText);
             JsonObject errorObject = new JsonObject();
             errorObject.addProperty("success", false);
             errorObject.addProperty("status", status);
