@@ -75,7 +75,7 @@ public class PlayerDupeCheck implements SubCommand {
                 StringBuilder text = new StringBuilder(EnumChatFormatting.RED + "Found Duped Item: " + itemId + "\n");
                 for (DupeChecker.ItemWithLocation item : response.verifiedOwners) {
                     text.append(EnumChatFormatting.YELLOW).append(String.format(" - %s%s %s(%s)\n",
-                            EnumChatFormatting.GREEN, EnumChatFormatting.YELLOW, item.playerName, item.location));
+                            EnumChatFormatting.GREEN, item.playerName, EnumChatFormatting.YELLOW, item.location));
                 }
                 TEM.sendMessage(new ChatComponentText(text.toString()));
             }

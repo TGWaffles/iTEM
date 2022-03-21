@@ -91,7 +91,7 @@ public class DupeChecker {
             for (ClientMessages.InventoryResponse inventory : playerData.getInventoryResponses()) {
                 for (ClientMessages.InventoryItem item : inventory.getItemsList()) {
                     if (item.getUuid().equals(uuid)) {
-                        verifiedOwners.add(new ItemWithLocation(playerData.playerUuid, item.getLocation()));
+                        verifiedOwners.add(new ItemWithLocation(lookupMap.getOrDefault(playerUuid, playerUuid), item.getLocation()));
                         found = true;
                         ChatComponentText chatMessage = new ChatComponentText(EnumChatFormatting.YELLOW +
                                 String.format("Definitely owned by %s, check their %s", lookupMap.getOrDefault(playerUuid,
