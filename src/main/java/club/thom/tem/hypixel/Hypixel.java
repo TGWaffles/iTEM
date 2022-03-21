@@ -50,7 +50,7 @@ public class Hypixel {
         try {
             remainingRateLimit = 0;
             logger.debug("Setting remaining rate limit to 0 as we got a 429, for {} seconds", resetSeconds);
-            setRateLimitResetTime(System.currentTimeMillis() + (1000L * resetSeconds));
+            setRateLimitResetTime(System.currentTimeMillis() + (1000L * Math.max(resetSeconds, 1)));
         } finally {
             rateLimitLock.writeLock().unlock();
         }
@@ -181,6 +181,14 @@ public class Hypixel {
                     new Thread(request::makeRequest).start();
                 }
                 logger.debug("LOOP-> {} requests in queue.", requestQueue.size());
+                int trueLimitUsed = 0;
+                while (trueLimitUsed < getTrueRateLimit() && requestQueue.peek() != null && requestQueue.peek().priority) {
+                    logger.debug("LOOP-> Taking PRIORITY request...");
+                    Request request = requestQueue.take();
+                    requestFutures.add(request.getCompletionFuture());
+                    threadPool.submit(request::makeRequest);
+                    trueLimitUsed++;
+                }
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
                     logger.debug("LOOP-> for loop!");

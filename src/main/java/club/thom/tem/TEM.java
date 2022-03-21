@@ -2,6 +2,7 @@ package club.thom.tem;
 
 import club.thom.tem.backend.ServerMessageHandler;
 import club.thom.tem.commands.TEMCommand;
+import club.thom.tem.dupes.auction_house.AuctionHouse;
 import club.thom.tem.helpers.ItemHelper;
 import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.helpers.UUIDHelper;
@@ -71,6 +72,8 @@ public class TEM {
 
     public static ItemHelper items = new ItemHelper();
 
+    public static AuctionHouse auctions;
+
     private static final Lock lock = new ReentrantLock();
     private static final Condition waitForUuid = lock.newCondition();
 
@@ -117,12 +120,14 @@ public class TEM {
 //        setUpLogging();
         logger.info("Initialising TEM");
         api = new Hypixel();
+        auctions = new AuctionHouse();
         config.initialize();
         wsFactory.setVerifyHostname(false);
         new Thread(() -> reconnectSocket(100)).start();
         // Create global API/rate-limit handler
         // Start the requests loop
         new Thread(api::run).start();
+        new Thread(auctions::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener());

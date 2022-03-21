@@ -87,6 +87,16 @@ public class TEMConfig extends Vigilant {
     public static boolean useTEMApiForDupes = true;
 
     @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Dupe Checker",
+            name = "Use AH",
+            description = "Use the Auction House to aid dupe checks."
+    )
+    public static boolean useAuctionHouseForDupes = true;
+
+
+    @Property(
             type = PropertyType.TEXT,
             category = "API",
             subcategory = "Hypixel Api",

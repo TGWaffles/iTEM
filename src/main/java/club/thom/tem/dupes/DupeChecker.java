@@ -5,6 +5,7 @@ import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;
+import club.thom.tem.storage.TEMConfig;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -19,13 +20,23 @@ public class DupeChecker {
     public static HashSet<String> findVerifiedOwners(String uuid, List<String> possibleOwners) {
         ArrayList<CompletableFuture<PlayerData>> inventories = new ArrayList<>();
         HashSet<String> verifiedOwners = new HashSet<>();
+        if (TEMConfig.useAuctionHouseForDupes) {
+            verifiedOwners.addAll(TEM.auctions.getOwnersForItemUUID(uuid));
+        }
+        HashMap<String, String> lookupMap = UUIDHelper.usernamesFromUUIDs(possibleOwners);
         for (String possibleOwner : possibleOwners) {
+            if (verifiedOwners.contains(possibleOwner)) {
+                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW +
+                    String.format("Definitely owned by %s, check their auction house!",
+                        lookupMap.getOrDefault(possibleOwner, possibleOwner)
+                    )
+                ));
+            }
             SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(possibleOwner);
             playerRequest.priority = true;
             TEM.api.addToQueue(playerRequest);
             inventories.add(playerRequest.getFuture());
         }
-        HashMap<String, String> lookupMap = UUIDHelper.usernamesFromUUIDs(possibleOwners);
         for (CompletableFuture<PlayerData> future : inventories) {
             PlayerData playerData;
             try {

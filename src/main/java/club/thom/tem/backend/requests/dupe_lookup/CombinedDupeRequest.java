@@ -69,19 +69,24 @@ public class CombinedDupeRequest implements BackendRequest {
             foundMessage = "Getting item owners...";
             getTimeRemainingSupplier = () -> "?";
             FindUUIDDataResponse response = (FindUUIDDataResponse) new FindUUIDDataRequest(itemUuid).makeRequest();
-            int i = 0;
-            for (Iterator<ItemData.PreviousOwner> it = response.data.previousOwners.descendingIterator(); it.hasNext();) {
-                ItemData.PreviousOwner previousOwnerData = it.next();
-                if (i > 3) {
-                    break;
+            if (response != null) {
+                int i = 0;
+                for (Iterator<ItemData.PreviousOwner> it = response.data.previousOwners.descendingIterator(); it.hasNext(); ) {
+                    ItemData.PreviousOwner previousOwnerData = it.next();
+                    if (i > 3) {
+                        break;
+                    }
+                    String playerUuid = previousOwnerData.owner.playerUuid;
+                    if (possibleOwners.contains(playerUuid)) {
+                        continue;
+                    }
+                    possibleOwners.add(playerUuid);
+                    i++;
                 }
-                String playerUuid = previousOwnerData.owner.playerUuid;
-                if (possibleOwners.contains(playerUuid)) {
-                    continue;
-                }
-                possibleOwners.add(playerUuid);
-                i++;
             }
+        }
+        if (TEMConfig.useAuctionHouseForDupes) {
+            possibleOwners.addAll(TEM.auctions.getOwnersForItemUUID(itemUuid));
         }
         foundMessage = "Checking owners...";
         getTimeRemainingSupplier = () -> Long.toString((TEM.api.getRateLimitResetTime() - System.currentTimeMillis()) / 1000);
