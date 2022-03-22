@@ -38,6 +38,9 @@ public class PlayerDupeCheck implements SubCommand {
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown player!"));
             return;
         }
+        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
+        + EnumChatFormatting.GREEN + "Starting Scan of " + username + "!\n"
+        + EnumChatFormatting.YELLOW + "----------"));
         PlayerData playerData;
         playerData = RequestsCache.getInstance().playerDataCache.getIfPresent(uuid);
         if (playerData == null) {
@@ -78,7 +81,9 @@ public class PlayerDupeCheck implements SubCommand {
             CombinedDupeResponse response = (CombinedDupeResponse) RequestsCache.getInstance().poll(request);
             if (response.verifiedOwners.size() > 1) {
                 String itemId = uuidToItemId.get(request.itemUuid);
-                StringBuilder text = new StringBuilder(EnumChatFormatting.RED + "Found Duped Item: " + itemId + "\n");
+                StringBuilder text = new StringBuilder();
+                text.append(EnumChatFormatting.YELLOW).append("----------")
+                        .append(EnumChatFormatting.RED).append("Found Duped Item: ").append(itemId).append("\n");
                 for (DupeChecker.ItemWithLocation item : response.verifiedOwners) {
                     text.append(EnumChatFormatting.YELLOW).append(String.format(" - %s%s %s(%s)\n",
                             EnumChatFormatting.GREEN, item.playerName, EnumChatFormatting.YELLOW, item.location));
@@ -86,6 +91,8 @@ public class PlayerDupeCheck implements SubCommand {
                 TEM.sendMessage(new ChatComponentText(text.toString()));
             }
         }
-        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Player scan completed!"));
+        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
+                + EnumChatFormatting.GREEN + "Completed Scan of " + username + "!\n"
+                + EnumChatFormatting.YELLOW + "----------"));
     }
 }

@@ -53,12 +53,14 @@ public class DupeChecker {
         ArrayList<CompletableFuture<PlayerData>> inventories = new ArrayList<>();
         HashSet<ItemWithLocation> verifiedOwners = new HashSet<>();
         HashMap<String, String> lookupMap = UUIDHelper.usernamesFromUUIDs(possibleOwners);
+        // anyone with the item on the AH is automatically a verified owner
         if (TEMConfig.useAuctionHouseForDupes) {
             for (String ownerUuid : TEM.auctions.getOwnersForItemUUID(uuid)) {
                 verifiedOwners.add(new ItemWithLocation(lookupMap.getOrDefault(ownerUuid, ownerUuid), "auction_house"));
             }
         }
         for (String possibleOwner : possibleOwners) {
+            // if it's on ah
             if (verifiedOwners.contains(new ItemWithLocation(lookupMap.getOrDefault(possibleOwner, possibleOwner),
                     "auction_house"))) {
                 ChatComponentText chatMessage = new ChatComponentText(EnumChatFormatting.YELLOW +
@@ -74,6 +76,7 @@ public class DupeChecker {
                 if (enableMessages) {
                     TEM.sendMessage(chatMessage);
                 }
+                continue;
             }
             PlayerData playerData;
             playerData = RequestsCache.getInstance().playerDataCache.getIfPresent(uuid);
