@@ -1,4 +1,4 @@
-package club.thom.tem.backend.requests.dupe_lookup;
+package club.thom.tem.backend.requests.auctions_from_uuid;
 
 import club.thom.tem.backend.requests.BackendResponse;
 

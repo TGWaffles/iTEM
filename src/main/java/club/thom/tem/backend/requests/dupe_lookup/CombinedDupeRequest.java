@@ -3,6 +3,8 @@ package club.thom.tem.backend.requests.dupe_lookup;
 import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.BackendRequest;
 import club.thom.tem.backend.requests.BackendResponse;
+import club.thom.tem.backend.requests.auctions_from_uuid.FindUUIDSalesRequest;
+import club.thom.tem.backend.requests.auctions_from_uuid.FindUUIDSalesResponse;
 import club.thom.tem.backend.requests.item_data.FindUUIDDataRequest;
 import club.thom.tem.backend.requests.item_data.FindUUIDDataResponse;
 import club.thom.tem.backend.requests.item_data.ItemData;
@@ -19,11 +21,13 @@ public class CombinedDupeRequest implements BackendRequest {
     private final boolean printMessages;
     private final ArrayList<String> seedPossibleOwners = new ArrayList<>();
     private boolean useCofl;
+    private boolean useTem;
 
     public CombinedDupeRequest(String itemUuid, boolean printMessages) {
         this.itemUuid = itemUuid;
         this.printMessages = printMessages;
         useCofl = true;
+        useTem = true;
     }
 
     public CombinedDupeRequest(String itemUuid, boolean printMessages, List<String> seed) {
@@ -31,9 +35,10 @@ public class CombinedDupeRequest implements BackendRequest {
         seedPossibleOwners.addAll(seed);
     }
 
-    public CombinedDupeRequest(String itemUuid, boolean printMessages, List<String> seed, boolean useCofl) {
+    public CombinedDupeRequest(String itemUuid, boolean printMessages, List<String> seed, boolean useCofl, boolean useTem) {
         this(itemUuid, printMessages, seed);
         this.useCofl = useCofl;
+        this.useTem = useTem;
     }
 
     @Override
@@ -58,7 +63,7 @@ public class CombinedDupeRequest implements BackendRequest {
             FindUUIDSalesResponse response = (FindUUIDSalesResponse) new FindUUIDSalesRequest(itemUuid, printMessages).makeRequest();
             possibleOwners.addAll(response.owners);
         }
-        if (TEMConfig.useTEMApiForDupes) {
+        if (TEMConfig.useTEMApiForDupes && this.useTem) {
             logger.info("Making request to TEM. UUID: " + itemUuid);
             FindUUIDDataResponse response = (FindUUIDDataResponse) new FindUUIDDataRequest(itemUuid, printMessages).makeRequest();
             logger.info("Made request to TEM. UUID: " + itemUuid);

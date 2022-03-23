@@ -4,6 +4,9 @@ import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
+import club.thom.tem.backend.requests.item_data.ItemData;
+import club.thom.tem.backend.requests.item_data_from_uuids.FindUUIDsDataRequest;
+import club.thom.tem.backend.requests.item_data_from_uuids.FindUUIDsDataResponse;
 import club.thom.tem.dupes.cofl.CoflRequestMaker;
 import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
@@ -13,15 +16,15 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Phaser;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressWarnings("UnstableApiUsage")
 public class DupeCommandExecutor {
-    private final ExecutorService executor = Executors.newFixedThreadPool(2);
+    private final static int THREAD_COUNT = 2;
+    private final ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
+    // 2n threads to check cofl and TEM simultaneously in all the above
+    private final ExecutorService subExecutor = Executors.newFixedThreadPool(THREAD_COUNT * 2);
     private String username;
     private String uuid;
     private final AtomicInteger processedItems = new AtomicInteger();
@@ -98,20 +101,43 @@ public class DupeCommandExecutor {
                 + EnumChatFormatting.YELLOW + "----------"));
     }
 
+    public HashMap<String, HashSet<String>> combineTwoListedHashmaps(HashMap<String, List<String>> mapOne,
+                                                                     HashMap<String, List<String>> mapTwo) {
+        HashSet<String> keySet = new HashSet<>(mapOne.keySet());
+        keySet.addAll(mapTwo.keySet());
+        HashMap<String, HashSet<String>> output = new HashMap<>();
+        for (String key : keySet) {
+            HashSet<String> value = new HashSet<>(mapOne.getOrDefault(key, Collections.emptyList()));
+            value.addAll(mapTwo.getOrDefault(key, Collections.emptyList()));
+            output.put(key, value);
+        }
+        return output;
+    }
+
 
     public void runAuctionSet(HashMap<String, ClientMessages.InventoryItem> thisRequestAuctions) {
         ArrayList<CombinedDupeRequest> requests = new ArrayList<>();
         HashMap<String, String> uuidToItemId = new HashMap<>();
-        HashMap<String, List<String>> auctionOwners =
-                new CoflRequestMaker(false).getPossibleOwners(new ArrayList<>(thisRequestAuctions.keySet()));
-        for (Map.Entry<String, List<String>> entry: auctionOwners.entrySet()) {
+        CompletableFuture<HashMap<String, List<String>>> coflFuture = new CompletableFuture<>();
+        CompletableFuture<HashMap<String, List<String>>> temFuture = new CompletableFuture<>();
+        List<String> uuidsAsList = new ArrayList<>(thisRequestAuctions.keySet());
+        subExecutor.submit(() -> coflFuture.complete(new CoflRequestMaker(false).getPossibleOwners(uuidsAsList)));
+        subExecutor.submit(() -> temFuture.complete(findAllPreviousOwners(uuidsAsList)));
+        HashMap<String, HashSet<String>> possibleOwners;
+        try {
+            possibleOwners = combineTwoListedHashmaps(coflFuture.get(), temFuture.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return;
+        }
+        for (Map.Entry<String, HashSet<String>> entry: possibleOwners.entrySet()) {
             String itemUuid = entry.getKey();
             ClientMessages.InventoryItem item = thisRequestAuctions.get(itemUuid);
             ArrayList<String> possibleOwnersSeed = new ArrayList<>();
             possibleOwnersSeed.add(uuid);
-            possibleOwnersSeed.addAll(auctionOwners.get(itemUuid));
+            possibleOwnersSeed.addAll(entry.getValue());
             CombinedDupeRequest request = new CombinedDupeRequest(itemUuid, false,
-                    possibleOwnersSeed, false);
+                    possibleOwnersSeed, false, false);
             RequestsCache.getInstance().addToQueue(request);
             requests.add(request);
             String itemName = "";
@@ -142,5 +168,26 @@ public class DupeCommandExecutor {
                 String.format("%1$d/%2$d items processed! (%3$d remaining)",
                         processed, totalItems, totalItems - processed),
                 1.0f);
+    }
+
+    public HashMap<String, List<String>> findAllPreviousOwners(List<String> itemUuids) {
+        HashMap<String, List<String>> previousOwnerMap = new HashMap<>();
+        FindUUIDsDataResponse response = (FindUUIDsDataResponse) new FindUUIDsDataRequest(itemUuids).makeRequest();
+        if (response == null) {
+            return previousOwnerMap;
+        }
+        for (Map.Entry<String, ItemData> entry : response.data.entrySet()) {
+            HashSet<String> previousOwners = new HashSet<>();
+            for (Iterator<ItemData.PreviousOwner> it = entry.getValue().previousOwners.descendingIterator(); it.hasNext(); ) {
+                ItemData.PreviousOwner previousOwnerData = it.next();
+                if (previousOwners.size() > 3) {
+                    break;
+                }
+                String playerUuid = previousOwnerData.owner.playerUuid;
+                previousOwners.add(playerUuid);
+            }
+            previousOwnerMap.put(entry.getKey(), new ArrayList<>(previousOwners));
+        }
+        return previousOwnerMap;
     }
 }
