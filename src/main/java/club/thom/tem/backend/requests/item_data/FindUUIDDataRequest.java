@@ -5,12 +5,15 @@ import club.thom.tem.backend.requests.BackendResponse;
 import club.thom.tem.helpers.RequestHelper;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
 public class FindUUIDDataRequest implements BackendRequest {
     String uuid;
     boolean sendMessages = true;
+    private static final Logger logger = LogManager.getLogger(FindUUIDDataRequest.class);
 
     public FindUUIDDataRequest(String itemUuid) {
         uuid = itemUuid;
@@ -41,6 +44,8 @@ public class FindUUIDDataRequest implements BackendRequest {
         if (response.getStatus() != 200) {
             if (sendMessages) {
                 RequestHelper.tellPlayerAboutFailedRequest(response.getStatus());
+            } else {
+                logger.warn("TEM returned error: " + response.getStatus());
             }
             return null;
         }

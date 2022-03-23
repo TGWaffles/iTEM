@@ -187,7 +187,11 @@ public abstract class Request {
     private static int getNextResetSeconds(Map<String, List<String>> headers) {
         int resetSeconds = getIntegerHeader(headers, "RateLimit-Reset");
         if (resetSeconds == -1) {
+            // cloudflare
             resetSeconds = getIntegerHeader(headers, "Retry-After");
+            if (resetSeconds > 55) {
+                return 60 - resetSeconds;
+            }
         }
         return resetSeconds;
     }
