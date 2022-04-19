@@ -39,7 +39,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 // Restriction: never make one of the subversion numbers > 255 due to how versioning works.
-version = "0.0.2.4"
+version = "0.0.2.5"
 group= "club.thom.tem" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TEM"
 
@@ -159,7 +159,8 @@ task standaloneShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.
     from(project.convention.getPlugin(JavaPluginConvention).sourceSets.main.output)
     configurations = [project.configurations.runtimeClasspath]
     exclude(
-            "META-INF/versions/**"
+            "META-INF/versions/**",
+            "log4j2.xml"
     )
 
     dependencies {
