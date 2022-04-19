@@ -109,7 +109,6 @@ processResources
             // copy everything else, that's not the mcmod.info
             from(sourceSets.main.resources.srcDirs) {
                 exclude 'mcmod.info'
-//                exclude 'log4j2.xml'
             }
         }
 jar {
@@ -161,7 +160,6 @@ task standaloneShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.
     configurations = [project.configurations.runtimeClasspath]
     exclude(
             "META-INF/versions/**",
-//            "log4j2.xml"
     )
 
     dependencies {
