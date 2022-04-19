@@ -273,19 +273,26 @@ public class Hypixel {
         // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
         logger.debug("LOOP-> waiting for rate limit reset...");
         if (getTrueRateLimit() > 0) {
+            logger.debug("LOOP-> locking item lock");
             waitingForItemLock.lock();
+            logger.debug("LOOP-> item lock locked!");
             try {
                 if (requestQueue.peek() != null && requestQueue.peek().priority) {
+                    logger.debug("LOOP-> priority request, returning");
                     return;
                 }
                 // Waits for a new item in the queue.
-                boolean found = newItemInQueue.await(sleepTime, TimeUnit.MILLISECONDS);
-                if (found && requestQueue.peek() != null && requestQueue.peek().priority) {
+                logger.debug("LOOP-> waiting for new item");
+                //noinspection ResultOfMethodCallIgnored
+                newItemInQueue.await(sleepTime, TimeUnit.MILLISECONDS);
+                if (requestQueue.peek() != null && requestQueue.peek().priority) {
+                    logger.debug("LOOP-> found priority!");
                     return;
                 }
             } finally {
                 waitingForItemLock.unlock();
             }
+            logger.debug("LOOP-> waiting longer...");
             sleepUntilPriorityOrRateLimit();
             return;
         }

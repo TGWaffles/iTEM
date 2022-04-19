@@ -14,6 +14,8 @@ import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -21,7 +23,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressWarnings("UnstableApiUsage")
 public class DupeCommandExecutor {
+    private static final Logger logger = LogManager.getLogger(DupeCommandExecutor.class);
     private final static int THREAD_COUNT = 2;
+    private final static int COFL_BATCH_SIZE = 25;
     private final ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
     // 2n threads to check cofl and TEM simultaneously in all the above
     private final ExecutorService subExecutor = Executors.newFixedThreadPool(THREAD_COUNT * 2);
@@ -77,7 +81,7 @@ public class DupeCommandExecutor {
                 // ^^^^
                 totalItems++;
                 coflRequestCache.put(thisItemUUID, tempInventoryItem);
-                if (coflRequestCache.size() >= 20) {
+                if (coflRequestCache.size() >= COFL_BATCH_SIZE) {
                     monitorAll.register();
                     HashMap<String, ClientMessages.InventoryItem> thisRequestAuctions = new HashMap<>(coflRequestCache);
                     executor.submit(() -> {
@@ -188,6 +192,7 @@ public class DupeCommandExecutor {
             }
             previousOwnerMap.put(entry.getKey(), new ArrayList<>(previousOwners));
         }
+        logger.info("tem finish");
         return previousOwnerMap;
     }
 }

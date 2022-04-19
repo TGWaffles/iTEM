@@ -43,11 +43,11 @@ public class FindUUIDsDataRequest implements BackendRequest {
             if (sendMessages) {
                 RequestHelper.tellPlayerAboutFailedRequest(response.getStatus());
             } else {
-                logger.warn("TEM returned error: " + response.getStatus());
+                logger.error("TEM returned error: " + response.getStatus());
             }
             return null;
         }
-
+        logger.info("returning response!");
         return new FindUUIDsDataResponse(response.getJsonAsObject());
     }
 

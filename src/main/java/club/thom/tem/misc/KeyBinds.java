@@ -12,7 +12,7 @@ public class KeyBinds {
         getArmourRarityKey = new KeyBinding("key.get_armour_rarity", Keyboard.KEY_I, "key.categories.tem");
         ClientRegistry.registerKeyBinding(getArmourRarityKey);
 
-        checkDuped = new KeyBinding("key.check_duped", Keyboard.KEY_I, "key.categories.tem");
+        checkDuped = new KeyBinding("key.check_duped", Keyboard.KEY_P, "key.categories.tem");
         ClientRegistry.registerKeyBinding(checkDuped);
     }
 }
