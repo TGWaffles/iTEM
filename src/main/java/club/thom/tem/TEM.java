@@ -35,15 +35,18 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.appender.FileAppender;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.UUID;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -109,15 +112,23 @@ public class TEM {
         return clientVersion;
     }
 
-    private static void setUpLogging() {
+    public static void setUpLogging(Level logLevel, boolean toFile) {
         LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
 
         Configuration configuration = loggerContext.getConfiguration();
         LoggerConfig rootLoggerConfig = configuration.getLoggerConfig("");
 
-        FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
-                null, null, null, null, null, null, null, null);
-        rootLoggerConfig.addAppender(fa, Level.ALL, null);
+        if (toFile) {
+            FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
+                    null, null, null, null, null, null, null, null);
+            fa.start();
+            rootLoggerConfig.addAppender(fa, logLevel, null);
+        } else {
+            PatternLayout layout = PatternLayout.createLayout("[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n", null, null, Charset.defaultCharset().name(), "true");
+            ConsoleAppender ca = ConsoleAppender.createAppender(layout, null, null, "Console", null, null);
+            ca.start();
+            rootLoggerConfig.addAppender(ca, logLevel, null);
+        }
     }
 
     @Mod.EventHandler
