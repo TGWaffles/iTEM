@@ -31,7 +31,7 @@ public class KeyLookupRequest extends Request {
             return;
         }
         if (data.getStatus() == 403) {
-            logger.warn("Key invalid. Status: {}, json: {}", data.getStatus(), data.getJson());
+            logger.warn("Key invalid. Status: {}, json: {}", data.getStatus(), data.getJsonAsObject());
         }
         future.complete(data.getStatus() != 403);
     }

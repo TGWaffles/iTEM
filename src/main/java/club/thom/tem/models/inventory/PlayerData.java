@@ -14,7 +14,7 @@ public class PlayerData {
     // Contains data about the various profiles. Can turn them all into Inventory message responses.
     private final JsonObject jsonData;
     private static final Logger logger = LogManager.getLogger(PlayerData.class);
-    private final String playerUuid;
+    public final String playerUuid;
     private final List<ProfileData> profiles = new ArrayList<>();
 
     public PlayerData(JsonObject responseFromApi, String uuid) {

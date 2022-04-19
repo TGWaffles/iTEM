@@ -2,6 +2,7 @@ package club.thom.tem;
 
 import club.thom.tem.backend.ServerMessageHandler;
 import club.thom.tem.commands.TEMCommand;
+import club.thom.tem.dupes.auction_house.AuctionHouse;
 import club.thom.tem.helpers.ItemHelper;
 import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.helpers.UUIDHelper;
@@ -14,6 +15,7 @@ import club.thom.tem.storage.TEMConfig;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
+import gg.essential.api.EssentialAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -33,15 +35,18 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.appender.FileAppender;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.UUID;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -67,9 +72,13 @@ public class TEM {
     public static String uuid = null;
     public static boolean standAlone = false;
 
+    public static long lastToastTime = 0;
+
     private static boolean waitingToTellAboutAPI = false;
 
     public static ItemHelper items = new ItemHelper();
+
+    public static AuctionHouse auctions;
 
     private static final Lock lock = new ReentrantLock();
     private static final Condition waitForUuid = lock.newCondition();
@@ -79,6 +88,14 @@ public class TEM {
     private static final WebSocketFactory wsFactory = new WebSocketFactory();
     public static WebSocket socket;
 
+    public static void sendToast(String title, String description, float stayTime) {
+        if (System.currentTimeMillis() - lastToastTime < 1000) {
+            return;
+        }
+        EssentialAPI.getNotifications().push(title,
+                description, stayTime);
+        lastToastTime = System.currentTimeMillis();
+    }
 
     public static void forceSaveConfig() {
         config.markDirty();
@@ -95,15 +112,23 @@ public class TEM {
         return clientVersion;
     }
 
-    private static void setUpLogging() {
+    public static void setUpLogging(Level logLevel, boolean toFile) {
         LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
 
         Configuration configuration = loggerContext.getConfiguration();
         LoggerConfig rootLoggerConfig = configuration.getLoggerConfig("");
 
-        FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
-                null, null, null, null, null, null, null, null);
-        rootLoggerConfig.addAppender(fa, Level.ALL, null);
+        if (toFile) {
+            FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
+                    null, null, null, null, null, null, null, null);
+            fa.start();
+            rootLoggerConfig.addAppender(fa, logLevel, null);
+        } else {
+            PatternLayout layout = PatternLayout.createLayout("[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n", null, null, Charset.defaultCharset().name(), "true");
+            ConsoleAppender ca = ConsoleAppender.createAppender(layout, null, null, "Console", null, null);
+            ca.start();
+            rootLoggerConfig.addAppender(ca, logLevel, null);
+        }
     }
 
     @Mod.EventHandler
@@ -117,12 +142,14 @@ public class TEM {
 //        setUpLogging();
         logger.info("Initialising TEM");
         api = new Hypixel();
+        auctions = new AuctionHouse();
         config.initialize();
         wsFactory.setVerifyHostname(false);
         new Thread(() -> reconnectSocket(100)).start();
         // Create global API/rate-limit handler
         // Start the requests loop
         new Thread(api::run).start();
+        new Thread(auctions::run).start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener());
@@ -302,7 +329,10 @@ public class TEM {
         standAlone = true;
         api = new Hypixel();
         TEMConfig.setHypixelKey(apiKey);
-        TEMConfig.useWholeRateLimit = true;
+        TEMConfig.spareRateLimit = 0;
+        // 15 is a decent number for minimising ram usage
+        TEMConfig.maxSimultaneousThreads = 15;
+        TEMConfig.timeOffset = 0;
         TEMConfig.enableContributions = true;
         wsFactory.setVerifyHostname(false);
         new Thread(() -> reconnectSocket(100)).start();

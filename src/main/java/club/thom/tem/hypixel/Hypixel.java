@@ -10,9 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.*;
 
 /**
@@ -27,11 +25,21 @@ public class Hypixel {
     public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
     private int triesWithoutValidKey = 0;
 
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(TEMConfig.maxSimultaneousThreads);
+
     protected final LinkedBlockingDeque<Request> requestQueue = new LinkedBlockingDeque<>();
 
     private int remainingRateLimit = 0;
 
     private long rateLimitResetTime = System.currentTimeMillis();
+
+    public long getRateLimitResetTime() {
+        return (rateLimitResetTime + (TEMConfig.timeOffset * 1000L) % 60);
+    }
+
+    private void setRateLimitResetTime(long resetTime) {
+        rateLimitResetTime = resetTime;
+    }
 
     /**
      * Got a 429 from Hypixel - we have 0 requests left and possibly
@@ -42,7 +50,7 @@ public class Hypixel {
         try {
             remainingRateLimit = 0;
             logger.debug("Setting remaining rate limit to 0 as we got a 429, for {} seconds", resetSeconds);
-            rateLimitResetTime = System.currentTimeMillis() + (1000L * resetSeconds);
+            setRateLimitResetTime(System.currentTimeMillis() + (1000L * Math.max(resetSeconds, 1)));
         } finally {
             rateLimitLock.writeLock().unlock();
         }
@@ -67,6 +75,15 @@ public class Hypixel {
         rateLimitLock.readLock().lock();
         try {
             return Math.max(remainingRateLimit - getMinRateLimit(), 0);
+        } finally {
+            rateLimitLock.readLock().unlock();
+        }
+    }
+
+    public int getTrueRateLimit() {
+        rateLimitLock.readLock().lock();
+        try {
+            return Math.max(remainingRateLimit, 0);
         } finally {
             rateLimitLock.readLock().unlock();
         }
@@ -98,8 +115,8 @@ public class Hypixel {
             // Time that the next reset is reported to be. (with 500ms added, to account for rounding)
             long nextResetTimeMillis = System.currentTimeMillis() + (rateLimitResetSeconds * 1000L) + 500;
             // If the next limit reset time is greater than the current reset time + 1s (to account for latency), trust it.
-            if (nextResetTimeMillis > rateLimitResetTime) {
-                rateLimitResetTime = nextResetTimeMillis;
+            if (nextResetTimeMillis > getRateLimitResetTime()) {
+                setRateLimitResetTime(nextResetTimeMillis);
                 remainingRateLimit = remaining;
                 logger.debug("New rate limit successfully set: {} for the next {} seconds.", remaining, rateLimitResetSeconds);
                 return;
@@ -109,12 +126,12 @@ public class Hypixel {
             if (remainingRateLimit < remaining) {
                 logger.debug("New rate limit unsuccessfully set, old ({}) was less than new ({}), new time {} " +
                                 "was too low compared to: {}",
-                        remainingRateLimit, remaining, nextResetTimeMillis, rateLimitResetTime);
+                        remainingRateLimit, remaining, nextResetTimeMillis, getRateLimitResetTime());
                 return;
             }
             logger.debug("New rate limit successfully set: {}", remaining);
             remainingRateLimit = remaining;
-            rateLimitResetTime = nextResetTimeMillis;
+            setRateLimitResetTime(nextResetTimeMillis);
         } finally {
             // Finished editing the rate limit, another thread can start now.
             rateLimitLock.writeLock().unlock();
@@ -138,10 +155,7 @@ public class Hypixel {
      * @return Number to exhaust your rate limit to.
      */
     private static int getMinRateLimit() {
-        if (TEMConfig.useWholeRateLimit) {
-            return 0;
-        }
-        return 10;
+        return TEMConfig.spareRateLimit;
     }
 
     /**
@@ -167,6 +181,14 @@ public class Hypixel {
                     new Thread(request::makeRequest).start();
                 }
                 logger.debug("LOOP-> {} requests in queue.", requestQueue.size());
+                int trueLimitUsed = 0;
+                while (trueLimitUsed < getTrueRateLimit() && requestQueue.peek() != null && requestQueue.peek().priority) {
+                    logger.debug("LOOP-> Taking PRIORITY request...");
+                    Request request = requestQueue.take();
+                    requestFutures.add(request.getCompletionFuture());
+                    threadPool.submit(request::makeRequest);
+                    trueLimitUsed++;
+                }
                 // Executes these requests until we run out of rateLimit.
                 for (int i = 0; i < rateLimit; i++) {
                     logger.debug("LOOP-> for loop!");
@@ -177,7 +199,7 @@ public class Hypixel {
                                     "Waiting for new API key or contributions to be re-enabled.");
                             //noinspection ResultOfMethodCallIgnored
                             newItemInQueue.await(5000, TimeUnit.MILLISECONDS);
-                            if (rateLimitResetTime < System.currentTimeMillis()) {
+                            if (getRateLimitResetTime() < System.currentTimeMillis()) {
                                 setRateLimitRemaining(120, 5);
                             }
                             triesWithoutValidKey++;
@@ -199,7 +221,7 @@ public class Hypixel {
                     if (request != null) {
                         logger.debug("LOOP-> Taken.");
                         requestFutures.add(request.getCompletionFuture());
-                        new Thread(request::makeRequest).start();
+                        threadPool.submit(request::makeRequest);
                     } else {
                         logger.debug("LOOP-> Quit due to timeout...");
                         break;
@@ -213,22 +235,7 @@ public class Hypixel {
                 logger.debug("LOOP-> all requests collected!");
                 // If we *did* successfully exhaust all requests, wait the given time.
                 if (getRateLimit() <= 0) {
-                    long sleepTime = rateLimitResetTime - System.currentTimeMillis();
-                    if (sleepTime <= 0) {
-                        // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
-                        logger.debug("LOOP-> Setting ratelimit to 1, 5 as sleepTime is {}, ratelimit is 0, " +
-                                "rateLimitReset: {}", sleepTime, rateLimitResetTime);
-                        setRateLimitRemaining(1, 5);
-                        continue;
-                    }
-                    // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
-                    logger.debug("LOOP-> waiting for rate limit reset...");
-                    //noinspection BusyWait
-                    Thread.sleep(sleepTime);
-                    // Sets the next resetTime as 60 seconds in the future.
-                    setRateLimitRemaining(120, 60);
-                    logger.debug("LOOP-> finished waiting");
-                    continue;
+                    sleepUntilPriorityOrRateLimit();
                 }
                 logger.debug("LOOP-> {} requests in queue.", requestQueue.size());
                 logger.debug("LOOP-> Locking item lock");
@@ -252,5 +259,47 @@ public class Hypixel {
                 return;
             }
         }
+    }
+
+    public void sleepUntilPriorityOrRateLimit() throws InterruptedException {
+        long sleepTime = getRateLimitResetTime() - System.currentTimeMillis();
+        if (sleepTime <= 0) {
+            // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
+            logger.debug("LOOP-> Setting ratelimit to {}, 5 as sleepTime is {}, ratelimit is 0, " +
+                    "rateLimitReset: {}", TEMConfig.spareRateLimit + 1, sleepTime, getRateLimitResetTime());
+            setRateLimitRemaining(TEMConfig.spareRateLimit + 1, 5);
+            return;
+        }
+        // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.
+        logger.debug("LOOP-> waiting for rate limit reset...");
+        if (getTrueRateLimit() > 0) {
+            logger.debug("LOOP-> locking item lock");
+            waitingForItemLock.lock();
+            logger.debug("LOOP-> item lock locked!");
+            try {
+                if (requestQueue.peek() != null && requestQueue.peek().priority) {
+                    logger.debug("LOOP-> priority request, returning");
+                    return;
+                }
+                // Waits for a new item in the queue.
+                logger.debug("LOOP-> waiting for new item");
+                //noinspection ResultOfMethodCallIgnored
+                newItemInQueue.await(sleepTime, TimeUnit.MILLISECONDS);
+                if (requestQueue.peek() != null && requestQueue.peek().priority) {
+                    logger.debug("LOOP-> found priority!");
+                    return;
+                }
+            } finally {
+                waitingForItemLock.unlock();
+            }
+            logger.debug("LOOP-> waiting longer...");
+            sleepUntilPriorityOrRateLimit();
+            return;
+        }
+        logger.debug("No true rate limit left either...");
+        Thread.sleep(sleepTime);
+        // Sets the next resetTime as 60 seconds in the future.
+        setRateLimitRemaining(120, 60);
+        logger.debug("LOOP-> finished waiting");
     }
 }

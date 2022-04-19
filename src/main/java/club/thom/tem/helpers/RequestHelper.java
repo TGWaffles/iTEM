@@ -2,14 +2,13 @@ package club.thom.tem.helpers;
 
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -25,20 +24,13 @@ public class RequestHelper {
     
     public static RequestData sendPostRequest(String urlString, JsonObject postData) {
         URL url = null;
-        JsonObject jsonData;
+        JsonElement jsonData;
         HttpsURLConnection uc;
+        String jsonAsText = "";
         int status = -1;
         try {
             url = new URL(urlString);
-            uc = (HttpsURLConnection) url.openConnection();
-            uc.setSSLSocketFactory(TEM.getAllowAllFactory());
-            uc.setReadTimeout(20000);
-            uc.setConnectTimeout(20000);
-            uc.setRequestMethod("POST");
-            uc.addRequestProperty("User-Agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
-            uc.setRequestProperty("Content-Type", "application/json; utf-8");
-            uc.setRequestProperty("Accept", "application/json");
+            uc = getHttpsURLConnection(url, "POST");
             uc.setDoOutput(true);
             try (OutputStream os = uc.getOutputStream()) {
                 byte[] input = postData.toString().getBytes(StandardCharsets.UTF_8);
@@ -51,34 +43,23 @@ public class RequestHelper {
             } else {
                 inputStream = uc.getInputStream();
             }
-            jsonData = new JsonParser().parse(new InputStreamReader(inputStream)).getAsJsonObject();
+            jsonAsText = IOUtils.toString(inputStream);
+            jsonData = new JsonParser().parse(jsonAsText);
             return new RequestData(status, uc.getHeaderFields(), jsonData);
         } catch (IOException | JsonSyntaxException | JsonIOException e) {
-            logger.error("Exception when fetching data... (uc maybe null)", e);
-            logger.error("URL was: {}", url != null ? url.toExternalForm() : "null url");
-            JsonObject errorObject = new JsonObject();
-            errorObject.addProperty("success", false);
-            errorObject.addProperty("status", status);
-            return new RequestData(status, new HashMap<>(), errorObject);
+            return printErrorDebug(url, jsonAsText, status, e);
         }
     }
 
     public static RequestData sendGetRequest(String urlString) {
         URL url = null;
-        JsonObject jsonData;
+        JsonElement jsonData;
         HttpsURLConnection uc;
+        String jsonAsText = "";
         int status = -1;
         try {
             url = new URL(urlString);
-            uc = (HttpsURLConnection) url.openConnection();
-            uc.setSSLSocketFactory(TEM.getAllowAllFactory());
-            uc.setReadTimeout(20000);
-            uc.setConnectTimeout(20000);
-            uc.setRequestMethod("GET");
-            uc.addRequestProperty("User-Agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
-            uc.setRequestProperty("Content-Type", "application/json; utf-8");
-            uc.setRequestProperty("Accept", "application/json");
+            uc = getHttpsURLConnection(url, "GET");
             status = uc.getResponseCode();
             InputStream inputStream;
             if (status != 200) {
@@ -86,16 +67,38 @@ public class RequestHelper {
             } else {
                 inputStream = uc.getInputStream();
             }
-            jsonData = new JsonParser().parse(new InputStreamReader(inputStream)).getAsJsonObject();
+            jsonAsText = IOUtils.toString(inputStream);
+            jsonData = new JsonParser().parse(jsonAsText);
             return new RequestData(status, uc.getHeaderFields(), jsonData);
         } catch (IOException | JsonSyntaxException | JsonIOException e) {
-            logger.error("Exception when fetching data... (uc maybe null)", e);
-            logger.error("URL was: {}", url != null ? url.toExternalForm() : "null url");
-            JsonObject errorObject = new JsonObject();
-            errorObject.addProperty("success", false);
-            errorObject.addProperty("status", status);
-            return new RequestData(status, new HashMap<>(), errorObject);
+            return printErrorDebug(url, jsonAsText, status, e);
         }
+    }
+
+    @NotNull
+    private static HttpsURLConnection getHttpsURLConnection(URL url, String post) throws IOException {
+        HttpsURLConnection uc;
+        uc = (HttpsURLConnection) url.openConnection();
+        uc.setSSLSocketFactory(TEM.getAllowAllFactory());
+        uc.setReadTimeout(20000);
+        uc.setConnectTimeout(20000);
+        uc.setRequestMethod(post);
+        uc.addRequestProperty("User-Agent",
+                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+        uc.setRequestProperty("Content-Type", "application/json; utf-8");
+        uc.setRequestProperty("Accept", "application/json");
+        return uc;
+    }
+
+    @NotNull
+    private static RequestData printErrorDebug(URL url, String jsonAsText, int status, Exception e) {
+        logger.error("Exception when fetching data... (uc maybe null)", e);
+        logger.error("URL was: {}", url != null ? url.toExternalForm() : "null url");
+        logger.error("Json data: {}", jsonAsText);
+        JsonObject errorObject = new JsonObject();
+        errorObject.addProperty("success", false);
+        errorObject.addProperty("status", status);
+        return new RequestData(status, new HashMap<>(), errorObject);
     }
     
     public static void tellPlayerAboutFailedRequest(int status) {

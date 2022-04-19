@@ -39,7 +39,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 // Restriction: never make one of the subversion numbers > 255 due to how versioning works.
-version = "0.0.2.4"
+version = "0.0.2.5"
 group= "club.thom.tem" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "TEM"
 
@@ -71,6 +71,7 @@ dependencies {
     testCompile 'org.powermock:powermock-core:2.0.9'
     testCompile 'org.powermock:powermock-module-junit4:2.0.9'
     testCompile 'org.powermock:powermock-api-mockito2:2.0.9'
+    implementation('org.reflections:reflections:0.10.2')
 
     // Log4J (already packaged with forge)
     //noinspection GradlePackageUpdate
@@ -136,6 +137,14 @@ shadowJar {
         include(dependency {
             it.moduleGroup == 'com.neovisionaries'
         })
+
+        include(dependency {
+            it.moduleGroup == 'org.slf4j'
+        })
+        include(dependency {
+            it.moduleGroup == 'org.javassist'
+        })
+        include(dependency('org.reflections:reflections:0.10.2'))
     }
     // TEM-0.0.0.1.jar for example
     archiveFileName = "${baseName}-${version}.${extension}"
@@ -150,11 +159,12 @@ task standaloneShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.
     from(project.convention.getPlugin(JavaPluginConvention).sourceSets.main.output)
     configurations = [project.configurations.runtimeClasspath]
     exclude(
-            "META-INF/versions/**"
+            "META-INF/versions/**",
     )
 
     dependencies {
         include(dependency("gg.essential:loader-launchwrapper:1.1.2"))
+        include(dependency('org.reflections:reflections:0.10.2'))
 
         // standalone
         include(dependency("org.jetbrains.kotlin:kotlin-stdlib:1.5.30"))
