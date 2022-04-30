@@ -3,7 +3,7 @@ package club.thom.tem.models.inventory.item;
 import club.thom.tem.TEM;
 import club.thom.tem.models.RarityConverter;
 import club.thom.tem.models.messages.ClientMessages;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.*;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.Arrays;
@@ -128,46 +128,88 @@ public class MiscItemData extends InventoryItemData {
         return -1;
     }
 
+    public static ClientMessages.ExtraAttributes convertCompoundToExtraAttributes(NBTTagCompound compound, boolean ignore) {
+        // stored elsewhere, can be omitted here
+        List<String> ignoredKeys = Arrays.asList("id", "timestamp", "enchantments", "color", "modifier", "uuid");
+        ClientMessages.ExtraAttributes.Builder extraAttributesBuilder = ClientMessages.ExtraAttributes.newBuilder();
+        for (String innerKey : compound.getKeySet()) {
+            if (ignore && ignoredKeys.contains(innerKey)) {
+                continue;
+            }
+            NBTBase value = compound.getTag(innerKey);
+            extraAttributesBuilder.addItem(
+                    ClientMessages.ExtraAttributeItem.newBuilder().setKey(innerKey).setValue(convertBaseToValue(compound.getTagId(innerKey), value))
+            );
+        }
+
+        return extraAttributesBuilder.build();
+    }
+
+    public static ClientMessages.ExtraAttributeValue convertBaseToValue(byte tagId, NBTBase base) {
+        ClientMessages.ExtraAttributeValueList.Builder listBuilder;
+        switch (tagId) {
+            case Constants.NBT.TAG_BYTE:
+                // byte (cast to int)
+                return ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(((NBTTagByte) base).getByte()).build();
+            case Constants.NBT.TAG_SHORT:
+                // short (cast to int)
+                return ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(((NBTTagShort) base).getShort()).build();
+            case Constants.NBT.TAG_INT:
+                // int
+                return ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(((NBTTagInt) base).getInt()).build();
+            case Constants.NBT.TAG_STRING:
+                // string
+                return ClientMessages.ExtraAttributeValue.newBuilder().setStringValue(((NBTTagString) base).getString()).build();
+            case Constants.NBT.TAG_LONG:
+                // long
+                return ClientMessages.ExtraAttributeValue.newBuilder().setLongValue(((NBTTagLong) base).getLong()).build();
+            case Constants.NBT.TAG_FLOAT:
+                // float (cast to double)
+                return ClientMessages.ExtraAttributeValue.newBuilder().setDoubleValue(
+                        // To prevent adding extra "fake" accuracy, float -> string -> double
+                        Double.parseDouble(Float.valueOf(((NBTTagFloat) base).getFloat()).toString())
+                ).build();
+            case Constants.NBT.TAG_DOUBLE:
+                // double
+                return ClientMessages.ExtraAttributeValue.newBuilder().setDoubleValue(((NBTTagDouble) base).getDouble()).build();
+            case Constants.NBT.TAG_BYTE_ARRAY:
+                // byte array
+                listBuilder = ClientMessages.ExtraAttributeValueList.newBuilder();
+                for (byte data : ((NBTTagByteArray) base).getByteArray()) {
+                    listBuilder.addValue(ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(data).build());
+                }
+                return ClientMessages.ExtraAttributeValue.newBuilder().setListItem(listBuilder.build()).build();
+            case Constants.NBT.TAG_INT_ARRAY:
+                // int array
+                listBuilder = ClientMessages.ExtraAttributeValueList.newBuilder();
+                for (int data : ((NBTTagIntArray) base).getIntArray()) {
+                    listBuilder.addValue(ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(data).build());
+                }
+                return ClientMessages.ExtraAttributeValue.newBuilder().setListItem(listBuilder.build()).build();
+            case Constants.NBT.TAG_COMPOUND:
+                // compound
+                return ClientMessages.ExtraAttributeValue.newBuilder().setCompoundItem(convertCompoundToExtraAttributes((NBTTagCompound) base, false)).build();
+            case Constants.NBT.TAG_LIST:
+                NBTTagList tagList = (NBTTagList) base;
+                if (tagList.tagCount() == 1 && tagList.getTagType() == Constants.NBT.TAG_COMPOUND) {
+                    return convertBaseToValue((byte) Constants.NBT.TAG_COMPOUND, tagList.get(0));
+                }
+                byte tagType = (byte) tagList.getTagType();
+                listBuilder = ClientMessages.ExtraAttributeValueList.newBuilder();
+                for (int i = 0; i < tagList.tagCount(); i++) {
+                    listBuilder.addValue(convertBaseToValue(tagType, tagList.get(i)));
+                }
+                return ClientMessages.ExtraAttributeValue.newBuilder().setListItem(listBuilder.build()).build();
+            default:
+                return null;
+        }
+    }
+
     /**
      * Iterates through extraAttributes, adds each one as key:value to the packet
      */
     public void addExtraAttributes() {
-        // data points that are stored elsewhere, can be omitted to not duplicate data
-        List<String> ignoredKeys = Arrays.asList("id", "timestamp", "enchantments", "color", "modifier", "uuid");
-        for (String key : extraAttributes.getKeySet()) {
-            if (ignoredKeys.contains(key)) {
-                continue;
-            }
-            // currently, only implemented are string, int, short, long
-            byte tagId = extraAttributes.getTagId(key);
-            if (tagId == Constants.NBT.TAG_BYTE) {
-                // byte (cast to int)
-                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(extraAttributes.getByte(key)).build());
-            } else if (tagId == Constants.NBT.TAG_SHORT) {
-                // short (cast to int)
-                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(extraAttributes.getShort(key)).build());
-            } else if (tagId == Constants.NBT.TAG_INT) {
-                // int
-                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setIntValue(extraAttributes.getInteger(key)).build());
-            } else if (tagId == Constants.NBT.TAG_STRING) {
-                // string
-                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setStringValue(extraAttributes.getString(key)).build());
-            } else if (tagId == Constants.NBT.TAG_LONG) {
-                // long
-                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setLongValue(extraAttributes.getLong(key)).build());
-            } else if (tagId == Constants.NBT.TAG_FLOAT) {
-                // float (cast to double)
-                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setDoubleValue(
-                        // To prevent adding extra "fake" accuracy, float -> string -> double
-                        Double.parseDouble(Float.valueOf(extraAttributes.getFloat(key)).toString())
-                ).build());
-            } else if (tagId == Constants.NBT.TAG_DOUBLE) {
-                // double
-                dataBuilder.putExtraAttributes(key, ClientMessages.ExtraAttributeValue.newBuilder().setDoubleValue(extraAttributes.getDouble(key)).build());
-            }
-            // anything else not supported, so not stored
-        }
-
+        dataBuilder.setExtraAttributes(convertCompoundToExtraAttributes(extraAttributes, true));
     }
 
     private String getUuid() {
