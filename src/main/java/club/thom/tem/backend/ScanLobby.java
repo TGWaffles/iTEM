@@ -93,6 +93,13 @@ public class ScanLobby {
             commandNameMap.put(uuid, player.getName());
         }
         players.removeAll(playersToRemove);
+
+        if (players.size() == 0) {
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "No players were found in your lobby. " +
+                    "Possibly due to Hypixel not sending the data on time. Try scanning again!"));
+            return;
+        }
+
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() != 200) {
             RequestHelper.tellPlayerAboutFailedRequest(returnedData.getStatus());
@@ -100,7 +107,8 @@ public class ScanLobby {
         }
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();
         if (!returnedData.getJsonAsObject().has("armour")) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error (no armour!)"));
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "The players in your lobby don't have " +
+                    "any tracked armour."));
             return;
         }
         for (JsonElement element : returnedData.getJsonAsObject().get("armour").getAsJsonArray()) {
