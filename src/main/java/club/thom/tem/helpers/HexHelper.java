@@ -45,17 +45,21 @@ public class HexHelper {
     public static Modifier getModifier(String itemId, String hexCode) {
         if (checkOriginal(itemId, hexCode)) {
             return Modifier.ORIGINAL;
-        } else if (FairyColours.isFairyColour(hexCode)) {
-            if (FairyColours.isOGFairyColour(hexCode)) {
-                return Modifier.OG_FAIRY;
-            }
-            return Modifier.FAIRY;
-        } else if (hexCode.equals("A06540") || hexCode.equals("UNDYED")) {
-            return Modifier.UNDYED;
-        } else if (CrystalColours.isCrystalColour(hexCode)) {
-            return Modifier.CRYSTAL;
-        } else {
-            return Modifier.EXOTIC;
         }
+        if (FairyColours.isOGFairyColour(itemId, hexCode)) {
+            return Modifier.OG_FAIRY;
+        }
+        if (FairyColours.isFairyColour(hexCode)) {
+            return Modifier.FAIRY;
+        }
+        if (hexCode.equals("A06540") || hexCode.equals("UNDYED")) {
+            return Modifier.UNDYED;
+        }
+        if (CrystalColours.isCrystalColour(hexCode)) {
+            return Modifier.CRYSTAL;
+        }
+
+        return Modifier.EXOTIC;
+
     }
 }

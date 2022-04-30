@@ -69,6 +69,17 @@ public class TEMConfig extends Vigilant {
     public static boolean scanRedNames = true;
 
     @Property(
+            type = PropertyType.NUMBER,
+            category = "TEM",
+            subcategory = "Scan",
+            name = "Max Item Age (days)",
+            description = "How long ago an item was last seen before it is no longer shown in lobby scans. " +
+                    "NOTE: Too low means you might miss some items, depending on TEM's current refresh rate.",
+            max = 31
+    )
+    public static int maxItemAge = 31;
+
+    @Property(
             type = PropertyType.SWITCH,
             category = "TEM",
             subcategory = "Dupe Checker",

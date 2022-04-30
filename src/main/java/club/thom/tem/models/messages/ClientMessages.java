@@ -6104,6 +6104,36 @@ public final class ClientMessages {
      */
     double getDoubleValue();
 
+    /**
+     * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+     * @return Whether the compoundItem field is set.
+     */
+    boolean hasCompoundItem();
+    /**
+     * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+     * @return The compoundItem.
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributes getCompoundItem();
+    /**
+     * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder getCompoundItemOrBuilder();
+
+    /**
+     * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+     * @return Whether the listItem field is set.
+     */
+    boolean hasListItem();
+    /**
+     * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+     * @return The listItem.
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList getListItem();
+    /**
+     * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueListOrBuilder getListItemOrBuilder();
+
     public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.ValueCase getValueCase();
   }
   /**
@@ -6172,6 +6202,34 @@ public final class ClientMessages {
               valueCase_ = 4;
               break;
             }
+            case 42: {
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder subBuilder = null;
+              if (valueCase_ == 5) {
+                subBuilder = ((club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_).toBuilder();
+              }
+              value_ =
+                  input.readMessage(club.thom.tem.models.messages.ClientMessages.ExtraAttributes.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_);
+                value_ = subBuilder.buildPartial();
+              }
+              valueCase_ = 5;
+              break;
+            }
+            case 50: {
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.Builder subBuilder = null;
+              if (valueCase_ == 6) {
+                subBuilder = ((club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_).toBuilder();
+              }
+              value_ =
+                  input.readMessage(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom((club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_);
+                value_ = subBuilder.buildPartial();
+              }
+              valueCase_ = 6;
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -6213,6 +6271,8 @@ public final class ClientMessages {
       INTVALUE(2),
       LONGVALUE(3),
       DOUBLEVALUE(4),
+      COMPOUNDITEM(5),
+      LISTITEM(6),
       VALUE_NOT_SET(0);
       private final int value;
       private ValueCase(int value) {
@@ -6234,6 +6294,8 @@ public final class ClientMessages {
           case 2: return INTVALUE;
           case 3: return LONGVALUE;
           case 4: return DOUBLEVALUE;
+          case 5: return COMPOUNDITEM;
+          case 6: return LISTITEM;
           case 0: return VALUE_NOT_SET;
           default: return null;
         }
@@ -6364,6 +6426,68 @@ public final class ClientMessages {
       return 0D;
     }
 
+    public static final int COMPOUNDITEM_FIELD_NUMBER = 5;
+    /**
+     * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+     * @return Whether the compoundItem field is set.
+     */
+    @java.lang.Override
+    public boolean hasCompoundItem() {
+      return valueCase_ == 5;
+    }
+    /**
+     * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+     * @return The compoundItem.
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributes getCompoundItem() {
+      if (valueCase_ == 5) {
+         return (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_;
+      }
+      return club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance();
+    }
+    /**
+     * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder getCompoundItemOrBuilder() {
+      if (valueCase_ == 5) {
+         return (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_;
+      }
+      return club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance();
+    }
+
+    public static final int LISTITEM_FIELD_NUMBER = 6;
+    /**
+     * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+     * @return Whether the listItem field is set.
+     */
+    @java.lang.Override
+    public boolean hasListItem() {
+      return valueCase_ == 6;
+    }
+    /**
+     * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+     * @return The listItem.
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList getListItem() {
+      if (valueCase_ == 6) {
+         return (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_;
+      }
+      return club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance();
+    }
+    /**
+     * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueListOrBuilder getListItemOrBuilder() {
+      if (valueCase_ == 6) {
+         return (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_;
+      }
+      return club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6393,6 +6517,12 @@ public final class ClientMessages {
         output.writeDouble(
             4, (double)((java.lang.Double) value_));
       }
+      if (valueCase_ == 5) {
+        output.writeMessage(5, (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_);
+      }
+      if (valueCase_ == 6) {
+        output.writeMessage(6, (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -6419,6 +6549,14 @@ public final class ClientMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(
               4, (double)((java.lang.Double) value_));
+      }
+      if (valueCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_);
+      }
+      if (valueCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6454,6 +6592,14 @@ public final class ClientMessages {
               != java.lang.Double.doubleToLongBits(
                   other.getDoubleValue())) return false;
           break;
+        case 5:
+          if (!getCompoundItem()
+              .equals(other.getCompoundItem())) return false;
+          break;
+        case 6:
+          if (!getListItem()
+              .equals(other.getListItem())) return false;
+          break;
         case 0:
         default:
       }
@@ -6486,6 +6632,14 @@ public final class ClientMessages {
           hash = (37 * hash) + DOUBLEVALUE_FIELD_NUMBER;
           hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
               java.lang.Double.doubleToLongBits(getDoubleValue()));
+          break;
+        case 5:
+          hash = (37 * hash) + COMPOUNDITEM_FIELD_NUMBER;
+          hash = (53 * hash) + getCompoundItem().hashCode();
+          break;
+        case 6:
+          hash = (37 * hash) + LISTITEM_FIELD_NUMBER;
+          hash = (53 * hash) + getListItem().hashCode();
           break;
         case 0:
         default:
@@ -6663,6 +6817,20 @@ public final class ClientMessages {
         if (valueCase_ == 4) {
           result.value_ = value_;
         }
+        if (valueCase_ == 5) {
+          if (compoundItemBuilder_ == null) {
+            result.value_ = value_;
+          } else {
+            result.value_ = compoundItemBuilder_.build();
+          }
+        }
+        if (valueCase_ == 6) {
+          if (listItemBuilder_ == null) {
+            result.value_ = value_;
+          } else {
+            result.value_ = listItemBuilder_.build();
+          }
+        }
         result.valueCase_ = valueCase_;
         onBuilt();
         return result;
@@ -6729,6 +6897,14 @@ public final class ClientMessages {
           }
           case DOUBLEVALUE: {
             setDoubleValue(other.getDoubleValue());
+            break;
+          }
+          case COMPOUNDITEM: {
+            mergeCompoundItem(other.getCompoundItem());
+            break;
+          }
+          case LISTITEM: {
+            mergeListItem(other.getListItem());
             break;
           }
           case VALUE_NOT_SET: {
@@ -6998,6 +7174,288 @@ public final class ClientMessages {
         }
         return this;
       }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributes, club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder> compoundItemBuilder_;
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       * @return Whether the compoundItem field is set.
+       */
+      @java.lang.Override
+      public boolean hasCompoundItem() {
+        return valueCase_ == 5;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       * @return The compoundItem.
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributes getCompoundItem() {
+        if (compoundItemBuilder_ == null) {
+          if (valueCase_ == 5) {
+            return (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_;
+          }
+          return club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance();
+        } else {
+          if (valueCase_ == 5) {
+            return compoundItemBuilder_.getMessage();
+          }
+          return club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       */
+      public Builder setCompoundItem(club.thom.tem.models.messages.ClientMessages.ExtraAttributes value) {
+        if (compoundItemBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          value_ = value;
+          onChanged();
+        } else {
+          compoundItemBuilder_.setMessage(value);
+        }
+        valueCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       */
+      public Builder setCompoundItem(
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder builderForValue) {
+        if (compoundItemBuilder_ == null) {
+          value_ = builderForValue.build();
+          onChanged();
+        } else {
+          compoundItemBuilder_.setMessage(builderForValue.build());
+        }
+        valueCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       */
+      public Builder mergeCompoundItem(club.thom.tem.models.messages.ClientMessages.ExtraAttributes value) {
+        if (compoundItemBuilder_ == null) {
+          if (valueCase_ == 5 &&
+              value_ != club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance()) {
+            value_ = club.thom.tem.models.messages.ClientMessages.ExtraAttributes.newBuilder((club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            value_ = value;
+          }
+          onChanged();
+        } else {
+          if (valueCase_ == 5) {
+            compoundItemBuilder_.mergeFrom(value);
+          }
+          compoundItemBuilder_.setMessage(value);
+        }
+        valueCase_ = 5;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       */
+      public Builder clearCompoundItem() {
+        if (compoundItemBuilder_ == null) {
+          if (valueCase_ == 5) {
+            valueCase_ = 0;
+            value_ = null;
+            onChanged();
+          }
+        } else {
+          if (valueCase_ == 5) {
+            valueCase_ = 0;
+            value_ = null;
+          }
+          compoundItemBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder getCompoundItemBuilder() {
+        return getCompoundItemFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder getCompoundItemOrBuilder() {
+        if ((valueCase_ == 5) && (compoundItemBuilder_ != null)) {
+          return compoundItemBuilder_.getMessageOrBuilder();
+        } else {
+          if (valueCase_ == 5) {
+            return (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_;
+          }
+          return club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributes compoundItem = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributes, club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder> 
+          getCompoundItemFieldBuilder() {
+        if (compoundItemBuilder_ == null) {
+          if (!(valueCase_ == 5)) {
+            value_ = club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance();
+          }
+          compoundItemBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributes, club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder>(
+                  (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) value_,
+                  getParentForChildren(),
+                  isClean());
+          value_ = null;
+        }
+        valueCase_ = 5;
+        onChanged();;
+        return compoundItemBuilder_;
+      }
+
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueListOrBuilder> listItemBuilder_;
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       * @return Whether the listItem field is set.
+       */
+      @java.lang.Override
+      public boolean hasListItem() {
+        return valueCase_ == 6;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       * @return The listItem.
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList getListItem() {
+        if (listItemBuilder_ == null) {
+          if (valueCase_ == 6) {
+            return (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_;
+          }
+          return club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance();
+        } else {
+          if (valueCase_ == 6) {
+            return listItemBuilder_.getMessage();
+          }
+          return club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       */
+      public Builder setListItem(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList value) {
+        if (listItemBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          value_ = value;
+          onChanged();
+        } else {
+          listItemBuilder_.setMessage(value);
+        }
+        valueCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       */
+      public Builder setListItem(
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.Builder builderForValue) {
+        if (listItemBuilder_ == null) {
+          value_ = builderForValue.build();
+          onChanged();
+        } else {
+          listItemBuilder_.setMessage(builderForValue.build());
+        }
+        valueCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       */
+      public Builder mergeListItem(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList value) {
+        if (listItemBuilder_ == null) {
+          if (valueCase_ == 6 &&
+              value_ != club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance()) {
+            value_ = club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.newBuilder((club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_)
+                .mergeFrom(value).buildPartial();
+          } else {
+            value_ = value;
+          }
+          onChanged();
+        } else {
+          if (valueCase_ == 6) {
+            listItemBuilder_.mergeFrom(value);
+          }
+          listItemBuilder_.setMessage(value);
+        }
+        valueCase_ = 6;
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       */
+      public Builder clearListItem() {
+        if (listItemBuilder_ == null) {
+          if (valueCase_ == 6) {
+            valueCase_ = 0;
+            value_ = null;
+            onChanged();
+          }
+        } else {
+          if (valueCase_ == 6) {
+            valueCase_ = 0;
+            value_ = null;
+          }
+          listItemBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.Builder getListItemBuilder() {
+        return getListItemFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       */
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueListOrBuilder getListItemOrBuilder() {
+        if ((valueCase_ == 6) && (listItemBuilder_ != null)) {
+          return listItemBuilder_.getMessageOrBuilder();
+        } else {
+          if (valueCase_ == 6) {
+            return (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_;
+          }
+          return club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance();
+        }
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValueList listItem = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueListOrBuilder> 
+          getListItemFieldBuilder() {
+        if (listItemBuilder_ == null) {
+          if (!(valueCase_ == 6)) {
+            value_ = club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance();
+          }
+          listItemBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueListOrBuilder>(
+                  (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) value_,
+                  getParentForChildren(),
+                  isClean());
+          value_ = null;
+        }
+        valueCase_ = 6;
+        onChanged();;
+        return listItemBuilder_;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -7046,6 +7504,2363 @@ public final class ClientMessages {
 
     @java.lang.Override
     public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExtraAttributeValueListOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:clientMessage.ExtraAttributeValueList)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> 
+        getValueList();
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getValue(int index);
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    int getValueCount();
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    java.util.List<? extends club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder> 
+        getValueOrBuilderList();
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder getValueOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code clientMessage.ExtraAttributeValueList}
+   */
+  public static final class ExtraAttributeValueList extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:clientMessage.ExtraAttributeValueList)
+      ExtraAttributeValueListOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExtraAttributeValueList.newBuilder() to construct.
+    private ExtraAttributeValueList(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExtraAttributeValueList() {
+      value_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExtraAttributeValueList();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExtraAttributeValueList(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                value_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              value_.add(
+                  input.readMessage(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          value_ = java.util.Collections.unmodifiableList(value_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeValueList_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeValueList_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.class, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.Builder.class);
+    }
+
+    public static final int VALUE_FIELD_NUMBER = 1;
+    private java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> value_;
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> getValueList() {
+      return value_;
+    }
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder> 
+        getValueOrBuilderList() {
+      return value_;
+    }
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    @java.lang.Override
+    public int getValueCount() {
+      return value_.size();
+    }
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getValue(int index) {
+      return value_.get(index);
+    }
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder getValueOrBuilder(
+        int index) {
+      return value_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < value_.size(); i++) {
+        output.writeMessage(1, value_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < value_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, value_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList other = (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) obj;
+
+      if (!getValueList()
+          .equals(other.getValueList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getValueCount() > 0) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValueList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code clientMessage.ExtraAttributeValueList}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:clientMessage.ExtraAttributeValueList)
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueListOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeValueList_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeValueList_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.class, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getValueFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (valueBuilder_ == null) {
+          value_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          valueBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeValueList_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList build() {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList buildPartial() {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList result = new club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList(this);
+        int from_bitField0_ = bitField0_;
+        if (valueBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            value_ = java.util.Collections.unmodifiableList(value_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.value_ = value_;
+        } else {
+          result.value_ = valueBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) {
+          return mergeFrom((club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList other) {
+        if (other == club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList.getDefaultInstance()) return this;
+        if (valueBuilder_ == null) {
+          if (!other.value_.isEmpty()) {
+            if (value_.isEmpty()) {
+              value_ = other.value_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureValueIsMutable();
+              value_.addAll(other.value_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.value_.isEmpty()) {
+            if (valueBuilder_.isEmpty()) {
+              valueBuilder_.dispose();
+              valueBuilder_ = null;
+              value_ = other.value_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              valueBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getValueFieldBuilder() : null;
+            } else {
+              valueBuilder_.addAllMessages(other.value_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> value_ =
+        java.util.Collections.emptyList();
+      private void ensureValueIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          value_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>(value_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder> valueBuilder_;
+
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> getValueList() {
+        if (valueBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(value_);
+        } else {
+          return valueBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public int getValueCount() {
+        if (valueBuilder_ == null) {
+          return value_.size();
+        } else {
+          return valueBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getValue(int index) {
+        if (valueBuilder_ == null) {
+          return value_.get(index);
+        } else {
+          return valueBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder setValue(
+          int index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue value) {
+        if (valueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValueIsMutable();
+          value_.set(index, value);
+          onChanged();
+        } else {
+          valueBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder setValue(
+          int index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder builderForValue) {
+        if (valueBuilder_ == null) {
+          ensureValueIsMutable();
+          value_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          valueBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder addValue(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue value) {
+        if (valueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValueIsMutable();
+          value_.add(value);
+          onChanged();
+        } else {
+          valueBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder addValue(
+          int index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue value) {
+        if (valueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureValueIsMutable();
+          value_.add(index, value);
+          onChanged();
+        } else {
+          valueBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder addValue(
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder builderForValue) {
+        if (valueBuilder_ == null) {
+          ensureValueIsMutable();
+          value_.add(builderForValue.build());
+          onChanged();
+        } else {
+          valueBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder addValue(
+          int index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder builderForValue) {
+        if (valueBuilder_ == null) {
+          ensureValueIsMutable();
+          value_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          valueBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder addAllValue(
+          java.lang.Iterable<? extends club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> values) {
+        if (valueBuilder_ == null) {
+          ensureValueIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, value_);
+          onChanged();
+        } else {
+          valueBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder clearValue() {
+        if (valueBuilder_ == null) {
+          value_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          valueBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public Builder removeValue(int index) {
+        if (valueBuilder_ == null) {
+          ensureValueIsMutable();
+          value_.remove(index);
+          onChanged();
+        } else {
+          valueBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder getValueBuilder(
+          int index) {
+        return getValueFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder getValueOrBuilder(
+          int index) {
+        if (valueBuilder_ == null) {
+          return value_.get(index);  } else {
+          return valueBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder> 
+           getValueOrBuilderList() {
+        if (valueBuilder_ != null) {
+          return valueBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(value_);
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder addValueBuilder() {
+        return getValueFieldBuilder().addBuilder(
+            club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder addValueBuilder(
+          int index) {
+        return getValueFieldBuilder().addBuilder(
+            index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeValue value = 1;</code>
+       */
+      public java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder> 
+           getValueBuilderList() {
+        return getValueFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder> 
+          getValueFieldBuilder() {
+        if (valueBuilder_ == null) {
+          valueBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder>(
+                  value_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          value_ = null;
+        }
+        return valueBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:clientMessage.ExtraAttributeValueList)
+    }
+
+    // @@protoc_insertion_point(class_scope:clientMessage.ExtraAttributeValueList)
+    private static final club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList();
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExtraAttributeValueList>
+        PARSER = new com.google.protobuf.AbstractParser<ExtraAttributeValueList>() {
+      @java.lang.Override
+      public ExtraAttributeValueList parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ExtraAttributeValueList(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExtraAttributeValueList> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExtraAttributeValueList> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueList getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExtraAttributeItemOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:clientMessage.ExtraAttributeItem)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string key = 1;</code>
+     * @return The key.
+     */
+    java.lang.String getKey();
+    /**
+     * <code>string key = 1;</code>
+     * @return The bytes for key.
+     */
+    com.google.protobuf.ByteString
+        getKeyBytes();
+
+    /**
+     * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+     * @return Whether the value field is set.
+     */
+    boolean hasValue();
+    /**
+     * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+     * @return The value.
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getValue();
+    /**
+     * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder getValueOrBuilder();
+  }
+  /**
+   * Protobuf type {@code clientMessage.ExtraAttributeItem}
+   */
+  public static final class ExtraAttributeItem extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:clientMessage.ExtraAttributeItem)
+      ExtraAttributeItemOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExtraAttributeItem.newBuilder() to construct.
+    private ExtraAttributeItem(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExtraAttributeItem() {
+      key_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExtraAttributeItem();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExtraAttributeItem(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              key_ = s;
+              break;
+            }
+            case 18: {
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder subBuilder = null;
+              if (value_ != null) {
+                subBuilder = value_.toBuilder();
+              }
+              value_ = input.readMessage(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(value_);
+                value_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeItem_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeItem_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.class, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder.class);
+    }
+
+    public static final int KEY_FIELD_NUMBER = 1;
+    private volatile java.lang.Object key_;
+    /**
+     * <code>string key = 1;</code>
+     * @return The key.
+     */
+    @java.lang.Override
+    public java.lang.String getKey() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        key_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string key = 1;</code>
+     * @return The bytes for key.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getKeyBytes() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        key_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int VALUE_FIELD_NUMBER = 2;
+    private club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue value_;
+    /**
+     * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+     * @return Whether the value field is set.
+     */
+    @java.lang.Override
+    public boolean hasValue() {
+      return value_ != null;
+    }
+    /**
+     * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+     * @return The value.
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getValue() {
+      return value_ == null ? club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.getDefaultInstance() : value_;
+    }
+    /**
+     * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder getValueOrBuilder() {
+      return getValue();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(key_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, key_);
+      }
+      if (value_ != null) {
+        output.writeMessage(2, getValue());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(key_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, key_);
+      }
+      if (value_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getValue());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem other = (club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem) obj;
+
+      if (!getKey()
+          .equals(other.getKey())) return false;
+      if (hasValue() != other.hasValue()) return false;
+      if (hasValue()) {
+        if (!getValue()
+            .equals(other.getValue())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + KEY_FIELD_NUMBER;
+      hash = (53 * hash) + getKey().hashCode();
+      if (hasValue()) {
+        hash = (37 * hash) + VALUE_FIELD_NUMBER;
+        hash = (53 * hash) + getValue().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code clientMessage.ExtraAttributeItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:clientMessage.ExtraAttributeItem)
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeItem_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeItem_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.class, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        key_ = "";
+
+        if (valueBuilder_ == null) {
+          value_ = null;
+        } else {
+          value_ = null;
+          valueBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributeItem_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem build() {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem buildPartial() {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem result = new club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem(this);
+        result.key_ = key_;
+        if (valueBuilder_ == null) {
+          result.value_ = value_;
+        } else {
+          result.value_ = valueBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem) {
+          return mergeFrom((club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem other) {
+        if (other == club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.getDefaultInstance()) return this;
+        if (!other.getKey().isEmpty()) {
+          key_ = other.key_;
+          onChanged();
+        }
+        if (other.hasValue()) {
+          mergeValue(other.getValue());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object key_ = "";
+      /**
+       * <code>string key = 1;</code>
+       * @return The key.
+       */
+      public java.lang.String getKey() {
+        java.lang.Object ref = key_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          key_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string key = 1;</code>
+       * @return The bytes for key.
+       */
+      public com.google.protobuf.ByteString
+          getKeyBytes() {
+        java.lang.Object ref = key_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          key_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string key = 1;</code>
+       * @param value The key to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        key_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string key = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearKey() {
+        
+        key_ = getDefaultInstance().getKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string key = 1;</code>
+       * @param value The bytes for key to set.
+       * @return This builder for chaining.
+       */
+      public Builder setKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        key_ = value;
+        onChanged();
+        return this;
+      }
+
+      private club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue value_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder> valueBuilder_;
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       * @return Whether the value field is set.
+       */
+      public boolean hasValue() {
+        return valueBuilder_ != null || value_ != null;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       * @return The value.
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getValue() {
+        if (valueBuilder_ == null) {
+          return value_ == null ? club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.getDefaultInstance() : value_;
+        } else {
+          return valueBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       */
+      public Builder setValue(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue value) {
+        if (valueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          value_ = value;
+          onChanged();
+        } else {
+          valueBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       */
+      public Builder setValue(
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder builderForValue) {
+        if (valueBuilder_ == null) {
+          value_ = builderForValue.build();
+          onChanged();
+        } else {
+          valueBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       */
+      public Builder mergeValue(club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue value) {
+        if (valueBuilder_ == null) {
+          if (value_ != null) {
+            value_ =
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.newBuilder(value_).mergeFrom(value).buildPartial();
+          } else {
+            value_ = value;
+          }
+          onChanged();
+        } else {
+          valueBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       */
+      public Builder clearValue() {
+        if (valueBuilder_ == null) {
+          value_ = null;
+          onChanged();
+        } else {
+          value_ = null;
+          valueBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder getValueBuilder() {
+        
+        onChanged();
+        return getValueFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder getValueOrBuilder() {
+        if (valueBuilder_ != null) {
+          return valueBuilder_.getMessageOrBuilder();
+        } else {
+          return value_ == null ?
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.getDefaultInstance() : value_;
+        }
+      }
+      /**
+       * <code>.clientMessage.ExtraAttributeValue value = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder> 
+          getValueFieldBuilder() {
+        if (valueBuilder_ == null) {
+          valueBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValueOrBuilder>(
+                  getValue(),
+                  getParentForChildren(),
+                  isClean());
+          value_ = null;
+        }
+        return valueBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:clientMessage.ExtraAttributeItem)
+    }
+
+    // @@protoc_insertion_point(class_scope:clientMessage.ExtraAttributeItem)
+    private static final club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem();
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExtraAttributeItem>
+        PARSER = new com.google.protobuf.AbstractParser<ExtraAttributeItem>() {
+      @java.lang.Override
+      public ExtraAttributeItem parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ExtraAttributeItem(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExtraAttributeItem> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExtraAttributeItem> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ExtraAttributesOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:clientMessage.ExtraAttributes)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem> 
+        getItemList();
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem getItem(int index);
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    int getItemCount();
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    java.util.List<? extends club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder> 
+        getItemOrBuilderList();
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder getItemOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code clientMessage.ExtraAttributes}
+   */
+  public static final class ExtraAttributes extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:clientMessage.ExtraAttributes)
+      ExtraAttributesOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ExtraAttributes.newBuilder() to construct.
+    private ExtraAttributes(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ExtraAttributes() {
+      item_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ExtraAttributes();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ExtraAttributes(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                item_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              item_.add(
+                  input.readMessage(club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          item_ = java.util.Collections.unmodifiableList(item_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributes_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributes_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributes.class, club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder.class);
+    }
+
+    public static final int ITEM_FIELD_NUMBER = 1;
+    private java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem> item_;
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem> getItemList() {
+      return item_;
+    }
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    @java.lang.Override
+    public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder> 
+        getItemOrBuilderList() {
+      return item_;
+    }
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    @java.lang.Override
+    public int getItemCount() {
+      return item_.size();
+    }
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem getItem(int index) {
+      return item_.get(index);
+    }
+    /**
+     * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder getItemOrBuilder(
+        int index) {
+      return item_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < item_.size(); i++) {
+        output.writeMessage(1, item_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < item_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, item_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ClientMessages.ExtraAttributes)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ClientMessages.ExtraAttributes other = (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) obj;
+
+      if (!getItemList()
+          .equals(other.getItemList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getItemCount() > 0) {
+        hash = (37 * hash) + ITEM_FIELD_NUMBER;
+        hash = (53 * hash) + getItemList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ClientMessages.ExtraAttributes prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code clientMessage.ExtraAttributes}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:clientMessage.ExtraAttributes)
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributes_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributes_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ClientMessages.ExtraAttributes.class, club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ClientMessages.ExtraAttributes.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getItemFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        if (itemBuilder_ == null) {
+          item_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          itemBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ExtraAttributes_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributes getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributes build() {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributes result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributes buildPartial() {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributes result = new club.thom.tem.models.messages.ClientMessages.ExtraAttributes(this);
+        int from_bitField0_ = bitField0_;
+        if (itemBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            item_ = java.util.Collections.unmodifiableList(item_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.item_ = item_;
+        } else {
+          result.item_ = itemBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ClientMessages.ExtraAttributes) {
+          return mergeFrom((club.thom.tem.models.messages.ClientMessages.ExtraAttributes)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ClientMessages.ExtraAttributes other) {
+        if (other == club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance()) return this;
+        if (itemBuilder_ == null) {
+          if (!other.item_.isEmpty()) {
+            if (item_.isEmpty()) {
+              item_ = other.item_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureItemIsMutable();
+              item_.addAll(other.item_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.item_.isEmpty()) {
+            if (itemBuilder_.isEmpty()) {
+              itemBuilder_.dispose();
+              itemBuilder_ = null;
+              item_ = other.item_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              itemBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getItemFieldBuilder() : null;
+            } else {
+              itemBuilder_.addAllMessages(other.item_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ClientMessages.ExtraAttributes parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ClientMessages.ExtraAttributes) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem> item_ =
+        java.util.Collections.emptyList();
+      private void ensureItemIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          item_ = new java.util.ArrayList<club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem>(item_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder> itemBuilder_;
+
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem> getItemList() {
+        if (itemBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(item_);
+        } else {
+          return itemBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public int getItemCount() {
+        if (itemBuilder_ == null) {
+          return item_.size();
+        } else {
+          return itemBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem getItem(int index) {
+        if (itemBuilder_ == null) {
+          return item_.get(index);
+        } else {
+          return itemBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder setItem(
+          int index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem value) {
+        if (itemBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemIsMutable();
+          item_.set(index, value);
+          onChanged();
+        } else {
+          itemBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder setItem(
+          int index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder builderForValue) {
+        if (itemBuilder_ == null) {
+          ensureItemIsMutable();
+          item_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder addItem(club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem value) {
+        if (itemBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemIsMutable();
+          item_.add(value);
+          onChanged();
+        } else {
+          itemBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder addItem(
+          int index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem value) {
+        if (itemBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemIsMutable();
+          item_.add(index, value);
+          onChanged();
+        } else {
+          itemBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder addItem(
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder builderForValue) {
+        if (itemBuilder_ == null) {
+          ensureItemIsMutable();
+          item_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder addItem(
+          int index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder builderForValue) {
+        if (itemBuilder_ == null) {
+          ensureItemIsMutable();
+          item_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder addAllItem(
+          java.lang.Iterable<? extends club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem> values) {
+        if (itemBuilder_ == null) {
+          ensureItemIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, item_);
+          onChanged();
+        } else {
+          itemBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder clearItem() {
+        if (itemBuilder_ == null) {
+          item_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          itemBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public Builder removeItem(int index) {
+        if (itemBuilder_ == null) {
+          ensureItemIsMutable();
+          item_.remove(index);
+          onChanged();
+        } else {
+          itemBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder getItemBuilder(
+          int index) {
+        return getItemFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder getItemOrBuilder(
+          int index) {
+        if (itemBuilder_ == null) {
+          return item_.get(index);  } else {
+          return itemBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public java.util.List<? extends club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder> 
+           getItemOrBuilderList() {
+        if (itemBuilder_ != null) {
+          return itemBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(item_);
+        }
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder addItemBuilder() {
+        return getItemFieldBuilder().addBuilder(
+            club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder addItemBuilder(
+          int index) {
+        return getItemFieldBuilder().addBuilder(
+            index, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .clientMessage.ExtraAttributeItem item = 1;</code>
+       */
+      public java.util.List<club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder> 
+           getItemBuilderList() {
+        return getItemFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder> 
+          getItemFieldBuilder() {
+        if (itemBuilder_ == null) {
+          itemBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItem.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributeItemOrBuilder>(
+                  item_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          item_ = null;
+        }
+        return itemBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:clientMessage.ExtraAttributes)
+    }
+
+    // @@protoc_insertion_point(class_scope:clientMessage.ExtraAttributes)
+    private static final club.thom.tem.models.messages.ClientMessages.ExtraAttributes DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ClientMessages.ExtraAttributes();
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ExtraAttributes getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ExtraAttributes>
+        PARSER = new com.google.protobuf.AbstractParser<ExtraAttributes>() {
+      @java.lang.Override
+      public ExtraAttributes parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ExtraAttributes(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ExtraAttributes> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ExtraAttributes> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributes getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -7155,54 +9970,27 @@ public final class ClientMessages {
      * any other extra attributes
      * </pre>
      *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
+     * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+     * @return Whether the extraAttributes field is set.
      */
-    int getExtraAttributesCount();
+    boolean hasExtraAttributes();
     /**
      * <pre>
      * any other extra attributes
      * </pre>
      *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
+     * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+     * @return The extraAttributes.
      */
-    boolean containsExtraAttributes(
-        java.lang.String key);
-    /**
-     * Use {@link #getExtraAttributesMap()} instead.
-     */
-    @java.lang.Deprecated
-    java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>
-    getExtraAttributes();
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributes getExtraAttributes();
     /**
      * <pre>
      * any other extra attributes
      * </pre>
      *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
+     * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
      */
-    java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>
-    getExtraAttributesMap();
-    /**
-     * <pre>
-     * any other extra attributes
-     * </pre>
-     *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
-     */
-
-    club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getExtraAttributesOrDefault(
-        java.lang.String key,
-        club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue defaultValue);
-    /**
-     * <pre>
-     * any other extra attributes
-     * </pre>
-     *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
-     */
-
-    club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getExtraAttributesOrThrow(
-        java.lang.String key);
+    club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder getExtraAttributesOrBuilder();
 
     /**
      * <pre>
@@ -7319,16 +10107,16 @@ public final class ClientMessages {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
-                extraAttributes_ = com.google.protobuf.MapField.newMapField(
-                    ExtraAttributesDefaultEntryHolder.defaultEntry);
-                mutable_bitField0_ |= 0x00000002;
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder subBuilder = null;
+              if (extraAttributes_ != null) {
+                subBuilder = extraAttributes_.toBuilder();
               }
-              com.google.protobuf.MapEntry<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>
-              extraAttributes__ = input.readMessage(
-                  ExtraAttributesDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-              extraAttributes_.getMutableMap().put(
-                  extraAttributes__.getKey(), extraAttributes__.getValue());
+              extraAttributes_ = input.readMessage(club.thom.tem.models.messages.ClientMessages.ExtraAttributes.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(extraAttributes_);
+                extraAttributes_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             case 50: {
@@ -7373,8 +10161,6 @@ public final class ClientMessages {
       switch (number) {
         case 3:
           return internalGetEnchantments();
-        case 5:
-          return internalGetExtraAttributes();
         default:
           throw new RuntimeException(
               "Invalid map field number: " + number);
@@ -7567,100 +10353,41 @@ public final class ClientMessages {
     }
 
     public static final int EXTRAATTRIBUTES_FIELD_NUMBER = 5;
-    private static final class ExtraAttributesDefaultEntryHolder {
-      static final com.google.protobuf.MapEntry<
-          java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> defaultEntry =
-              com.google.protobuf.MapEntry
-              .<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>newDefaultInstance(
-                  club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_MiscItem_ExtraAttributesEntry_descriptor, 
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "",
-                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
-                  club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue.getDefaultInstance());
-    }
-    private com.google.protobuf.MapField<
-        java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> extraAttributes_;
-    private com.google.protobuf.MapField<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>
-    internalGetExtraAttributes() {
-      if (extraAttributes_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            ExtraAttributesDefaultEntryHolder.defaultEntry);
-      }
-      return extraAttributes_;
-    }
-
-    public int getExtraAttributesCount() {
-      return internalGetExtraAttributes().getMap().size();
+    private club.thom.tem.models.messages.ClientMessages.ExtraAttributes extraAttributes_;
+    /**
+     * <pre>
+     * any other extra attributes
+     * </pre>
+     *
+     * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+     * @return Whether the extraAttributes field is set.
+     */
+    @java.lang.Override
+    public boolean hasExtraAttributes() {
+      return extraAttributes_ != null;
     }
     /**
      * <pre>
      * any other extra attributes
      * </pre>
      *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
-     */
-
-    @java.lang.Override
-    public boolean containsExtraAttributes(
-        java.lang.String key) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      return internalGetExtraAttributes().getMap().containsKey(key);
-    }
-    /**
-     * Use {@link #getExtraAttributesMap()} instead.
+     * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+     * @return The extraAttributes.
      */
     @java.lang.Override
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> getExtraAttributes() {
-      return getExtraAttributesMap();
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributes getExtraAttributes() {
+      return extraAttributes_ == null ? club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance() : extraAttributes_;
     }
     /**
      * <pre>
      * any other extra attributes
      * </pre>
      *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
+     * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
      */
     @java.lang.Override
-
-    public java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> getExtraAttributesMap() {
-      return internalGetExtraAttributes().getMap();
-    }
-    /**
-     * <pre>
-     * any other extra attributes
-     * </pre>
-     *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
-     */
-    @java.lang.Override
-
-    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getExtraAttributesOrDefault(
-        java.lang.String key,
-        club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue defaultValue) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> map =
-          internalGetExtraAttributes().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <pre>
-     * any other extra attributes
-     * </pre>
-     *
-     * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
-     */
-    @java.lang.Override
-
-    public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getExtraAttributesOrThrow(
-        java.lang.String key) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> map =
-          internalGetExtraAttributes().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
+    public club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder getExtraAttributesOrBuilder() {
+      return getExtraAttributes();
     }
 
     public static final int REFORGE_FIELD_NUMBER = 6;
@@ -7761,12 +10488,9 @@ public final class ClientMessages {
       if (hexCode_ != 0) {
         output.writeInt32(4, hexCode_);
       }
-      com.google.protobuf.GeneratedMessageV3
-        .serializeStringMapTo(
-          output,
-          internalGetExtraAttributes(),
-          ExtraAttributesDefaultEntryHolder.defaultEntry,
-          5);
+      if (extraAttributes_ != null) {
+        output.writeMessage(5, getExtraAttributes());
+      }
       if (((bitField0_ & 0x00000001) != 0)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, reforge_);
       }
@@ -7803,15 +10527,9 @@ public final class ClientMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, hexCode_);
       }
-      for (java.util.Map.Entry<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> entry
-           : internalGetExtraAttributes().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>
-        extraAttributes__ = ExtraAttributesDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
+      if (extraAttributes_ != null) {
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(5, extraAttributes__);
+          .computeMessageSize(5, getExtraAttributes());
       }
       if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, reforge_);
@@ -7842,8 +10560,11 @@ public final class ClientMessages {
           other.internalGetEnchantments())) return false;
       if (getHexCode()
           != other.getHexCode()) return false;
-      if (!internalGetExtraAttributes().equals(
-          other.internalGetExtraAttributes())) return false;
+      if (hasExtraAttributes() != other.hasExtraAttributes()) return false;
+      if (hasExtraAttributes()) {
+        if (!getExtraAttributes()
+            .equals(other.getExtraAttributes())) return false;
+      }
       if (hasReforge() != other.hasReforge()) return false;
       if (hasReforge()) {
         if (!getReforge()
@@ -7872,9 +10593,9 @@ public final class ClientMessages {
       }
       hash = (37 * hash) + HEXCODE_FIELD_NUMBER;
       hash = (53 * hash) + getHexCode();
-      if (!internalGetExtraAttributes().getMap().isEmpty()) {
+      if (hasExtraAttributes()) {
         hash = (37 * hash) + EXTRAATTRIBUTES_FIELD_NUMBER;
-        hash = (53 * hash) + internalGetExtraAttributes().hashCode();
+        hash = (53 * hash) + getExtraAttributes().hashCode();
       }
       if (hasReforge()) {
         hash = (37 * hash) + REFORGE_FIELD_NUMBER;
@@ -7995,8 +10716,6 @@ public final class ClientMessages {
         switch (number) {
           case 3:
             return internalGetEnchantments();
-          case 5:
-            return internalGetExtraAttributes();
           default:
             throw new RuntimeException(
                 "Invalid map field number: " + number);
@@ -8008,8 +10727,6 @@ public final class ClientMessages {
         switch (number) {
           case 3:
             return internalGetMutableEnchantments();
-          case 5:
-            return internalGetMutableExtraAttributes();
           default:
             throw new RuntimeException(
                 "Invalid map field number: " + number);
@@ -8048,9 +10765,14 @@ public final class ClientMessages {
         internalGetMutableEnchantments().clear();
         hexCode_ = 0;
 
-        internalGetMutableExtraAttributes().clear();
+        if (extraAttributesBuilder_ == null) {
+          extraAttributes_ = null;
+        } else {
+          extraAttributes_ = null;
+          extraAttributesBuilder_ = null;
+        }
         reforge_ = "";
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         itemCount_ = 0;
 
         return this;
@@ -8086,9 +10808,12 @@ public final class ClientMessages {
         result.enchantments_ = internalGetEnchantments();
         result.enchantments_.makeImmutable();
         result.hexCode_ = hexCode_;
-        result.extraAttributes_ = internalGetExtraAttributes();
-        result.extraAttributes_.makeImmutable();
-        if (((from_bitField0_ & 0x00000004) != 0)) {
+        if (extraAttributesBuilder_ == null) {
+          result.extraAttributes_ = extraAttributes_;
+        } else {
+          result.extraAttributes_ = extraAttributesBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           to_bitField0_ |= 0x00000001;
         }
         result.reforge_ = reforge_;
@@ -8154,10 +10879,11 @@ public final class ClientMessages {
         if (other.getHexCode() != 0) {
           setHexCode(other.getHexCode());
         }
-        internalGetMutableExtraAttributes().mergeFrom(
-            other.internalGetExtraAttributes());
+        if (other.hasExtraAttributes()) {
+          mergeExtraAttributes(other.getExtraAttributes());
+        }
         if (other.hasReforge()) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000002;
           reforge_ = other.reforge_;
           onChanged();
         }
@@ -8543,106 +11269,111 @@ public final class ClientMessages {
         return this;
       }
 
-      private com.google.protobuf.MapField<
-          java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> extraAttributes_;
-      private com.google.protobuf.MapField<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>
-      internalGetExtraAttributes() {
-        if (extraAttributes_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              ExtraAttributesDefaultEntryHolder.defaultEntry);
-        }
-        return extraAttributes_;
-      }
-      private com.google.protobuf.MapField<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>
-      internalGetMutableExtraAttributes() {
-        onChanged();;
-        if (extraAttributes_ == null) {
-          extraAttributes_ = com.google.protobuf.MapField.newMapField(
-              ExtraAttributesDefaultEntryHolder.defaultEntry);
-        }
-        if (!extraAttributes_.isMutable()) {
-          extraAttributes_ = extraAttributes_.copy();
-        }
-        return extraAttributes_;
-      }
-
-      public int getExtraAttributesCount() {
-        return internalGetExtraAttributes().getMap().size();
+      private club.thom.tem.models.messages.ClientMessages.ExtraAttributes extraAttributes_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributes, club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder> extraAttributesBuilder_;
+      /**
+       * <pre>
+       * any other extra attributes
+       * </pre>
+       *
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+       * @return Whether the extraAttributes field is set.
+       */
+      public boolean hasExtraAttributes() {
+        return extraAttributesBuilder_ != null || extraAttributes_ != null;
       }
       /**
        * <pre>
        * any other extra attributes
        * </pre>
        *
-       * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+       * @return The extraAttributes.
        */
-
-      @java.lang.Override
-      public boolean containsExtraAttributes(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        return internalGetExtraAttributes().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getExtraAttributesMap()} instead.
-       */
-      @java.lang.Override
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> getExtraAttributes() {
-        return getExtraAttributesMap();
-      }
-      /**
-       * <pre>
-       * any other extra attributes
-       * </pre>
-       *
-       * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
-       */
-      @java.lang.Override
-
-      public java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> getExtraAttributesMap() {
-        return internalGetExtraAttributes().getMap();
-      }
-      /**
-       * <pre>
-       * any other extra attributes
-       * </pre>
-       *
-       * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
-       */
-      @java.lang.Override
-
-      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getExtraAttributesOrDefault(
-          java.lang.String key,
-          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue defaultValue) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> map =
-            internalGetExtraAttributes().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <pre>
-       * any other extra attributes
-       * </pre>
-       *
-       * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
-       */
-      @java.lang.Override
-
-      public club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue getExtraAttributesOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> map =
-            internalGetExtraAttributes().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributes getExtraAttributes() {
+        if (extraAttributesBuilder_ == null) {
+          return extraAttributes_ == null ? club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance() : extraAttributes_;
+        } else {
+          return extraAttributesBuilder_.getMessage();
         }
-        return map.get(key);
       }
+      /**
+       * <pre>
+       * any other extra attributes
+       * </pre>
+       *
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+       */
+      public Builder setExtraAttributes(club.thom.tem.models.messages.ClientMessages.ExtraAttributes value) {
+        if (extraAttributesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          extraAttributes_ = value;
+          onChanged();
+        } else {
+          extraAttributesBuilder_.setMessage(value);
+        }
 
+        return this;
+      }
+      /**
+       * <pre>
+       * any other extra attributes
+       * </pre>
+       *
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+       */
+      public Builder setExtraAttributes(
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder builderForValue) {
+        if (extraAttributesBuilder_ == null) {
+          extraAttributes_ = builderForValue.build();
+          onChanged();
+        } else {
+          extraAttributesBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * any other extra attributes
+       * </pre>
+       *
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+       */
+      public Builder mergeExtraAttributes(club.thom.tem.models.messages.ClientMessages.ExtraAttributes value) {
+        if (extraAttributesBuilder_ == null) {
+          if (extraAttributes_ != null) {
+            extraAttributes_ =
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributes.newBuilder(extraAttributes_).mergeFrom(value).buildPartial();
+          } else {
+            extraAttributes_ = value;
+          }
+          onChanged();
+        } else {
+          extraAttributesBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * any other extra attributes
+       * </pre>
+       *
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
+       */
       public Builder clearExtraAttributes() {
-        internalGetMutableExtraAttributes().getMutableMap()
-            .clear();
+        if (extraAttributesBuilder_ == null) {
+          extraAttributes_ = null;
+          onChanged();
+        } else {
+          extraAttributes_ = null;
+          extraAttributesBuilder_ = null;
+        }
+
         return this;
       }
       /**
@@ -8650,56 +11381,47 @@ public final class ClientMessages {
        * any other extra attributes
        * </pre>
        *
-       * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
        */
-
-      public Builder removeExtraAttributes(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        internalGetMutableExtraAttributes().getMutableMap()
-            .remove(key);
-        return this;
-      }
-      /**
-       * Use alternate mutation accessors instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue>
-      getMutableExtraAttributes() {
-        return internalGetMutableExtraAttributes().getMutableMap();
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder getExtraAttributesBuilder() {
+        
+        onChanged();
+        return getExtraAttributesFieldBuilder().getBuilder();
       }
       /**
        * <pre>
        * any other extra attributes
        * </pre>
        *
-       * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
        */
-      public Builder putExtraAttributes(
-          java.lang.String key,
-          club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue value) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        if (value == null) {
-  throw new NullPointerException("map value");
-}
-
-        internalGetMutableExtraAttributes().getMutableMap()
-            .put(key, value);
-        return this;
+      public club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder getExtraAttributesOrBuilder() {
+        if (extraAttributesBuilder_ != null) {
+          return extraAttributesBuilder_.getMessageOrBuilder();
+        } else {
+          return extraAttributes_ == null ?
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributes.getDefaultInstance() : extraAttributes_;
+        }
       }
       /**
        * <pre>
        * any other extra attributes
        * </pre>
        *
-       * <code>map&lt;string, .clientMessage.ExtraAttributeValue&gt; extraAttributes = 5;</code>
+       * <code>.clientMessage.ExtraAttributes extraAttributes = 5;</code>
        */
-
-      public Builder putAllExtraAttributes(
-          java.util.Map<java.lang.String, club.thom.tem.models.messages.ClientMessages.ExtraAttributeValue> values) {
-        internalGetMutableExtraAttributes().getMutableMap()
-            .putAll(values);
-        return this;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ExtraAttributes, club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder> 
+          getExtraAttributesFieldBuilder() {
+        if (extraAttributesBuilder_ == null) {
+          extraAttributesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.ExtraAttributes, club.thom.tem.models.messages.ClientMessages.ExtraAttributes.Builder, club.thom.tem.models.messages.ClientMessages.ExtraAttributesOrBuilder>(
+                  getExtraAttributes(),
+                  getParentForChildren(),
+                  isClean());
+          extraAttributes_ = null;
+        }
+        return extraAttributesBuilder_;
       }
 
       private java.lang.Object reforge_ = "";
@@ -8712,7 +11434,7 @@ public final class ClientMessages {
        * @return Whether the reforge field is set.
        */
       public boolean hasReforge() {
-        return ((bitField0_ & 0x00000004) != 0);
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <pre>
@@ -8769,7 +11491,7 @@ public final class ClientMessages {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000004;
+  bitField0_ |= 0x00000002;
         reforge_ = value;
         onChanged();
         return this;
@@ -8783,7 +11505,7 @@ public final class ClientMessages {
        * @return This builder for chaining.
        */
       public Builder clearReforge() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000002);
         reforge_ = getDefaultInstance().getReforge();
         onChanged();
         return this;
@@ -8803,7 +11525,7 @@ public final class ClientMessages {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000002;
         reforge_ = value;
         onChanged();
         return this;
@@ -16723,6 +19445,21 @@ public final class ClientMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_clientMessage_ExtraAttributeValue_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_clientMessage_ExtraAttributeValueList_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_clientMessage_ExtraAttributeValueList_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_clientMessage_ExtraAttributeItem_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_clientMessage_ExtraAttributeItem_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_clientMessage_ExtraAttributes_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_clientMessage_ExtraAttributes_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_clientMessage_MiscItem_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -16732,11 +19469,6 @@ public final class ClientMessages {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_clientMessage_MiscItem_EnchantmentsEntry_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_clientMessage_MiscItem_ExtraAttributesEntry_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_clientMessage_MiscItem_ExtraAttributesEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_clientMessage_InventoryItem_descriptor;
   private static final 
@@ -16794,52 +19526,58 @@ public final class ClientMessages {
       "\022\017\n\007candied\030\002 \001(\010\022%\n\006rarity\030\003 \001(\0162\025.clie" +
       "ntMessage.Rarity\022\020\n\010heldItem\030\004 \001(\t\022\r\n\005le" +
       "vel\030\005 \001(\005\022\014\n\004name\030\006 \001(\t\022\r\n\005candy\030\007 \001(\005B\007" +
-      "\n\005_skin\"u\n\023ExtraAttributeValue\022\025\n\013string" +
-      "Value\030\001 \001(\tH\000\022\022\n\010intValue\030\002 \001(\005H\000\022\023\n\tlon" +
-      "gValue\030\003 \001(\003H\000\022\025\n\013doubleValue\030\004 \001(\001H\000B\007\n" +
-      "\005value\"\240\003\n\010MiscItem\022\016\n\006itemId\030\001 \001(\t\022%\n\006r" +
-      "arity\030\002 \001(\0162\025.clientMessage.Rarity\022?\n\014en" +
-      "chantments\030\003 \003(\0132).clientMessage.MiscIte" +
-      "m.EnchantmentsEntry\022\017\n\007hexCode\030\004 \001(\005\022E\n\017" +
-      "extraAttributes\030\005 \003(\0132,.clientMessage.Mi" +
-      "scItem.ExtraAttributesEntry\022\024\n\007reforge\030\006" +
-      " \001(\tH\000\210\001\001\022\021\n\titemCount\030\007 \001(\005\0323\n\021Enchantm" +
-      "entsEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\005:\0028" +
-      "\001\032Z\n\024ExtraAttributesEntry\022\013\n\003key\030\001 \001(\t\0221" +
-      "\n\005value\030\002 \001(\0132\".clientMessage.ExtraAttri" +
-      "buteValue:\0028\001B\n\n\010_reforge\"\210\002\n\rInventoryI" +
-      "tem\022\021\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021creationTimest" +
-      "amp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMessage.P" +
-      "etH\000\022)\n\007petSkin\030\004 \001(\0132\026.clientMessage.Pe" +
-      "tSkinH\000\022,\n\013armourPiece\030\005 \001(\0132\025.clientMes" +
-      "sage.ArmourH\000\022\'\n\004item\030\006 \001(\0132\027.clientMess" +
-      "age.MiscItemH\000\022\020\n\010location\030\017 \001(\tB\t\n\007mess" +
-      "ageB\007\n\005_uuid\"U\n\021InventoryResponse\022\023\n\013pro" +
-      "fileUuid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.clientMe" +
-      "ssage.InventoryItem\"X\n\016PlayerResponse\022\022\n" +
-      "\nplayerUuid\030\001 \001(\t\0222\n\010profiles\030\002 \003(\0132 .cl" +
-      "ientMessage.InventoryResponse\"\300\001\n\014MiscRe" +
-      "sponse\022\024\n\014responseData\030\001 \001(\014\022\022\n\nstatusCo" +
-      "de\030\002 \001(\005\022\022\n\nrequestURL\030\003 \001(\t\022?\n\nparamete" +
-      "rs\030\004 \003(\0132+.clientMessage.MiscResponse.Pa" +
-      "rametersEntry\0321\n\017ParametersEntry\022\013\n\003key\030" +
-      "\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\306\001\n\010Response\022\r\n" +
-      "\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.clie" +
-      "ntMessage.FriendsResponseH\000\0224\n\013inventori" +
-      "es\030\003 \001(\0132\035.clientMessage.PlayerResponseH" +
-      "\000\0223\n\014miscResponse\030\004 \001(\0132\033.clientMessage." +
-      "MiscResponseH\000B\t\n\007message\"\200\002\n\rClientMess" +
-      "age\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004auth\030\002 \001(\013" +
-      "2\032.clientMessage.AuthMessageH\000\0222\n\017reques" +
-      "tResponse\030\003 \001(\0132\027.clientMessage.Response" +
-      "H\000\0227\n\014moreRequests\030\004 \001(\0132\037.clientMessage" +
-      ".ReadyForRequestsH\000\0224\n\013infoRequest\030\005 \001(\013" +
-      "2\035.clientMessage.GetInformationH\000B\t\n\007mes" +
-      "sage*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001" +
-      "\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006M" +
-      "YTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY" +
-      "_SPECIAL\020\010B8\n\035club.thom.tem.models.messa" +
-      "gesZ\027protobuf/clientMessagesb\006proto3"
+      "\n\005_skin\"\351\001\n\023ExtraAttributeValue\022\025\n\013strin" +
+      "gValue\030\001 \001(\tH\000\022\022\n\010intValue\030\002 \001(\005H\000\022\023\n\tlo" +
+      "ngValue\030\003 \001(\003H\000\022\025\n\013doubleValue\030\004 \001(\001H\000\0226" +
+      "\n\014compoundItem\030\005 \001(\0132\036.clientMessage.Ext" +
+      "raAttributesH\000\022:\n\010listItem\030\006 \001(\0132&.clien" +
+      "tMessage.ExtraAttributeValueListH\000B\007\n\005va" +
+      "lue\"L\n\027ExtraAttributeValueList\0221\n\005value\030" +
+      "\001 \003(\0132\".clientMessage.ExtraAttributeValu" +
+      "e\"T\n\022ExtraAttributeItem\022\013\n\003key\030\001 \001(\t\0221\n\005" +
+      "value\030\002 \001(\0132\".clientMessage.ExtraAttribu" +
+      "teValue\"B\n\017ExtraAttributes\022/\n\004item\030\001 \003(\013" +
+      "2!.clientMessage.ExtraAttributeItem\"\266\002\n\010" +
+      "MiscItem\022\016\n\006itemId\030\001 \001(\t\022%\n\006rarity\030\002 \001(\016" +
+      "2\025.clientMessage.Rarity\022?\n\014enchantments\030" +
+      "\003 \003(\0132).clientMessage.MiscItem.Enchantme" +
+      "ntsEntry\022\017\n\007hexCode\030\004 \001(\005\0227\n\017extraAttrib" +
+      "utes\030\005 \001(\0132\036.clientMessage.ExtraAttribut" +
+      "es\022\024\n\007reforge\030\006 \001(\tH\000\210\001\001\022\021\n\titemCount\030\007 " +
+      "\001(\005\0323\n\021EnchantmentsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
+      "\005value\030\002 \001(\005:\0028\001B\n\n\010_reforge\"\210\002\n\rInvento" +
+      "ryItem\022\021\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021creationTim" +
+      "estamp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMessag" +
+      "e.PetH\000\022)\n\007petSkin\030\004 \001(\0132\026.clientMessage" +
+      ".PetSkinH\000\022,\n\013armourPiece\030\005 \001(\0132\025.client" +
+      "Message.ArmourH\000\022\'\n\004item\030\006 \001(\0132\027.clientM" +
+      "essage.MiscItemH\000\022\020\n\010location\030\017 \001(\tB\t\n\007m" +
+      "essageB\007\n\005_uuid\"U\n\021InventoryResponse\022\023\n\013" +
+      "profileUuid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.clien" +
+      "tMessage.InventoryItem\"X\n\016PlayerResponse" +
+      "\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010profiles\030\002 \003(\0132 " +
+      ".clientMessage.InventoryResponse\"\300\001\n\014Mis" +
+      "cResponse\022\024\n\014responseData\030\001 \001(\014\022\022\n\nstatu" +
+      "sCode\030\002 \001(\005\022\022\n\nrequestURL\030\003 \001(\t\022?\n\nparam" +
+      "eters\030\004 \003(\0132+.clientMessage.MiscResponse" +
+      ".ParametersEntry\0321\n\017ParametersEntry\022\013\n\003k" +
+      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\306\001\n\010Response" +
+      "\022\r\n\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.c" +
+      "lientMessage.FriendsResponseH\000\0224\n\013invent" +
+      "ories\030\003 \001(\0132\035.clientMessage.PlayerRespon" +
+      "seH\000\0223\n\014miscResponse\030\004 \001(\0132\033.clientMessa" +
+      "ge.MiscResponseH\000B\t\n\007message\"\200\002\n\rClientM" +
+      "essage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004auth\030\002 " +
+      "\001(\0132\032.clientMessage.AuthMessageH\000\0222\n\017req" +
+      "uestResponse\030\003 \001(\0132\027.clientMessage.Respo" +
+      "nseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.clientMess" +
+      "age.ReadyForRequestsH\000\0224\n\013infoRequest\030\005 " +
+      "\001(\0132\035.clientMessage.GetInformationH\000B\t\n\007" +
+      "message*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMO" +
+      "N\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n" +
+      "\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014V" +
+      "ERY_SPECIAL\020\010B8\n\035club.thom.tem.models.me" +
+      "ssagesZ\027protobuf/clientMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -16892,9 +19630,27 @@ public final class ClientMessages {
     internal_static_clientMessage_ExtraAttributeValue_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_ExtraAttributeValue_descriptor,
-        new java.lang.String[] { "StringValue", "IntValue", "LongValue", "DoubleValue", "Value", });
-    internal_static_clientMessage_MiscItem_descriptor =
+        new java.lang.String[] { "StringValue", "IntValue", "LongValue", "DoubleValue", "CompoundItem", "ListItem", "Value", });
+    internal_static_clientMessage_ExtraAttributeValueList_descriptor =
       getDescriptor().getMessageTypes().get(8);
+    internal_static_clientMessage_ExtraAttributeValueList_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_clientMessage_ExtraAttributeValueList_descriptor,
+        new java.lang.String[] { "Value", });
+    internal_static_clientMessage_ExtraAttributeItem_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_clientMessage_ExtraAttributeItem_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_clientMessage_ExtraAttributeItem_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_clientMessage_ExtraAttributes_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_clientMessage_ExtraAttributes_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_clientMessage_ExtraAttributes_descriptor,
+        new java.lang.String[] { "Item", });
+    internal_static_clientMessage_MiscItem_descriptor =
+      getDescriptor().getMessageTypes().get(11);
     internal_static_clientMessage_MiscItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_MiscItem_descriptor,
@@ -16905,32 +19661,26 @@ public final class ClientMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_MiscItem_EnchantmentsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
-    internal_static_clientMessage_MiscItem_ExtraAttributesEntry_descriptor =
-      internal_static_clientMessage_MiscItem_descriptor.getNestedTypes().get(1);
-    internal_static_clientMessage_MiscItem_ExtraAttributesEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_clientMessage_MiscItem_ExtraAttributesEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
     internal_static_clientMessage_InventoryItem_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_clientMessage_InventoryItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_InventoryItem_descriptor,
         new java.lang.String[] { "Uuid", "CreationTimestamp", "Pet", "PetSkin", "ArmourPiece", "Item", "Location", "Message", "Uuid", });
     internal_static_clientMessage_InventoryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_clientMessage_InventoryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_InventoryResponse_descriptor,
         new java.lang.String[] { "ProfileUuid", "Items", });
     internal_static_clientMessage_PlayerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_clientMessage_PlayerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_PlayerResponse_descriptor,
         new java.lang.String[] { "PlayerUuid", "Profiles", });
     internal_static_clientMessage_MiscResponse_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_clientMessage_MiscResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_MiscResponse_descriptor,
@@ -16942,13 +19692,13 @@ public final class ClientMessages {
         internal_static_clientMessage_MiscResponse_ParametersEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_clientMessage_Response_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_clientMessage_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Response_descriptor,
         new java.lang.String[] { "Nonce", "FriendsList", "Inventories", "MiscResponse", "Message", });
     internal_static_clientMessage_ClientMessage_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_clientMessage_ClientMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_ClientMessage_descriptor,

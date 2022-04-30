@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static club.thom.tem.storage.TEMConfig.maxItemAge;
+
 public class ScanLobby {
     static class ArmourWithOwner {
         public final String uuid;
@@ -34,6 +36,7 @@ public class ScanLobby {
         public final String ownerUuid;
         public final String ownerProfile;
         public final Modifier modifier;
+        public final long lastChecked;
 
         public String username = "Unknown Player";
         public String plainUsername = "";
@@ -49,6 +52,12 @@ public class ScanLobby {
             ownerUuid = jsonData.get("owner").getAsJsonObject().get("playerUuid").getAsString();
             ownerProfile = jsonData.get("owner").getAsJsonObject().get("profileUuid").getAsString();
             modifier = HexHelper.getModifier(itemId, hexCode);
+
+            if (jsonData.has("lastChecked")) {
+                lastChecked = jsonData.get("lastChecked").getAsLong();
+            } else {
+                lastChecked = System.currentTimeMillis();
+            }
         }
 
         public void setUsername(String username) {
@@ -93,6 +102,13 @@ public class ScanLobby {
             commandNameMap.put(uuid, player.getName());
         }
         players.removeAll(playersToRemove);
+
+        if (players.size() == 0) {
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "No players were found in your lobby. " +
+                    "Possibly due to Hypixel not sending the data on time. Try scanning again!"));
+            return;
+        }
+
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() != 200) {
             RequestHelper.tellPlayerAboutFailedRequest(returnedData.getStatus());
@@ -100,12 +116,13 @@ public class ScanLobby {
         }
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();
         if (!returnedData.getJsonAsObject().has("armour")) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error (no armour!)"));
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "The players in your lobby don't have " +
+                    "any tracked armour."));
             return;
         }
         for (JsonElement element : returnedData.getJsonAsObject().get("armour").getAsJsonArray()) {
             ArmourWithOwner armour = new ArmourWithOwner(element);
-            if (checkItem(armour.modifier)) {
+            if (checkItem(armour)) {
                 armourToSend.add(armour);
             }
         }
@@ -114,10 +131,18 @@ public class ScanLobby {
             armourPiece.setPlainUsername(commandNameMap.get(armourPiece.ownerUuid));
             sendItemMessage(armourPiece);
         }
-        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Scan complete!"));
+        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Scan complete! " +
+                armourToSend.size() + " suitable items found."));
     }
 
-    public static boolean checkItem(Modifier modifier) {
+    public static boolean checkItem(ArmourWithOwner armour) {
+        // days -> milliseconds
+        long timePassed = TEMConfig.maxItemAge * 86400000L;
+        if (armour.lastChecked + timePassed < System.currentTimeMillis()) {
+            return false;
+        }
+
+        Modifier modifier = armour.modifier;
         // ignores original armour for now, future version could show it :)
         if (modifier == Modifier.ORIGINAL) {
             return false;

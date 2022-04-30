@@ -79,7 +79,22 @@ message ExtraAttributeValue {
     int32 intValue = 2;
     int64 longValue = 3;
     double doubleValue = 4;
+    ExtraAttributes compoundItem = 5;
+    ExtraAttributeValueList listItem = 6;
   }
+}
+
+message ExtraAttributeValueList {
+  repeated ExtraAttributeValue value = 1;
+}
+
+message ExtraAttributeItem {
+  string key = 1;
+  ExtraAttributeValue value = 2;
+}
+
+message ExtraAttributes {
+  repeated ExtraAttributeItem item = 1;
 }
 
 message MiscItem {
@@ -93,7 +108,7 @@ message MiscItem {
   int32 hexCode = 4;
 
   // any other extra attributes
-  map<string, ExtraAttributeValue> extraAttributes = 5;
+  ExtraAttributes extraAttributes = 5;
 
   // item reforge if exists
   optional string reforge = 6;

@@ -1,7 +1,10 @@
 package club.thom.tem.commands.subcommands;
 
+import club.thom.tem.TEM;
 import club.thom.tem.dupes.DupeCommandExecutor;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 
 public class PlayerDupeCheck implements SubCommand {
     @Override
@@ -16,6 +19,11 @@ public class PlayerDupeCheck implements SubCommand {
 
     @Override
     public void execute(ICommandSender sender, String[] args) {
+        if (args.length == 0) {
+            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Not enough arguments! Usage:" +
+                    "/tem player-dupe-check <username>"));
+            return;
+        }
         new DupeCommandExecutor().run(args[0]);
     }
 }
