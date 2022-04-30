@@ -14,11 +14,48 @@ public class FairyColours {
             "B266FF", "9933FF", "7F00FF", "660066", "6600CC", "4C0099", "330066", "990099"
     );
 
+    public static final ImmutableSet<String> ogFairyColourBootsExtras = ImmutableSet.of(
+            "660033", "99004C", "CC0066"
+    );
+
+    public static final ImmutableSet<String> ogFairyColourLeggingsExtras = ImmutableSet.of(
+            "660033", "99004C", "FFCCE5"
+    );
+
+    public static final ImmutableSet<String> ogFairyColourChestplateExtras = ImmutableSet.of(
+            "660033", "FFCCE5", "FF99CC"
+    );
+
+    public static final ImmutableSet<String> ogFairyColourHelmetExtras = ImmutableSet.of(
+            "FFCCE5", "FF99CC", "FF66B2"
+    );
+
     public static boolean isFairyColour(String hex) {
         return fairyColourConstants.contains(hex.toUpperCase());
     }
 
-    public static boolean isOGFairyColour(String hex) {
-        return ogFairyColourConstants.contains(hex.toUpperCase());
+    public static boolean isOGFairyColour(String itemId, String hex) {
+        hex = hex.toUpperCase();
+        if (ogFairyColourConstants.contains(hex)) {
+            return true;
+        }
+
+        if (itemId.contains("BOOTS")) {
+            return ogFairyColourBootsExtras.contains(hex);
+        }
+
+        if (itemId.contains("LEGGINGS")) {
+            return ogFairyColourLeggingsExtras.contains(hex);
+        }
+
+        if (itemId.contains("CHESTPLATE")) {
+            return ogFairyColourChestplateExtras.contains(hex);
+        }
+
+        if (itemId.contains("HELMET")) {
+            return ogFairyColourHelmetExtras.contains(hex);
+        }
+
+        return false;
     }
 }

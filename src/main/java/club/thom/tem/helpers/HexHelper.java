@@ -46,7 +46,7 @@ public class HexHelper {
         if (checkOriginal(itemId, hexCode)) {
             return Modifier.ORIGINAL;
         } else if (FairyColours.isFairyColour(hexCode)) {
-            if (FairyColours.isOGFairyColour(hexCode)) {
+            if (FairyColours.isOGFairyColour(itemId, hexCode)) {
                 return Modifier.OG_FAIRY;
             }
             return Modifier.FAIRY;
