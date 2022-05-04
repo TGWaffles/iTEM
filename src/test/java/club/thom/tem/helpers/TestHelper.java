@@ -12,15 +12,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class TestHelper {
-    @SuppressWarnings("SpellCheckingInspection")
-    public static void setupTEMConfigAndMainClass() throws NoSuchFieldException, IllegalAccessException {
+    public static void setupTEMConfig() throws NoSuchFieldException, IllegalAccessException {
         // Allow TEMConfig to initialize without Minecraft running.
         Field initialized = Vigilance.class.getDeclaredField("initialized");
         initialized.setAccessible(true);
         initialized.set(null, true);
-
         // Creates testdata/ folder to put the config in (temporarily)
         TEMConfig.saveFolder = "testdata/";
+    }
+
+    public static void setupTEMConfigAndMainClass() throws NoSuchFieldException, IllegalAccessException {
+        // Allow TEMConfig to initialize without Minecraft running.
+        setupTEMConfig();
         // TEM.sendMessage() now won't actually run.
         PowerMockito.mockStatic(TEM.class);
 

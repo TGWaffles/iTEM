@@ -85,7 +85,7 @@ public class TEM {
 
     private static final Lock chatSendLock = new ReentrantLock();
 
-    private static final WebSocketFactory wsFactory = new WebSocketFactory();
+    private static WebSocketFactory wsFactory;
     public static WebSocket socket;
 
     public static void sendToast(String title, String description, float stayTime) {
@@ -140,6 +140,7 @@ public class TEM {
     public void init(FMLInitializationEvent event) {
         // Don't set up logging on any version released - log files grow very quickly.
 //        setUpLogging();
+        wsFactory = new WebSocketFactory();
         logger.info("Initialising TEM");
         api = new Hypixel();
         auctions = new AuctionHouse();
@@ -325,6 +326,7 @@ public class TEM {
     }
 
     public static void main(String inputUuid, String apiKey) {
+        wsFactory = new WebSocketFactory();
         uuid = inputUuid;
         standAlone = true;
         api = new Hypixel();
