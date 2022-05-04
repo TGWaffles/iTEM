@@ -15,12 +15,12 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(PowerMockRunner.class)
-@PowerMockIgnore("javax.management.*")
-@PrepareForTest({TEMConfig.class, TEM.class})
+@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
+@PrepareForTest({TEMConfig.class})
 public class TestRarityConverter {
     @Before
     public void setup() throws NoSuchFieldException, IllegalAccessException {
-        TestHelper.setupTEMConfigAndMainClass();
+        TestHelper.setupTEMConfig();
     }
 
     @Test
