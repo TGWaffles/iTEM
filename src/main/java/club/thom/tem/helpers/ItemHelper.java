@@ -44,18 +44,8 @@ public class ItemHelper {
     }
 
     public JsonObject downloadItems() {
-        try {
-            String json = IOUtils.toString(new URL(URL));
-            JsonElement element = new JsonParser().parse(json);
-            return element.getAsJsonObject();
-        } catch (IOException e) {
-            if (e.getMessage().contains("response code: 400")) {
-                logger.error("Error downloading items from ItemHelper", e);
-            }
-        } catch (Exception e) {
-            logger.error("Error downloading items from ItemHelper", e);
-        }
-        return null;
+        logger.info("TEM: Downloading items...");
+        return RequestHelper.sendGetRequest(URL).getJsonAsObject();
     }
 
     public void fillItems() {
