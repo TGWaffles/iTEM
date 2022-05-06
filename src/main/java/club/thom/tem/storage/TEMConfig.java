@@ -118,6 +118,7 @@ public class TEMConfig extends Vigilant {
     private static String hypixelKey = "";
 
     public static Thread setHypixelKey(String newKey) {
+        // can probably be reworked to use an executor and return a completable future
         Thread thread = new Thread(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
