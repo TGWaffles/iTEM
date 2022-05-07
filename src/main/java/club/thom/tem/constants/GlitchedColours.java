@@ -23,4 +23,32 @@ public class GlitchedColours {
             "8969C8", "SPEED_WITHER_BOOTS",
             "1CD4E4", "WISE_WITHER_BOOTS"
     );
+
+    public static boolean isGlitched(String itemId, String hex) {
+        if (itemId.contains("CHESTPLATE")) {
+            return checkChestplateGlitched(itemId, hex);
+        }
+        if (itemId.contains("LEGGINGS")) {
+            return checkLeggingsGlitched(itemId, hex);
+        }
+        if (itemId.contains("BOOTS")) {
+            return checkBootsGlitched(itemId, hex);
+        }
+        return false;
+    }
+
+    private static boolean checkChestplateGlitched(String itemId, String hex) {
+        // hex is a chestplate hex and the type isn't the same as what it should be
+        return CHESTPLATE_COLOURS.containsKey(hex) && CHESTPLATE_COLOURS.containsValue(itemId) && !CHESTPLATE_COLOURS.get(hex).equals(itemId);
+    }
+
+    private static boolean checkLeggingsGlitched(String itemId, String hex) {
+        // hex is a leggings hex and the type isn't the same as what it should be
+        return LEGGINGS_COLOURS.containsKey(hex) && LEGGINGS_COLOURS.containsValue(itemId) && !LEGGINGS_COLOURS.get(hex).equals(itemId);
+    }
+
+    private static boolean checkBootsGlitched(String itemId, String hex) {
+        // hex is a boots hex and the type isn't the same as what it should be
+        return BOOT_COLOURS.containsKey(hex) && BOOT_COLOURS.containsValue(itemId) && !BOOT_COLOURS.get(hex).equals(itemId);
+    }
 }
