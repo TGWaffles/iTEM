@@ -128,6 +128,7 @@ public class AuctionHouse {
             }
             processAllPages();
             processing = false;
+            oldItemUuidMap = itemUuidMap;
         }
     }
 
