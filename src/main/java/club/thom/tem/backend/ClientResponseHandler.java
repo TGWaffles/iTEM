@@ -63,7 +63,7 @@ public class ClientResponseHandler {
                 // For timeout on asking
                 lastAsked = System.currentTimeMillis();
             }
-        });
+        }, "TEM-more-requests-loop");
         moreRequestsLoop.start();
     }
 
