@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -38,8 +39,8 @@ public class ApiKeyListener {
             logger.debug("Setting API key to: {}", apiKey);
             try {
                 // asks Hypixel to ensure the key is valid before setting it
-                TEMConfig.setHypixelKey(apiKey).join();
-            } catch (InterruptedException e) {
+                TEMConfig.setHypixelKey(apiKey).get();
+            } catch (InterruptedException | ExecutionException e) {
                 logger.error("setHypixelKey was interrupted.");
                 return;
             }

@@ -14,12 +14,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
 @SuppressWarnings("FieldMayBeFinal")
 public class TEMConfig extends Vigilant {
 
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);
+    private static final ExecutorService executor = Executors.newFixedThreadPool(2, r -> new Thread(r, "TEMConfig"));
 
 
 
@@ -117,16 +121,14 @@ public class TEMConfig extends Vigilant {
     )
     private static String hypixelKey = "";
 
-    public static Thread setHypixelKey(String newKey) {
+    public static Future<?> setHypixelKey(String newKey) {
         // can probably be reworked to use an executor and return a completable future
-        Thread thread = new Thread(() -> {
+        return executor.submit(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
                 TEM.forceSaveConfig();
             }
         });
-        thread.start();
-        return thread;
     }
 
     public static String getHypixelKey() {
@@ -215,14 +217,14 @@ public class TEMConfig extends Vigilant {
             boolean result = request.getFuture().get();
             if (result) {
                 TEM.api.hasValidApiKey = true;
-                new Thread(() -> {
+                executor.submit(() -> {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         logger.error("Thread interrupted while waiting to trigger api key set.", e);
                     }
                     TEM.api.signalApiKeySet();
-                }).start();
+                });
             } else {
                 logger.warn("TEMConfig - warning: API key is invalid!");
             }
@@ -233,7 +235,7 @@ public class TEMConfig extends Vigilant {
         }
     }
 
-    Consumer<String> checkApiKey = key -> new Thread(() -> {
+    Consumer<String> checkApiKey = key -> executor.submit(() -> {
         String oldKey = hypixelKey;
         if (!isKeyValid(key)) {
             try {
@@ -246,7 +248,7 @@ public class TEMConfig extends Vigilant {
             return;
         }
         hypixelKey = key;
-    }).start();
+    });
 
     public TEMConfig() {
         super(new File(saveFolder + fileName), "TEM Configuration");

@@ -8,6 +8,8 @@ import net.minecraft.util.EnumChatFormatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.ExecutionException;
+
 public class SetKeyCommand implements SubCommand {
     private static final Logger logger = LogManager.getLogger(SetKeyCommand.class);
 
@@ -24,8 +26,8 @@ public class SetKeyCommand implements SubCommand {
     @Override
     public void execute(ICommandSender sender, String[] args) {
         try {
-            TEMConfig.setHypixelKey(args[1]).join();
-        } catch (InterruptedException e) {
+            TEMConfig.setHypixelKey(args[1]).get();
+        } catch (InterruptedException | ExecutionException e) {
             logger.error("Error setting hypixel key from command", e);
             return;
         }
