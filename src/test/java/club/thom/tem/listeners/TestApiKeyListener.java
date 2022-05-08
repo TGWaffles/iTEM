@@ -23,7 +23,7 @@ import static org.awaitility.Awaitility.await;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(PowerMockRunner.class)
-@PowerMockIgnore("javax.management.*")
+@PowerMockIgnore({"javax.management.*", "javax.net.ssl.*"})
 @PrepareForTest({TEMConfig.class, TEM.class})
 public class TestApiKeyListener {
     private static final String exampleApiKey = "abc123";
