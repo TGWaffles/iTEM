@@ -17,6 +17,7 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.await;
@@ -46,7 +47,7 @@ public class TestApiKeyListener {
             invocation -> {
                 String apiKey = invocation.getArgument(0);
                 setSuccessfully = apiKey.equals(exampleApiKey);
-                return new Thread(() -> {});
+                return new FutureTask<>(() -> {}, null);
             }
         );
         // Needs to run for the above method to work...
