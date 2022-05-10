@@ -21,7 +21,6 @@ public class ArmourPieceData extends InventoryItemData {
     @Override
     public ClientMessages.InventoryItem toInventoryItem() {
         ClientMessages.Armour.Builder builder = ClientMessages.Armour.newBuilder();
-        NBTTagCompound extraAttributes = getExtraAttributes();
         String itemId = getItemId();
         builder.setItemId(itemId).setRarity(getRarity()).setReforge(getReforge()).setHexCode(getHexCode())
                 .setIsCustomDyed(isCustomDyed());
@@ -99,7 +98,7 @@ public class ArmourPieceData extends InventoryItemData {
             return "UNDYED";
         }
         int colourInt = displayData.getInteger("color");
-        return String.format("%06x", colourInt);
+        return String.format("%06X", colourInt);
     }
 
     public String getHexCode() {
