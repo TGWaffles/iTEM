@@ -59,7 +59,7 @@ public class ScanLobby {
         }
 
         public int getDaysPassed() {
-            return (int) Math.round((lastChecked / (double) (24 * 60 * 60 * 1000)));
+            return (int) Math.round(((System.currentTimeMillis() - lastChecked) / (double) (24 * 60 * 60 * 1000)));
         }
 
         public void setUsername(String username) {
