@@ -191,8 +191,7 @@ public class ScanLobby {
                 break;
             case GLITCHED:
                 // magic grey pipe in front of glitched armour
-                prefixColour = EnumChatFormatting.GRAY.toString() + EnumChatFormatting.OBFUSCATED + "|"
-                        + EnumChatFormatting.BLUE;
+                prefixColour = EnumChatFormatting.BLUE.toString();
         }
         return prefixColour;
     }
