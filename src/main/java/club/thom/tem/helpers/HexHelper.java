@@ -40,9 +40,10 @@ public class HexHelper {
         UNDYED,
         ORIGINAL,
         EXOTIC,
+        GLITCHED,
     }
 
-    public static Modifier getModifier(String itemId, String hexCode) {
+    public static Modifier getModifier(String itemId, String hexCode, long creationTime) {
         if (checkOriginal(itemId, hexCode)) {
             return Modifier.ORIGINAL;
         }
@@ -57,6 +58,10 @@ public class HexHelper {
         }
         if (CrystalColours.isCrystalColour(hexCode)) {
             return Modifier.CRYSTAL;
+        }
+
+        if (GlitchedColours.isGlitched(itemId, hexCode, creationTime)) {
+            return Modifier.GLITCHED;
         }
 
         return Modifier.EXOTIC;
