@@ -58,6 +58,24 @@ public class TEMConfig extends Vigilant {
             type = PropertyType.SWITCH,
             category = "TEM",
             subcategory = "Toggles",
+            name = "Enable OG Fairy",
+            description = "Enable OG Fairy Armour"
+    )
+    public static boolean enableOGFairy = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Enable Bleached",
+            description = "Enable Bleached Armour"
+    )
+    public static boolean enableBleached = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
             name = "Enable Auto-Scan",
             description = "Enable Auto TEM scan"
     )

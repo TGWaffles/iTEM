@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static club.thom.tem.storage.TEMConfig.maxItemAge;
-
 public class ScanLobby {
     static class ArmourWithOwner {
         public final String uuid;
@@ -147,15 +145,19 @@ public class ScanLobby {
         if (modifier == Modifier.ORIGINAL) {
             return false;
         }
-        if (modifier == Modifier.EXOTIC) {
-            return TEMConfig.enableExotics;
+        switch (modifier) {
+            case EXOTIC:
+                return TEMConfig.enableExotics;
+            case CRYSTAL:
+                return TEMConfig.enableCrystal;
+            case FAIRY:
+                return TEMConfig.enableFairy;
+            case OG_FAIRY:
+                return TEMConfig.enableOGFairy;
+            case UNDYED:
+                return TEMConfig.enableBleached;
         }
-        if (modifier == Modifier.CRYSTAL) {
-            return TEMConfig.enableCrystal;
-        }
-        if (modifier == Modifier.FAIRY || modifier == Modifier.OG_FAIRY) {
-            return TEMConfig.enableFairy;
-        }
+
         return false;
     }
 
