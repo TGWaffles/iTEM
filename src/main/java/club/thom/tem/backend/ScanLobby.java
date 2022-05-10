@@ -50,7 +50,7 @@ public class ScanLobby {
             reforge = jsonData.get("reforge").getAsString();
             ownerUuid = jsonData.get("owner").getAsJsonObject().get("playerUuid").getAsString();
             ownerProfile = jsonData.get("owner").getAsJsonObject().get("profileUuid").getAsString();
-            modifier = HexHelper.getModifier(itemId, hexCode);
+            modifier = HexHelper.getModifier(itemId, hexCode, creationTime);
 
             if (jsonData.has("lastChecked")) {
                 lastChecked = jsonData.get("lastChecked").getAsLong();
@@ -161,38 +161,43 @@ public class ScanLobby {
                 return TEMConfig.enableOGFairy;
             case UNDYED:
                 return TEMConfig.enableBleached;
+            case GLITCHED:
+                return TEMConfig.enableGlitched;
         }
 
         return false;
     }
 
-    public static EnumChatFormatting getColourCode(Modifier modifier) {
-        EnumChatFormatting prefixColour = EnumChatFormatting.WHITE;
+    public static String getColourCode(Modifier modifier) {
+        String prefixColour = EnumChatFormatting.WHITE.toString();
         switch (modifier) {
             case CRYSTAL:
-                prefixColour = EnumChatFormatting.AQUA;
+                prefixColour = EnumChatFormatting.AQUA.toString();
                 break;
             case FAIRY:
-                prefixColour = EnumChatFormatting.LIGHT_PURPLE;
+                prefixColour = EnumChatFormatting.LIGHT_PURPLE.toString();
                 break;
             case OG_FAIRY:
-                prefixColour = EnumChatFormatting.DARK_PURPLE;
+                prefixColour = EnumChatFormatting.DARK_PURPLE.toString();
                 break;
             case EXOTIC:
-                prefixColour = EnumChatFormatting.GOLD;
+                prefixColour = EnumChatFormatting.GOLD.toString();
                 break;
             case ORIGINAL:
-                prefixColour = EnumChatFormatting.DARK_GRAY;
+                prefixColour = EnumChatFormatting.DARK_GRAY.toString();
                 break;
             case UNDYED:
-                prefixColour = EnumChatFormatting.GRAY;
+                prefixColour = EnumChatFormatting.GRAY.toString();
                 break;
+            case GLITCHED:
+                // magic grey pipe in front of glitched armour
+                prefixColour = EnumChatFormatting.BLUE.toString();
         }
         return prefixColour;
     }
 
     public static void sendItemMessage(ArmourWithOwner item) {
-        EnumChatFormatting prefixColour = getColourCode(item.modifier);
+        String prefixColour = getColourCode(item.modifier);
 
         String itemName = TEM.items.nameFromId(item.itemId);
 

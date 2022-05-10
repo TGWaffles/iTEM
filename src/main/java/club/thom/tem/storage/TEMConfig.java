@@ -76,6 +76,15 @@ public class TEMConfig extends Vigilant {
             type = PropertyType.SWITCH,
             category = "TEM",
             subcategory = "Toggles",
+            name = "Enable Glitched",
+            description = "Enable Glitched Armour"
+    )
+    public static boolean enableGlitched = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
             name = "Enable Auto-Scan",
             description = "Enable Auto TEM scan"
     )

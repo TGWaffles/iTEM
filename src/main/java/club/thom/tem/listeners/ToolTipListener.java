@@ -50,10 +50,10 @@ public class ToolTipListener {
             return;
         }
         ArmourPieceData armour = new ArmourPieceData("inventory", itemNbt);
-        HexHelper.Modifier armourTypeModifier = HexHelper.getModifier(armour.getItemId(), armour.getHexCode());
-        EnumChatFormatting colourCode = ScanLobby.getColourCode(armourTypeModifier);
+        HexHelper.Modifier armourTypeModifier = HexHelper.getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
+        String colourCode = ScanLobby.getColourCode(armourTypeModifier);
         int ownerCount = checkArmourOwners(armour);
-        String toolTipString = colourCode + armourTypeModifier.toString();
+        String toolTipString = colourCode + armourTypeModifier;
         if (ownerCount != -1) {
             toolTipString += EnumChatFormatting.DARK_GRAY + " - " + ownerCount;
         }

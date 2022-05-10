@@ -27,7 +27,7 @@ public class ArmourPieceData extends InventoryItemData {
                 .setIsCustomDyed(isCustomDyed());
         return ClientMessages.InventoryItem.newBuilder().setUuid(getUuid()).
                 setArmourPiece(builder)
-                .setCreationTimestamp(getCreationTimestamp(extraAttributes.getString("timestamp")))
+                .setCreationTimestamp(getCreationTimestamp())
                 .setLocation(inventoryName)
                 .build();
     }
@@ -46,6 +46,10 @@ public class ArmourPieceData extends InventoryItemData {
             fakeUuid += "_+_" + getHexCode();
         }
         return fakeUuid;
+    }
+
+    public long getCreationTimestamp() {
+        return getCreationTimestamp(getExtraAttributes().getString("timestamp"));
     }
 
     public boolean isCustomDyed() {
