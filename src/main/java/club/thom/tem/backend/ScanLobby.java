@@ -6,6 +6,7 @@ import club.thom.tem.constants.PureColours;
 import club.thom.tem.helpers.HexHelper;
 import club.thom.tem.helpers.HexHelper.Modifier;
 import club.thom.tem.helpers.RequestHelper;
+import club.thom.tem.helpers.TimeHelper;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
@@ -58,8 +59,8 @@ public class ScanLobby {
             }
         }
 
-        public int getDaysPassed() {
-            return (int) Math.round(((System.currentTimeMillis() - lastChecked) / (double) (24 * 60 * 60 * 1000)));
+        public long getTimePassed() {
+            return System.currentTimeMillis() - lastChecked;
         }
 
         public void setUsername(String username) {
@@ -225,7 +226,7 @@ public class ScanLobby {
         message.appendSibling(playerText);
         message.appendSibling(new ChatComponentText(EnumChatFormatting.GRAY + " has "));
         message.appendSibling(hexCodeText);
-        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "! Last seen: " + item.getDaysPassed() + " days ago."));
+        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "! Last seen: " + TimeHelper.getRelativeTime(item.getTimePassed())));
         hexCodeText.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverOverHexText)));
         TEM.sendMessage(message);
     }
