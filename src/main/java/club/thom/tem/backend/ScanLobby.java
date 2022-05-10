@@ -203,10 +203,18 @@ public class ScanLobby {
         ChatComponentText playerText = new ChatComponentText(item.username);
         playerText.setChatStyle(new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/pv " + item.plainUsername)));
 
+        int hexAsInt;
+        if (!item.hexCode.equals("UNDYED")) {
+            hexAsInt = Integer.parseInt(item.hexCode, 16);
+        } else {
+            // undyed hardcoded, awful practice :>
+            hexAsInt = 0xA06540;
+        }
+
         // Hex code!
         ChatComponentText hoverOverHexText = new ChatComponentText(
                 EnumChatFormatting.YELLOW + "----------------\n" +
-                        EnumChatFormatting.GRAY + ColourNames.getColorNameFromHex(Integer.parseInt(item.hexCode, 16)) + "\n" +
+                        EnumChatFormatting.GRAY + ColourNames.getColorNameFromHex(hexAsInt) + "\n" +
                         pureColourText +
                         EnumChatFormatting.YELLOW + "----------------"
         );
