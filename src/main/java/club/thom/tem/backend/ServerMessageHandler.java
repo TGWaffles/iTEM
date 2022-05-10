@@ -21,10 +21,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.*;
 
 public class ServerMessageHandler extends WebSocketAdapter {
     private static final Logger logger = LogManager.getLogger(ServerMessageHandler.class);
+    private final ExecutorService backendRequestExecutor = Executors.newFixedThreadPool(16);
+    private final ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(2);
 
     @Override
     public void onConnected(WebSocket socket, Map<String, List<String>> headers) {
@@ -44,7 +46,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
 
     @Override
     public void onBinaryMessage(WebSocket socket, byte[] data) {
-        new Thread(() -> {
+        backendRequestExecutor.submit(() -> {
             ServerMessage message;
             try {
                 message = ServerMessage.parseFrom(data);
@@ -62,10 +64,10 @@ public class ServerMessageHandler extends WebSocketAdapter {
             }
             if (message.hasMultipleRequests()) {
                 for (RequestMessage request : message.getMultipleRequests().getRequestsList()) {
-                    new Thread(() -> handleRequest(request)).start();
+                    backendRequestExecutor.submit(() -> handleRequest(request));
                 }
             }
-        }).start();
+        });
     }
 
     private void handleAuthMessage(AuthData authMessage) {
@@ -82,15 +84,11 @@ public class ServerMessageHandler extends WebSocketAdapter {
                     // returned invalid.
                     humanReadableMessage += "There has been an error communicating with the TEM backend. Make sure " +
                             "you're using an unmodified version of the mod!";
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(20000);
-                        } catch (InterruptedException e) {
-                            logger.error("Interrupted while retrying server connection: ", e);
-                        }
+                    // reconnect in 20s
+                    scheduledExecutor.schedule(() -> {
                         TEM.socketWorking = true;
                         TEM.reconnectSocket(1);
-                    }).start();
+                    }, 20, TimeUnit.SECONDS);
                     break;
                 case OUTDATED_CLIENT:
                     // Out of acceptable parameters - the messages will not be valid.
@@ -102,26 +100,18 @@ public class ServerMessageHandler extends WebSocketAdapter {
                     // the user's uuid. I advise against doing this.
                     humanReadableMessage += "Your UUID is not a valid Mojang UUID. Make sure you're not using a " +
                             "pirated version of Minecraft, and that you haven't modified TEM's code.";
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(20000);
-                        } catch (InterruptedException e) {
-                            logger.error("Interrupted while retrying server connection: ", e);
-                        }
+                    // reconnect in 20s
+                    scheduledExecutor.schedule(() -> {
                         TEM.socketWorking = true;
                         TEM.reconnectSocket(1);
-                    }).start();
+                    }, 20, TimeUnit.SECONDS);
                     break;
             }
             // Wait until they join a server.
             TEM.waitForPlayer();
             // Wait at least 2 seconds until after joining said server, to give the user time to process.
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            TEM.sendMessage(new ChatComponentText(humanReadableMessage));
+            String messageToSend = humanReadableMessage;
+            scheduledExecutor.schedule(() -> TEM.sendMessage(new ChatComponentText(messageToSend)), 2, TimeUnit.SECONDS);
         } else {
             // Ask backend for more requests
             ClientResponseHandler.askForRequests();
@@ -136,46 +126,50 @@ public class ServerMessageHandler extends WebSocketAdapter {
             String uuid = request.getFriendRequest().getUuid();
             FriendsListRequest friendRequest = new FriendsListRequest(uuid);
             TEM.api.addToQueue(friendRequest);
-            List<String> friends;
-            try {
-                friends = friendRequest.getFuture().get();
-            } catch (InterruptedException | ExecutionException e) {
-                logger.error("Error while getting friends list: ", e);
-                return;
-            }
-            ClientResponseHandler.sendFriendsResponse(friends, uuid, request.getNonce());
-        } else if (request.hasInventoryRequest()) {
+            friendRequest.getFuture().whenCompleteAsync((friends, exception) -> {
+                if (exception != null) {
+                    logger.error("Error getting friends list request", exception);
+                    return;
+                }
+                ClientResponseHandler.sendFriendsResponse(friends, uuid, request.getNonce());
+            });
+            return;
+        }
+
+        if (request.hasInventoryRequest()) {
             logger.debug("it's an inventory request!");
             // Player uuid
             String uuid = request.getInventoryRequest().getPlayerUuid();
             SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(uuid);
             TEM.api.addToQueue(playerRequest);
-            PlayerData player;
-            try {
-                logger.debug("Getting player future...");
-                player = playerRequest.getFuture().get();
+            logger.debug("Getting player future...");
+            playerRequest.getFuture().whenCompleteAsync((player, exception) -> {
+                if (exception != null) {
+                    logger.error("Error while getting inventory request: ", exception);
+                    return;
+                }
                 logger.debug("Got player future!!!");
-            } catch (ExecutionException | InterruptedException e) {
-                logger.error("Error while getting inventory: ", e);
-                return;
-            }
-            logger.debug("Sending inventory response...");
-            ClientResponseHandler.sendInventoryResponse(player, uuid, request.getNonce());
-        } else if (request.hasMiscRequest()) {
+                logger.debug("Sending inventory response...");
+                ClientResponseHandler.sendInventoryResponse(player, uuid, request.getNonce());
+            }, backendRequestExecutor);
+            return;
+        }
+
+        if (request.hasMiscRequest()) {
             logger.debug("Misc request!");
             ServerMessages.MiscRequest serverRequest = request.getMiscRequest();
             MiscRequest miscRequest = new MiscRequest(serverRequest);
             TEM.api.addToQueue(miscRequest);
-            RequestData data;
-            try {
-                data = miscRequest.getFuture().get();
-            } catch (ExecutionException | InterruptedException e) {
-                logger.error("Error while running misc request: ", e);
-                return;
-            }
-            ClientResponseHandler.sendMiscResponse(data, serverRequest.getRequestURL(),
-                    serverRequest.getParametersMap(), request.getNonce());
+            miscRequest.getFuture().whenCompleteAsync((data, exception) -> {
+                if (exception != null) {
+                    logger.error("Error while getting misc request: ", exception);
+                    return;
+                }
+                ClientResponseHandler.sendMiscResponse(data, serverRequest.getRequestURL(),
+                        serverRequest.getParametersMap(), request.getNonce());
+            }, backendRequestExecutor);
         }
+
     }
 
 }

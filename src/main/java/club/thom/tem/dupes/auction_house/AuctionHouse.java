@@ -11,17 +11,14 @@ import com.google.gson.JsonElement;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class AuctionHouse {
-
-    HashMap<String, ArrayList<String>> oldItemUuidMap = new HashMap<>();
-    HashMap<String, ArrayList<String>> itemUuidMap = new HashMap<>();
-    boolean processing = false;
+    ConcurrentHashMap<String, LinkedList<String>> temporaryMap = new ConcurrentHashMap<>();
+    HashMap<String, String[]> itemUuidMap = new HashMap<>();
+    ReentrantReadWriteLock processingLock = new ReentrantReadWriteLock();
     long lastKnownLastUpdated = 0;
     // only use 2 threads to download the auction house to reduce bandwidth for other uses
     private final ExecutorService threadPool = Executors.newFixedThreadPool(2);
@@ -31,12 +28,16 @@ public class AuctionHouse {
     }
 
     public void addOwnerToItemUUIDMap(String itemUuid, String owner) {
-        ArrayList<String> currentOwners = itemUuidMap.get(itemUuid);
-        if (currentOwners == null) {
-            currentOwners = new ArrayList<>();
-        }
-        currentOwners.add(owner);
-        itemUuidMap.put(itemUuid, currentOwners);
+        // add the owner to the list of owners for the item
+        temporaryMap.compute(itemUuid, (key, value) -> {
+            LinkedList<String> newValue = value;
+            if (value == null) {
+                // the value associated with the key is now a new list
+                newValue = new LinkedList<>();
+            }
+            newValue.add(owner);
+            return newValue;
+        });
     }
 
     public void processPage(RequestData pageData) {
@@ -68,22 +69,20 @@ public class AuctionHouse {
     }
 
     public List<String> getOwnersForItemUUID(String itemUuid) {
-        List<String> currentOwners;
-        if (!processing) {
+        String[] currentOwners;
+        processingLock.readLock().lock();
+        try {
             currentOwners = itemUuidMap.get(itemUuid);
-        } else {
-            currentOwners = oldItemUuidMap.get(itemUuid);
+            if (currentOwners == null) {
+                return new ArrayList<>();
+            }
+            return Arrays.asList(currentOwners);
+        } finally {
+            processingLock.readLock().unlock();
         }
-        if (currentOwners == null) {
-            return new ArrayList<>();
-        }
-        return currentOwners;
     }
 
     public void processAllPages() {
-        oldItemUuidMap = new HashMap<>(itemUuidMap);
-        itemUuidMap.clear();
-        processing = true;
         RequestData firstPageData = downloadPage(0);
         if (firstPageData.getStatus() != 200) {
             try {
@@ -96,13 +95,20 @@ public class AuctionHouse {
         }
         lastKnownLastUpdated = firstPageData.getJsonAsObject().get("lastUpdated").getAsLong();
         int totalPages = firstPageData.getJsonAsObject().get("totalPages").getAsInt();
-        threadPool.submit(() -> processPage(firstPageData));
+        List<Future<?>> futures = new ArrayList<>();
+        futures.add(threadPool.submit(() -> processPage(firstPageData)));
         for (int i = 1; i < totalPages; i++) {
             int pageNum = i;
-            threadPool.submit(() -> {
+            futures.add(threadPool.submit(() -> {
                 RequestData pageData = downloadPage(pageNum);
                 processPage(pageData);
-            });
+            }));
+        }
+        // wait for all futures
+        for (Future<?> future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException ignored) {}
         }
     }
 
@@ -127,7 +133,17 @@ public class AuctionHouse {
                 }
             }
             processAllPages();
-            processing = false;
+            // replaces the old auction house with the new one, while clearing the temporary map out
+            processingLock.writeLock().lock();
+            try {
+                itemUuidMap.clear();
+                for (String key : temporaryMap.keySet()) {
+                    itemUuidMap.put(key, temporaryMap.remove(key).toArray(new String[0]));
+                }
+            } finally {
+                processingLock.writeLock().unlock();
+            }
+            temporaryMap.clear();
         }
     }
 

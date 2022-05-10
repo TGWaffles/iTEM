@@ -142,15 +142,16 @@ public class TEM {
 //        setUpLogging();
         wsFactory = new WebSocketFactory();
         logger.info("Initialising TEM");
+        // Create global API/rate-limit handler
         api = new Hypixel();
         auctions = new AuctionHouse();
         config.initialize();
         wsFactory.setVerifyHostname(false);
-        new Thread(() -> reconnectSocket(100)).start();
-        // Create global API/rate-limit handler
+        new Thread(() -> reconnectSocket(100), "TEM-socket").start();
         // Start the requests loop
-        new Thread(api::run).start();
-        new Thread(auctions::run).start();
+        new Thread(api::run, "TEM-rate-limits").start();
+        new Thread(items::fillItems, "TEM-items").start();
+        new Thread(auctions::run, "TEM-dupe-auctions").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener());
@@ -161,8 +162,8 @@ public class TEM {
     @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
     public void onServerConnect(EntityJoinWorldEvent ignored) {
         if (uuid == null) {
-            new Thread(() -> checkAndUpdateUUID(true)).start();
-            new Thread(TEM::tellAboutInvalidKey).start();
+            new Thread(() -> checkAndUpdateUUID(true), "TEM-uuid-updater").start();
+            new Thread(TEM::tellAboutInvalidKey, "TEM-invalid-key-reminder").start();
         }
     }
 
@@ -264,7 +265,7 @@ public class TEM {
 
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
-        new Thread(KeyFetcher::checkForApiKey).start();
+        new Thread(KeyFetcher::checkForApiKey, "TEM-key-checker").start();
     }
 
     public static void waitForPlayer() {
@@ -337,10 +338,10 @@ public class TEM {
         TEMConfig.timeOffset = 0;
         TEMConfig.enableContributions = true;
         wsFactory.setVerifyHostname(false);
-        new Thread(() -> reconnectSocket(100)).start();
+        new Thread(() -> reconnectSocket(100), "TEM-socket").start();
         // Create global API/rate-limit handler
         // Start the requests loop
-        new Thread(api::run).start();
+        new Thread(api::run, "TEM-rate-limits").start();
     }
 
     public static SSLSocketFactory getAllowAllFactory() {

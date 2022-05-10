@@ -26,6 +26,7 @@ public class TestRarityConverter {
     @Test
     public void testRarityFromItemId() {
         TEM.items = new ItemHelper();
+        new Thread(() -> TEM.items.fillItems()).start();
         TEM.items.waitForInit();
         assertEquals(ClientMessages.Rarity.LEGENDARY, RarityConverter.getRarityFromItemId("SPEED_WITHER_BOOTS"));
     }

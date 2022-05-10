@@ -100,7 +100,7 @@ public class LobbySwitchListener {
         isInHub = true;
         if (TEMConfig.autoScan && System.currentTimeMillis() - lastScanTime > 1000) {
             lastScanTime = System.currentTimeMillis();
-            new Thread(ScanLobby::scan).start();
+            new Thread(ScanLobby::scan, "TEM-auto-scan").start();
         }
     }
 

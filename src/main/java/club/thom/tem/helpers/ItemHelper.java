@@ -23,11 +23,6 @@ public class ItemHelper {
     private final Condition readyEvent = readyLock.newCondition();
     public HashMap<String, JsonObject> items = new HashMap<>();
 
-
-    public ItemHelper() {
-        new Thread(this::fillItems).start();
-    }
-
     public void waitForInit() {
         readyLock.lock();
         try {

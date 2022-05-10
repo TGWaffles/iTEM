@@ -6,6 +6,7 @@ import club.thom.tem.constants.PureColours;
 import club.thom.tem.helpers.HexHelper;
 import club.thom.tem.helpers.HexHelper.Modifier;
 import club.thom.tem.helpers.RequestHelper;
+import club.thom.tem.helpers.TimeHelper;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
@@ -22,8 +23,6 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static club.thom.tem.storage.TEMConfig.maxItemAge;
 
 public class ScanLobby {
     static class ArmourWithOwner {
@@ -58,6 +57,10 @@ public class ScanLobby {
             } else {
                 lastChecked = System.currentTimeMillis();
             }
+        }
+
+        public long getTimePassed() {
+            return System.currentTimeMillis() - lastChecked;
         }
 
         public void setUsername(String username) {
@@ -137,7 +140,7 @@ public class ScanLobby {
 
     public static boolean checkItem(ArmourWithOwner armour) {
         // days -> milliseconds
-        long timePassed = TEMConfig.maxItemAge * 86400000L;
+        long timePassed = TEMConfig.maxItemAge * 24 * 60 * 60 * 1000L;
         if (armour.lastChecked + timePassed < System.currentTimeMillis()) {
             return false;
         }
@@ -147,15 +150,19 @@ public class ScanLobby {
         if (modifier == Modifier.ORIGINAL) {
             return false;
         }
-        if (modifier == Modifier.EXOTIC) {
-            return TEMConfig.enableExotics;
+        switch (modifier) {
+            case EXOTIC:
+                return TEMConfig.enableExotics;
+            case CRYSTAL:
+                return TEMConfig.enableCrystal;
+            case FAIRY:
+                return TEMConfig.enableFairy;
+            case OG_FAIRY:
+                return TEMConfig.enableOGFairy;
+            case UNDYED:
+                return TEMConfig.enableBleached;
         }
-        if (modifier == Modifier.CRYSTAL) {
-            return TEMConfig.enableCrystal;
-        }
-        if (modifier == Modifier.FAIRY || modifier == Modifier.OG_FAIRY) {
-            return TEMConfig.enableFairy;
-        }
+
         return false;
     }
 
@@ -197,10 +204,18 @@ public class ScanLobby {
         ChatComponentText playerText = new ChatComponentText(item.username);
         playerText.setChatStyle(new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/pv " + item.plainUsername)));
 
+        int hexAsInt;
+        if (!item.hexCode.equals("UNDYED")) {
+            hexAsInt = Integer.parseInt(item.hexCode, 16);
+        } else {
+            // undyed hardcoded, awful practice :>
+            hexAsInt = 0xA06540;
+        }
+
         // Hex code!
         ChatComponentText hoverOverHexText = new ChatComponentText(
                 EnumChatFormatting.YELLOW + "----------------\n" +
-                        EnumChatFormatting.GRAY + ColourNames.getColorNameFromHex(Integer.parseInt(item.hexCode, 16)) + "\n" +
+                        EnumChatFormatting.GRAY + ColourNames.getColorNameFromHex(hexAsInt) + "\n" +
                         pureColourText +
                         EnumChatFormatting.YELLOW + "----------------"
         );
@@ -211,7 +226,7 @@ public class ScanLobby {
         message.appendSibling(playerText);
         message.appendSibling(new ChatComponentText(EnumChatFormatting.GRAY + " has "));
         message.appendSibling(hexCodeText);
-        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "!"));
+        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "! Last seen: " + TimeHelper.getRelativeTime(item.getTimePassed())));
         hexCodeText.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverOverHexText)));
         TEM.sendMessage(message);
     }

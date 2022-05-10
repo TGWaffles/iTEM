@@ -158,7 +158,7 @@ public abstract class Request {
                 }
                 KeyLookupRequest request = new KeyLookupRequest(TEMConfig.getHypixelKey(), this.controller);
                 this.controller.addToQueue(request);
-            }).start();
+            }, "TEM-request-new-key-check").start();
             return null;
         } else if (returnedData.getStatus() == -1) {
             logger.error("REQUEST-> -1 status, readding request to queue...");

@@ -25,7 +25,7 @@ public class Hypixel {
     public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
     private int triesWithoutValidKey = 0;
 
-    private final ExecutorService threadPool = Executors.newFixedThreadPool(TEMConfig.maxSimultaneousThreads);
+    private final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(TEMConfig.maxSimultaneousThreads);
 
     protected final LinkedBlockingDeque<Request> requestQueue = new LinkedBlockingDeque<>();
 
@@ -178,7 +178,7 @@ public class Hypixel {
                 if (requestQueue.peek() instanceof KeyLookupRequest) {
                     Request request = requestQueue.take();
                     requestFutures.add(request.getCompletionFuture());
-                    new Thread(request::makeRequest).start();
+                    new Thread(request::makeRequest, "TEM-key-lookup-request").start();
                 }
                 logger.debug("LOOP-> {} requests in queue.", requestQueue.size());
                 int trueLimitUsed = 0;
@@ -204,9 +204,9 @@ public class Hypixel {
                             }
                             triesWithoutValidKey++;
                             if (triesWithoutValidKey % 20 == 0) {
-                                new Thread(KeyFetcher::checkForApiKey).start();
-                                //noinspection BusyWait
-                                Thread.sleep(5000);
+                                Thread thread = new Thread(KeyFetcher::checkForApiKey, "TEM-key-checker");
+                                thread.start();
+                                thread.join(5000);
                                 KeyLookupRequest request = new KeyLookupRequest(TEMConfig.getHypixelKey(), this);
                                 addToQueue(request);
                             }
