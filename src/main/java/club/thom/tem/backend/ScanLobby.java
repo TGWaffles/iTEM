@@ -58,6 +58,10 @@ public class ScanLobby {
             }
         }
 
+        public int getDaysPassed() {
+            return (int) Math.round((lastChecked / (double) (24 * 60 * 60 * 1000)));
+        }
+
         public void setUsername(String username) {
             if (username != null) {
                 this.username = username;
@@ -135,7 +139,7 @@ public class ScanLobby {
 
     public static boolean checkItem(ArmourWithOwner armour) {
         // days -> milliseconds
-        long timePassed = TEMConfig.maxItemAge * 86400000L;
+        long timePassed = TEMConfig.maxItemAge * 24 * 60 * 60 * 1000L;
         if (armour.lastChecked + timePassed < System.currentTimeMillis()) {
             return false;
         }
@@ -213,7 +217,7 @@ public class ScanLobby {
         message.appendSibling(playerText);
         message.appendSibling(new ChatComponentText(EnumChatFormatting.GRAY + " has "));
         message.appendSibling(hexCodeText);
-        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "!"));
+        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "! Last seen: " + item.getDaysPassed() + " days ago."));
         hexCodeText.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverOverHexText)));
         TEM.sendMessage(message);
     }
