@@ -9,6 +9,7 @@ import club.thom.tem.helpers.UUIDHelper;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.listeners.LobbySwitchListener;
+import club.thom.tem.listeners.OnlinePlayerListener;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.storage.TEMConfig;
@@ -156,6 +157,9 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener());
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener());
+        OnlinePlayerListener playerListener = new OnlinePlayerListener();
+        playerListener.start();
+        MinecraftForge.EVENT_BUS.register(playerListener);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
