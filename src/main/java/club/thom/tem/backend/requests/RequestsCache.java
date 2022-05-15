@@ -3,9 +3,7 @@ package club.thom.tem.backend.requests;
 import club.thom.tem.models.inventory.PlayerData;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.LoadingCache;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
