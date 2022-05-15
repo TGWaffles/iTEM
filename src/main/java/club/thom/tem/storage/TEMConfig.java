@@ -153,7 +153,7 @@ public class TEMConfig extends Vigilant {
         return executor.submit(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
-                TEM.forceSaveConfig();
+                TEM.getInstance().forceSaveConfig();
             }
         });
     }
@@ -271,7 +271,7 @@ public class TEMConfig extends Vigilant {
                 e.printStackTrace();
             }
             hypixelKey = oldKey;
-            TEM.forceSaveConfig();
+            TEM.getInstance().forceSaveConfig();
             return;
         }
         hypixelKey = key;

@@ -36,7 +36,7 @@ public class TestTEM {
         TEMConfig config = PowerMockito.mock(TEMConfig.class);
         PowerMockito.whenNew(TEMConfig.class).withAnyArguments().thenReturn(config);
         PowerMockito.mockStatic(TEMConfig.class);
-        TEM.config = config;
+        TEM.getInstance().config = config;
     }
 
     private void setupTestMessage() throws Exception {

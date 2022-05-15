@@ -49,7 +49,7 @@ public class TEM {
     private OnlinePlayerListener playerListener = null;
     private final SocketHandler socketHandler;
 
-    public static TEMConfig config = new TEMConfig();
+    public TEMConfig config = new TEMConfig();
     public static Hypixel api;
     public static boolean standAlone = false;
 
@@ -71,7 +71,7 @@ public class TEM {
         return instance;
     }
 
-    public static void forceSaveConfig() {
+    public void forceSaveConfig() {
         config.markDirty();
         config.writeData();
     }

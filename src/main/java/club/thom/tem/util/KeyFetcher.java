@@ -49,7 +49,7 @@ public class KeyFetcher {
                 String apiKey = skytilsConfigFile.get("general.api.hypixel_api_key");
                 if (apiKey != null && !apiKey.equals("")) {
                     TEMConfig.setHypixelKey(apiKey);
-                    TEM.forceSaveConfig();
+                    TEM.getInstance().forceSaveConfig();
                 }
             }
         } catch (Exception ignored) {
@@ -64,7 +64,7 @@ public class KeyFetcher {
                 String apiKey = neuConfigData.get("apiKey").getAsJsonObject().get("apiKey").getAsString();
                 if (apiKey != null && !apiKey.equals("")) {
                     TEMConfig.setHypixelKey(apiKey);
-                    TEM.forceSaveConfig();
+                    TEM.getInstance().forceSaveConfig();
                 }
             } catch (Exception ignored) {
                 // TODO: Add logging here once SLF4J is implemented
