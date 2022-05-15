@@ -60,6 +60,10 @@ public class OnlinePlayerListener {
             return;
         }
 
-        onlinePlayerUuids.add(uuid);
+        queuePlayer(uuid);
+    }
+
+    public void queuePlayer(String playerUuid) {
+        onlinePlayerUuids.add(playerUuid);
     }
 }

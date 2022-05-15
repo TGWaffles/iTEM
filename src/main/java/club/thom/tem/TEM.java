@@ -67,6 +67,10 @@ public class TEM {
     private static int websocketIndex = 0;
     public static final int CLIENT_VERSION = clientVersionFromVersion();
 
+    private static TEM instance = null;
+
+    private OnlinePlayerListener playerListener = null;
+
     public static TEMConfig config = new TEMConfig();
     public static Hypixel api;
     public static boolean socketWorking = true;
@@ -88,6 +92,18 @@ public class TEM {
 
     private static WebSocketFactory wsFactory;
     public static WebSocket socket;
+
+    public TEM() {
+        instance = this;
+    }
+
+    public static TEM getInstance() {
+        if (instance == null) {
+            new TEM();
+        }
+
+        return instance;
+    }
 
     public static void sendToast(String title, String description, float stayTime) {
         if (System.currentTimeMillis() - lastToastTime < 1000) {
@@ -157,7 +173,7 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener());
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener());
-        OnlinePlayerListener playerListener = new OnlinePlayerListener();
+        playerListener = new OnlinePlayerListener();
         playerListener.start();
         MinecraftForge.EVENT_BUS.register(playerListener);
         MinecraftForge.EVENT_BUS.register(this);
@@ -283,6 +299,10 @@ public class TEM {
         } finally {
             lock.unlock();
         }
+    }
+
+    public OnlinePlayerListener getOnlinePlayerListener() {
+        return playerListener;
     }
 
     /**
