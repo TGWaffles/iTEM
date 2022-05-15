@@ -16,9 +16,9 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class AuctionHouse {
-    ConcurrentHashMap<String, LinkedList<String>> temporaryMap = new ConcurrentHashMap<>();
-    HashMap<String, String[]> itemUuidMap = new HashMap<>();
-    ReentrantReadWriteLock processingLock = new ReentrantReadWriteLock();
+    final ConcurrentHashMap<String, LinkedList<String>> temporaryMap = new ConcurrentHashMap<>();
+    final HashMap<String, String[]> itemUuidMap = new HashMap<>();
+    final ReentrantReadWriteLock processingLock = new ReentrantReadWriteLock();
     long lastKnownLastUpdated = 0;
     // only use 2 threads to download the auction house to reduce bandwidth for other uses
     private final ExecutorService threadPool = Executors.newFixedThreadPool(2);

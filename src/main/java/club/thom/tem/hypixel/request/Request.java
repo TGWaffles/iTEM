@@ -30,7 +30,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public abstract class Request {
     private static final Logger logger = LogManager.getLogger(Request.class);
-    protected Hypixel controller = TEM.api;
+    protected final Hypixel controller = TEM.api;
     protected final String endpoint;
     public boolean priority;
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();

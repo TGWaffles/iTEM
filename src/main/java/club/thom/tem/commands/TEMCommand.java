@@ -37,7 +37,7 @@ public class TEMCommand extends CommandBase {
         return "/tem help for more information";
     }
 
-    static List<SubCommand> subCommands = new ArrayList<>();
+    static final List<SubCommand> subCommands = new ArrayList<>();
 
     public static SubCommand mapToSubCommand(String inputString) {
         if (inputString.length() == 0) {

@@ -20,7 +20,7 @@ public class MiscItemData extends InventoryItemData {
         this.inventoryName = inventoryName;
     }
 
-    ClientMessages.MiscItem.Builder dataBuilder = ClientMessages.MiscItem.newBuilder();
+    final ClientMessages.MiscItem.Builder dataBuilder = ClientMessages.MiscItem.newBuilder();
 
     /**
      * Adds all obtainable attributes to the dataBuilder, so it can be transformed into an InventoryItem.

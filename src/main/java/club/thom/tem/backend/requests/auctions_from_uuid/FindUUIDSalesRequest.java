@@ -7,8 +7,8 @@ import club.thom.tem.dupes.cofl.CoflRequestMaker;
 import java.util.Objects;
 
 public class FindUUIDSalesRequest implements BackendRequest {
-    String uuid;
-    boolean sendMessages;
+    final String uuid;
+    final boolean sendMessages;
 
     public FindUUIDSalesRequest(String itemUuid, boolean sendMessages) {
         uuid = itemUuid;

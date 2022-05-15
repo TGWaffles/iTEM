@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Xiaoxiao Li
  */
 public class ColourNames {
-    public static ArrayList<ColourName> colourList = initColorList();
+    public static final ArrayList<ColourName> colourList = initColorList();
     /**
      * Initialize the color list that we have.
      */
@@ -217,8 +217,10 @@ public class ColourNames {
      * @author Xiaoxiao Li
      */
     public static class ColourName {
-        public int r, g, b;
-        public String name;
+        public final int r;
+        public final int g;
+        public final int b;
+        public final String name;
 
         public ColourName(String name, int r, int g, int b) {
             this.r = r;

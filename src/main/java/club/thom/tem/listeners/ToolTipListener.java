@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ToolTipListener {
-    public static HashMap<String, List<String>> uuidToLore = new HashMap<>();
+    public static final HashMap<String, List<String>> uuidToLore = new HashMap<>();
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onItemToolTipEvent(ItemTooltipEvent event) {

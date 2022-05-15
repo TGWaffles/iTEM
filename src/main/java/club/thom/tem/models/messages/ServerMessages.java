@@ -3,6 +3,7 @@
 
 package club.thom.tem.models.messages;
 
+@SuppressWarnings("ALL")
 @javax.annotation.Generated(value="protoc", comments="annotations:ServerMessages.java.pb.meta")
 public final class ServerMessages {
   private ServerMessages() {}

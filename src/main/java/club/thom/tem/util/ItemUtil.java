@@ -17,7 +17,7 @@ public class ItemUtil {
     private boolean ready = false;
     private final Lock readyLock = new ReentrantLock();
     private final Condition readyEvent = readyLock.newCondition();
-    public HashMap<String, JsonObject> items = new HashMap<>();
+    public final HashMap<String, JsonObject> items = new HashMap<>();
 
     public void waitForInit() {
         readyLock.lock();

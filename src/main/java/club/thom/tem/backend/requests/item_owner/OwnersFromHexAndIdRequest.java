@@ -9,8 +9,8 @@ import club.thom.tem.storage.TEMConfig;
 import java.util.Objects;
 
 public class OwnersFromHexAndIdRequest implements BackendRequest {
-    String hexCode;
-    String itemId;
+    final String hexCode;
+    final String itemId;
 
     public OwnersFromHexAndIdRequest(String hexCode, String itemId) {
         this.hexCode = hexCode;

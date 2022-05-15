@@ -3,7 +3,6 @@ package club.thom.tem;
 import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.dupes.auction_house.AuctionHouse;
-import club.thom.tem.util.*;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.listeners.LobbySwitchListener;
@@ -11,17 +10,16 @@ import club.thom.tem.listeners.OnlinePlayerListener;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.storage.TEMConfig;
-import net.minecraft.client.Minecraft;
+import club.thom.tem.util.ItemUtil;
+import club.thom.tem.util.KeyFetcher;
+import club.thom.tem.util.PlayerUtil;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +31,6 @@ import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import java.nio.charset.Charset;
-import java.util.UUID;
 
 @Mod(modid = TEM.MOD_ID, version = TEM.VERSION, certificateFingerprint = TEM.SIGNATURE)
 public class TEM {
@@ -136,12 +133,6 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(playerListener);
         MinecraftForge.EVENT_BUS.register(this);
     }
-
-    @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
-    public void onServerConnect(EntityJoinWorldEvent ignored) {
-
-    }
-
 
 
     @Mod.EventHandler

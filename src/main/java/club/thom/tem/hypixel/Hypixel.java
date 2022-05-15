@@ -18,9 +18,9 @@ import java.util.concurrent.locks.*;
  */
 public class Hypixel {
     private static final Logger logger = LogManager.getLogger(Hypixel.class);
-    ReadWriteLock rateLimitLock = new ReentrantReadWriteLock();
-    Lock waitingForItemLock = new ReentrantLock();
-    Condition newItemInQueue = waitingForItemLock.newCondition();
+    final ReadWriteLock rateLimitLock = new ReentrantReadWriteLock();
+    final Lock waitingForItemLock = new ReentrantLock();
+    final Condition newItemInQueue = waitingForItemLock.newCondition();
 
     public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
     private int triesWithoutValidKey = 0;

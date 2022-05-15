@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class SkyblockPlayerRequest extends Request {
     private static final Logger logger = LogManager.getLogger(SkyblockPlayerRequest.class);
-    CompletableFuture<PlayerData> future = new CompletableFuture<>();
+    final CompletableFuture<PlayerData> future = new CompletableFuture<>();
     final String uuid;
 
     public SkyblockPlayerRequest(String uuid) {

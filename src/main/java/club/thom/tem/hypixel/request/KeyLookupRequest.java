@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class KeyLookupRequest extends Request {
     private static final Logger logger = LogManager.getLogger(KeyLookupRequest.class);
-    CompletableFuture<Boolean> future = new CompletableFuture<>();
+    final CompletableFuture<Boolean> future = new CompletableFuture<>();
     final String key;
 
     public KeyLookupRequest(String key, Hypixel controller) {

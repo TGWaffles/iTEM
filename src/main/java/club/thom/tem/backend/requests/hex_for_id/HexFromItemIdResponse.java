@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HexFromItemIdResponse implements BackendResponse {
-    public List<HexAmount> amounts;
+    public final List<HexAmount> amounts;
 
     public HexFromItemIdResponse(JsonObject jsonObject) {
         amounts = new ArrayList<>();

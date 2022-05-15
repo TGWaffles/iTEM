@@ -9,10 +9,10 @@ import java.util.Map;
 
 public class ItemData {
 
-    public String uuid;
+    public final String uuid;
     public static class PlayerAndProfile {
-        public String playerUuid;
-        public String profileUuid;
+        public final String playerUuid;
+        public final String profileUuid;
         public PlayerAndProfile(String playerUuid, String profileUuid) {
             this.playerUuid = playerUuid;
             this.profileUuid = profileUuid;
@@ -20,9 +20,9 @@ public class ItemData {
     }
 
     public static class PreviousOwner {
-        public PlayerAndProfile owner;
-        public long start;
-        public long end;
+        public final PlayerAndProfile owner;
+        public final long start;
+        public final long end;
 
         public PreviousOwner(PlayerAndProfile owner, long start, long end) {
             this.owner = owner;
@@ -31,14 +31,14 @@ public class ItemData {
         }
     }
 
-    public PlayerAndProfile currentOwner;
-    public HashMap<String, Object> extraAttributes;
-    public String itemId;
-    public LinkedList<PreviousOwner> previousOwners;
-    public String rarity;
+    public final PlayerAndProfile currentOwner;
+    public final HashMap<String, Object> extraAttributes;
+    public final String itemId;
+    public final LinkedList<PreviousOwner> previousOwners;
+    public final String rarity;
     public String reforge = null;
     public String location = null;
-    public long startTimestamp;
+    public final long startTimestamp;
     public long lastCheckedTimestamp;
 
     public ItemData(JsonObject data) {

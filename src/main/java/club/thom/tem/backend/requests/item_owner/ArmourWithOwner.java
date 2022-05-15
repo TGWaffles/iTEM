@@ -3,16 +3,16 @@ package club.thom.tem.backend.requests.item_owner;
 import com.google.gson.JsonObject;
 
 public class ArmourWithOwner {
-    public String itemUuid;
-    public long creationTime;
-    public String hexCode;
-    public String itemId;
-    public String rarity;
-    public String reforge;
+    public final String itemUuid;
+    public final long creationTime;
+    public final String hexCode;
+    public final String itemId;
+    public final String rarity;
+    public final String reforge;
 
     public static class PlayerWithProfile {
-        public String profileId;
-        public String playerUuid;
+        public final String profileId;
+        public final String playerUuid;
 
         public PlayerWithProfile(JsonObject jsonObject) {
             profileId = jsonObject.get("profileUuid").getAsString();
@@ -20,7 +20,7 @@ public class ArmourWithOwner {
         }
     }
 
-    public PlayerWithProfile owner;
+    public final PlayerWithProfile owner;
 
     public ArmourWithOwner(JsonObject jsonObject) {
         itemUuid = jsonObject.get("uuid").getAsString();

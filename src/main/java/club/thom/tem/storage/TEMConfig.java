@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
-@SuppressWarnings("FieldMayBeFinal")
+@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal"})
 public class TEMConfig extends Vigilant {
 
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);

@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class FindUUIDsDataRequest implements BackendRequest {
-    List<String> uuids;
-    boolean sendMessages = true;
+    final List<String> uuids;
+    final boolean sendMessages = true;
     private static final Logger logger = LogManager.getLogger(FindUUIDsDataRequest.class);
 
     public FindUUIDsDataRequest(List<String> itemUuids) {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OwnersFromHexAndIdResponse implements BackendResponse {
-    public List<ArmourWithOwner> owners;
+    public final List<ArmourWithOwner> owners;
 
     public OwnersFromHexAndIdResponse(JsonObject jsonObject) {
         owners = new ArrayList<>();

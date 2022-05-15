@@ -22,7 +22,7 @@ public class RequestsCache {
     private final Lock alertLock = new ReentrantLock();
     private final Condition requestFinishCondition = alertLock.newCondition();
     @SuppressWarnings("UnstableApiUsage")
-    public Cache<String, PlayerData> playerDataCache = CacheBuilder.newBuilder()
+    public final Cache<String, PlayerData> playerDataCache = CacheBuilder.newBuilder()
             .maximumSize(1000).expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
     private static RequestsCache instance = null;

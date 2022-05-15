@@ -19,8 +19,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientResponseHandler {
     private final Logger logger = LogManager.getLogger(ClientResponseHandler.class);
-    public Lock waitingForRateLimit = new ReentrantLock();
-    public Condition rateLimitChange = waitingForRateLimit.newCondition();
+    public final Lock waitingForRateLimit = new ReentrantLock();
+    public final Condition rateLimitChange = waitingForRateLimit.newCondition();
     private Thread moreRequestsLoop = null;
     private long lastAsked = System.currentTimeMillis();
     private final SocketHandler socketHandler;

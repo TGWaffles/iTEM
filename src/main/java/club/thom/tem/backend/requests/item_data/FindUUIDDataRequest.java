@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.Objects;
 
 public class FindUUIDDataRequest implements BackendRequest {
-    String uuid;
+    final String uuid;
     boolean sendMessages = true;
     private static final Logger logger = LogManager.getLogger(FindUUIDDataRequest.class);
 

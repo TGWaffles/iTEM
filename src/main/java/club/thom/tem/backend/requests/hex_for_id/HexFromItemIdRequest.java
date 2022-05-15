@@ -9,7 +9,7 @@ import club.thom.tem.storage.TEMConfig;
 import java.util.Objects;
 
 public class HexFromItemIdRequest implements BackendRequest {
-    String itemId;
+    final String itemId;
 
     public HexFromItemIdRequest(String itemId) {
         this.itemId = itemId;
