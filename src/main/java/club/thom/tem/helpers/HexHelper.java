@@ -21,9 +21,13 @@ public class HexHelper {
         }
     }
 
-    public static boolean checkOriginal(String itemId, String hexCode) {
+    public static String getOriginalHex(String itemId) {
         int[] colours = TEM.items.getDefaultColour(itemId);
-        String originalHex = convertIntArrayToHex(colours);
+        return convertIntArrayToHex(colours);
+    }
+
+    public static boolean checkOriginal(String itemId, String hexCode) {
+        String originalHex = getOriginalHex(itemId);
         if (itemId.startsWith("GREAT_SPOOK")) {
             return SpookColours.isSpookColour(hexCode);
         }
