@@ -3,9 +3,7 @@ package club.thom.tem.backend;
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.FriendsListRequest;
 import club.thom.tem.hypixel.request.MiscRequest;
-import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
-import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ServerMessages;
 import club.thom.tem.models.messages.ServerMessages.AuthData;
 import club.thom.tem.models.messages.ServerMessages.RequestMessage;
@@ -21,18 +19,28 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ServerMessageHandler extends WebSocketAdapter {
     private static final Logger logger = LogManager.getLogger(ServerMessageHandler.class);
     private final ExecutorService backendRequestExecutor = Executors.newFixedThreadPool(16);
     private final ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(2);
+    private final SocketHandler socketHandler;
+    private final ClientResponseHandler clientResponseHandler;
+
+    public ServerMessageHandler(SocketHandler handler) {
+        socketHandler = handler;
+        clientResponseHandler = new ClientResponseHandler(socketHandler);
+    }
 
     @Override
     public void onConnected(WebSocket socket, Map<String, List<String>> headers) {
         // Authenticates with the server.
-        ClientResponseHandler.sendAuth();
-        ClientResponseHandler.startMoreRequestsLoop();
+        clientResponseHandler.sendAuth();
+        clientResponseHandler.startMoreRequestsLoop();
     }
 
     @Override
@@ -41,7 +49,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
                                boolean closedByServer) {
         logger.info("Disconnected from socket; was closed by server: {}", closedByServer);
         // Reconnects after 1 second.
-        TEM.reconnectSocket(1000);
+        socketHandler.reconnectSocket(1000);
     }
 
     @Override
@@ -72,7 +80,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
 
     private void handleAuthMessage(AuthData authMessage) {
         if (!authMessage.getSuccess()) {
-            TEM.socketWorking = false;
+            socketHandler.setSocketWorking(false);
             String humanReadableMessage = EnumChatFormatting.RED.toString() + EnumChatFormatting.BOLD;
             switch (authMessage.getReason()) {
                 case BLACKLISTED:
@@ -86,8 +94,8 @@ public class ServerMessageHandler extends WebSocketAdapter {
                             "you're using an unmodified version of the mod!";
                     // reconnect in 20s
                     scheduledExecutor.schedule(() -> {
-                        TEM.socketWorking = true;
-                        TEM.reconnectSocket(1);
+                        socketHandler.setSocketWorking(true);
+                        socketHandler.reconnectSocket();
                     }, 20, TimeUnit.SECONDS);
                     break;
                 case OUTDATED_CLIENT:
@@ -102,8 +110,8 @@ public class ServerMessageHandler extends WebSocketAdapter {
                             "pirated version of Minecraft, and that you haven't modified TEM's code.";
                     // reconnect in 20s
                     scheduledExecutor.schedule(() -> {
-                        TEM.socketWorking = true;
-                        TEM.reconnectSocket(1);
+                        socketHandler.setSocketWorking(true);
+                        socketHandler.reconnectSocket();
                     }, 20, TimeUnit.SECONDS);
                     break;
             }
@@ -114,7 +122,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
             scheduledExecutor.schedule(() -> TEM.sendMessage(new ChatComponentText(messageToSend)), 2, TimeUnit.SECONDS);
         } else {
             // Ask backend for more requests
-            ClientResponseHandler.askForRequests();
+            clientResponseHandler.askForRequests();
         }
     }
 
@@ -131,7 +139,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
                     logger.error("Error getting friends list request", exception);
                     return;
                 }
-                ClientResponseHandler.sendFriendsResponse(friends, uuid, request.getNonce());
+                clientResponseHandler.sendFriendsResponse(friends, uuid, request.getNonce());
             });
             return;
         }
@@ -150,7 +158,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
                 }
                 logger.debug("Got player future!!!");
                 logger.debug("Sending inventory response...");
-                ClientResponseHandler.sendInventoryResponse(player, uuid, request.getNonce());
+                clientResponseHandler.sendInventoryResponse(player, uuid, request.getNonce());
             }, backendRequestExecutor);
             return;
         }
@@ -165,11 +173,14 @@ public class ServerMessageHandler extends WebSocketAdapter {
                     logger.error("Error while getting misc request: ", exception);
                     return;
                 }
-                ClientResponseHandler.sendMiscResponse(data, serverRequest.getRequestURL(),
+                clientResponseHandler.sendMiscResponse(data, serverRequest.getRequestURL(),
                         serverRequest.getParametersMap(), request.getNonce());
             }, backendRequestExecutor);
         }
+    }
 
+    public ClientResponseHandler getClientResponseHandler() {
+        return clientResponseHandler;
     }
 
 }

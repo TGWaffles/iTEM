@@ -1,6 +1,6 @@
 package club.thom.tem;
 
-import club.thom.tem.backend.ServerMessageHandler;
+import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.dupes.auction_house.AuctionHouse;
 import club.thom.tem.helpers.ItemHelper;
@@ -13,9 +13,6 @@ import club.thom.tem.listeners.OnlinePlayerListener;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.storage.TEMConfig;
-import com.neovisionaries.ws.client.WebSocket;
-import com.neovisionaries.ws.client.WebSocketException;
-import com.neovisionaries.ws.client.WebSocketFactory;
 import gg.essential.api.EssentialAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
@@ -46,7 +43,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.UUID;
 import java.util.concurrent.locks.Condition;
@@ -62,18 +58,16 @@ public class TEM {
     public static final String VERSION = "@@VERSION@@";
     // Signature to compare to, so you know this is an official release of TEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
-    private static final String[] WEBSOCKET_APIS = new String[]{"wss://backend.tem.cx",
-            "ws://backend.tem.cx"};
-    private static int websocketIndex = 0;
+
     public static final int CLIENT_VERSION = clientVersionFromVersion();
 
     private static TEM instance = null;
 
     private OnlinePlayerListener playerListener = null;
+    private final SocketHandler socketHandler;
 
     public static TEMConfig config = new TEMConfig();
     public static Hypixel api;
-    public static boolean socketWorking = true;
     public static String uuid = null;
     public static boolean standAlone = false;
 
@@ -90,11 +84,9 @@ public class TEM {
 
     private static final Lock chatSendLock = new ReentrantLock();
 
-    private static WebSocketFactory wsFactory;
-    public static WebSocket socket;
-
     public TEM() {
         instance = this;
+        socketHandler = new SocketHandler();
     }
 
     public static TEM getInstance() {
@@ -157,14 +149,12 @@ public class TEM {
     public void init(FMLInitializationEvent event) {
         // Don't set up logging on any version released - log files grow very quickly.
 //        setUpLogging();
-        wsFactory = new WebSocketFactory();
         logger.info("Initialising TEM");
         // Create global API/rate-limit handler
         api = new Hypixel();
         auctions = new AuctionHouse();
         config.initialize();
-        wsFactory.setVerifyHostname(false);
-        new Thread(() -> reconnectSocket(100), "TEM-socket").start();
+        new Thread(socketHandler::reconnectSocket, "TEM-socket").start();
         // Start the requests loop
         new Thread(api::run, "TEM-rate-limits").start();
         new Thread(items::fillItems, "TEM-items").start();
@@ -233,36 +223,6 @@ public class TEM {
         return uuid;
     }
 
-    /**
-     * @param after milliseconds to wait before trying again (exponential backoff)
-     */
-    public static void reconnectSocket(long after) {
-        if (!socketWorking) {
-            logger.info("Attempted to reconnect to socket but it has been disabled!");
-            return;
-        }
-        try {
-            Thread.sleep(after);
-        } catch (InterruptedException e) {
-            logger.error("Sleep interrupted in reconnectSocket", e);
-        }
-        try {
-            logger.info("Connecting to socket!");
-            socket = wsFactory.createSocket(WEBSOCKET_APIS[websocketIndex], 5000);
-            logger.info("Connected!");
-            socket.addListener(new ServerMessageHandler());
-            socket.connect();
-        } catch (IOException | WebSocketException e) {
-            logger.error("Error setting up socket", e);
-            websocketIndex++;
-            if (websocketIndex >= WEBSOCKET_APIS.length) {
-                websocketIndex = 0;
-            }
-            // Wait either 1.25 longer or 60s.
-            reconnectSocket((long) (Math.min(after * 1.25, 60000)));
-        }
-    }
-
     public static void tellAboutInvalidKey() {
         lock.lock();
         try {
@@ -303,6 +263,10 @@ public class TEM {
 
     public OnlinePlayerListener getOnlinePlayerListener() {
         return playerListener;
+    }
+
+    public SocketHandler getSocketHandler() {
+        return socketHandler;
     }
 
     /**
@@ -351,7 +315,7 @@ public class TEM {
     }
 
     public static void main(String inputUuid, String apiKey) {
-        wsFactory = new WebSocketFactory();
+        TEM tem = getInstance();
         uuid = inputUuid;
         standAlone = true;
         api = new Hypixel();
@@ -361,8 +325,7 @@ public class TEM {
         TEMConfig.maxSimultaneousThreads = 15;
         TEMConfig.timeOffset = 0;
         TEMConfig.enableContributions = true;
-        wsFactory.setVerifyHostname(false);
-        new Thread(() -> reconnectSocket(100), "TEM-socket").start();
+        new Thread(tem.socketHandler::reconnectSocket, "TEM-socket").start();
         // Create global API/rate-limit handler
         // Start the requests loop
         new Thread(api::run, "TEM-rate-limits").start();

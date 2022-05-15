@@ -1,6 +1,6 @@
 package club.thom.tem.hypixel;
 
-import club.thom.tem.backend.ClientResponseHandler;
+import club.thom.tem.TEM;
 import club.thom.tem.helpers.KeyFetcher;
 import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
@@ -137,12 +137,7 @@ public class Hypixel {
             rateLimitLock.writeLock().unlock();
         }
         if (getRateLimit() > requestQueue.size()) {
-            ClientResponseHandler.waitingForRateLimit.lock();
-            try {
-                ClientResponseHandler.rateLimitChange.signalAll();
-            } finally {
-                ClientResponseHandler.waitingForRateLimit.unlock();
-            }
+            TEM.getInstance().getSocketHandler().getClientResponseHandler().needMoreRequests();
         }
     }
 

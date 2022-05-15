@@ -20,7 +20,6 @@ import java.util.Map;
 public class CoflRequestMaker {
     private static final Logger logger = LogManager.getLogger(CoflRequestMaker.class);
     // amazing endpoint to get all auctions for an item uuid
-    @SuppressWarnings("FieldCanBeLocal")
     private static final String COFL_URL = "https://sky.coflnet.com/api/auctions/%s/sold";
     private final boolean sendMessages;
 
