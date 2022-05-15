@@ -1,7 +1,6 @@
 package club.thom.tem.listeners;
 
-import club.thom.tem.TEM;
-import club.thom.tem.helpers.RequestHelper;
+import club.thom.tem.util.RequestHelper;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

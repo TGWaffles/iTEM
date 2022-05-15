@@ -1,8 +1,8 @@
 package club.thom.tem.models;
 
 import club.thom.tem.TEM;
-import club.thom.tem.helpers.ItemHelper;
-import club.thom.tem.helpers.TestHelper;
+import club.thom.tem.util.ItemHelper;
+import club.thom.tem.util.TestHelper;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.storage.TEMConfig;
 import org.junit.Before;

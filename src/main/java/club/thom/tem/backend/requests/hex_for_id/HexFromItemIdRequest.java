@@ -2,7 +2,7 @@ package club.thom.tem.backend.requests.hex_for_id;
 
 import club.thom.tem.backend.requests.BackendRequest;
 import club.thom.tem.backend.requests.BackendResponse;
-import club.thom.tem.helpers.RequestHelper;
+import club.thom.tem.util.RequestHelper;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
 

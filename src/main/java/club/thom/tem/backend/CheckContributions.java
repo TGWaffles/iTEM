@@ -1,9 +1,9 @@
 package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
-import club.thom.tem.helpers.NumberHelper;
-import club.thom.tem.helpers.RequestHelper;
-import club.thom.tem.helpers.UUIDHelper;
+import club.thom.tem.util.NumberHelper;
+import club.thom.tem.util.RequestHelper;
+import club.thom.tem.util.UUIDHelper;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonObject;

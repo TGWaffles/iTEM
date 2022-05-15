@@ -8,7 +8,7 @@ import club.thom.tem.backend.requests.item_data.ItemData;
 import club.thom.tem.backend.requests.item_data_from_uuids.FindUUIDsDataRequest;
 import club.thom.tem.backend.requests.item_data_from_uuids.FindUUIDsDataResponse;
 import club.thom.tem.dupes.cofl.CoflRequestMaker;
-import club.thom.tem.helpers.UUIDHelper;
+import club.thom.tem.util.UUIDHelper;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;

@@ -1,7 +1,7 @@
 package club.thom.tem.hypixel.request;
 
 import club.thom.tem.TEM;
-import club.thom.tem.helpers.RequestHelper;
+import club.thom.tem.util.RequestHelper;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonIOException;

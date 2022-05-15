@@ -1,4 +1,4 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;

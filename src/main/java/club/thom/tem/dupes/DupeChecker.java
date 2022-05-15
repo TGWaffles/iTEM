@@ -2,7 +2,7 @@ package club.thom.tem.dupes;
 
 import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.RequestsCache;
-import club.thom.tem.helpers.UUIDHelper;
+import club.thom.tem.util.UUIDHelper;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.models.inventory.PlayerData;

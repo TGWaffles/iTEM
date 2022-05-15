@@ -1,7 +1,7 @@
 package club.thom.tem.dupes.cofl;
 
 import club.thom.tem.TEM;
-import club.thom.tem.helpers.RequestHelper;
+import club.thom.tem.util.RequestHelper;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.CoflAuctionModel;
 import com.google.gson.JsonArray;

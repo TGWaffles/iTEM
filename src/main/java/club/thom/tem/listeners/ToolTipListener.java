@@ -7,7 +7,7 @@ import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
-import club.thom.tem.helpers.HexHelper;
+import club.thom.tem.util.HexHelper;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;

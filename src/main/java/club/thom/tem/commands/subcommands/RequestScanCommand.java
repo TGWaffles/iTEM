@@ -1,8 +1,7 @@
 package club.thom.tem.commands.subcommands;
 
 import club.thom.tem.TEM;
-import club.thom.tem.dupes.DupeCommandExecutor;
-import club.thom.tem.helpers.UUIDHelper;
+import club.thom.tem.util.UUIDHelper;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;

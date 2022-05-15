@@ -1,4 +1,4 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
 import java.util.Arrays;
 import java.util.List;

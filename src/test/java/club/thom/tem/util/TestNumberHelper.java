@@ -1,5 +1,6 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
+import club.thom.tem.util.NumberHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

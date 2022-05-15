@@ -1,4 +1,4 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
