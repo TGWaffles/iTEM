@@ -1,7 +1,7 @@
 package club.thom.tem.commands.subcommands;
 
 import club.thom.tem.TEM;
-import club.thom.tem.util.UUIDHelper;
+import club.thom.tem.util.UUIDUtil;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -34,7 +34,7 @@ public class RequestScanCommand implements SubCommand {
     }
 
     public void requestScanOfUsername(String username) {
-        String uuid = UUIDHelper.fetchUUIDFromIdentifier(username);
+        String uuid = UUIDUtil.fetchUUIDFromIdentifier(username);
         if (uuid == null) {
             TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown player!"));
             return;

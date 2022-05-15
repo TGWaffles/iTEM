@@ -3,9 +3,9 @@ package club.thom.tem;
 import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.dupes.auction_house.AuctionHouse;
-import club.thom.tem.util.ItemHelper;
+import club.thom.tem.util.ItemUtil;
 import club.thom.tem.util.KeyFetcher;
-import club.thom.tem.util.UUIDHelper;
+import club.thom.tem.util.UUIDUtil;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.ApiKeyListener;
 import club.thom.tem.listeners.LobbySwitchListener;
@@ -71,7 +71,7 @@ public class TEM {
 
     private static boolean waitingToTellAboutAPI = false;
 
-    public static ItemHelper items = new ItemHelper();
+    public static ItemUtil items = new ItemUtil();
 
     public static AuctionHouse auctions;
 
@@ -178,7 +178,7 @@ public class TEM {
         if (possibleUuid != null) {
             String possibleUuidString = possibleUuid.toString().replaceAll("-", "");
             try {
-                if (UUIDHelper.mojangFetchUsernameFromUUID(possibleUuidString) == null) {
+                if (UUIDUtil.mojangFetchUsernameFromUUID(possibleUuidString) == null) {
                     logger.info("UUID was not valid!");
                     if (firstTry) {
                         try {

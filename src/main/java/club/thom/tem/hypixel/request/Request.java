@@ -1,7 +1,7 @@
 package club.thom.tem.hypixel.request;
 
 import club.thom.tem.TEM;
-import club.thom.tem.util.RequestHelper;
+import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonIOException;
@@ -58,7 +58,7 @@ public abstract class Request {
         try {
             url = new URL(urlString);
             uc = (HttpsURLConnection) url.openConnection();
-            uc.setSSLSocketFactory(RequestHelper.getAllowAllFactory());
+            uc.setSSLSocketFactory(RequestUtil.getAllowAllFactory());
             uc.setReadTimeout(10000);
             uc.setConnectTimeout(10000);
             logger.debug("Opening connection to url: {}, params: {}", urlString, params);

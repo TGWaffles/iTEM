@@ -18,8 +18,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-public class RequestHelper {
-    private static final Logger logger = LogManager.getLogger(RequestHelper.class);
+public class RequestUtil {
+    private static final Logger logger = LogManager.getLogger(RequestUtil.class);
     
     public static RequestData sendPostRequest(String urlString, JsonObject postData) {
         URL url = null;

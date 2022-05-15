@@ -3,10 +3,10 @@ package club.thom.tem.backend;
 import club.thom.tem.TEM;
 import club.thom.tem.constants.ColourNames;
 import club.thom.tem.constants.PureColours;
-import club.thom.tem.util.HexHelper;
-import club.thom.tem.util.HexHelper.Modifier;
-import club.thom.tem.util.RequestHelper;
-import club.thom.tem.util.TimeHelper;
+import club.thom.tem.util.HexUtil;
+import club.thom.tem.util.HexUtil.Modifier;
+import club.thom.tem.util.RequestUtil;
+import club.thom.tem.util.TimeUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
@@ -50,7 +50,7 @@ public class ScanLobby {
             reforge = jsonData.get("reforge").getAsString();
             ownerUuid = jsonData.get("owner").getAsJsonObject().get("playerUuid").getAsString();
             ownerProfile = jsonData.get("owner").getAsJsonObject().get("profileUuid").getAsString();
-            modifier = HexHelper.getModifier(itemId, hexCode, creationTime);
+            modifier = HexUtil.getModifier(itemId, hexCode, creationTime);
 
             if (jsonData.has("lastChecked")) {
                 lastChecked = jsonData.get("lastChecked").getAsLong();
@@ -114,7 +114,7 @@ public class ScanLobby {
 
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() != 200) {
-            RequestHelper.tellPlayerAboutFailedRequest(returnedData.getStatus());
+            RequestUtil.tellPlayerAboutFailedRequest(returnedData.getStatus());
             return;
         }
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();
@@ -231,7 +231,7 @@ public class ScanLobby {
         message.appendSibling(playerText);
         message.appendSibling(new ChatComponentText(EnumChatFormatting.GRAY + " has "));
         message.appendSibling(hexCodeText);
-        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "! Last seen: " + TimeHelper.getRelativeTime(item.getTimePassed())));
+        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "! Last seen: " + TimeUtil.getRelativeTime(item.getTimePassed())));
         hexCodeText.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverOverHexText)));
         TEM.sendMessage(message);
     }
@@ -244,7 +244,7 @@ public class ScanLobby {
             playerArray.add(player.getGameProfile().getId().toString().replaceAll("-", ""));
         }
         requestJson.add("players", playerArray);
-        return RequestHelper.sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
+        return RequestUtil.sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
     }
 
 }

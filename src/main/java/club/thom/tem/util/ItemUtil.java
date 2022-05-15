@@ -11,8 +11,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ItemHelper {
-    private static final Logger logger = LogManager.getLogger(ItemHelper.class);
+public class ItemUtil {
+    private static final Logger logger = LogManager.getLogger(ItemUtil.class);
     private static final String URL = "https://api.hypixel.net/resources/skyblock/items";
     private boolean ready = false;
     private final Lock readyLock = new ReentrantLock();
@@ -36,7 +36,7 @@ public class ItemHelper {
 
     public JsonObject downloadItems() {
         logger.info("TEM: Downloading items...");
-        return RequestHelper.sendGetRequest(URL).getJsonAsObject();
+        return RequestUtil.sendGetRequest(URL).getJsonAsObject();
     }
 
     public void fillItems() {

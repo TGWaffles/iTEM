@@ -6,7 +6,7 @@ import com.google.common.base.Strings;
 
 import static club.thom.tem.models.inventory.item.ArmourPieceData.convertIntArrayToHex;
 
-public class HexHelper {
+public class HexUtil {
     public static String convertSmallerHex(String smallerHex) {
         if (smallerHex.length() == 1) {
             return Strings.repeat(smallerHex, 6);

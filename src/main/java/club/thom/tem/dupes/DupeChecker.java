@@ -2,7 +2,7 @@ package club.thom.tem.dupes;
 
 import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.RequestsCache;
-import club.thom.tem.util.UUIDHelper;
+import club.thom.tem.util.UUIDUtil;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.models.inventory.PlayerData;
@@ -52,7 +52,7 @@ public class DupeChecker {
     public HashSet<ItemWithLocation> findVerifiedOwners(String uuid, List<String> possibleOwners) {
         ArrayList<CompletableFuture<PlayerData>> inventories = new ArrayList<>();
         HashSet<ItemWithLocation> verifiedOwners = new HashSet<>();
-        HashMap<String, String> lookupMap = UUIDHelper.usernamesFromUUIDs(possibleOwners);
+        HashMap<String, String> lookupMap = UUIDUtil.usernamesFromUUIDs(possibleOwners);
         // anyone with the item on the AH is automatically a verified owner
         if (TEMConfig.useAuctionHouseForDupes) {
             for (String ownerUuid : TEM.auctions.getOwnersForItemUUID(uuid)) {

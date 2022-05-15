@@ -2,7 +2,7 @@ package club.thom.tem.backend.requests.hex_for_id;
 
 import club.thom.tem.backend.requests.BackendRequest;
 import club.thom.tem.backend.requests.BackendResponse;
-import club.thom.tem.util.RequestHelper;
+import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
 
@@ -33,7 +33,7 @@ public class HexFromItemIdRequest implements BackendRequest {
     public BackendResponse makeRequest() {
         RequestData response = submitRequest();
         if (response.getStatus() != 200) {
-            RequestHelper.tellPlayerAboutFailedRequest(response.getStatus());
+            RequestUtil.tellPlayerAboutFailedRequest(response.getStatus());
             return null;
         }
         return new HexFromItemIdResponse(response.getJsonAsObject());
@@ -42,6 +42,6 @@ public class HexFromItemIdRequest implements BackendRequest {
     public RequestData submitRequest() {
         String urlString = "https://api.tem.cx/armour/find_hexes?key=" + TEMConfig.getTemApiKey();
         urlString += "&itemId=" + itemId;
-        return RequestHelper.sendGetRequest(urlString);
+        return RequestUtil.sendGetRequest(urlString);
     }
 }

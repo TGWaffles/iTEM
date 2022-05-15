@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UUIDHelper {
+public class UUIDUtil {
     public static HashMap<String, String> usernamesFromUUIDs(List<String> uuids) {
         JsonObject data = new JsonObject();
         JsonArray uuidArray = new JsonArray();
@@ -22,7 +22,7 @@ public class UUIDHelper {
             uuidArray.add(uuid);
         }
         data.add("uuids", uuidArray);
-        JsonObject response = RequestHelper.sendPostRequest("https://api.thom.club/bulk_uuids", data).getJsonAsObject();
+        JsonObject response = RequestUtil.sendPostRequest("https://api.thom.club/bulk_uuids", data).getJsonAsObject();
         assert response != null;
         HashMap<String, String> uuidToUsernameMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : response.getAsJsonObject("uuids").entrySet()) {
@@ -49,7 +49,7 @@ public class UUIDHelper {
             usernameArray.add(username);
         }
         data.add("usernames", usernameArray);
-        JsonObject response = RequestHelper.sendPostRequest("https://api.thom.club/bulk_usernames", data).getJsonAsObject();
+        JsonObject response = RequestUtil.sendPostRequest("https://api.thom.club/bulk_usernames", data).getJsonAsObject();
         assert response != null;
         HashMap<String, String> usernameToUUIDMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : response.getAsJsonObject("usernames").entrySet()) {
@@ -74,7 +74,7 @@ public class UUIDHelper {
         try {
             URL urlObject = new URL(url);
             HttpsURLConnection uc = (HttpsURLConnection) urlObject.openConnection();
-            uc.setSSLSocketFactory(RequestHelper.getAllowAllFactory());
+            uc.setSSLSocketFactory(RequestUtil.getAllowAllFactory());
             String json = IOUtils.toString(uc.getInputStream());
             JsonElement element = new JsonParser().parse(json);
             JsonArray nameArray = element.getAsJsonArray();

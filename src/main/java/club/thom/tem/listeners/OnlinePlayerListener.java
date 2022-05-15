@@ -1,6 +1,6 @@
 package club.thom.tem.listeners;
 
-import club.thom.tem.util.RequestHelper;
+import club.thom.tem.util.RequestUtil;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -31,7 +31,7 @@ public class OnlinePlayerListener {
         }
         requestData.add("players", playersArray);
         // asks TEM's api to recheck these online players sooner than inactive players
-        RequestHelper.sendPostRequest("https://api.tem.cx/request", requestData);
+        RequestUtil.sendPostRequest("https://api.tem.cx/request", requestData);
     }
 
     public void start() {

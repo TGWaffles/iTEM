@@ -7,7 +7,7 @@ import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
-import club.thom.tem.util.HexHelper;
+import club.thom.tem.util.HexUtil;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
@@ -48,7 +48,7 @@ public class ToolTipListener {
             return;
         }
         ArmourPieceData armour = new ArmourPieceData("inventory", itemNbt);
-        HexHelper.Modifier armourTypeModifier = HexHelper.getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
+        HexUtil.Modifier armourTypeModifier = HexUtil.getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
         String colourCode = ScanLobby.getColourCode(armourTypeModifier);
         int ownerCount = checkArmourOwners(armour);
         String toolTipString = colourCode + armourTypeModifier;
@@ -96,7 +96,7 @@ public class ToolTipListener {
         String hexCode = armour.getHexCode();
 
         if (armour.isCustomDyed()) {
-            hexCode = HexHelper.getOriginalHex(armour.getItemId());
+            hexCode = HexUtil.getOriginalHex(armour.getItemId());
         }
 
         for (HexAmount amountData : response.amounts) {

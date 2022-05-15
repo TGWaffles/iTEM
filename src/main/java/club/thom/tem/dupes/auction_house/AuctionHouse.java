@@ -1,6 +1,6 @@
 package club.thom.tem.dupes.auction_house;
 
-import club.thom.tem.util.RequestHelper;
+import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.inventory.Inventory;
 import club.thom.tem.models.inventory.item.MiscItemData;
@@ -24,7 +24,7 @@ public class AuctionHouse {
     private final ExecutorService threadPool = Executors.newFixedThreadPool(2);
 
     public RequestData downloadPage(int pageNum) {
-        return RequestHelper.sendGetRequest(String.format("https://api.hypixel.net/skyblock/auctions?page=%d", pageNum));
+        return RequestUtil.sendGetRequest(String.format("https://api.hypixel.net/skyblock/auctions?page=%d", pageNum));
     }
 
     public void addOwnerToItemUUIDMap(String itemUuid, String owner) {

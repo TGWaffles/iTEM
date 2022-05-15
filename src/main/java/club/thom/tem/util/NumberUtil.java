@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class NumberHelper {
+public class NumberUtil {
     //Copied from TFM
     private static final String[] exponent_symbols = new String[]{"", "K", "M", "B", "T", "Q"};
     private static final Pattern REGEX = Pattern.compile("(-?\\d+(?:\\.\\d+)?)([KMBTQ]?)");
