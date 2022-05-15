@@ -1,6 +1,5 @@
 package club.thom.tem.helpers;
 
-import club.thom.tem.TEM;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -75,7 +74,7 @@ public class UUIDHelper {
         try {
             URL urlObject = new URL(url);
             HttpsURLConnection uc = (HttpsURLConnection) urlObject.openConnection();
-            uc.setSSLSocketFactory(TEM.getAllowAllFactory());
+            uc.setSSLSocketFactory(RequestHelper.getAllowAllFactory());
             String json = IOUtils.toString(uc.getInputStream());
             JsonElement element = new JsonParser().parse(json);
             JsonArray nameArray = element.getAsJsonArray();

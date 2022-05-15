@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -78,7 +78,7 @@ public class RequestHelper {
     private static HttpsURLConnection getHttpsURLConnection(URL url, String post) throws IOException {
         HttpsURLConnection uc;
         uc = (HttpsURLConnection) url.openConnection();
-        uc.setSSLSocketFactory(TEM.getAllowAllFactory());
+        uc.setSSLSocketFactory(getAllowAllFactory());
         uc.setReadTimeout(20000);
         uc.setConnectTimeout(20000);
         uc.setRequestMethod(post);
@@ -117,5 +117,31 @@ public class RequestHelper {
                 TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error ("
                         + status + ")"));
         }
+    }
+
+    public static SSLSocketFactory getAllowAllFactory() {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+                    public void checkClientTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                    public void checkServerTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                }
+        };
+
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            return sc.getSocketFactory();
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 }
