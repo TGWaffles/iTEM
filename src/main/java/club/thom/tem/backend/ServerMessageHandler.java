@@ -135,7 +135,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
             // Origin player uuid
             String uuid = request.getFriendRequest().getUuid();
             FriendsListRequest friendRequest = new FriendsListRequest(uuid);
-            TEM.api.addToQueue(friendRequest);
+            TEM.getInstance().getApi().addToQueue(friendRequest);
             friendRequest.getFuture().whenCompleteAsync((friends, exception) -> {
                 if (exception != null) {
                     logger.error("Error getting friends list request", exception);
@@ -151,7 +151,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
             // Player uuid
             String uuid = request.getInventoryRequest().getPlayerUuid();
             SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(uuid);
-            TEM.api.addToQueue(playerRequest);
+            TEM.getInstance().getApi().addToQueue(playerRequest);
             logger.debug("Getting player future...");
             playerRequest.getFuture().whenCompleteAsync((player, exception) -> {
                 if (exception != null) {
@@ -169,7 +169,7 @@ public class ServerMessageHandler extends WebSocketAdapter {
             logger.debug("Misc request!");
             ServerMessages.MiscRequest serverRequest = request.getMiscRequest();
             MiscRequest miscRequest = new MiscRequest(serverRequest);
-            TEM.api.addToQueue(miscRequest);
+            TEM.getInstance().getApi().addToQueue(miscRequest);
             miscRequest.getFuture().whenCompleteAsync((data, exception) -> {
                 if (exception != null) {
                     logger.error("Error while getting misc request: ", exception);

@@ -50,7 +50,7 @@ public class TEM {
     private final SocketHandler socketHandler;
 
     public TEMConfig config = new TEMConfig();
-    public static Hypixel api;
+    private Hypixel api;
     public static boolean standAlone = false;
 
     public static ItemUtil items = new ItemUtil();
@@ -134,6 +134,10 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
+    public Hypixel getApi() {
+        return api;
+    }
+
 
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
@@ -158,7 +162,7 @@ public class TEM {
         TEM tem = getInstance();
         PlayerUtil.setUUID(inputUuid);
         standAlone = true;
-        api = new Hypixel();
+        tem.api = new Hypixel();
         TEMConfig.setHypixelKey(apiKey);
         TEMConfig.spareRateLimit = 0;
         // 15 is a decent number for minimising ram usage
@@ -168,7 +172,7 @@ public class TEM {
         new Thread(tem.socketHandler::reconnectSocket, "TEM-socket").start();
         // Create global API/rate-limit handler
         // Start the requests loop
-        new Thread(api::run, "TEM-rate-limits").start();
+        new Thread(tem.api::run, "TEM-rate-limits").start();
     }
 
 }

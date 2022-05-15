@@ -238,19 +238,19 @@ public class TEMConfig extends Vigilant {
     }
 
     public static boolean isKeyValid(String key) {
-        KeyLookupRequest request = new KeyLookupRequest(key, TEM.api);
-        TEM.api.addToQueue(request);
+        KeyLookupRequest request = new KeyLookupRequest(key, TEM.getInstance().getApi());
+        TEM.getInstance().getApi().addToQueue(request);
         try {
             boolean result = request.getFuture().get();
             if (result) {
-                TEM.api.hasValidApiKey = true;
+                TEM.getInstance().getApi().hasValidApiKey = true;
                 executor.submit(() -> {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         logger.error("Thread interrupted while waiting to trigger api key set.", e);
                     }
-                    TEM.api.signalApiKeySet();
+                    TEM.getInstance().getApi().signalApiKeySet();
                 });
             } else {
                 logger.warn("TEMConfig - warning: API key is invalid!");

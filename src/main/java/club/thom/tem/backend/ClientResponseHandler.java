@@ -44,11 +44,11 @@ public class ClientResponseHandler {
                     return;
                 } finally {
                     logger.debug("releasing lock...");
-                    logger.debug("queue size: {}", TEM.api.getQueueSize());
+                    logger.debug("queue size: {}", TEM.getInstance().getApi().getQueueSize());
                     waitingForRateLimit.unlock();
                 }
                 // 30s cool-down in case there are no requests to update the rate-limit
-                if (!returnedSuccessfully && TEM.api.getQueueSize() > 0) {
+                if (!returnedSuccessfully && TEM.getInstance().getApi().getQueueSize() > 0) {
                     logger.debug("skip because queue too big");
                     continue;
                 }
@@ -78,10 +78,10 @@ public class ClientResponseHandler {
             logger.error("not asking for requests, socket not working...");
             return;
         }
-        int requestsAble = TEM.api.getRateLimit() - TEM.api.getQueueSize();
+        int requestsAble = TEM.getInstance().getApi().getRateLimit() - TEM.getInstance().getApi().getQueueSize();
         if (requestsAble <= 0) {
             logger.debug("not asking for requests, no requests able: {}, ratelimit: {}", requestsAble,
-                    TEM.api.getRateLimit());
+                    TEM.getInstance().getApi().getRateLimit());
             return;
         }
         logger.debug("Requests Able: {}", requestsAble);

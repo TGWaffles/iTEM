@@ -41,13 +41,6 @@ public class TestHelper {
         PowerMockito.mockStatic(TEM.class);
     }
 
-    public static Thread startRequestsLoop() {
-        TEM.api = new Hypixel();
-        Thread thread = new Thread(TEM.api::run);
-        thread.start();
-        return thread;
-    }
-
     /**
      * Recursively deletes a directory.
      *
