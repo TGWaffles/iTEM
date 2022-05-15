@@ -8,6 +8,8 @@ import club.thom.tem.models.messages.ServerMessages;
 import club.thom.tem.models.messages.ServerMessages.AuthData;
 import club.thom.tem.models.messages.ServerMessages.RequestMessage;
 import club.thom.tem.models.messages.ServerMessages.ServerMessage;
+import club.thom.tem.util.MessageUtil;
+import club.thom.tem.util.PlayerUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketAdapter;
@@ -116,10 +118,10 @@ public class ServerMessageHandler extends WebSocketAdapter {
                     break;
             }
             // Wait until they join a server.
-            TEM.waitForPlayer();
+            PlayerUtil.waitForPlayer();
             // Wait at least 2 seconds until after joining said server, to give the user time to process.
             String messageToSend = humanReadableMessage;
-            scheduledExecutor.schedule(() -> TEM.sendMessage(new ChatComponentText(messageToSend)), 2, TimeUnit.SECONDS);
+            scheduledExecutor.schedule(() -> MessageUtil.sendMessage(new ChatComponentText(messageToSend)), 2, TimeUnit.SECONDS);
         } else {
             // Ask backend for more requests
             clientResponseHandler.askForRequests();

@@ -1,7 +1,7 @@
 package club.thom.tem.commands.subcommands;
 
-import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
+import club.thom.tem.util.MessageUtil;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -32,6 +32,6 @@ public class SetKeyCommand implements SubCommand {
             return;
         }
         TEMConfig.enableExotics = true;
-        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + args[1] + "!"));
+        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + args[1] + "!"));
     }
 }

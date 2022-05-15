@@ -1,8 +1,8 @@
 package club.thom.tem.commands;
 
-import club.thom.tem.TEM;
 import club.thom.tem.commands.subcommands.SubCommand;
 import club.thom.tem.commands.subcommands.SubCommandGenerator;
+import club.thom.tem.util.MessageUtil;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
@@ -70,12 +70,12 @@ public class TEMCommand extends CommandBase {
             subCommands.addAll(SubCommandGenerator.getSubCommands());
         }
         if (args.length == 0) {
-            TEM.sendMessage(getHelpMessage());
+            MessageUtil.sendMessage(getHelpMessage());
             return;
         }
         SubCommand calledCommand = mapToSubCommand(args[0]);
         if (calledCommand == null) {
-            TEM.sendMessage(getHelpMessage());
+            MessageUtil.sendMessage(getHelpMessage());
             return;
         }
         new Thread(() -> calledCommand.execute(sender, Arrays.copyOfRange(args, 1, args.length))).start();

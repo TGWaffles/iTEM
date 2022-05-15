@@ -1,6 +1,8 @@
 package club.thom.tem;
 
 import club.thom.tem.storage.TEMConfig;
+import club.thom.tem.util.MessageUtil;
+import club.thom.tem.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.ChatComponentText;
@@ -56,7 +58,7 @@ public class TestTEM {
         setupTestMessage();
         String message = "test123";
         ChatComponentText text = new ChatComponentText(message);
-        TEM.sendMessage(text);
+        MessageUtil.sendMessage(text);
         ArgumentCaptor<ChatComponentText> textCaptor = ArgumentCaptor.forClass(ChatComponentText.class);
         Mockito.verify(player, times(1)).addChatMessage(textCaptor.capture());
         assertEquals("TEM> " + message,
@@ -70,7 +72,7 @@ public class TestTEM {
         minecraftReference.setAccessible(true);
         minecraftReference.set(null, mockedMinecraft);
         new Thread(() -> {
-            TEM.waitForPlayer();
+            PlayerUtil.waitForPlayer();
             successfullyWaitedForPlayer = true;
         }).start();
         assertFalse(successfullyWaitedForPlayer);

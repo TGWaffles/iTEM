@@ -1,5 +1,6 @@
 package club.thom.tem.listeners;
 
+import club.thom.tem.util.PlayerUtil;
 import club.thom.tem.util.RequestUtil;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
@@ -43,6 +44,7 @@ public class OnlinePlayerListener {
         if (!(event.entity instanceof EntityPlayer)) {
             return;
         }
+        PlayerUtil.processPlayerJoinedWorld();
         EntityPlayer player = (EntityPlayer) event.entity;
         // get player uuid
         String uuid = player.getGameProfile().getId().toString().replaceAll("-", "");

@@ -27,14 +27,14 @@ public class KeyFetcher {
         checkSkytilsForApiKey();
         // Validates that the key got set & that it works.
         if(!TEMConfig.getHypixelKey().equals("") && TEMConfig.isKeyValid(TEMConfig.getHypixelKey())) {
-            TEM.sendMessage(new ChatComponentText("Fetched your api key from Skytils!"));
+            MessageUtil.sendMessage(new ChatComponentText("Fetched your api key from Skytils!"));
             return;
         }
         // Skytils failed, checking if NEU has an api key...
         checkNeuForApiKey();
         // Validates it got set and works.
         if(!TEMConfig.getHypixelKey().equals("") && TEMConfig.isKeyValid(TEMConfig.getHypixelKey())) {
-            TEM.sendMessage(new ChatComponentText("Fetched your api key from NEU!"));
+            MessageUtil.sendMessage(new ChatComponentText("Fetched your api key from NEU!"));
         }
     }
 

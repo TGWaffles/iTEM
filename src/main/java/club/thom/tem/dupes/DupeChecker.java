@@ -2,6 +2,7 @@ package club.thom.tem.dupes;
 
 import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.RequestsCache;
+import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.UUIDUtil;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.listeners.ToolTipListener;
@@ -74,7 +75,7 @@ public class DupeChecker {
                             new ChatComponentText(String.join("\n", ToolTipListener.uuidToLore.get(uuid))))));
                 }
                 if (enableMessages) {
-                    TEM.sendMessage(chatMessage);
+                    MessageUtil.sendMessage(chatMessage);
                 }
                 continue;
             }
@@ -115,7 +116,7 @@ public class DupeChecker {
                                     new ChatComponentText(String.join("\n", ToolTipListener.uuidToLore.get(uuid))))));
                         }
                         if (enableMessages) {
-                            TEM.sendMessage(chatMessage);
+                            MessageUtil.sendMessage(chatMessage);
                         }
                         break;
                     }
@@ -127,9 +128,9 @@ public class DupeChecker {
         }
         if (enableMessages) {
             if (verifiedOwners.size() < 2) {
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely not duped!"));
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely not duped!"));
             } else {
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely duped!"));
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Likely duped!"));
             }
         }
         return verifiedOwners;

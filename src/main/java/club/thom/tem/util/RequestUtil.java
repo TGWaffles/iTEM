@@ -1,6 +1,5 @@
 package club.thom.tem.util;
 
-import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
 import com.google.gson.*;
 import net.minecraft.util.ChatComponentText;
@@ -104,17 +103,17 @@ public class RequestUtil {
         switch (status) {
             case 401:
             case 403:
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
                         "(NOT HYPIXEL API KEY!) is invalid! Set it in /tem config!"));
                 return;
             case 402:
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
                 return;
             case 404:
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: No data found!"));
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: No data found!"));
                 return;
             default:
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error ("
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error ("
                         + status + ")"));
         }
     }

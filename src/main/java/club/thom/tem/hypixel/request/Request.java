@@ -1,6 +1,8 @@
 package club.thom.tem.hypixel.request;
 
 import club.thom.tem.TEM;
+import club.thom.tem.util.MessageUtil;
+import club.thom.tem.util.PlayerUtil;
 import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.storage.TEMConfig;
@@ -138,13 +140,13 @@ public abstract class Request {
             controller.hasValidApiKey = false;
             logger.warn("REQUEST-> API KEY IS INVALID!");
             TEMConfig.setHypixelKey("");
-            TEM.waitForPlayer();
+            PlayerUtil.waitForPlayer();
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 logger.error("Interrupted while sleeping to tell player about invalid key", e);
             }
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Your API key is invalid. " +
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Your API key is invalid. " +
                     "You are no longer accruing contributions."));
             logger.info("REQUEST-> Told player about invalid key, readding to queue.");
             controller.addToQueue(this);

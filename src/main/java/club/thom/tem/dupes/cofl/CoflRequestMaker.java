@@ -1,6 +1,6 @@
 package club.thom.tem.dupes.cofl;
 
-import club.thom.tem.TEM;
+import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.CoflAuctionModel;
@@ -122,12 +122,12 @@ public class CoflRequestMaker {
         List<String> possibleOwners = determinePossibleOwners(auctions);
         if (possibleOwners.size() == 0) {
             if (sendMessages) {
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not find any auctions!"));
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not find any auctions!"));
             }
             return possibleOwners;
         }
         if (sendMessages) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
         }
         return possibleOwners;
     }
@@ -143,7 +143,7 @@ public class CoflRequestMaker {
             possibleOwners.put(entry.getKey(), determinePossibleOwners(entry.getValue()));
         }
         if (sendMessages) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
         }
         return possibleOwners;
     }
