@@ -1,5 +1,6 @@
 package club.thom.tem.hypixel.request;
 
+import club.thom.tem.TEM;
 import club.thom.tem.hypixel.Hypixel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,8 +13,8 @@ public class KeyLookupRequest extends Request {
     final CompletableFuture<Boolean> future = new CompletableFuture<>();
     final String key;
 
-    public KeyLookupRequest(String key, Hypixel controller) {
-        super("key", true);
+    public KeyLookupRequest(TEM tem, String key, Hypixel controller) {
+        super(tem, "key", true);
         this.key = key;
     }
 

@@ -300,7 +300,7 @@ public class TEMConfig extends Vigilant {
         if (key.length() == 0) {
             return false;
         }
-        KeyLookupRequest request = new KeyLookupRequest(key, tem.getApi());
+        KeyLookupRequest request = new KeyLookupRequest(tem, key, tem.getApi());
         tem.getApi().addToQueue(request);
         try {
             boolean result = request.getFuture().get();

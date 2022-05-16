@@ -33,6 +33,7 @@ public abstract class Request {
     protected final Hypixel controller;
     protected final String endpoint;
     TEMConfig config;
+    private final TEM tem;
     public boolean priority;
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
     // Hypixel API
@@ -43,6 +44,7 @@ public abstract class Request {
         this.endpoint = endpoint;
         // Run it as soon as we have a "rate-limit spot" available.
         this.priority = runAsap;
+        this.tem = tem;
         this.controller = tem.getApi();
         this.config = tem.getConfig();
     }
@@ -161,7 +163,7 @@ public abstract class Request {
                 } catch (InterruptedException e) {
                     logger.error("Interrupted while waiting to add new KeyLookupRequest", e);
                 }
-                KeyLookupRequest request = new KeyLookupRequest(config.getHypixelKey(), this.controller);
+                KeyLookupRequest request = new KeyLookupRequest(getTem(), config.getHypixelKey(), this.controller);
                 this.controller.addToQueue(request);
             }, "TEM-request-new-key-check").start();
             return null;
@@ -220,4 +222,8 @@ public abstract class Request {
     }
 
     public abstract CompletableFuture<?> getFuture();
+
+    public TEM getTem() {
+        return tem;
+    }
 }

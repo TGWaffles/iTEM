@@ -216,7 +216,7 @@ public class Hypixel {
                                 Thread thread = new Thread(() -> new KeyFetcher(tem).checkForApiKey(), "TEM-key-checker");
                                 thread.start();
                                 thread.join(5000);
-                                KeyLookupRequest request = new KeyLookupRequest(tem.getConfig().getHypixelKey(), this);
+                                KeyLookupRequest request = new KeyLookupRequest(tem, tem.getConfig().getHypixelKey(), this);
                                 addToQueue(request);
                             }
                         }
