@@ -197,7 +197,7 @@ public class ScanLobby {
     public static void sendItemMessage(ArmourWithOwner item) {
         String prefixColour = getColourCode(item.modifier);
 
-        String itemName = TEM.items.nameFromId(item.itemId);
+        String itemName = TEM.getItems().nameFromId(item.itemId);
 
         String pureColourText = "";
         if (PureColours.isPureColour(item.hexCode)) {

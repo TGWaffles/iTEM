@@ -112,7 +112,7 @@ public class MiscItemData extends InventoryItemData {
             return colourInt;
         }
         // no colour on item, get original item colour?
-        int[] colours = TEM.items.getDefaultColour(getItemId());
+        int[] colours = TEM.getItems().getDefaultColour(getItemId());
         if (colours[0] != -1) {
             // original colour was found!
             int colourInt = 0;

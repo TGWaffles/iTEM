@@ -2,13 +2,12 @@ package club.thom.tem.util;
 
 import club.thom.tem.TEM;
 import club.thom.tem.constants.*;
-import com.google.common.base.Strings;
 
 import static club.thom.tem.models.inventory.item.ArmourPieceData.convertIntArrayToHex;
 
 public class HexUtil {
     public static String getOriginalHex(String itemId) {
-        int[] colours = TEM.items.getDefaultColour(itemId);
+        int[] colours = TEM.getItems().getDefaultColour(itemId);
         return convertIntArrayToHex(colours);
     }
 

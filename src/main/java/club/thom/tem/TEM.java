@@ -48,17 +48,18 @@ public class TEM {
     private PlayerAFKListener afkListener = null;
     private final SocketHandler socketHandler;
     private Hypixel api;
+    public TEMConfig config;
 
-    public TEMConfig config = new TEMConfig();
     public static boolean standAlone = false;
 
-    public static ItemUtil items = new ItemUtil();
+    private static ItemUtil items = new ItemUtil();
 
     public static AuctionHouse auctions;
 
 
     public TEM() {
         instance = this;
+        config = new TEMConfig();
         socketHandler = new SocketHandler();
     }
 
@@ -68,6 +69,14 @@ public class TEM {
         }
 
         return instance;
+    }
+
+    public static ItemUtil getItems() {
+        return items;
+    }
+
+    public static void setItems(ItemUtil items) {
+        TEM.items = items;
     }
 
     public void forceSaveConfig() {
@@ -117,13 +126,13 @@ public class TEM {
         afkListener = new PlayerAFKListener();
         MinecraftForge.EVENT_BUS.register(afkListener);
         // Create global API/rate-limit handler
-        api = new Hypixel(afkListener);
+        api = new Hypixel(this);
         auctions = new AuctionHouse();
         config.initialize();
         new Thread(socketHandler::reconnectSocket, "TEM-socket").start();
         // Start the requests loop
         new Thread(api::run, "TEM-rate-limits").start();
-        new Thread(items::fillItems, "TEM-items").start();
+        new Thread(getItems()::fillItems, "TEM-items").start();
         new Thread(auctions::run, "TEM-dupe-auctions").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand());
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
@@ -169,7 +178,7 @@ public class TEM {
         PlayerUtil.setUUID(inputUuid);
         standAlone = true;
         tem.afkListener = new PlayerAFKListener();
-        tem.api = new Hypixel(tem.afkListener);
+        tem.api = new Hypixel(tem);
         TEMConfig.setHypixelKey(apiKey);
         TEMConfig.spareRateLimit = 0;
         // 15 is a decent number for minimising ram usage

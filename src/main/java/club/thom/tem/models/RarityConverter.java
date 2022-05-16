@@ -10,7 +10,7 @@ public class RarityConverter {
     }
 
     public static Rarity getRarityFromItemId(String itemId) {
-        JsonObject itemJson = TEM.items.items.get(itemId);
+        JsonObject itemJson = TEM.getItems().items.get(itemId);
         if (itemJson == null) {
             return Rarity.COMMON;
         }

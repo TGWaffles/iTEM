@@ -36,8 +36,11 @@ public class Hypixel {
 
     private long rateLimitResetTime = System.currentTimeMillis();
 
-    public Hypixel(PlayerAFKListener afkListener) {
-        this.afkListener = afkListener;
+    private TEM tem;
+
+    public Hypixel(TEM tem) {
+        this.tem = tem;
+        this.afkListener = tem.getAfkListener();
     }
 
     public long getRateLimitResetTime() {
@@ -144,7 +147,7 @@ public class Hypixel {
             rateLimitLock.writeLock().unlock();
         }
         if (getRateLimit() > requestQueue.size()) {
-            TEM.getInstance().getSocketHandler().getClientResponseHandler().needMoreRequests();
+            tem.getSocketHandler().getClientResponseHandler().needMoreRequests();
         }
     }
 

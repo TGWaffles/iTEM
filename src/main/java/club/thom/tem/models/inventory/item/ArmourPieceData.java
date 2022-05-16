@@ -41,7 +41,7 @@ public class ArmourPieceData extends InventoryItemData {
         }
         // GEN_SPEED_WITHER_BOOTS_+_NECROTIC_+_MYTHIC (possibly _+_191919 for hex code)
         String fakeUuid = "GEN=" + getItemId() + "_+_" + getReforge() + "_+_" + getRarity().toString();
-        if (!convertIntArrayToHex(TEM.items.getDefaultColour(getItemId())).equals(getHexCode())) {
+        if (!convertIntArrayToHex(TEM.getItems().getDefaultColour(getItemId())).equals(getHexCode())) {
             fakeUuid += "_+_" + getHexCode();
         }
         return fakeUuid;
