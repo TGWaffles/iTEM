@@ -20,7 +20,7 @@ public class KeyFetcher {
 
     public static void checkForApiKey(){
         // If the API key has already been set (and is valid!) no point fetching from skytils/neu.
-        if (!TEMConfig.getHypixelKey().equals("") && TEMConfig.isKeyValid(TEMConfig.getHypixelKey())) {
+        if (!TEMConfig.getHypixelKey().equals("") && TEMConfig.wasKeyValid()) {
             return;
         }
         // Checks Skytils for the key.

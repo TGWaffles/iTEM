@@ -261,8 +261,8 @@ public class Hypixel {
         if (sleepTime <= 0) {
             // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
             logger.debug("LOOP-> Setting ratelimit to {}, 5 as sleepTime is {}, ratelimit is 0, " +
-                    "rateLimitReset: {}", TEMConfig.spareRateLimit + 1, sleepTime, getRateLimitResetTime());
-            setRateLimitRemaining(TEMConfig.spareRateLimit + 1, 5);
+                    "rateLimitReset: {}", getMinRateLimit() + 1, sleepTime, getRateLimitResetTime());
+            setRateLimitRemaining(getMinRateLimit() + 1, 5);
             return;
         }
         // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.

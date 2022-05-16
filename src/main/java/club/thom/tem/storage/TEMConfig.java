@@ -149,10 +149,10 @@ public class TEMConfig extends Vigilant {
     private static String hypixelKey = "";
 
     public static Future<?> setHypixelKey(String newKey) {
-        // can probably be reworked to use an executor and return a completable future
         return executor.submit(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
+                wasApiKeyValid = true;
                 TEM.getInstance().forceSaveConfig();
             }
         });
@@ -160,6 +160,19 @@ public class TEMConfig extends Vigilant {
 
     public static String getHypixelKey() {
         return hypixelKey;
+    }
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "API",
+            subcategory = "Hypixel Api",
+            name = "Was Valid Key",
+            hidden = true
+    )
+    private static boolean wasApiKeyValid = false;
+
+    public static boolean wasKeyValid() {
+        return wasApiKeyValid;
     }
 
     @Property(
@@ -238,6 +251,9 @@ public class TEMConfig extends Vigilant {
     }
 
     public static boolean isKeyValid(String key) {
+        if (key.length() == 0) {
+            return false;
+        }
         KeyLookupRequest request = new KeyLookupRequest(key, TEM.getInstance().getApi());
         TEM.getInstance().getApi().addToQueue(request);
         try {
@@ -274,7 +290,9 @@ public class TEMConfig extends Vigilant {
             TEM.getInstance().forceSaveConfig();
             return;
         }
+        wasApiKeyValid = true;
         hypixelKey = key;
+        TEM.getInstance().forceSaveConfig();
     });
 
     public TEMConfig() {
