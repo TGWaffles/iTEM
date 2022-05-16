@@ -27,6 +27,7 @@ public class PlayerUtil {
 
     public PlayerUtil(TEMConfig config) {
         this.config = config;
+        checkValidUUID(Minecraft.getMinecraft().getSession().getPlayerID());
     }
 
     public static void sendToast(String title, String description, float stayTime) {
@@ -60,35 +61,41 @@ public class PlayerUtil {
         }
     }
 
+    private static boolean checkValidUUID(String possibleUuid) {
+        try {
+            if (UUIDUtil.mojangFetchUsernameFromUUID(possibleUuid) == null) {
+                logger.info("UUID was not valid!");
+                return false;
+            }
+        } catch (NullPointerException e) {
+            // This will be thrown when/if the API server is down. Ignore it and act as if the uuid is valid
+            // until the server comes back up.
+        }
+        uuid = possibleUuid;
+        lock.lock();
+        try {
+            waitForUuid.signalAll();
+        } finally {
+            lock.unlock();
+        }
+        return true;
+    }
+
     private static void checkAndUpdateUUID(boolean firstTry) {
         UUID possibleUuid = Minecraft.getMinecraft().thePlayer.getGameProfile().getId();
         if (possibleUuid != null) {
             String possibleUuidString = possibleUuid.toString().replaceAll("-", "");
-            try {
-                if (UUIDUtil.mojangFetchUsernameFromUUID(possibleUuidString) == null) {
-                    logger.info("UUID was not valid!");
-                    if (firstTry) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        checkAndUpdateUUID(false);
-                    }
-                    return;
+            if (checkValidUUID(possibleUuidString)) {
+                return;
+            }
+            if (firstTry) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (NullPointerException e) {
-                // This will be thrown when/if the API server is down. Ignore it and act as if the uuid is valid
-                // until the server comes back up.
+                checkAndUpdateUUID(false);
             }
-            uuid = possibleUuidString;
-            lock.lock();
-            try {
-                waitForUuid.signalAll();
-            } finally {
-                lock.unlock();
-            }
-            return;
         }
         logger.info("UUID was null...");
         if (firstTry) {
