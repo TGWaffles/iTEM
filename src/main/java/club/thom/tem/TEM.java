@@ -1,5 +1,6 @@
 package club.thom.tem;
 
+import club.thom.tem.backend.LobbyScanner;
 import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.dupes.auction_house.AuctionHouse;
@@ -47,6 +48,7 @@ public class TEM {
     private OnlinePlayerListener onlinePlayerListener = null;
     private PlayerAFKListener afkListener = null;
     private final SocketHandler socketHandler;
+    private final LobbyScanner scanner;
     private Hypixel api;
     public TEMConfig config;
 
@@ -61,6 +63,7 @@ public class TEM {
         instance = this;
         config = new TEMConfig();
         socketHandler = new SocketHandler();
+        scanner = new LobbyScanner();
     }
 
     public static TEM getInstance() {
@@ -134,10 +137,10 @@ public class TEM {
         new Thread(api::run, "TEM-rate-limits").start();
         new Thread(getItems()::fillItems, "TEM-items").start();
         new Thread(auctions::run, "TEM-dupe-auctions").start();
-        ClientCommandHandler.instance.registerCommand(new TEMCommand());
+        ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener());
-        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener());
+        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getScanner()));
         onlinePlayerListener = new OnlinePlayerListener();
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
@@ -167,6 +170,10 @@ public class TEM {
         return afkListener;
     }
 
+    public LobbyScanner getScanner() {
+        return scanner;
+    }
+
     @Mod.EventHandler
     public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
         System.out.println("You are using an unofficial build of TEM. " +
@@ -190,5 +197,4 @@ public class TEM {
         // Start the requests loop
         new Thread(tem.api::run, "TEM-rate-limits").start();
     }
-
 }

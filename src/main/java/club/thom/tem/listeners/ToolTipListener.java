@@ -1,6 +1,5 @@
 package club.thom.tem.listeners;
 
-import club.thom.tem.backend.ScanLobby;
 import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
@@ -49,7 +48,7 @@ public class ToolTipListener {
         }
         ArmourPieceData armour = new ArmourPieceData("inventory", itemNbt);
         HexUtil.Modifier armourTypeModifier = HexUtil.getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
-        String colourCode = ScanLobby.getColourCode(armourTypeModifier);
+        String colourCode = armourTypeModifier.getColourCode();
         int ownerCount = checkArmourOwners(armour);
         String toolTipString = colourCode + armourTypeModifier;
 

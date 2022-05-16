@@ -1,9 +1,15 @@
 package club.thom.tem.commands.subcommands;
 
-import club.thom.tem.backend.ScanLobby;
+import club.thom.tem.TEM;
+import club.thom.tem.backend.LobbyScanner;
 import net.minecraft.command.ICommandSender;
 
 public class ScanCommand implements SubCommand {
+    LobbyScanner scanner;
+    public ScanCommand(TEM main) {
+        scanner = main.getScanner();
+    }
+
     @Override
     public String getName() {
         return "scan";
@@ -16,6 +22,6 @@ public class ScanCommand implements SubCommand {
 
     @Override
     public void execute(ICommandSender sender, String[] args) {
-        ScanLobby.scan();
+        scanner.scan();
     }
 }

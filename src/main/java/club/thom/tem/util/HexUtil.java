@@ -2,6 +2,7 @@ package club.thom.tem.util;
 
 import club.thom.tem.TEM;
 import club.thom.tem.constants.*;
+import net.minecraft.util.EnumChatFormatting;
 
 import static club.thom.tem.models.inventory.item.ArmourPieceData.convertIntArrayToHex;
 
@@ -30,6 +31,35 @@ public class HexUtil {
         ORIGINAL,
         EXOTIC,
         GLITCHED,
+        ;
+
+        public String getColourCode() {
+            String prefixColour = EnumChatFormatting.WHITE.toString();
+            switch (this) {
+                case CRYSTAL:
+                    prefixColour = EnumChatFormatting.AQUA.toString();
+                    break;
+                case FAIRY:
+                    prefixColour = EnumChatFormatting.LIGHT_PURPLE.toString();
+                    break;
+                case OG_FAIRY:
+                    prefixColour = EnumChatFormatting.DARK_PURPLE.toString();
+                    break;
+                case EXOTIC:
+                    prefixColour = EnumChatFormatting.GOLD.toString();
+                    break;
+                case ORIGINAL:
+                    prefixColour = EnumChatFormatting.DARK_GRAY.toString();
+                    break;
+                case UNDYED:
+                    prefixColour = EnumChatFormatting.GRAY.toString();
+                    break;
+                case GLITCHED:
+                    // magic grey pipe in front of glitched armour
+                    prefixColour = EnumChatFormatting.BLUE.toString();
+            }
+            return prefixColour;
+        }
     }
 
     public static Modifier getModifier(String itemId, String hexCode, long creationTime) {
