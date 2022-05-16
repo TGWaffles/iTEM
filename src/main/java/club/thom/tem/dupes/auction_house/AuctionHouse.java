@@ -1,13 +1,12 @@
 package club.thom.tem.dupes.auction_house;
 
 import club.thom.tem.TEM;
-import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.inventory.Inventory;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
-import club.thom.tem.storage.TEMConfig;
+import club.thom.tem.util.RequestUtil;
 import com.google.gson.JsonElement;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
@@ -121,7 +120,7 @@ public class AuctionHouse {
     public void run() {
         //noinspection InfiniteLoopStatement
         while (true) {
-            if (!TEMConfig.useAuctionHouseForDupes) {
+            if (!tem.getConfig().shouldUseAuctionHouseForDupes()) {
                 try {
                     //noinspection BusyWait
                     Thread.sleep(1000);

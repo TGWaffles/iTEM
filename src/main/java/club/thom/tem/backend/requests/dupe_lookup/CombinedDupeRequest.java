@@ -9,7 +9,6 @@ import club.thom.tem.backend.requests.item_data.FindUUIDDataRequest;
 import club.thom.tem.backend.requests.item_data.FindUUIDDataResponse;
 import club.thom.tem.backend.requests.item_data.ItemData;
 import club.thom.tem.dupes.DupeChecker;
-import club.thom.tem.storage.TEMConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -60,12 +59,12 @@ public class CombinedDupeRequest implements BackendRequest {
     @Override
     public BackendResponse makeRequest() {
         HashSet<String> possibleOwners = new HashSet<>(seedPossibleOwners);
-        if (TEMConfig.useCofl && this.useCofl) {
+        if (tem.getConfig().isUseCofl() && this.useCofl) {
             // could be skipped if we did a bulk lookup instead
             FindUUIDSalesResponse response = (FindUUIDSalesResponse) new FindUUIDSalesRequest(itemUuid, printMessages).makeRequest();
             possibleOwners.addAll(response.owners);
         }
-        if (TEMConfig.useTEMApiForDupes && this.useTem) {
+        if (tem.getConfig().isUseTEMApiForDupes() && this.useTem) {
             logger.info("Making request to TEM. UUID: " + itemUuid);
             FindUUIDDataResponse response = (FindUUIDDataResponse) new FindUUIDDataRequest(tem.getConfig(), itemUuid, printMessages).makeRequest();
             logger.info("Made request to TEM. UUID: " + itemUuid);
@@ -85,7 +84,7 @@ public class CombinedDupeRequest implements BackendRequest {
                 }
             }
         }
-        if (TEMConfig.useAuctionHouseForDupes) {
+        if (tem.getConfig().shouldUseAuctionHouseForDupes()) {
             possibleOwners.addAll(tem.getAuctions().getOwnersForItemUUID(itemUuid));
         }
         HashSet<DupeChecker.ItemWithLocation> verifiedOwners = new DupeChecker(tem, printMessages).findVerifiedOwners(itemUuid, new ArrayList<>(possibleOwners));

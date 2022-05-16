@@ -8,7 +8,6 @@ import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;
-import club.thom.tem.storage.TEMConfig;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -57,7 +56,7 @@ public class DupeChecker {
         HashSet<ItemWithLocation> verifiedOwners = new HashSet<>();
         HashMap<String, String> lookupMap = UUIDUtil.usernamesFromUUIDs(possibleOwners);
         // anyone with the item on the AH is automatically a verified owner
-        if (TEMConfig.useAuctionHouseForDupes) {
+        if (tem.getConfig().shouldUseAuctionHouseForDupes()) {
             for (String ownerUuid : tem.getAuctions().getOwnersForItemUUID(uuid)) {
                 verifiedOwners.add(new ItemWithLocation(lookupMap.getOrDefault(ownerUuid, ownerUuid), "auction_house"));
             }

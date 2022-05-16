@@ -117,7 +117,7 @@ public class TEMConfig extends Vigilant {
             name = "Use Cofl",
             description = "Use Cofl's api to aid dupe checks."
     )
-    public static boolean useCofl = true;
+    private boolean useCofl = true;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -126,7 +126,7 @@ public class TEMConfig extends Vigilant {
             name = "Use TEM",
             description = "Use TEM's api (costs contributions) to aid dupe checks."
     )
-    public static boolean useTEMApiForDupes = true;
+    private boolean useTEMApiForDupes = true;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -135,8 +135,11 @@ public class TEMConfig extends Vigilant {
             name = "Use AH",
             description = "Use the Auction House to aid dupe checks."
     )
-    public static boolean useAuctionHouseForDupes = true;
+    private boolean useAuctionHouseForDupes = true;
 
+    public boolean shouldUseAuctionHouseForDupes() {
+        return useAuctionHouseForDupes;
+    }
 
     @Property(
             type = PropertyType.TEXT,
@@ -146,9 +149,9 @@ public class TEMConfig extends Vigilant {
             description = "Enter your Hypixel Api Key",
             protectedText = true
     )
-    private static String hypixelKey = "";
+    private String hypixelKey = "";
 
-    private static String guaranteedSafeKey = "";
+    private String guaranteedSafeKey;
 
     public Future<?> setHypixelKey(String newKey) {
         return executor.submit(() -> {
@@ -173,7 +176,7 @@ public class TEMConfig extends Vigilant {
             name = "Was Valid Key",
             hidden = true
     )
-    private static boolean wasApiKeyValid = false;
+    private boolean wasApiKeyValid = false;
 
     public boolean wasKeyValid() {
         return wasApiKeyValid;
@@ -367,4 +370,19 @@ public class TEMConfig extends Vigilant {
     }
 
 
+    public boolean isUseTEMApiForDupes() {
+        return useTEMApiForDupes;
+    }
+
+    public void setUseTEMApiForDupes(boolean useTEMApiForDupes) {
+        this.useTEMApiForDupes = useTEMApiForDupes;
+    }
+
+    public boolean isUseCofl() {
+        return useCofl;
+    }
+
+    public void setUseCofl(boolean useCofl) {
+        this.useCofl = useCofl;
+    }
 }
