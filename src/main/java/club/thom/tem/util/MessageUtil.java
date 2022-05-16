@@ -9,6 +9,8 @@ import net.minecraft.util.IChatComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -18,7 +20,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class MessageUtil {
     private static final Logger logger = LogManager.getLogger(MessageUtil.class);
     private static final Lock chatSendLock = new ReentrantLock();
-
+    private static final ExecutorService chatExecutor = Executors.newSingleThreadExecutor();
 
     /**
      * This function prefixes all TEM messages with TEM> in chat, so the user knows
@@ -27,6 +29,10 @@ public class MessageUtil {
      * @param message ChatComponentText message to send in chat
      */
     public static void sendMessage(ChatComponentText message) {
+        chatExecutor.submit(() -> sendChatMessageSync(message));
+    }
+
+    private synchronized static void sendChatMessageSync(ChatComponentText message) {
         if (TEM.standAlone) {
             logger.info(message.getUnformattedTextForChat());
             return;
