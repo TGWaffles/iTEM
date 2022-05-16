@@ -51,12 +51,12 @@ public class TEM {
     private final LobbyScanner scanner;
     private Hypixel api;
     public TEMConfig config;
+    private final ItemUtil items;
 
     public static boolean standAlone = false;
 
-    private final ItemUtil items;
 
-    public static AuctionHouse auctions;
+    private AuctionHouse auctions;
 
 
     public TEM() {
@@ -133,7 +133,7 @@ public class TEM {
         // Start the requests loop
         new Thread(api::run, "TEM-rate-limits").start();
         new Thread(getItems()::fillItems, "TEM-items").start();
-        new Thread(auctions::run, "TEM-dupe-auctions").start();
+        new Thread(getAuctions()::run, "TEM-dupe-auctions").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener(this));
@@ -193,5 +193,9 @@ public class TEM {
         // Create global API/rate-limit handler
         // Start the requests loop
         new Thread(tem.api::run, "TEM-rate-limits").start();
+    }
+
+    public AuctionHouse getAuctions() {
+        return auctions;
     }
 }

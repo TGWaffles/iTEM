@@ -21,9 +21,11 @@ import java.util.concurrent.ExecutionException;
 @SuppressWarnings("ALL")
 public class DupeChecker {
     public boolean enableMessages;
+    TEM tem;
 
-    public DupeChecker(boolean enableMessages) {
+    public DupeChecker(TEM tem, boolean enableMessages) {
         this.enableMessages = enableMessages;
+        this.tem = tem;
     }
 
     public static class ItemWithLocation {
@@ -56,7 +58,7 @@ public class DupeChecker {
         HashMap<String, String> lookupMap = UUIDUtil.usernamesFromUUIDs(possibleOwners);
         // anyone with the item on the AH is automatically a verified owner
         if (TEMConfig.useAuctionHouseForDupes) {
-            for (String ownerUuid : TEM.auctions.getOwnersForItemUUID(uuid)) {
+            for (String ownerUuid : tem.getAuctions().getOwnersForItemUUID(uuid)) {
                 verifiedOwners.add(new ItemWithLocation(lookupMap.getOrDefault(ownerUuid, ownerUuid), "auction_house"));
             }
         }

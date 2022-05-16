@@ -35,6 +35,11 @@ public class DupeCommandExecutor {
     private String uuid;
     private final AtomicInteger processedItems = new AtomicInteger();
     private int totalItems = 0;
+    TEM tem;
+
+    public DupeCommandExecutor(TEM tem) {
+        this.tem = tem;
+    }
 
     public void run(String inputUsername) {
         username = inputUsername;
@@ -142,7 +147,7 @@ public class DupeCommandExecutor {
             ArrayList<String> possibleOwnersSeed = new ArrayList<>();
             possibleOwnersSeed.add(uuid);
             possibleOwnersSeed.addAll(entry.getValue());
-            CombinedDupeRequest request = new CombinedDupeRequest(itemUuid, false,
+            CombinedDupeRequest request = new CombinedDupeRequest(tem, itemUuid, false,
                     possibleOwnersSeed, false, false);
             RequestsCache.getInstance().addToQueue(request);
             requests.add(request);

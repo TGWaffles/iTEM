@@ -22,21 +22,23 @@ public class CombinedDupeRequest implements BackendRequest {
     private final ArrayList<String> seedPossibleOwners = new ArrayList<>();
     private boolean useCofl;
     private boolean useTem;
+    TEM tem;
 
-    public CombinedDupeRequest(String itemUuid, boolean printMessages) {
+    public CombinedDupeRequest(TEM tem, String itemUuid, boolean printMessages) {
+        this.tem = tem;
         this.itemUuid = itemUuid;
         this.printMessages = printMessages;
         useCofl = true;
         useTem = true;
     }
 
-    public CombinedDupeRequest(String itemUuid, boolean printMessages, List<String> seed) {
-        this(itemUuid, printMessages);
+    public CombinedDupeRequest(TEM tem, String itemUuid, boolean printMessages, List<String> seed) {
+        this(tem, itemUuid, printMessages);
         seedPossibleOwners.addAll(seed);
     }
 
-    public CombinedDupeRequest(String itemUuid, boolean printMessages, List<String> seed, boolean useCofl, boolean useTem) {
-        this(itemUuid, printMessages, seed);
+    public CombinedDupeRequest(TEM tem, String itemUuid, boolean printMessages, List<String> seed, boolean useCofl, boolean useTem) {
+        this(tem, itemUuid, printMessages, seed);
         this.useCofl = useCofl;
         this.useTem = useTem;
     }
@@ -84,9 +86,9 @@ public class CombinedDupeRequest implements BackendRequest {
             }
         }
         if (TEMConfig.useAuctionHouseForDupes) {
-            possibleOwners.addAll(TEM.auctions.getOwnersForItemUUID(itemUuid));
+            possibleOwners.addAll(tem.getAuctions().getOwnersForItemUUID(itemUuid));
         }
-        HashSet<DupeChecker.ItemWithLocation> verifiedOwners = new DupeChecker(printMessages).findVerifiedOwners(itemUuid, new ArrayList<>(possibleOwners));
+        HashSet<DupeChecker.ItemWithLocation> verifiedOwners = new DupeChecker(tem, printMessages).findVerifiedOwners(itemUuid, new ArrayList<>(possibleOwners));
         return new CombinedDupeResponse(verifiedOwners);
     }
 

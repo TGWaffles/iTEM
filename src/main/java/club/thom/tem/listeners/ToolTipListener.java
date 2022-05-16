@@ -137,7 +137,7 @@ public class ToolTipListener {
             return;
         }
         uuidToLore.put(uuid, tooltip);
-        RequestsCache.getInstance().addToQueue(new CombinedDupeRequest(uuid, true));
+        RequestsCache.getInstance().addToQueue(new CombinedDupeRequest(tem, uuid, true));
     }
 
     public boolean checkDuped(NBTTagCompound itemNbt) {
@@ -162,7 +162,7 @@ public class ToolTipListener {
         }
 
         CombinedDupeResponse response = (CombinedDupeResponse) RequestsCache.getInstance().getIfExists(
-                new CombinedDupeRequest(uuid, true));
+                new CombinedDupeRequest(tem, uuid, true));
         if (response == null) {
             return false;
         }
