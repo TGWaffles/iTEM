@@ -1,7 +1,7 @@
 package club.thom.tem.dupes.cofl;
 
-import club.thom.tem.TEM;
-import club.thom.tem.helpers.RequestHelper;
+import club.thom.tem.util.MessageUtil;
+import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.CoflAuctionModel;
 import com.google.gson.JsonArray;
@@ -20,7 +20,6 @@ import java.util.Map;
 public class CoflRequestMaker {
     private static final Logger logger = LogManager.getLogger(CoflRequestMaker.class);
     // amazing endpoint to get all auctions for an item uuid
-    @SuppressWarnings("FieldCanBeLocal")
     private static final String COFL_URL = "https://sky.coflnet.com/api/auctions/%s/sold";
     private final boolean sendMessages;
 
@@ -34,7 +33,7 @@ public class CoflRequestMaker {
      */
     public static List<CoflAuctionModel> getAuctionsForUuid(String itemUuid) {
         ArrayList<CoflAuctionModel> auctions = new ArrayList<>();
-        RequestData returnedData = RequestHelper.sendGetRequest(String.format(COFL_URL, "uid/" + itemUuid));
+        RequestData returnedData = RequestUtil.sendGetRequest(String.format(COFL_URL, "uid/" + itemUuid));
         if (returnedData.getStatus() != 200) {
             if (returnedData.getStatus() == 429) {
                 // sleep for cofl rate limit
@@ -62,7 +61,7 @@ public class CoflRequestMaker {
             uuidArray.add(uuid);
         }
         requestData.add("uuids", uuidArray);
-        RequestData returnedData = RequestHelper.sendPostRequest(String.format(COFL_URL, "uids"), requestData);
+        RequestData returnedData = RequestUtil.sendPostRequest(String.format(COFL_URL, "uids"), requestData);
         if (returnedData.getStatus() != 200) {
             if (returnedData.getStatus() == 429) {
                 // sleep for cofl rate limit
@@ -123,12 +122,12 @@ public class CoflRequestMaker {
         List<String> possibleOwners = determinePossibleOwners(auctions);
         if (possibleOwners.size() == 0) {
             if (sendMessages) {
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not find any auctions!"));
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Could not find any auctions!"));
             }
             return possibleOwners;
         }
         if (sendMessages) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
         }
         return possibleOwners;
     }
@@ -144,7 +143,7 @@ public class CoflRequestMaker {
             possibleOwners.put(entry.getKey(), determinePossibleOwners(entry.getValue()));
         }
         if (sendMessages) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "Found auctions, checking inventories..."));
         }
         return possibleOwners;
     }

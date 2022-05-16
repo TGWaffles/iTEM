@@ -4,6 +4,7 @@ import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages.*;
+import club.thom.tem.util.PlayerUtil;
 import com.google.protobuf.ByteString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,13 +18,18 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientResponseHandler {
-    private static final Logger logger = LogManager.getLogger(ClientResponseHandler.class);
-    public static Lock waitingForRateLimit = new ReentrantLock();
-    public static Condition rateLimitChange = waitingForRateLimit.newCondition();
-    private static Thread moreRequestsLoop = null;
-    private static long lastAsked = System.currentTimeMillis();
+    private final Logger logger = LogManager.getLogger(ClientResponseHandler.class);
+    public final Lock waitingForRateLimit = new ReentrantLock();
+    public final Condition rateLimitChange = waitingForRateLimit.newCondition();
+    private Thread moreRequestsLoop = null;
+    private long lastAsked = System.currentTimeMillis();
+    private final SocketHandler socketHandler;
 
-    public static void startMoreRequestsLoop() {
+    public ClientResponseHandler(SocketHandler handler) {
+        socketHandler = handler;
+    }
+
+    public void startMoreRequestsLoop() {
         if (moreRequestsLoop != null) {
             moreRequestsLoop.interrupt();
         }
@@ -38,11 +44,11 @@ public class ClientResponseHandler {
                     return;
                 } finally {
                     logger.debug("releasing lock...");
-                    logger.debug("queue size: {}", TEM.api.getQueueSize());
+                    logger.debug("queue size: {}", TEM.getInstance().getApi().getQueueSize());
                     waitingForRateLimit.unlock();
                 }
                 // 30s cool-down in case there are no requests to update the rate-limit
-                if (!returnedSuccessfully && TEM.api.getQueueSize() > 0) {
+                if (!returnedSuccessfully && TEM.getInstance().getApi().getQueueSize() > 0) {
                     logger.debug("skip because queue too big");
                     continue;
                 }
@@ -67,38 +73,38 @@ public class ClientResponseHandler {
         moreRequestsLoop.start();
     }
 
-    public static void askForRequests() {
-        if (!TEM.socketWorking) {
+    public void askForRequests() {
+        if (socketHandler.isDisabled()) {
             logger.error("not asking for requests, socket not working...");
             return;
         }
-        int requestsAble = TEM.api.getRateLimit() - TEM.api.getQueueSize();
+        int requestsAble = TEM.getInstance().getApi().getRateLimit() - TEM.getInstance().getApi().getQueueSize();
         if (requestsAble <= 0) {
             logger.debug("not asking for requests, no requests able: {}, ratelimit: {}", requestsAble,
-                    TEM.api.getRateLimit());
+                    TEM.getInstance().getApi().getRateLimit());
             return;
         }
         logger.debug("Requests Able: {}", requestsAble);
         ReadyForRequests.Builder readyForRequests = ReadyForRequests.newBuilder().setNumberOfRequests(requestsAble);
         ClientMessage message = ClientMessage.newBuilder().setMoreRequests(readyForRequests).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.socket.sendBinary(message.toByteArray());
+        TEM.getInstance().getSocketHandler().sendClientMessage(message);
     }
 
-    public static void sendAuth() {
-        if (!TEM.socketWorking) {
+    public void sendAuth() {
+        if (socketHandler.isDisabled()) {
             return;
         }
-        String uuid = TEM.getUUID();
+        String uuid = PlayerUtil.getUUID();
         logger.info("Sending Auth with uuid: \"" + uuid + "\"");
         AuthMessage.Builder auth = AuthMessage.newBuilder().setUuid(uuid);
         ClientMessage message = ClientMessage.newBuilder().setAuth(auth).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.socket.sendBinary(message.toByteArray());
+        TEM.getInstance().getSocketHandler().sendClientMessage(message);
     }
 
-    public static void sendFriendsResponse(List<String> friendUuids, String originUuid, int nonce) {
-        if (!TEM.socketWorking) {
+    public void sendFriendsResponse(List<String> friendUuids, String originUuid, int nonce) {
+        if (socketHandler.isDisabled()) {
             return;
         }
         FriendsResponse.Builder friends = FriendsResponse.newBuilder();
@@ -109,11 +115,11 @@ public class ClientResponseHandler {
         Response.Builder response = Response.newBuilder().setFriendsList(friends).setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.socket.sendBinary(message.toByteArray());
+        TEM.getInstance().getSocketHandler().sendClientMessage(message);
     }
 
-    public static void sendInventoryResponse(PlayerData playerData, String playerUuid, int nonce) {
-        if (!TEM.socketWorking) {
+    public void sendInventoryResponse(PlayerData playerData, String playerUuid, int nonce) {
+        if (socketHandler.isDisabled()) {
             return;
         }
         logger.debug("Sending inventory response...");
@@ -123,12 +129,12 @@ public class ClientResponseHandler {
                 .setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.socket.sendBinary(message.toByteArray());
+        TEM.getInstance().getSocketHandler().sendClientMessage(message);
         logger.debug("Sent inventory response!");
     }
 
-    public static void sendMiscResponse(RequestData data, String requestUrl, Map<String, String> parameters, int nonce) {
-        if (!TEM.socketWorking) {
+    public void sendMiscResponse(RequestData data, String requestUrl, Map<String, String> parameters, int nonce) {
+        if (socketHandler.isDisabled()) {
             return;
         }
         logger.debug("Sending misc response...");
@@ -141,8 +147,17 @@ public class ClientResponseHandler {
                 .setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.socket.sendBinary(message.toByteArray());
+        TEM.getInstance().getSocketHandler().sendClientMessage(message);
         logger.debug("Sent misc response!");
+    }
+
+    public void needMoreRequests() {
+        waitingForRateLimit.lock();
+        try {
+            rateLimitChange.signalAll();
+        } finally {
+            waitingForRateLimit.unlock();
+        }
     }
 
 }

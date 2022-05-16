@@ -1,4 +1,4 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
 import club.thom.tem.TEM;
 import club.thom.tem.hypixel.Hypixel;
@@ -39,13 +39,6 @@ public class TestHelper {
         PowerMockito.mockStatic(TEMConfig.class);
         // Prevent calls to TEM.sendMessage and TEM.forceSaveConfig
         PowerMockito.mockStatic(TEM.class);
-    }
-
-    public static Thread startRequestsLoop() {
-        TEM.api = new Hypixel();
-        Thread thread = new Thread(TEM.api::run);
-        thread.start();
-        return thread;
     }
 
     /**

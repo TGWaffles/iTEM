@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class FriendsListRequest extends Request {
-    CompletableFuture<List<String>> future = new CompletableFuture<>();
+    final CompletableFuture<List<String>> future = new CompletableFuture<>();
     final String uuid;
 
     public FriendsListRequest(String uuid) {

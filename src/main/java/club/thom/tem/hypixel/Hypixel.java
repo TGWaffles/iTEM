@@ -1,7 +1,8 @@
 package club.thom.tem.hypixel;
 
-import club.thom.tem.backend.ClientResponseHandler;
-import club.thom.tem.helpers.KeyFetcher;
+import club.thom.tem.TEM;
+import club.thom.tem.listeners.PlayerAFKListener;
+import club.thom.tem.util.KeyFetcher;
 import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
 import club.thom.tem.storage.TEMConfig;
@@ -18,9 +19,9 @@ import java.util.concurrent.locks.*;
  */
 public class Hypixel {
     private static final Logger logger = LogManager.getLogger(Hypixel.class);
-    ReadWriteLock rateLimitLock = new ReentrantReadWriteLock();
-    Lock waitingForItemLock = new ReentrantLock();
-    Condition newItemInQueue = waitingForItemLock.newCondition();
+    final ReadWriteLock rateLimitLock = new ReentrantReadWriteLock();
+    final Lock waitingForItemLock = new ReentrantLock();
+    final Condition newItemInQueue = waitingForItemLock.newCondition();
 
     public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
     private int triesWithoutValidKey = 0;
@@ -31,7 +32,13 @@ public class Hypixel {
 
     private int remainingRateLimit = 0;
 
+    private PlayerAFKListener afkListener;
+
     private long rateLimitResetTime = System.currentTimeMillis();
+
+    public Hypixel(PlayerAFKListener afkListener) {
+        this.afkListener = afkListener;
+    }
 
     public long getRateLimitResetTime() {
         return (rateLimitResetTime + (TEMConfig.timeOffset * 1000L) % 60);
@@ -137,12 +144,7 @@ public class Hypixel {
             rateLimitLock.writeLock().unlock();
         }
         if (getRateLimit() > requestQueue.size()) {
-            ClientResponseHandler.waitingForRateLimit.lock();
-            try {
-                ClientResponseHandler.rateLimitChange.signalAll();
-            } finally {
-                ClientResponseHandler.waitingForRateLimit.unlock();
-            }
+            TEM.getInstance().getSocketHandler().getClientResponseHandler().needMoreRequests();
         }
     }
 
@@ -154,7 +156,10 @@ public class Hypixel {
      *
      * @return Number to exhaust your rate limit to.
      */
-    private static int getMinRateLimit() {
+    private int getMinRateLimit() {
+        if (TEMConfig.maxOnAfk && afkListener.isAfk()) {
+            return Math.min(TEMConfig.spareRateLimit, 5); // leaves 5 just in case they come back from afk
+        }
         return TEMConfig.spareRateLimit;
     }
 
@@ -266,8 +271,8 @@ public class Hypixel {
         if (sleepTime <= 0) {
             // This shouldn't be 0 if it's in the past. Set it to 1 so a request can update it.
             logger.debug("LOOP-> Setting ratelimit to {}, 5 as sleepTime is {}, ratelimit is 0, " +
-                    "rateLimitReset: {}", TEMConfig.spareRateLimit + 1, sleepTime, getRateLimitResetTime());
-            setRateLimitRemaining(TEMConfig.spareRateLimit + 1, 5);
+                    "rateLimitReset: {}", getMinRateLimit() + 1, sleepTime, getRateLimitResetTime());
+            setRateLimitRemaining(getMinRateLimit() + 1, 5);
             return;
         }
         // This is DEFINITELY NOT BusyWaiting. This thread is pausing until we have more requests.

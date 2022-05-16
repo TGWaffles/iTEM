@@ -1,7 +1,7 @@
 package club.thom.tem.listeners;
 
-import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
+import club.thom.tem.util.MessageUtil;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -46,7 +46,7 @@ public class ApiKeyListener {
             }
             // if it is a valid key, tell the user it was set successfully
             logger.debug("API key set to: {} successfully", apiKey);
-            TEM.sendMessage(new ChatComponentText("API key set to " + apiKey + "!"));
+            MessageUtil.sendMessage(new ChatComponentText("API key set to " + apiKey + "!"));
         });
     }
 }

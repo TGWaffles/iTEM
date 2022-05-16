@@ -8,7 +8,9 @@ import club.thom.tem.backend.requests.item_data.ItemData;
 import club.thom.tem.backend.requests.item_data_from_uuids.FindUUIDsDataRequest;
 import club.thom.tem.backend.requests.item_data_from_uuids.FindUUIDsDataResponse;
 import club.thom.tem.dupes.cofl.CoflRequestMaker;
-import club.thom.tem.helpers.UUIDHelper;
+import club.thom.tem.util.MessageUtil;
+import club.thom.tem.util.PlayerUtil;
+import club.thom.tem.util.UUIDUtil;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;
@@ -36,12 +38,12 @@ public class DupeCommandExecutor {
 
     public void run(String inputUsername) {
         username = inputUsername;
-        uuid = UUIDHelper.fetchUUIDFromIdentifier(username);
+        uuid = UUIDUtil.fetchUUIDFromIdentifier(username);
         if (uuid == null) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown player!"));
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown player!"));
             return;
         }
-        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
+        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
                 + EnumChatFormatting.GREEN + "Starting Scan of " + username + "!\n"
                 + EnumChatFormatting.YELLOW + "----------"));
         PlayerData playerData;
@@ -49,15 +51,15 @@ public class DupeCommandExecutor {
         if (playerData == null) {
             SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(uuid);
             playerRequest.priority = true;
-            TEM.api.addToQueue(playerRequest);
-            TEM.sendToast(username + " Dupe Check", "Downloading inventory...", 1.0f);
+            TEM.getInstance().getApi().addToQueue(playerRequest);
+            PlayerUtil.sendToast(username + " Dupe Check", "Downloading inventory...", 1.0f);
             try {
                 playerData = playerRequest.getFuture().get();
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
                 return;
             }
-            TEM.sendToast(username + " Dupe Check", "Inventory Downloaded!", 1.0f);
+            PlayerUtil.sendToast(username + " Dupe Check", "Inventory Downloaded!", 1.0f);
         }
         // to monitor when all are done
         Phaser monitorAll = new Phaser(1);
@@ -100,7 +102,7 @@ public class DupeCommandExecutor {
             });
         }
         monitorAll.awaitAdvance(monitorAll.arriveAndDeregister());
-        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
+        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
                 + EnumChatFormatting.GREEN + "Completed Scan of " + username + "!\n"
                 + EnumChatFormatting.YELLOW + "----------"));
     }
@@ -164,11 +166,11 @@ public class DupeCommandExecutor {
                             EnumChatFormatting.GREEN, item.playerName, EnumChatFormatting.YELLOW, item.location));
                 }
                 text.append(EnumChatFormatting.YELLOW).append("----------");
-                TEM.sendMessage(new ChatComponentText(text.toString()));
+                MessageUtil.sendMessage(new ChatComponentText(text.toString()));
             }
         }
         int processed = processedItems.addAndGet(thisRequestAuctions.entrySet().size());
-        TEM.sendToast("Player Scan of " + username,
+        PlayerUtil.sendToast("Player Scan of " + username,
                 String.format("%1$d/%2$d items processed! (%3$d remaining)",
                         processed, totalItems, totalItems - processed),
                 1.0f);

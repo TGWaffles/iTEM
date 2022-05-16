@@ -1,6 +1,9 @@
 package club.thom.tem.hypixel.request;
 
 import club.thom.tem.TEM;
+import club.thom.tem.util.MessageUtil;
+import club.thom.tem.util.PlayerUtil;
+import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonIOException;
@@ -27,7 +30,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public abstract class Request {
     private static final Logger logger = LogManager.getLogger(Request.class);
-    protected Hypixel controller = TEM.api;
+    protected final Hypixel controller = TEM.getInstance().getApi();
     protected final String endpoint;
     public boolean priority;
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
@@ -57,7 +60,7 @@ public abstract class Request {
         try {
             url = new URL(urlString);
             uc = (HttpsURLConnection) url.openConnection();
-            uc.setSSLSocketFactory(TEM.getAllowAllFactory());
+            uc.setSSLSocketFactory(RequestUtil.getAllowAllFactory());
             uc.setReadTimeout(10000);
             uc.setConnectTimeout(10000);
             logger.debug("Opening connection to url: {}, params: {}", urlString, params);
@@ -136,14 +139,13 @@ public abstract class Request {
             // API Key is now invalid.
             controller.hasValidApiKey = false;
             logger.warn("REQUEST-> API KEY IS INVALID!");
-            TEMConfig.setHypixelKey("");
-            TEM.waitForPlayer();
+            PlayerUtil.waitForPlayer();
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 logger.error("Interrupted while sleeping to tell player about invalid key", e);
             }
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Your API key is invalid. " +
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Your API key is invalid. " +
                     "You are no longer accruing contributions."));
             logger.info("REQUEST-> Told player about invalid key, readding to queue.");
             controller.addToQueue(this);

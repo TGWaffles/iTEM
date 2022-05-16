@@ -5,10 +5,10 @@ import com.google.gson.JsonObject;
 import java.time.Instant;
 
 public class CoflAuctionModel {
-    public String sellerUuid;
-    public String auctionUuid;
-    public String buyerUuid;
-    public long timestamp;
+    public final String sellerUuid;
+    public final String auctionUuid;
+    public final String buyerUuid;
+    public final long timestamp;
 
     public CoflAuctionModel(JsonObject data) {
         sellerUuid = data.get("seller").getAsString();

@@ -1,4 +1,4 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
 import club.thom.tem.TEM;
 import club.thom.tem.constants.*;
@@ -6,7 +6,7 @@ import com.google.common.base.Strings;
 
 import static club.thom.tem.models.inventory.item.ArmourPieceData.convertIntArrayToHex;
 
-public class HexHelper {
+public class HexUtil {
     public static String convertSmallerHex(String smallerHex) {
         if (smallerHex.length() == 1) {
             return Strings.repeat(smallerHex, 6);
@@ -21,9 +21,13 @@ public class HexHelper {
         }
     }
 
-    public static boolean checkOriginal(String itemId, String hexCode) {
+    public static String getOriginalHex(String itemId) {
         int[] colours = TEM.items.getDefaultColour(itemId);
-        String originalHex = convertIntArrayToHex(colours);
+        return convertIntArrayToHex(colours);
+    }
+
+    public static boolean checkOriginal(String itemId, String hexCode) {
+        String originalHex = getOriginalHex(itemId);
         if (itemId.startsWith("GREAT_SPOOK")) {
             return SpookColours.isSpookColour(hexCode);
         }

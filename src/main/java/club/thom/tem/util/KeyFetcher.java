@@ -1,4 +1,4 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
 
 import club.thom.tem.TEM;
@@ -20,21 +20,21 @@ public class KeyFetcher {
 
     public static void checkForApiKey(){
         // If the API key has already been set (and is valid!) no point fetching from skytils/neu.
-        if (!TEMConfig.getHypixelKey().equals("") && TEMConfig.isKeyValid(TEMConfig.getHypixelKey())) {
+        if (!TEMConfig.getHypixelKey().equals("") && TEMConfig.wasKeyValid()) {
             return;
         }
         // Checks Skytils for the key.
         checkSkytilsForApiKey();
         // Validates that the key got set & that it works.
         if(!TEMConfig.getHypixelKey().equals("") && TEMConfig.isKeyValid(TEMConfig.getHypixelKey())) {
-            TEM.sendMessage(new ChatComponentText("Fetched your api key from Skytils!"));
+            MessageUtil.sendMessage(new ChatComponentText("Fetched your api key from Skytils!"));
             return;
         }
         // Skytils failed, checking if NEU has an api key...
         checkNeuForApiKey();
         // Validates it got set and works.
         if(!TEMConfig.getHypixelKey().equals("") && TEMConfig.isKeyValid(TEMConfig.getHypixelKey())) {
-            TEM.sendMessage(new ChatComponentText("Fetched your api key from NEU!"));
+            MessageUtil.sendMessage(new ChatComponentText("Fetched your api key from NEU!"));
         }
     }
 
@@ -49,7 +49,7 @@ public class KeyFetcher {
                 String apiKey = skytilsConfigFile.get("general.api.hypixel_api_key");
                 if (apiKey != null && !apiKey.equals("")) {
                     TEMConfig.setHypixelKey(apiKey);
-                    TEM.forceSaveConfig();
+                    TEM.getInstance().forceSaveConfig();
                 }
             }
         } catch (Exception ignored) {
@@ -64,7 +64,7 @@ public class KeyFetcher {
                 String apiKey = neuConfigData.get("apiKey").getAsJsonObject().get("apiKey").getAsString();
                 if (apiKey != null && !apiKey.equals("")) {
                     TEMConfig.setHypixelKey(apiKey);
-                    TEM.forceSaveConfig();
+                    TEM.getInstance().forceSaveConfig();
                 }
             } catch (Exception ignored) {
                 // TODO: Add logging here once SLF4J is implemented

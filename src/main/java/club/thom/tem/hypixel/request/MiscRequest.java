@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 public class MiscRequest extends Request {
     private final boolean useApiKey;
     private final Map<String, String> requestParameters;
-    CompletableFuture<RequestData> future = new CompletableFuture<>();
+    final CompletableFuture<RequestData> future = new CompletableFuture<>();
 
     public MiscRequest(ServerMessages.MiscRequest request) {
         super(request.getRequestURL());

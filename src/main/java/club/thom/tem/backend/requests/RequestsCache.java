@@ -3,9 +3,7 @@ package club.thom.tem.backend.requests;
 import club.thom.tem.models.inventory.PlayerData;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.LoadingCache;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -22,7 +20,7 @@ public class RequestsCache {
     private final Lock alertLock = new ReentrantLock();
     private final Condition requestFinishCondition = alertLock.newCondition();
     @SuppressWarnings("UnstableApiUsage")
-    public Cache<String, PlayerData> playerDataCache = CacheBuilder.newBuilder()
+    public final Cache<String, PlayerData> playerDataCache = CacheBuilder.newBuilder()
             .maximumSize(1000).expireAfterWrite(10, TimeUnit.MINUTES)
             .build();
     private static RequestsCache instance = null;

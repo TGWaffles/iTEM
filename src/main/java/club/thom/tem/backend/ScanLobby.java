@@ -3,10 +3,8 @@ package club.thom.tem.backend;
 import club.thom.tem.TEM;
 import club.thom.tem.constants.ColourNames;
 import club.thom.tem.constants.PureColours;
-import club.thom.tem.helpers.HexHelper;
-import club.thom.tem.helpers.HexHelper.Modifier;
-import club.thom.tem.helpers.RequestHelper;
-import club.thom.tem.helpers.TimeHelper;
+import club.thom.tem.util.*;
+import club.thom.tem.util.HexUtil.Modifier;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
@@ -50,7 +48,7 @@ public class ScanLobby {
             reforge = jsonData.get("reforge").getAsString();
             ownerUuid = jsonData.get("owner").getAsJsonObject().get("playerUuid").getAsString();
             ownerProfile = jsonData.get("owner").getAsJsonObject().get("profileUuid").getAsString();
-            modifier = HexHelper.getModifier(itemId, hexCode, creationTime);
+            modifier = HexUtil.getModifier(itemId, hexCode, creationTime);
 
             if (jsonData.has("lastChecked")) {
                 lastChecked = jsonData.get("lastChecked").getAsLong();
@@ -77,7 +75,7 @@ public class ScanLobby {
     }
 
     public static void scan() {
-        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Starting scan..."));
+        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Starting scan..."));
         HashMap<String, String> colouredNameMap = new HashMap<>();
         HashMap<String, String> commandNameMap = new HashMap<>();
         List<EntityPlayer> players = Minecraft.getMinecraft().theWorld.playerEntities;
@@ -86,7 +84,7 @@ public class ScanLobby {
             String displayName;
             String uuid = player.getGameProfile().getId().toString().replaceAll("-", "");
             // Remove your player from the scanned list.
-            if (uuid.equals(TEM.getUUID())) {
+            if (uuid.equals(PlayerUtil.getUUID())) {
                 // yourself
                 playersToRemove.add(player);
             }
@@ -107,19 +105,19 @@ public class ScanLobby {
         players.removeAll(playersToRemove);
 
         if (players.size() == 0) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "No players were found in your lobby. " +
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "No players were found in your lobby. " +
                     "Possibly due to Hypixel not sending the data on time. Try scanning again!"));
             return;
         }
 
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() != 200) {
-            RequestHelper.tellPlayerAboutFailedRequest(returnedData.getStatus());
+            RequestUtil.tellPlayerAboutFailedRequest(returnedData.getStatus());
             return;
         }
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();
         if (!returnedData.getJsonAsObject().has("armour")) {
-            TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "The players in your lobby don't have " +
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "The players in your lobby don't have " +
                     "any tracked armour."));
             return;
         }
@@ -134,7 +132,7 @@ public class ScanLobby {
             armourPiece.setPlainUsername(commandNameMap.get(armourPiece.ownerUuid));
             sendItemMessage(armourPiece);
         }
-        TEM.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Scan complete! " +
+        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Scan complete! " +
                 armourToSend.size() + " suitable items found."));
     }
 
@@ -231,9 +229,9 @@ public class ScanLobby {
         message.appendSibling(playerText);
         message.appendSibling(new ChatComponentText(EnumChatFormatting.GRAY + " has "));
         message.appendSibling(hexCodeText);
-        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "! Last seen: " + TimeHelper.getRelativeTime(item.getTimePassed())));
+        message.appendSibling(new ChatComponentText(EnumChatFormatting.RESET + " " + itemName + "! Last seen: " + TimeUtil.getRelativeTime(item.getTimePassed())));
         hexCodeText.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverOverHexText)));
-        TEM.sendMessage(message);
+        MessageUtil.sendMessage(message);
     }
 
     public static RequestData scanPlayers(List<EntityPlayer> players) {
@@ -244,7 +242,7 @@ public class ScanLobby {
             playerArray.add(player.getGameProfile().getId().toString().replaceAll("-", ""));
         }
         requestJson.add("players", playerArray);
-        return RequestHelper.sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
+        return RequestUtil.sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
     }
 
 }

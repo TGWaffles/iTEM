@@ -1,6 +1,5 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
-import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
 import com.google.gson.*;
 import net.minecraft.util.ChatComponentText;
@@ -10,17 +9,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
-public class RequestHelper {
-    private static final Logger logger = LogManager.getLogger(RequestHelper.class);
+public class RequestUtil {
+    private static final Logger logger = LogManager.getLogger(RequestUtil.class);
     
     public static RequestData sendPostRequest(String urlString, JsonObject postData) {
         URL url = null;
@@ -79,7 +77,7 @@ public class RequestHelper {
     private static HttpsURLConnection getHttpsURLConnection(URL url, String post) throws IOException {
         HttpsURLConnection uc;
         uc = (HttpsURLConnection) url.openConnection();
-        uc.setSSLSocketFactory(TEM.getAllowAllFactory());
+        uc.setSSLSocketFactory(getAllowAllFactory());
         uc.setReadTimeout(20000);
         uc.setConnectTimeout(20000);
         uc.setRequestMethod(post);
@@ -105,18 +103,44 @@ public class RequestHelper {
         switch (status) {
             case 401:
             case 403:
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
                         "(NOT HYPIXEL API KEY!) is invalid! Set it in /tem config!"));
                 return;
             case 402:
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
                 return;
             case 404:
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: No data found!"));
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: No data found!"));
                 return;
             default:
-                TEM.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error ("
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error ("
                         + status + ")"));
         }
+    }
+
+    public static SSLSocketFactory getAllowAllFactory() {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+                    public void checkClientTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                    public void checkServerTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                }
+        };
+
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            return sc.getSocketFactory();
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 }

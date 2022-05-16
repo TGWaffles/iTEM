@@ -111,7 +111,7 @@ public class ArmourPieceData extends InventoryItemData {
         for (int i = 0; i < 3; i++) {
             colourArray[i] = Integer.parseInt(colourArrayAsString[i]);
         }
-        return convertIntArrayToHex(colourArray);
+        return convertIntArrayToHex(colourArray).toUpperCase();
     }
 
     public static String convertIntegerToTwoDigitHex(int colourValue) {

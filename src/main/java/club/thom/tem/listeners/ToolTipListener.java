@@ -7,13 +7,12 @@ import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
-import club.thom.tem.helpers.HexHelper;
+import club.thom.tem.util.HexUtil;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -21,13 +20,12 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class ToolTipListener {
-    public static HashMap<String, List<String>> uuidToLore = new HashMap<>();
+    public static final HashMap<String, List<String>> uuidToLore = new HashMap<>();
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onItemToolTipEvent(ItemTooltipEvent event) {
@@ -50,10 +48,15 @@ public class ToolTipListener {
             return;
         }
         ArmourPieceData armour = new ArmourPieceData("inventory", itemNbt);
-        HexHelper.Modifier armourTypeModifier = HexHelper.getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
+        HexUtil.Modifier armourTypeModifier = HexUtil.getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
         String colourCode = ScanLobby.getColourCode(armourTypeModifier);
         int ownerCount = checkArmourOwners(armour);
         String toolTipString = colourCode + armourTypeModifier;
+
+        if (armour.isCustomDyed()) {
+            toolTipString = EnumChatFormatting.DARK_GRAY + "DYED";
+        }
+
         if (ownerCount != -1) {
             toolTipString += EnumChatFormatting.DARK_GRAY + " - " + ownerCount;
         }
@@ -90,8 +93,14 @@ public class ToolTipListener {
         if (response == null) {
             return -1;
         }
+        String hexCode = armour.getHexCode();
+
+        if (armour.isCustomDyed()) {
+            hexCode = HexUtil.getOriginalHex(armour.getItemId());
+        }
+
         for (HexAmount amountData : response.amounts) {
-            if (amountData.hex.equals(armour.getHexCode())) {
+            if (amountData.hex.equals(hexCode)) {
                 return amountData.count;
             }
         }

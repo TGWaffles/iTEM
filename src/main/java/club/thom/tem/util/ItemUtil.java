@@ -1,27 +1,23 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ItemHelper {
-    private static final Logger logger = LogManager.getLogger(ItemHelper.class);
+public class ItemUtil {
+    private static final Logger logger = LogManager.getLogger(ItemUtil.class);
     private static final String URL = "https://api.hypixel.net/resources/skyblock/items";
     private boolean ready = false;
     private final Lock readyLock = new ReentrantLock();
     private final Condition readyEvent = readyLock.newCondition();
-    public HashMap<String, JsonObject> items = new HashMap<>();
+    public final HashMap<String, JsonObject> items = new HashMap<>();
 
     public void waitForInit() {
         readyLock.lock();
@@ -40,7 +36,7 @@ public class ItemHelper {
 
     public JsonObject downloadItems() {
         logger.info("TEM: Downloading items...");
-        return RequestHelper.sendGetRequest(URL).getJsonAsObject();
+        return RequestUtil.sendGetRequest(URL).getJsonAsObject();
     }
 
     public void fillItems() {

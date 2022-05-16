@@ -1,6 +1,6 @@
 package club.thom.tem.dupes.auction_house;
 
-import club.thom.tem.helpers.RequestHelper;
+import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.inventory.Inventory;
 import club.thom.tem.models.inventory.item.MiscItemData;
@@ -16,15 +16,15 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class AuctionHouse {
-    ConcurrentHashMap<String, LinkedList<String>> temporaryMap = new ConcurrentHashMap<>();
-    HashMap<String, String[]> itemUuidMap = new HashMap<>();
-    ReentrantReadWriteLock processingLock = new ReentrantReadWriteLock();
+    final ConcurrentHashMap<String, LinkedList<String>> temporaryMap = new ConcurrentHashMap<>();
+    final HashMap<String, String[]> itemUuidMap = new HashMap<>();
+    final ReentrantReadWriteLock processingLock = new ReentrantReadWriteLock();
     long lastKnownLastUpdated = 0;
     // only use 2 threads to download the auction house to reduce bandwidth for other uses
     private final ExecutorService threadPool = Executors.newFixedThreadPool(2);
 
     public RequestData downloadPage(int pageNum) {
-        return RequestHelper.sendGetRequest(String.format("https://api.hypixel.net/skyblock/auctions?page=%d", pageNum));
+        return RequestUtil.sendGetRequest(String.format("https://api.hypixel.net/skyblock/auctions?page=%d", pageNum));
     }
 
     public void addOwnerToItemUUIDMap(String itemUuid, String owner) {

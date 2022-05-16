@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
-@SuppressWarnings("FieldMayBeFinal")
+@SuppressWarnings({"FieldMayBeFinal", "CanBeFinal"})
 public class TEMConfig extends Vigilant {
 
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);
@@ -148,18 +148,35 @@ public class TEMConfig extends Vigilant {
     )
     private static String hypixelKey = "";
 
+    private static String guaranteedSafeKey = "";
+
     public static Future<?> setHypixelKey(String newKey) {
-        // can probably be reworked to use an executor and return a completable future
         return executor.submit(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
-                TEM.forceSaveConfig();
+                logger.info("TEM Config -> Setting guaranteed key from function! Key: {}", hypixelKey);
+                guaranteedSafeKey = hypixelKey;
+                wasApiKeyValid = true;
+                TEM.getInstance().forceSaveConfig();
             }
         });
     }
 
     public static String getHypixelKey() {
-        return hypixelKey;
+        return guaranteedSafeKey;
+    }
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "API",
+            subcategory = "Hypixel Api",
+            name = "Was Valid Key",
+            hidden = true
+    )
+    private static boolean wasApiKeyValid = false;
+
+    public static boolean wasKeyValid() {
+        return wasApiKeyValid;
     }
 
     @Property(
@@ -222,6 +239,15 @@ public class TEMConfig extends Vigilant {
     )
     public static int spareRateLimit = 10;
 
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "API",
+            subcategory = "Hypixel Api",
+            name = "Max On AFK",
+            description = "Earn max contributions when you go AFK."
+    )
+    public static boolean maxOnAfk = true;
+
     public static String saveFolder = "config/tem/";
     public static String fileName = "preferences.toml";
     public static File CONFIG_FILE = null;
@@ -238,19 +264,22 @@ public class TEMConfig extends Vigilant {
     }
 
     public static boolean isKeyValid(String key) {
-        KeyLookupRequest request = new KeyLookupRequest(key, TEM.api);
-        TEM.api.addToQueue(request);
+        if (key.length() == 0) {
+            return false;
+        }
+        KeyLookupRequest request = new KeyLookupRequest(key, TEM.getInstance().getApi());
+        TEM.getInstance().getApi().addToQueue(request);
         try {
             boolean result = request.getFuture().get();
             if (result) {
-                TEM.api.hasValidApiKey = true;
+                TEM.getInstance().getApi().hasValidApiKey = true;
                 executor.submit(() -> {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         logger.error("Thread interrupted while waiting to trigger api key set.", e);
                     }
-                    TEM.api.signalApiKeySet();
+                    TEM.getInstance().getApi().signalApiKeySet();
                 });
             } else {
                 logger.warn("TEMConfig - warning: API key is invalid!");
@@ -264,17 +293,26 @@ public class TEMConfig extends Vigilant {
 
     Consumer<String> checkApiKey = key -> executor.submit(() -> {
         String oldKey = hypixelKey;
-        if (!isKeyValid(key)) {
+        if (key.length() == 0 || !isKeyValid(key)) {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            if (oldKey.length() == 0) {
+                // better something than nothing I suppose?
+                hypixelKey = key;
+                return;
+            }
             hypixelKey = oldKey;
-            TEM.forceSaveConfig();
+            TEM.getInstance().forceSaveConfig();
             return;
         }
+        wasApiKeyValid = true;
         hypixelKey = key;
+        logger.info("TEM Config -> Setting guaranteed key from consumer! Key: {}", hypixelKey);
+        guaranteedSafeKey = hypixelKey;
+        TEM.getInstance().forceSaveConfig();
     });
 
     public TEMConfig() {
@@ -287,5 +325,7 @@ public class TEMConfig extends Vigilant {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.info("TEM Config -> Setting guaranteed key from constructor! Key: {}", hypixelKey);
+        guaranteedSafeKey = hypixelKey;
     }
 }

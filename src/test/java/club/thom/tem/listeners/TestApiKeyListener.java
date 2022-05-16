@@ -1,7 +1,7 @@
 package club.thom.tem.listeners;
 
 import club.thom.tem.TEM;
-import club.thom.tem.helpers.TestHelper;
+import club.thom.tem.util.TestHelper;
 import club.thom.tem.storage.TEMConfig;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;

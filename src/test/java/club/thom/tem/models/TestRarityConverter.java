@@ -1,8 +1,8 @@
 package club.thom.tem.models;
 
 import club.thom.tem.TEM;
-import club.thom.tem.helpers.ItemHelper;
-import club.thom.tem.helpers.TestHelper;
+import club.thom.tem.util.ItemUtil;
+import club.thom.tem.util.TestHelper;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.storage.TEMConfig;
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class TestRarityConverter {
 
     @Test
     public void testRarityFromItemId() {
-        TEM.items = new ItemHelper();
+        TEM.items = new ItemUtil();
         new Thread(() -> TEM.items.fillItems()).start();
         TEM.items.waitForInit();
         assertEquals(ClientMessages.Rarity.LEGENDARY, RarityConverter.getRarityFromItemId("SPEED_WITHER_BOOTS"));

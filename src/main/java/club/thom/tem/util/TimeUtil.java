@@ -1,10 +1,10 @@
-package club.thom.tem.helpers;
+package club.thom.tem.util;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class TimeHelper {
+public class TimeUtil {
     public static final List<Long> times = Arrays.asList(
             TimeUnit.DAYS.toMillis(365),
             TimeUnit.DAYS.toMillis(30),
@@ -17,13 +17,13 @@ public class TimeHelper {
     public static String getRelativeTime(long duration) {
         StringBuilder res = new StringBuilder();
         // for size in years -> seconds
-        for (int i = 0; i < TimeHelper.times.size(); i++) {
+        for (int i = 0; i < TimeUtil.times.size(); i++) {
             // largest value, starting with years
-            long current = TimeHelper.times.get(i);
+            long current = TimeUtil.times.get(i);
             //
             long temp = duration / current;
             if (temp > 0) {
-                res.append(temp).append(" ").append(TimeHelper.timesString.get(i)).append(temp != 1 ? "s" : "").append(" ago");
+                res.append(temp).append(" ").append(TimeUtil.timesString.get(i)).append(temp != 1 ? "s" : "").append(" ago");
                 break;
             }
         }
