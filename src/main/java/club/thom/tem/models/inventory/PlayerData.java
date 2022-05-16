@@ -46,7 +46,7 @@ public class PlayerData {
 
     private void fillProfilesWithBlank() {
         // Special case where a profile has no inventories, but we want to mark it as done to clear the queue.
-        profiles.add(new BlankProfileData());
+        profiles.add(new BlankProfileData(tem));
     }
 
     public List<InventoryResponse> getInventoryResponses() {
