@@ -43,14 +43,12 @@ public class TEM {
 
     public static final int CLIENT_VERSION = clientVersionFromVersion();
 
-    private static TEM instance = null;
-
     private OnlinePlayerListener onlinePlayerListener = null;
     private PlayerAFKListener afkListener = null;
     private final SocketHandler socketHandler;
     private final LobbyScanner scanner;
     private Hypixel api;
-    private TEMConfig config;
+    private final TEMConfig config;
     private final ItemUtil items;
     private AuctionHouse auctions;
 
@@ -58,23 +56,14 @@ public class TEM {
 
 
     public TEM() {
-        instance = this;
         config = new TEMConfig(this);
         socketHandler = new SocketHandler(this);
         scanner = new LobbyScanner(this);
         items = new ItemUtil();
     }
 
-    public static TEM getInstance() {
-        if (instance == null) {
-            new TEM();
-        }
-
-        return instance;
-    }
-
     public ItemUtil getItems() {
-        return getInstance().items;
+        return items;
     }
 
     public void forceSaveConfig() {
@@ -139,7 +128,7 @@ public class TEM {
         onlinePlayerListener = new OnlinePlayerListener(getConfig());
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
-        MinecraftForge.EVENT_BUS.register(new ClientPacketListener());
+        MinecraftForge.EVENT_BUS.register(new ClientPacketListener(afkListener));
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -150,7 +139,7 @@ public class TEM {
 
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
-        new Thread(() -> new KeyFetcher(getConfig()).checkForApiKey(), "TEM-key-checker").start();
+        new Thread(() -> new KeyFetcher(this).checkForApiKey(), "TEM-key-checker").start();
     }
 
     public OnlinePlayerListener getOnlinePlayerListener() {
@@ -176,7 +165,7 @@ public class TEM {
     }
 
     public static void main(String inputUuid, String apiKey) {
-        TEM tem = getInstance();
+        TEM tem = new TEM();
         PlayerUtil.setUUID(inputUuid);
         standAlone = true;
         tem.afkListener = new PlayerAFKListener();

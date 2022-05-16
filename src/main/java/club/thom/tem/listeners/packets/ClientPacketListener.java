@@ -1,6 +1,7 @@
 package club.thom.tem.listeners.packets;
 
 import club.thom.tem.TEM;
+import club.thom.tem.listeners.PlayerAFKListener;
 import io.netty.channel.*;
 import net.minecraft.network.play.client.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -9,6 +10,11 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 @ChannelHandler.Sharable
 public class ClientPacketListener extends ChannelOutboundHandlerAdapter {
     private double x, y, z, yaw, pitch;
+    PlayerAFKListener afkListener;
+
+    public ClientPacketListener(PlayerAFKListener afkListener) {
+        this.afkListener = afkListener;
+    }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
@@ -43,7 +49,7 @@ public class ClientPacketListener extends ChannelOutboundHandlerAdapter {
     }
 
     private void resetAfk() {
-        TEM.getInstance().getAfkListener().resetInteractionTime();
+        afkListener.resetInteractionTime();
     }
 
     private boolean hasMoved(C03PacketPlayer movementPacket) {

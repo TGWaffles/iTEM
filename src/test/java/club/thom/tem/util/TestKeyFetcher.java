@@ -38,8 +38,10 @@ public class TestKeyFetcher {
 
     @Test
     public void testGetKeyFromNEU() {
+        TEM tem = Mockito.mock(TEM.class);
         TEMConfig config = Mockito.mock(TEMConfig.class);
-        KeyFetcher fetcher = new KeyFetcher(config);
+        Mockito.when(tem.getConfig()).thenReturn(config);
+        KeyFetcher fetcher = new KeyFetcher(tem);
         fetcher.checkNeuForApiKey();
         ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
         Mockito.verify(config).setHypixelKey(stringCaptor.capture());
@@ -48,8 +50,10 @@ public class TestKeyFetcher {
 
     @Test
     public void testGetKeyFromSkytils() {
+        TEM tem = Mockito.mock(TEM.class);
         TEMConfig config = Mockito.mock(TEMConfig.class);
-        KeyFetcher fetcher = new KeyFetcher(config);
+        Mockito.when(tem.getConfig()).thenReturn(config);
+        KeyFetcher fetcher = new KeyFetcher(tem);
         fetcher.checkSkytilsForApiKey();
         ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
         Mockito.verify(config).setHypixelKey(stringCaptor.capture());

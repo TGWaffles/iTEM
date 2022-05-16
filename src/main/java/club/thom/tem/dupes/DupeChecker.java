@@ -85,7 +85,7 @@ public class DupeChecker {
             if (playerData == null) {
                 SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, possibleOwner);
                 playerRequest.priority = true;
-                TEM.getInstance().getApi().addToQueue(playerRequest);
+                tem.getApi().addToQueue(playerRequest);
                 inventories.add(playerRequest.getFuture());
             } else {
                 CompletableFuture<PlayerData> mockFuture = new CompletableFuture<>();

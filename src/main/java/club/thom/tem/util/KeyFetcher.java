@@ -17,10 +17,12 @@ import java.nio.file.Paths;
 public class KeyFetcher {
     static String skytilsFolder = "config/skytils/";
     static String neuFolder = "config/notenoughupdates/";
-    private final TEMConfig config;
+    TEM tem;
+    TEMConfig config;
 
-    public KeyFetcher(TEMConfig config) {
-        this.config = config;
+    public KeyFetcher(TEM tem) {
+        this.tem = tem;
+        this.config = tem.getConfig();
     }
 
     public void checkForApiKey() {
@@ -54,7 +56,7 @@ public class KeyFetcher {
                 String apiKey = skytilsConfigFile.get("general.api.hypixel_api_key");
                 if (apiKey != null && !apiKey.equals("")) {
                     config.setHypixelKey(apiKey);
-                    TEM.getInstance().forceSaveConfig();
+                    tem.forceSaveConfig();
                 }
             }
         } catch (Exception ignored) {
@@ -69,7 +71,7 @@ public class KeyFetcher {
                 String apiKey = neuConfigData.get("apiKey").getAsJsonObject().get("apiKey").getAsString();
                 if (apiKey != null && !apiKey.equals("")) {
                     config.setHypixelKey(apiKey);
-                    TEM.getInstance().forceSaveConfig();
+                    tem.forceSaveConfig();
                 }
             } catch (Exception ignored) {
                 // TODO: Add logging here once SLF4J is implemented

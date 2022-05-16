@@ -25,8 +25,6 @@ public class TEMConfig extends Vigilant {
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);
     private static final ExecutorService executor = Executors.newFixedThreadPool(2, r -> new Thread(r, "TEMConfig"));
 
-
-
     @Property(
             type = PropertyType.SWITCH,
             category = "TEM",
@@ -160,7 +158,7 @@ public class TEMConfig extends Vigilant {
                 logger.info("TEM Config -> Setting guaranteed key from function! Key: {}", hypixelKey);
                 guaranteedSafeKey = hypixelKey;
                 wasApiKeyValid = true;
-                TEM.getInstance().forceSaveConfig();
+                tem.forceSaveConfig();
             }
         });
     }
@@ -302,19 +300,19 @@ public class TEMConfig extends Vigilant {
         if (key.length() == 0) {
             return false;
         }
-        KeyLookupRequest request = new KeyLookupRequest(key, TEM.getInstance().getApi());
-        TEM.getInstance().getApi().addToQueue(request);
+        KeyLookupRequest request = new KeyLookupRequest(key, tem.getApi());
+        tem.getApi().addToQueue(request);
         try {
             boolean result = request.getFuture().get();
             if (result) {
-                TEM.getInstance().getApi().hasValidApiKey = true;
+                tem.getApi().hasValidApiKey = true;
                 executor.submit(() -> {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         logger.error("Thread interrupted while waiting to trigger api key set.", e);
                     }
-                    TEM.getInstance().getApi().signalApiKeySet();
+                    tem.getApi().signalApiKeySet();
                 });
             } else {
                 logger.warn("TEMConfig - warning: API key is invalid!");
@@ -341,7 +339,7 @@ public class TEMConfig extends Vigilant {
                     return;
                 }
                 hypixelKey = oldKey;
-                TEM.getInstance().forceSaveConfig();
+                tem.forceSaveConfig();
                 return;
             }
             wasApiKeyValid = true;

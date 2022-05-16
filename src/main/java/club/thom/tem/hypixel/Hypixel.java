@@ -213,7 +213,7 @@ public class Hypixel {
                             }
                             triesWithoutValidKey++;
                             if (triesWithoutValidKey % 20 == 0) {
-                                Thread thread = new Thread(() -> new KeyFetcher(tem.getConfig()).checkForApiKey(), "TEM-key-checker");
+                                Thread thread = new Thread(() -> new KeyFetcher(tem).checkForApiKey(), "TEM-key-checker");
                                 thread.start();
                                 thread.join(5000);
                                 KeyLookupRequest request = new KeyLookupRequest(tem.getConfig().getHypixelKey(), this);

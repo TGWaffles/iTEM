@@ -24,9 +24,11 @@ public class ClientResponseHandler {
     private Thread moreRequestsLoop = null;
     private long lastAsked = System.currentTimeMillis();
     private final SocketHandler socketHandler;
+    TEM tem;
 
     public ClientResponseHandler(SocketHandler handler) {
         socketHandler = handler;
+        this.tem = handler.getTem();
     }
 
     public void startMoreRequestsLoop() {
@@ -44,11 +46,11 @@ public class ClientResponseHandler {
                     return;
                 } finally {
                     logger.debug("releasing lock...");
-                    logger.debug("queue size: {}", TEM.getInstance().getApi().getQueueSize());
+                    logger.debug("queue size: {}", tem.getApi().getQueueSize());
                     waitingForRateLimit.unlock();
                 }
                 // 30s cool-down in case there are no requests to update the rate-limit
-                if (!returnedSuccessfully && TEM.getInstance().getApi().getQueueSize() > 0) {
+                if (!returnedSuccessfully && tem.getApi().getQueueSize() > 0) {
                     logger.debug("skip because queue too big");
                     continue;
                 }
@@ -78,17 +80,17 @@ public class ClientResponseHandler {
             logger.error("not asking for requests, socket not working...");
             return;
         }
-        int requestsAble = TEM.getInstance().getApi().getRateLimit() - TEM.getInstance().getApi().getQueueSize();
+        int requestsAble = tem.getApi().getRateLimit() - tem.getApi().getQueueSize();
         if (requestsAble <= 0) {
             logger.debug("not asking for requests, no requests able: {}, ratelimit: {}", requestsAble,
-                    TEM.getInstance().getApi().getRateLimit());
+                    tem.getApi().getRateLimit());
             return;
         }
         logger.debug("Requests Able: {}", requestsAble);
         ReadyForRequests.Builder readyForRequests = ReadyForRequests.newBuilder().setNumberOfRequests(requestsAble);
         ClientMessage message = ClientMessage.newBuilder().setMoreRequests(readyForRequests).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.getInstance().getSocketHandler().sendClientMessage(message);
+        tem.getSocketHandler().sendClientMessage(message);
     }
 
     public void sendAuth() {
@@ -100,7 +102,7 @@ public class ClientResponseHandler {
         AuthMessage.Builder auth = AuthMessage.newBuilder().setUuid(uuid);
         ClientMessage message = ClientMessage.newBuilder().setAuth(auth).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.getInstance().getSocketHandler().sendClientMessage(message);
+        tem.getSocketHandler().sendClientMessage(message);
     }
 
     public void sendFriendsResponse(List<String> friendUuids, String originUuid, int nonce) {
@@ -115,7 +117,7 @@ public class ClientResponseHandler {
         Response.Builder response = Response.newBuilder().setFriendsList(friends).setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.getInstance().getSocketHandler().sendClientMessage(message);
+        tem.getSocketHandler().sendClientMessage(message);
     }
 
     public void sendInventoryResponse(PlayerData playerData, String playerUuid, int nonce) {
@@ -129,7 +131,7 @@ public class ClientResponseHandler {
                 .setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.getInstance().getSocketHandler().sendClientMessage(message);
+        tem.getSocketHandler().sendClientMessage(message);
         logger.debug("Sent inventory response!");
     }
 
@@ -147,7 +149,7 @@ public class ClientResponseHandler {
                 .setNonce(nonce);
         ClientMessage message = ClientMessage.newBuilder().setRequestResponse(response).setClientVersion(
                 TEM.CLIENT_VERSION).build();
-        TEM.getInstance().getSocketHandler().sendClientMessage(message);
+        tem.getSocketHandler().sendClientMessage(message);
         logger.debug("Sent misc response!");
     }
 

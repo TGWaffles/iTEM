@@ -12,6 +12,11 @@ import java.util.concurrent.Executors;
 
 public class RequestScanCommand implements SubCommand {
     private static final ExecutorService requestScanExecutor = Executors.newSingleThreadExecutor();
+    TEM tem;
+
+    public RequestScanCommand(TEM tem) {
+        this.tem = tem;
+    }
 
     @Override
     public String getName() {
@@ -41,7 +46,7 @@ public class RequestScanCommand implements SubCommand {
             return;
         }
 
-        TEM.getInstance().getOnlinePlayerListener().queuePlayer(uuid);
+        tem.getOnlinePlayerListener().queuePlayer(uuid);
 
         MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Requested player update!"));
     }
