@@ -7,20 +7,6 @@ import com.google.common.base.Strings;
 import static club.thom.tem.models.inventory.item.ArmourPieceData.convertIntArrayToHex;
 
 public class HexUtil {
-    public static String convertSmallerHex(String smallerHex) {
-        if (smallerHex.length() == 1) {
-            return Strings.repeat(smallerHex, 6);
-        } else if (smallerHex.length() == 3) {
-            char[] characters = smallerHex.toCharArray();
-            return Strings.repeat(Character.toString(characters[0]), 2) +
-                    Strings.repeat(Character.toString(characters[1]), 2) +
-                    Strings.repeat(Character.toString(characters[2]), 2);
-        } else {
-            // Assume it's a 6 digit hex.
-            return smallerHex;
-        }
-    }
-
     public static String getOriginalHex(String itemId) {
         int[] colours = TEM.items.getDefaultColour(itemId);
         return convertIntArrayToHex(colours);
