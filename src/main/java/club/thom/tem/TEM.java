@@ -50,18 +50,16 @@ public class TEM {
     private final SocketHandler socketHandler;
     private final LobbyScanner scanner;
     private Hypixel api;
-    public TEMConfig config;
+    private TEMConfig config;
     private final ItemUtil items;
+    private AuctionHouse auctions;
 
     public static boolean standAlone = false;
 
 
-    private AuctionHouse auctions;
-
-
     public TEM() {
         instance = this;
-        config = new TEMConfig();
+        config = new TEMConfig(this);
         socketHandler = new SocketHandler();
         scanner = new LobbyScanner(this);
         items = new ItemUtil();
@@ -80,8 +78,8 @@ public class TEM {
     }
 
     public void forceSaveConfig() {
-        config.markDirty();
-        config.writeData();
+        getConfig().markDirty();
+        getConfig().writeData();
     }
 
     private static int clientVersionFromVersion() {
@@ -128,14 +126,14 @@ public class TEM {
         // Create global API/rate-limit handler
         api = new Hypixel(this);
         auctions = new AuctionHouse(this);
-        config.initialize();
+        getConfig().initialize();
         new Thread(socketHandler::reconnectSocket, "TEM-socket").start();
         // Start the requests loop
         new Thread(api::run, "TEM-rate-limits").start();
         new Thread(getItems()::fillItems, "TEM-items").start();
         new Thread(getAuctions()::run, "TEM-dupe-auctions").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
-        MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
+        MinecraftForge.EVENT_BUS.register(new ApiKeyListener(getConfig()));
         MinecraftForge.EVENT_BUS.register(new ToolTipListener(this));
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getScanner()));
         onlinePlayerListener = new OnlinePlayerListener();
@@ -152,7 +150,7 @@ public class TEM {
 
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
-        new Thread(KeyFetcher::checkForApiKey, "TEM-key-checker").start();
+        new Thread(() -> new KeyFetcher(getConfig()).checkForApiKey(), "TEM-key-checker").start();
     }
 
     public OnlinePlayerListener getOnlinePlayerListener() {
@@ -183,7 +181,7 @@ public class TEM {
         standAlone = true;
         tem.afkListener = new PlayerAFKListener();
         tem.api = new Hypixel(tem);
-        TEMConfig.setHypixelKey(apiKey);
+        tem.getConfig().setHypixelKey(apiKey);
         TEMConfig.spareRateLimit = 0;
         // 15 is a decent number for minimising ram usage
         TEMConfig.maxSimultaneousThreads = 15;
@@ -197,5 +195,9 @@ public class TEM {
 
     public AuctionHouse getAuctions() {
         return auctions;
+    }
+
+    public TEMConfig getConfig() {
+        return config;
     }
 }

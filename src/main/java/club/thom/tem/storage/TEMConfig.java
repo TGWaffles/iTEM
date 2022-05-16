@@ -150,7 +150,7 @@ public class TEMConfig extends Vigilant {
 
     private static String guaranteedSafeKey = "";
 
-    public static Future<?> setHypixelKey(String newKey) {
+    public Future<?> setHypixelKey(String newKey) {
         return executor.submit(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
@@ -250,7 +250,7 @@ public class TEMConfig extends Vigilant {
 
     public static String saveFolder = "config/tem/";
     public static String fileName = "preferences.toml";
-    public static File CONFIG_FILE = null;
+    public File CONFIG_FILE;
 
     private void checkFolderExists() {
         Path directory = Paths.get(saveFolder);
@@ -263,7 +263,7 @@ public class TEMConfig extends Vigilant {
         }
     }
 
-    public static boolean isKeyValid(String key) {
+    public boolean isKeyValid(String key) {
         if (key.length() == 0) {
             return false;
         }
@@ -291,37 +291,42 @@ public class TEMConfig extends Vigilant {
         }
     }
 
-    Consumer<String> checkApiKey = key -> executor.submit(() -> {
-        String oldKey = hypixelKey;
-        if (key.length() == 0 || !isKeyValid(key)) {
-            try {
-                Thread.sleep(10);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (oldKey.length() == 0) {
-                // better something than nothing I suppose?
-                hypixelKey = key;
+    public Consumer<String> getKeyConsumer() {
+        return key -> executor.submit(() -> {
+            String oldKey = hypixelKey;
+            if (key.length() == 0 || !isKeyValid(key)) {
+                try {
+                    Thread.sleep(10);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (oldKey.length() == 0) {
+                    // better something than nothing I suppose?
+                    hypixelKey = key;
+                    return;
+                }
+                hypixelKey = oldKey;
+                TEM.getInstance().forceSaveConfig();
                 return;
             }
-            hypixelKey = oldKey;
-            TEM.getInstance().forceSaveConfig();
-            return;
-        }
-        wasApiKeyValid = true;
-        hypixelKey = key;
-        logger.info("TEM Config -> Setting guaranteed key from consumer! Key: {}", hypixelKey);
-        guaranteedSafeKey = hypixelKey;
-        TEM.getInstance().forceSaveConfig();
-    });
+            wasApiKeyValid = true;
+            hypixelKey = key;
+            logger.info("TEM Config -> Setting guaranteed key from consumer! Key: {}", hypixelKey);
+            guaranteedSafeKey = hypixelKey;
+            tem.forceSaveConfig();
+        });
+    }
 
-    public TEMConfig() {
+    private final TEM tem;
+
+    public TEMConfig(TEM tem) {
         super(new File(saveFolder + fileName), "TEM Configuration");
+        this.tem = tem;
         checkFolderExists();
         CONFIG_FILE = new File(saveFolder + fileName);
         initialize();
         try {
-            registerListener(this.getClass().getDeclaredField("hypixelKey"), checkApiKey);
+            registerListener(this.getClass().getDeclaredField("hypixelKey"), getKeyConsumer());
         } catch (Exception e) {
             e.printStackTrace();
         }

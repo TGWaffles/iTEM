@@ -17,6 +17,6 @@ public class ConfigCommand implements SubCommand {
 
     @Override
     public void execute(ICommandSender sender, String[] args) {
-        EssentialAPI.getGuiUtil().openScreen(TEM.getInstance().config.gui());
+        EssentialAPI.getGuiUtil().openScreen(TEM.getInstance().getConfig().gui());
     }
 }
