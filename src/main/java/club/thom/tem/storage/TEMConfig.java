@@ -188,7 +188,7 @@ public class TEMConfig extends Vigilant {
                     "or in the Discord server.",
             protectedText = true
     )
-    private static String temApiKey = "";
+    private String temApiKey = "";
 
     public String getTemApiKey() {
         return temApiKey;
@@ -237,7 +237,15 @@ public class TEMConfig extends Vigilant {
             max = 120,
             increment = 5
     )
-    public static int spareRateLimit = 10;
+    private int spareRateLimit = 10;
+
+    public int getSpareRateLimit() {
+        return spareRateLimit;
+    }
+
+    public void setSpareRateLimit(int spareRateLimit) {
+        this.spareRateLimit = spareRateLimit;
+    }
 
     @Property(
             type = PropertyType.SWITCH,
@@ -246,10 +254,10 @@ public class TEMConfig extends Vigilant {
             name = "Max On AFK",
             description = "Earn max contributions when you go AFK."
     )
-    public static boolean maxOnAfk = true;
-
+    public boolean maxOnAfk = true;
     public static String saveFolder = "config/tem/";
     public static String fileName = "preferences.toml";
+
     public File CONFIG_FILE;
 
     private void checkFolderExists() {

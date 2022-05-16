@@ -161,10 +161,10 @@ public class Hypixel {
      * @return Number to exhaust your rate limit to.
      */
     private int getMinRateLimit() {
-        if (TEMConfig.maxOnAfk && afkListener.isAfk()) {
-            return Math.min(TEMConfig.spareRateLimit, 5); // leaves 5 just in case they come back from afk
+        if (tem.getConfig().maxOnAfk && afkListener.isAfk()) {
+            return Math.min(tem.getConfig().getSpareRateLimit(), 5); // leaves 5 just in case they come back from afk
         }
-        return TEMConfig.spareRateLimit;
+        return tem.getConfig().getSpareRateLimit();
     }
 
     /**
