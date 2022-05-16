@@ -21,6 +21,9 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -49,6 +52,10 @@ public class ToolTipListener {
         if (GameSettings.isKeyDown(KeyBinds.checkDuped)) {
             fetchDuped(itemNbt, event.toolTip);
         }
+        if (GameSettings.isKeyDown(KeyBinds.copyUuid)) {
+            copyUuidToClipboard(itemNbt);
+        }
+
         if (!ArmourPieceData.isValidItem(itemNbt)) {
             // We're only caring about armour on tooltips, to add colour.
             return;
@@ -141,23 +148,8 @@ public class ToolTipListener {
     }
 
     public boolean checkDuped(NBTTagCompound itemNbt) {
-        String uuid;
-        if (MiscItemData.isValidItem(itemNbt)) {
-            MiscItemData itemData = new MiscItemData(tem, "", itemNbt);
-            ClientMessages.InventoryItem item = itemData.toInventoryItem();
-            if (!item.hasUuid() || item.getUuid().length() == 0) {
-                return false;
-            }
-            uuid = item.getUuid();
-
-        } else if (PetData.isValidItem(itemNbt)) {
-            PetData petData = new PetData("", itemNbt);
-            ClientMessages.InventoryItem item = petData.toInventoryItem();
-            if (!item.hasUuid() || item.getUuid().length() == 0) {
-                return false;
-            }
-            uuid = item.getUuid();
-        } else {
+        String uuid = itemNbtToUuid(itemNbt);
+        if (uuid == null) {
             return false;
         }
 
@@ -167,6 +159,40 @@ public class ToolTipListener {
             return false;
         }
         return response.verifiedOwners.size() > 1;
+    }
+
+    public void copyUuidToClipboard(NBTTagCompound itemNbt) {
+        String uuid = itemNbtToUuid(itemNbt);
+        if (uuid == null) {
+            return;
+        }
+
+        StringSelection uuidSelection = new StringSelection(uuid);
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(uuidSelection, null);
+    }
+
+    public String itemNbtToUuid(NBTTagCompound itemNbt) {
+        String uuid;
+        if (MiscItemData.isValidItem(itemNbt)) {
+            MiscItemData itemData = new MiscItemData(tem, "", itemNbt);
+            ClientMessages.InventoryItem item = itemData.toInventoryItem();
+            if (!item.hasUuid() || item.getUuid().length() == 0) {
+                return null;
+            }
+            uuid = item.getUuid();
+
+        } else if (PetData.isValidItem(itemNbt)) {
+            PetData petData = new PetData("", itemNbt);
+            ClientMessages.InventoryItem item = petData.toInventoryItem();
+            if (!item.hasUuid() || item.getUuid().length() == 0) {
+                return null;
+            }
+            uuid = item.getUuid();
+        } else {
+            return null;
+        }
+        return uuid;
     }
 
 }
