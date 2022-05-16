@@ -31,6 +31,7 @@ import java.util.List;
 
 public class ToolTipListener {
     TEM tem;
+    long lastCopyTime = System.currentTimeMillis();
 
     public ToolTipListener(TEM parent) {
         this.tem = parent;
@@ -54,8 +55,9 @@ public class ToolTipListener {
         if (GameSettings.isKeyDown(KeyBinds.checkDuped)) {
             fetchDuped(itemNbt, event.toolTip);
         }
-        if (GameSettings.isKeyDown(KeyBinds.copyUuid)) {
+        if (GameSettings.isKeyDown(KeyBinds.copyUuid) && System.currentTimeMillis() - lastCopyTime > 1000) {
             copyUuidToClipboard(itemNbt);
+            lastCopyTime = System.currentTimeMillis();
         }
 
         if (!ArmourPieceData.isValidItem(itemNbt)) {
