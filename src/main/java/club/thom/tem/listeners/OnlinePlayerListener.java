@@ -24,6 +24,9 @@ public class OnlinePlayerListener {
     public void reportOnlinePlayers() {
         Set<String> requestSet = new HashSet<>(onlinePlayerUuids);
         onlinePlayerUuids.clear();
+        if (requestSet.size() == 0) {
+            return;
+        }
         JsonObject requestData = new JsonObject();
         requestData.addProperty("key", TEMConfig.getTemApiKey());
         JsonArray playersArray = new JsonArray();
