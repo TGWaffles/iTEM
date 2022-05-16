@@ -24,61 +24,7 @@ import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
 
-@RunWith(PowerMockRunner.class)
-@PowerMockIgnore("javax.management.*")
-@PrepareForTest({Minecraft.class, TEMConfig.class, TEM.class, EntityPlayerSP.class})
+
 public class TestTEM {
-    EntityPlayerSP player;
-    boolean successfullyWaitedForPlayer;
 
-    @Before
-    public void before() throws Exception {
-        TEMConfig config = PowerMockito.mock(TEMConfig.class);
-        PowerMockito.whenNew(TEMConfig.class).withAnyArguments().thenReturn(config);
-        PowerMockito.mockStatic(TEMConfig.class);
-        TEM.getInstance().config = config;
-    }
-
-    private void setupTestMessage() throws Exception {
-        Minecraft mockedMinecraft = PowerMockito.mock(Minecraft.class);
-        player = PowerMockito.mock(EntityPlayerSP.class);
-        mockedMinecraft.thePlayer = player;
-
-        Field minecraftReference = Minecraft.class.getDeclaredField("theMinecraft");
-        minecraftReference.setAccessible(true);
-        minecraftReference.set(null, mockedMinecraft);
-
-        PowerMockito.whenNew(Minecraft.class).withAnyArguments().thenReturn(mockedMinecraft);
-        PowerMockito.stub(PowerMockito.method(TEM.class, "waitForPlayer")).toReturn(null);
-    }
-
-
-    @Test
-    public void testSendMessage() throws Exception {
-        setupTestMessage();
-        String message = "test123";
-        ChatComponentText text = new ChatComponentText(message);
-        MessageUtil.sendMessage(text);
-        ArgumentCaptor<ChatComponentText> textCaptor = ArgumentCaptor.forClass(ChatComponentText.class);
-        Mockito.verify(player, times(1)).addChatMessage(textCaptor.capture());
-        assertEquals("TEM> " + message,
-                EnumChatFormatting.getTextWithoutFormattingCodes(textCaptor.getValue().getFormattedText()));
-    }
-
-    @Test
-    public void testWaitForPlayer() throws NoSuchFieldException, IllegalAccessException {
-        Minecraft mockedMinecraft = PowerMockito.mock(Minecraft.class);
-        Field minecraftReference = Minecraft.class.getDeclaredField("theMinecraft");
-        minecraftReference.setAccessible(true);
-        minecraftReference.set(null, mockedMinecraft);
-        new Thread(() -> {
-            PlayerUtil.waitForPlayer();
-            successfullyWaitedForPlayer = true;
-        }).start();
-        assertFalse(successfullyWaitedForPlayer);
-        player = PowerMockito.mock(EntityPlayerSP.class);
-        mockedMinecraft.thePlayer = player;
-        await().atMost(2, TimeUnit.SECONDS).until(() -> successfullyWaitedForPlayer = true);
-        assertTrue(successfullyWaitedForPlayer);
-    }
 }

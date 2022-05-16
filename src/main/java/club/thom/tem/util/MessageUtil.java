@@ -32,7 +32,7 @@ public class MessageUtil {
         chatExecutor.submit(() -> sendChatMessageSync(message));
     }
 
-    private synchronized static void sendChatMessageSync(ChatComponentText message) {
+    public synchronized static void sendChatMessageSync(ChatComponentText message) {
         if (TEM.standAlone) {
             logger.info(message.getUnformattedTextForChat());
             return;
