@@ -47,9 +47,9 @@ public class TEM {
     private OnlinePlayerListener onlinePlayerListener = null;
     private PlayerAFKListener afkListener = null;
     private final SocketHandler socketHandler;
+    private Hypixel api;
 
     public TEMConfig config = new TEMConfig();
-    private Hypixel api;
     public static boolean standAlone = false;
 
     public static ItemUtil items = new ItemUtil();
