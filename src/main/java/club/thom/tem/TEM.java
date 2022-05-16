@@ -168,6 +168,7 @@ public class TEM {
         TEM tem = new TEM();
         PlayerUtil.setUUID(inputUuid);
         standAlone = true;
+        tem.items.fillItems();
         tem.afkListener = new PlayerAFKListener();
         tem.api = new Hypixel(tem);
         tem.getConfig().setHypixelKey(apiKey);

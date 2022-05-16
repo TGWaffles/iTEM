@@ -31,8 +31,8 @@ public class ProfileData {
     public ProfileData(TEM tem, JsonObject profileJson, String uuid) {
         profileAsJson = profileJson;
         playerUuid = uuid;
-        processInventories();
         this.tem = tem;
+        processInventories();
     }
 
     public void processInventories() {
@@ -78,9 +78,6 @@ public class ProfileData {
         PetData pet;
         for (JsonElement element : playerProfile.getAsJsonArray("pets")) {
             pet = new PetData(element.getAsJsonObject());
-            if (pet.getSkin() == null) {
-                continue;
-            }
             pets.add(pet.toInventoryItem());
         }
         return pets;
