@@ -23,11 +23,11 @@ public class SocketHandler {
     private final TEM tem;
 
     public SocketHandler(TEM tem) {
+        this.tem = tem;
         wsFactory = new WebSocketFactory();
         wsFactory.setVerifyHostname(false);
         socketWorking = true;
         messageHandler = new ServerMessageHandler(this);
-        this.tem = tem;
     }
 
     /**

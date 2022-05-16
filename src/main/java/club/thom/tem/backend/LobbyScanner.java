@@ -88,7 +88,7 @@ public class LobbyScanner {
             String displayName;
             String uuid = player.getGameProfile().getId().toString().replaceAll("-", "");
             // Remove your player from the scanned list.
-            if (uuid.equals(PlayerUtil.getUUID())) {
+            if (uuid.equals(tem.getPlayer().getUUID())) {
                 // yourself
                 playersToRemove.add(player);
             }

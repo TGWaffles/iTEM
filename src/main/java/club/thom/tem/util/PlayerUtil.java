@@ -27,7 +27,6 @@ public class PlayerUtil {
 
     public PlayerUtil(TEMConfig config) {
         this.config = config;
-        checkValidUUID(Minecraft.getMinecraft().getSession().getPlayerID());
     }
 
     public static void sendToast(String title, String description, float stayTime) {
@@ -39,12 +38,12 @@ public class PlayerUtil {
         lastToastTime = System.currentTimeMillis();
     }
 
-    public static String getUUID() {
+    public String getUUID() {
         waitForPlayer();
         return uuid;
     }
 
-    public static void setUUID(String newUuid) {
+    public void setUUID(String newUuid) {
         uuid = newUuid;
     }
 
@@ -61,10 +60,14 @@ public class PlayerUtil {
         }
     }
 
-    private static boolean checkValidUUID(String possibleUuid) {
+    public void attemptUuidSet(String possibleUuid) {
+        playerUpdateExecutor.submit(() -> checkValidUUIDSync(possibleUuid));
+    }
+
+    private boolean checkValidUUIDSync(String possibleUuid) {
         try {
             if (UUIDUtil.mojangFetchUsernameFromUUID(possibleUuid) == null) {
-                logger.info("UUID was not valid!");
+                logger.warn("UUID was not valid!");
                 return false;
             }
         } catch (NullPointerException e) {
@@ -81,11 +84,11 @@ public class PlayerUtil {
         return true;
     }
 
-    private static void checkAndUpdateUUID(boolean firstTry) {
+    private void checkAndUpdateUUID(boolean firstTry) {
         UUID possibleUuid = Minecraft.getMinecraft().thePlayer.getGameProfile().getId();
         if (possibleUuid != null) {
             String possibleUuidString = possibleUuid.toString().replaceAll("-", "");
-            if (checkValidUUID(possibleUuidString)) {
+            if (checkValidUUIDSync(possibleUuidString)) {
                 return;
             }
             if (firstTry) {

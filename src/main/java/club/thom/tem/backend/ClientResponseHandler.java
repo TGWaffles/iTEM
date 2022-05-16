@@ -97,7 +97,7 @@ public class ClientResponseHandler {
         if (socketHandler.isDisabled()) {
             return;
         }
-        String uuid = PlayerUtil.getUUID();
+        String uuid = tem.getPlayer().getUUID();
         logger.info("Sending Auth with uuid: \"" + uuid + "\"");
         AuthMessage.Builder auth = AuthMessage.newBuilder().setUuid(uuid);
         ClientMessage message = ClientMessage.newBuilder().setAuth(auth).setClientVersion(

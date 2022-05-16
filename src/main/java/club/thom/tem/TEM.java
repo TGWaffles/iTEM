@@ -12,6 +12,7 @@ import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.ItemUtil;
 import club.thom.tem.util.KeyFetcher;
 import club.thom.tem.util.PlayerUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -51,6 +52,7 @@ public class TEM {
     private final TEMConfig config;
     private final ItemUtil items;
     private AuctionHouse auctions;
+    private final PlayerUtil player;
 
     public static boolean standAlone = false;
 
@@ -60,6 +62,7 @@ public class TEM {
         socketHandler = new SocketHandler(this);
         scanner = new LobbyScanner(this);
         items = new ItemUtil();
+        player = new PlayerUtil(config);
     }
 
     public ItemUtil getItems() {
@@ -110,6 +113,7 @@ public class TEM {
         // Don't set up logging on any version released - log files grow very quickly.
 //        setUpLogging();
         logger.info("Initialising TEM");
+        player.attemptUuidSet(Minecraft.getMinecraft().getSession().getPlayerID());
         afkListener = new PlayerAFKListener();
         MinecraftForge.EVENT_BUS.register(afkListener);
         // Create global API/rate-limit handler
@@ -166,7 +170,7 @@ public class TEM {
 
     public static void main(String inputUuid, String apiKey) {
         TEM tem = new TEM();
-        PlayerUtil.setUUID(inputUuid);
+        tem.getPlayer().setUUID(inputUuid);
         standAlone = true;
         tem.items.fillItems();
         tem.afkListener = new PlayerAFKListener();
@@ -189,5 +193,9 @@ public class TEM {
 
     public TEMConfig getConfig() {
         return config;
+    }
+
+    public PlayerUtil getPlayer() {
+        return player;
     }
 }

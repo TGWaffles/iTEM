@@ -2,13 +2,12 @@ package club.thom.tem.commands.subcommands;
 
 import club.thom.tem.TEM;
 import club.thom.tem.backend.CheckContributions;
-import club.thom.tem.storage.TEMConfig;
 import net.minecraft.command.ICommandSender;
 
 public class ContributionsCommand implements SubCommand {
-    TEMConfig config;
+    TEM tem;
     public ContributionsCommand(TEM tem) {
-        this.config = tem.getConfig();
+        this.tem = tem;
     }
 
     @Override
@@ -23,6 +22,6 @@ public class ContributionsCommand implements SubCommand {
 
     @Override
     public void execute(ICommandSender sender, String[] args) {
-        new CheckContributions(config).check();
+        new CheckContributions(tem).check();
     }
 }
