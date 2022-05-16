@@ -2,6 +2,7 @@ package club.thom.tem.backend.requests.item_owner;
 
 import club.thom.tem.backend.requests.BackendRequest;
 import club.thom.tem.backend.requests.BackendResponse;
+import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
@@ -37,7 +38,7 @@ public class OwnersFromHexAndIdRequest implements BackendRequest {
     public BackendResponse makeRequest() {
         RequestData response = submitRequest();
         if (response.getStatus() != 200) {
-            RequestUtil.tellPlayerAboutFailedRequest(response.getStatus());
+            MessageUtil.tellPlayerAboutFailedRequest(response.getStatus());
             return null;
         }
         return new OwnersFromHexAndIdResponse(response.getJsonAsObject());
@@ -46,6 +47,6 @@ public class OwnersFromHexAndIdRequest implements BackendRequest {
     public RequestData submitRequest() {
         String urlString = "https://api.tem.cx/armour/find_owners?key=" + config.getTemApiKey();
         urlString += "&itemId=" + itemId + "&hexCode=" + hexCode;
-        return RequestUtil.sendGetRequest(urlString);
+        return new RequestUtil().sendGetRequest(urlString);
     }
 }

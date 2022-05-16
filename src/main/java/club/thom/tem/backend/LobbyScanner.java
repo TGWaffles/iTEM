@@ -116,7 +116,7 @@ public class LobbyScanner {
 
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() != 200) {
-            RequestUtil.tellPlayerAboutFailedRequest(returnedData.getStatus());
+            MessageUtil.tellPlayerAboutFailedRequest(returnedData.getStatus());
             return;
         }
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();
@@ -218,7 +218,7 @@ public class LobbyScanner {
             playerArray.add(player.getGameProfile().getId().toString().replaceAll("-", ""));
         }
         requestJson.add("players", playerArray);
-        return RequestUtil.sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
+        return new RequestUtil().sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
     }
 
 }

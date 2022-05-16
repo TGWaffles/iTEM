@@ -39,7 +39,7 @@ public class OnlinePlayerListener {
         }
         requestData.add("players", playersArray);
         // asks TEM's api to recheck these online players sooner than inactive players
-        RequestUtil.sendPostRequest("https://api.tem.cx/request", requestData);
+        new RequestUtil().sendPostRequest("https://api.tem.cx/request", requestData);
     }
 
     public void start() {

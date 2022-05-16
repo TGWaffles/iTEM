@@ -33,7 +33,7 @@ public class CoflRequestMaker {
      */
     public static List<CoflAuctionModel> getAuctionsForUuid(String itemUuid) {
         ArrayList<CoflAuctionModel> auctions = new ArrayList<>();
-        RequestData returnedData = RequestUtil.sendGetRequest(String.format(COFL_URL, "uid/" + itemUuid));
+        RequestData returnedData = new RequestUtil().sendGetRequest(String.format(COFL_URL, "uid/" + itemUuid));
         if (returnedData.getStatus() != 200) {
             if (returnedData.getStatus() == 429) {
                 // sleep for cofl rate limit
@@ -61,7 +61,7 @@ public class CoflRequestMaker {
             uuidArray.add(uuid);
         }
         requestData.add("uuids", uuidArray);
-        RequestData returnedData = RequestUtil.sendPostRequest(String.format(COFL_URL, "uids"), requestData);
+        RequestData returnedData = new RequestUtil().sendPostRequest(String.format(COFL_URL, "uids"), requestData);
         if (returnedData.getStatus() != 200) {
             if (returnedData.getStatus() == 429) {
                 // sleep for cofl rate limit

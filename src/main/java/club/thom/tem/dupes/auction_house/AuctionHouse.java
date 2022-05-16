@@ -29,7 +29,7 @@ public class AuctionHouse {
     }
 
     public RequestData downloadPage(int pageNum) {
-        return RequestUtil.sendGetRequest(String.format("https://api.hypixel.net/skyblock/auctions?page=%d", pageNum));
+        return new RequestUtil().sendGetRequest(String.format("https://api.hypixel.net/skyblock/auctions?page=%d", pageNum));
     }
 
     public void addOwnerToItemUUIDMap(String itemUuid, String owner) {

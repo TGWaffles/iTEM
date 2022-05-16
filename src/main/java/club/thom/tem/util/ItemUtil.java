@@ -18,6 +18,7 @@ public class ItemUtil {
     private final Lock readyLock = new ReentrantLock();
     private final Condition readyEvent = readyLock.newCondition();
     public final HashMap<String, JsonObject> items = new HashMap<>();
+    public final RequestUtil requester = new RequestUtil();
 
     public void waitForInit() {
         readyLock.lock();
@@ -36,7 +37,7 @@ public class ItemUtil {
 
     public JsonObject downloadItems() {
         logger.info("TEM: Downloading items...");
-        return RequestUtil.sendGetRequest(URL).getJsonAsObject();
+        return requester.sendGetRequest(URL).getJsonAsObject();
     }
 
     public void fillItems() {

@@ -16,9 +16,9 @@ public class CheckContributions {
     public void check() {
         if (!config.getTemApiKey().equals("")) {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Checking Contributions... API Key found, checking total contributions."));
-            RequestData req = RequestUtil.sendGetRequest("https://api.tem.cx/my_contributions?key=" + config.getTemApiKey());
+            RequestData req = new RequestUtil().sendGetRequest("https://api.tem.cx/my_contributions?key=" + config.getTemApiKey());
             if (req.getStatus() != 200) {
-                RequestUtil.tellPlayerAboutFailedRequest(req.getStatus());
+                MessageUtil.tellPlayerAboutFailedRequest(req.getStatus());
                 return;
             }
             JsonObject data = req.getJsonAsObject();
@@ -30,9 +30,9 @@ public class CheckContributions {
         } else {
             String username = UUIDUtil.usernameFromUuid(PlayerUtil.getUUID());
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Checking Contributions... API Key not found, checking total contributions for " + username + "."));
-            RequestData req = RequestUtil.sendGetRequest("https://api.tem.cx/contributions?uuid=" + PlayerUtil.getUUID());
+            RequestData req = new RequestUtil().sendGetRequest("https://api.tem.cx/contributions?uuid=" + PlayerUtil.getUUID());
             if (req.getStatus() != 200) {
-                RequestUtil.tellPlayerAboutFailedRequest(req.getStatus());
+                MessageUtil.tellPlayerAboutFailedRequest(req.getStatus());
                 return;
             }
             JsonObject data = req.getJsonAsObject();

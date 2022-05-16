@@ -2,6 +2,7 @@ package club.thom.tem.backend.requests.item_data_from_uuids;
 
 import club.thom.tem.backend.requests.BackendRequest;
 import club.thom.tem.backend.requests.BackendResponse;
+import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
@@ -43,7 +44,7 @@ public class FindUUIDsDataRequest implements BackendRequest {
         RequestData response = submitRequest();
         if (response.getStatus() != 200) {
             if (sendMessages) {
-                RequestUtil.tellPlayerAboutFailedRequest(response.getStatus());
+                MessageUtil.tellPlayerAboutFailedRequest(response.getStatus());
             } else {
                 logger.error("TEM returned error: " + response.getStatus());
             }
@@ -62,6 +63,6 @@ public class FindUUIDsDataRequest implements BackendRequest {
             uuidArray.add(uuid);
         }
         postData.add("uuids", uuidArray);
-        return RequestUtil.sendPostRequest(urlString, postData);
+        return new RequestUtil().sendPostRequest(urlString, postData);
     }
 }

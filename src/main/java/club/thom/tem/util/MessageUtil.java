@@ -64,4 +64,23 @@ public class MessageUtil {
             MessageUtil.chatSendLock.unlock();
         }
     }
+
+    public static void tellPlayerAboutFailedRequest(int status) {
+        switch (status) {
+            case 401:
+            case 403:
+                sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
+                        "(NOT HYPIXEL API KEY!) is invalid! Set it in /tem config!"));
+                return;
+            case 402:
+                sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
+                return;
+            case 404:
+                sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: No data found!"));
+                return;
+            default:
+                sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error ("
+                        + status + ")"));
+        }
+    }
 }
