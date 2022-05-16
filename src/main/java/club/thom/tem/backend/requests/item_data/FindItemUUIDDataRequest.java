@@ -11,18 +11,18 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Objects;
 
-public class FindUUIDDataRequest implements BackendRequest {
+public class FindItemUUIDDataRequest implements BackendRequest {
     final String uuid;
     boolean sendMessages = true;
-    private static final Logger logger = LogManager.getLogger(FindUUIDDataRequest.class);
+    private static final Logger logger = LogManager.getLogger(FindItemUUIDDataRequest.class);
     TEMConfig config;
 
-    public FindUUIDDataRequest(TEMConfig config, String itemUuid) {
+    public FindItemUUIDDataRequest(TEMConfig config, String itemUuid) {
         uuid = itemUuid;
         this.config = config;
     }
 
-    public FindUUIDDataRequest(TEMConfig config, String itemUuid, boolean sendMessages) {
+    public FindItemUUIDDataRequest(TEMConfig config, String itemUuid, boolean sendMessages) {
         uuid = itemUuid;
         this.sendMessages = sendMessages;
         this.config = config;
@@ -35,10 +35,10 @@ public class FindUUIDDataRequest implements BackendRequest {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof FindUUIDDataRequest)) {
+        if (!(o instanceof FindItemUUIDDataRequest)) {
             return false;
         }
-        FindUUIDDataRequest otherRequest = (FindUUIDDataRequest) o;
+        FindItemUUIDDataRequest otherRequest = (FindItemUUIDDataRequest) o;
         return otherRequest.uuid.equals(uuid);
     }
 
@@ -46,7 +46,7 @@ public class FindUUIDDataRequest implements BackendRequest {
     public BackendResponse makeRequest() {
         RequestData response = submitRequest();
         if (response.getStatus() != 200) {
-            if (sendMessages) {
+            if (sendMessages && response.getStatus() != 404) {
                 MessageUtil.tellPlayerAboutFailedRequest(response.getStatus());
             } else {
                 logger.warn("TEM returned error: " + response.getStatus());
@@ -54,7 +54,7 @@ public class FindUUIDDataRequest implements BackendRequest {
             return null;
         }
 
-        return new FindUUIDDataResponse(response.getJsonAsObject());
+        return new FindItemUUIDDataResponse(response.getJsonAsObject());
     }
 
     public RequestData submitRequest() {

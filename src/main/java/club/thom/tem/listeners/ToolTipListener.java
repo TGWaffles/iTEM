@@ -129,22 +129,8 @@ public class ToolTipListener {
     }
 
     public void fetchDuped(NBTTagCompound itemNbt, List<String> tooltip) {
-        String uuid;
-        if (MiscItemData.isValidItem(itemNbt)) {
-            MiscItemData itemData = new MiscItemData(tem, "", itemNbt);
-            ClientMessages.InventoryItem item = itemData.toInventoryItem();
-            if (!item.hasUuid() || item.getUuid().length() == 0) {
-                return;
-            }
-            uuid = item.getUuid();
-        } else if (PetData.isValidItem(itemNbt)) {
-            PetData petData = new PetData("", itemNbt);
-            ClientMessages.InventoryItem item = petData.toInventoryItem();
-            if (!item.hasUuid() || item.getUuid().length() == 0) {
-                return;
-            }
-            uuid = item.getUuid();
-        } else {
+        String uuid = itemNbtToUuid(itemNbt);
+        if (uuid == null) {
             return;
         }
         uuidToLore.put(uuid, tooltip);
@@ -172,8 +158,12 @@ public class ToolTipListener {
         }
 
         StringSelection uuidSelection = new StringSelection(uuid);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(uuidSelection, null);
+        try {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(uuidSelection, null);
+        } catch (IllegalStateException ignored) {
+            return;
+        }
         MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Copied uuid (" + uuid + ") to clipboard!"));
     }
 
