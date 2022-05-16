@@ -67,7 +67,7 @@ public class CombinedDupeRequest implements BackendRequest {
         }
         if (TEMConfig.useTEMApiForDupes && this.useTem) {
             logger.info("Making request to TEM. UUID: " + itemUuid);
-            FindUUIDDataResponse response = (FindUUIDDataResponse) new FindUUIDDataRequest(itemUuid, printMessages).makeRequest();
+            FindUUIDDataResponse response = (FindUUIDDataResponse) new FindUUIDDataRequest(tem.getConfig(), itemUuid, printMessages).makeRequest();
             logger.info("Made request to TEM. UUID: " + itemUuid);
             if (response != null) {
                 int i = 0;

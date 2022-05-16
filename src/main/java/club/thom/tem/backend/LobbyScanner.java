@@ -213,7 +213,7 @@ public class LobbyScanner {
 
     public RequestData scanPlayers(List<EntityPlayer> players) {
         JsonObject requestJson = new JsonObject();
-        requestJson.addProperty("key", TEMConfig.getTemApiKey());
+        requestJson.addProperty("key", tem.getConfig().getTemApiKey());
         JsonArray playerArray = new JsonArray();
         for (EntityPlayer player : players) {
             playerArray.add(player.getGameProfile().getId().toString().replaceAll("-", ""));

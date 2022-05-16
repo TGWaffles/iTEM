@@ -1,5 +1,6 @@
 package club.thom.tem.hypixel.request;
 
+import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,17 +13,19 @@ import java.util.concurrent.CompletableFuture;
 public class FriendsListRequest extends Request {
     final CompletableFuture<List<String>> future = new CompletableFuture<>();
     final String uuid;
+    private final TEMConfig config;
 
-    public FriendsListRequest(String uuid) {
-        super("friends");
+    public FriendsListRequest(TEM tem, String uuid) {
+        super(tem, "friends");
         this.uuid = uuid;
+        this.config = tem.getConfig();
     }
 
     @Override
     public HashMap<String, String> generateParameters() {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("uuid", uuid);
-        parameters.put("key", TEMConfig.getHypixelKey());
+        parameters.put("key", config.getHypixelKey());
         return parameters;
     }
 

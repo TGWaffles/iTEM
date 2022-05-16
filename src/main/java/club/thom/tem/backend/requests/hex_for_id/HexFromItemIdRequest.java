@@ -10,9 +10,11 @@ import java.util.Objects;
 
 public class HexFromItemIdRequest implements BackendRequest {
     final String itemId;
+    TEMConfig config;
 
-    public HexFromItemIdRequest(String itemId) {
+    public HexFromItemIdRequest(TEMConfig config, String itemId) {
         this.itemId = itemId;
+        this.config = config;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class HexFromItemIdRequest implements BackendRequest {
     }
 
     public RequestData submitRequest() {
-        String urlString = "https://api.tem.cx/armour/find_hexes?key=" + TEMConfig.getTemApiKey();
+        String urlString = "https://api.tem.cx/armour/find_hexes?key=" + config.getTemApiKey();
         urlString += "&itemId=" + itemId;
         return RequestUtil.sendGetRequest(urlString);
     }

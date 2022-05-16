@@ -23,7 +23,7 @@ public class Hypixel {
     final Lock waitingForItemLock = new ReentrantLock();
     final Condition newItemInQueue = waitingForItemLock.newCondition();
 
-    public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
+    public boolean hasValidApiKey;
     private int triesWithoutValidKey = 0;
 
     private final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(TEMConfig.maxSimultaneousThreads);
@@ -32,14 +32,15 @@ public class Hypixel {
 
     private int remainingRateLimit = 0;
 
-    private PlayerAFKListener afkListener;
+    private final PlayerAFKListener afkListener;
 
     private long rateLimitResetTime = System.currentTimeMillis();
 
-    private TEM tem;
+    private final TEM tem;
 
     public Hypixel(TEM tem) {
         this.tem = tem;
+        this.hasValidApiKey = !tem.getConfig().getHypixelKey().equals("");
         this.afkListener = tem.getAfkListener();
     }
 
@@ -215,7 +216,7 @@ public class Hypixel {
                                 Thread thread = new Thread(() -> new KeyFetcher(tem.getConfig()).checkForApiKey(), "TEM-key-checker");
                                 thread.start();
                                 thread.join(5000);
-                                KeyLookupRequest request = new KeyLookupRequest(TEMConfig.getHypixelKey(), this);
+                                KeyLookupRequest request = new KeyLookupRequest(tem.getConfig().getHypixelKey(), this);
                                 addToQueue(request);
                             }
                         }

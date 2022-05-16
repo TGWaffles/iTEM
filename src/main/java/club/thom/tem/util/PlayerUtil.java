@@ -23,6 +23,11 @@ public class PlayerUtil {
     private static String uuid = null;
     private static long lastToastTime = 0;
     private static boolean waitingToTellAboutAPI = false;
+    TEMConfig config;
+
+    public PlayerUtil(TEMConfig config) {
+        this.config = config;
+    }
 
     public static void sendToast(String title, String description, float stayTime) {
         if (System.currentTimeMillis() - lastToastTime < 1000) {
@@ -53,26 +58,6 @@ public class PlayerUtil {
         } finally {
             lock.unlock();
         }
-    }
-
-    public static void tellAboutInvalidKey() {
-        lock.lock();
-        try {
-            if (!TEMConfig.getHypixelKey().equals("") || waitingToTellAboutAPI) {
-                return;
-            }
-            waitingToTellAboutAPI = true;
-        } finally {
-            lock.unlock();
-        }
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            logger.error("Interrupted while waiting to tell about invalid key!", e);
-        }
-        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
-                "Your hypixel API key is set wrong! This means you are no longer earning contributions! " +
-                "Do /tem setkey <api-key> or /api new to set it again!"));
     }
 
     private static void checkAndUpdateUUID(boolean firstTry) {
@@ -116,10 +101,30 @@ public class PlayerUtil {
         }
     }
 
-    public static void processPlayerJoinedWorld() {
+    public void processPlayerJoinedWorld() {
         if (uuid == null) {
             playerUpdateExecutor.submit(() -> checkAndUpdateUUID(true));
-            playerUpdateExecutor.submit(PlayerUtil::tellAboutInvalidKey);
+            playerUpdateExecutor.submit(this::tellAboutInvalidKey);
         }
+    }
+
+    public void tellAboutInvalidKey() {
+        lock.lock();
+        try {
+            if (!config.getHypixelKey().equals("") || waitingToTellAboutAPI) {
+                return;
+            }
+            waitingToTellAboutAPI = true;
+        } finally {
+            lock.unlock();
+        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            logger.error("Interrupted while waiting to tell about invalid key!", e);
+        }
+        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
+                "Your hypixel API key is set wrong! This means you are no longer earning contributions! " +
+                "Do /tem setkey <api-key> or /api new to set it again!"));
     }
 }

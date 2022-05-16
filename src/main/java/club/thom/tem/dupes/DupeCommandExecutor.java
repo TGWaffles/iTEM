@@ -54,7 +54,7 @@ public class DupeCommandExecutor {
         PlayerData playerData;
         playerData = RequestsCache.getInstance().playerDataCache.getIfPresent(uuid);
         if (playerData == null) {
-            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(uuid);
+            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, uuid);
             playerRequest.priority = true;
             TEM.getInstance().getApi().addToQueue(playerRequest);
             PlayerUtil.sendToast(username + " Dupe Check", "Downloading inventory...", 1.0f);
@@ -183,7 +183,7 @@ public class DupeCommandExecutor {
 
     public HashMap<String, List<String>> findAllPreviousOwners(List<String> itemUuids) {
         HashMap<String, List<String>> previousOwnerMap = new HashMap<>();
-        FindUUIDsDataResponse response = (FindUUIDsDataResponse) new FindUUIDsDataRequest(itemUuids).makeRequest();
+        FindUUIDsDataResponse response = (FindUUIDsDataResponse) new FindUUIDsDataRequest(tem.getConfig(), itemUuids).makeRequest();
         if (response == null) {
             return previousOwnerMap;
         }

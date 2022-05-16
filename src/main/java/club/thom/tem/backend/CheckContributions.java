@@ -8,10 +8,15 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public class CheckContributions {
-    public static void check() {
-        if (!TEMConfig.getTemApiKey().equals("")) {
+    TEMConfig config;
+    public CheckContributions(TEMConfig config) {
+        this.config = config;
+    }
+
+    public void check() {
+        if (!config.getTemApiKey().equals("")) {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Checking Contributions... API Key found, checking total contributions."));
-            RequestData req = RequestUtil.sendGetRequest("https://api.tem.cx/my_contributions?key=" + TEMConfig.getTemApiKey());
+            RequestData req = RequestUtil.sendGetRequest("https://api.tem.cx/my_contributions?key=" + config.getTemApiKey());
             if (req.getStatus() != 200) {
                 RequestUtil.tellPlayerAboutFailedRequest(req.getStatus());
                 return;

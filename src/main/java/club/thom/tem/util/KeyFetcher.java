@@ -25,20 +25,20 @@ public class KeyFetcher {
 
     public void checkForApiKey() {
         // If the API key has already been set (and is valid!) no point fetching from skytils/neu.
-        if (!TEMConfig.getHypixelKey().equals("") && TEMConfig.wasKeyValid()) {
+        if (!config.getHypixelKey().equals("") && config.wasKeyValid()) {
             return;
         }
         // Checks Skytils for the key.
         checkSkytilsForApiKey();
         // Validates that the key got set & that it works.
-        if(!TEMConfig.getHypixelKey().equals("") && config.isKeyValid(TEMConfig.getHypixelKey())) {
+        if(!config.getHypixelKey().equals("") && config.isKeyValid(config.getHypixelKey())) {
             MessageUtil.sendMessage(new ChatComponentText("Fetched your api key from Skytils!"));
             return;
         }
         // Skytils failed, checking if NEU has an api key...
         checkNeuForApiKey();
         // Validates it got set and works.
-        if(!TEMConfig.getHypixelKey().equals("") && config.isKeyValid(TEMConfig.getHypixelKey())) {
+        if(!config.getHypixelKey().equals("") && config.isKeyValid(config.getHypixelKey())) {
             MessageUtil.sendMessage(new ChatComponentText("Fetched your api key from NEU!"));
         }
     }

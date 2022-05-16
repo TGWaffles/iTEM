@@ -11,10 +11,12 @@ import java.util.Objects;
 public class OwnersFromHexAndIdRequest implements BackendRequest {
     final String hexCode;
     final String itemId;
+    TEMConfig config;
 
-    public OwnersFromHexAndIdRequest(String hexCode, String itemId) {
+    public OwnersFromHexAndIdRequest(TEMConfig config, String hexCode, String itemId) {
         this.hexCode = hexCode;
         this.itemId = itemId;
+        this.config = config;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class OwnersFromHexAndIdRequest implements BackendRequest {
     }
 
     public RequestData submitRequest() {
-        String urlString = "https://api.tem.cx/armour/find_owners?key=" + TEMConfig.getTemApiKey();
+        String urlString = "https://api.tem.cx/armour/find_owners?key=" + config.getTemApiKey();
         urlString += "&itemId=" + itemId + "&hexCode=" + hexCode;
         return RequestUtil.sendGetRequest(urlString);
     }

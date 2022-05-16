@@ -95,7 +95,7 @@ public class ToolTipListener {
 
     public int checkArmourOwners(ArmourPieceData armour) {
         HexFromItemIdResponse response = (HexFromItemIdResponse) RequestsCache.getInstance().getIfExists(
-                new HexFromItemIdRequest(armour.getItemId()));
+                new HexFromItemIdRequest(tem.getConfig(), armour.getItemId()));
         if (response == null) {
             return -1;
         }
@@ -114,7 +114,7 @@ public class ToolTipListener {
     }
 
     public void fetchArmourOwners(ArmourPieceData armour) {
-        RequestsCache.getInstance().addToQueue(new HexFromItemIdRequest(armour.getItemId()));
+        RequestsCache.getInstance().addToQueue(new HexFromItemIdRequest(tem.getConfig(), armour.getItemId()));
     }
 
     public void fetchDuped(NBTTagCompound itemNbt, List<String> tooltip) {

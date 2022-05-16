@@ -60,7 +60,7 @@ public class TEM {
     public TEM() {
         instance = this;
         config = new TEMConfig(this);
-        socketHandler = new SocketHandler();
+        socketHandler = new SocketHandler(this);
         scanner = new LobbyScanner(this);
         items = new ItemUtil();
     }
@@ -136,7 +136,7 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener(getConfig()));
         MinecraftForge.EVENT_BUS.register(new ToolTipListener(this));
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getScanner()));
-        onlinePlayerListener = new OnlinePlayerListener();
+        onlinePlayerListener = new OnlinePlayerListener(getConfig());
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
         MinecraftForge.EVENT_BUS.register(new ClientPacketListener());

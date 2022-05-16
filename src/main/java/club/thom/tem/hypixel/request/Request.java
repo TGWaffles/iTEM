@@ -30,22 +30,25 @@ import java.util.concurrent.CompletableFuture;
  */
 public abstract class Request {
     private static final Logger logger = LogManager.getLogger(Request.class);
-    protected final Hypixel controller = TEM.getInstance().getApi();
+    protected final Hypixel controller;
     protected final String endpoint;
+    TEMConfig config;
     public boolean priority;
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
     // Hypixel API
     protected final String apiUrl = "https://api.hypixel.net/";
 
-    public Request(String endpoint, boolean runAsap) {
+    public Request(TEM tem, String endpoint, boolean runAsap) {
         // To be appended to the apiUrl (no preceding /)
         this.endpoint = endpoint;
         // Run it as soon as we have a "rate-limit spot" available.
         this.priority = runAsap;
+        this.controller = tem.getApi();
+        this.config = tem.getConfig();
     }
 
-    public Request(String endpoint) {
-        this(endpoint, false);
+    public Request(TEM tem, String endpoint) {
+        this(tem, endpoint, false);
     }
 
     // Parameters, eg user to look-up, api key, etc.
@@ -121,7 +124,7 @@ public abstract class Request {
             return null;
         } else if (returnedData.getStatus() == 403 && !(this instanceof KeyLookupRequest)) {
             // User changed their key since request started!
-            if (!parameters.get("key").equals(TEMConfig.getHypixelKey())) {
+            if (!parameters.get("key").equals(config.getHypixelKey())) {
                 logger.info("REQUEST-> Key changed, readding to queue.");
                 controller.addToQueue(this);
                 isComplete.complete(false);
@@ -158,7 +161,7 @@ public abstract class Request {
                 } catch (InterruptedException e) {
                     logger.error("Interrupted while waiting to add new KeyLookupRequest", e);
                 }
-                KeyLookupRequest request = new KeyLookupRequest(TEMConfig.getHypixelKey(), this.controller);
+                KeyLookupRequest request = new KeyLookupRequest(config.getHypixelKey(), this.controller);
                 this.controller.addToQueue(request);
             }, "TEM-request-new-key-check").start();
             return null;

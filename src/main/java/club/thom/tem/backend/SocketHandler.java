@@ -1,5 +1,6 @@
 package club.thom.tem.backend;
 
+import club.thom.tem.TEM;
 import club.thom.tem.models.messages.ClientMessages;
 import com.neovisionaries.ws.client.WebSocket;
 import com.neovisionaries.ws.client.WebSocketException;
@@ -19,12 +20,14 @@ public class SocketHandler {
     private final ServerMessageHandler messageHandler;
     private boolean socketWorking;
     private int websocketIndex = 0;
+    private final TEM tem;
 
-    public SocketHandler() {
+    public SocketHandler(TEM tem) {
         wsFactory = new WebSocketFactory();
         wsFactory.setVerifyHostname(false);
         socketWorking = true;
         messageHandler = new ServerMessageHandler(this);
+        this.tem = tem;
     }
 
     /**
@@ -83,5 +86,9 @@ public class SocketHandler {
 
     public ClientResponseHandler getClientResponseHandler() {
         return messageHandler.getClientResponseHandler();
+    }
+
+    public TEM getTem() {
+        return tem;
     }
 }

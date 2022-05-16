@@ -14,14 +14,17 @@ public class FindUUIDDataRequest implements BackendRequest {
     final String uuid;
     boolean sendMessages = true;
     private static final Logger logger = LogManager.getLogger(FindUUIDDataRequest.class);
+    TEMConfig config;
 
-    public FindUUIDDataRequest(String itemUuid) {
+    public FindUUIDDataRequest(TEMConfig config, String itemUuid) {
         uuid = itemUuid;
+        this.config = config;
     }
 
-    public FindUUIDDataRequest(String itemUuid, boolean sendMessages) {
+    public FindUUIDDataRequest(TEMConfig config, String itemUuid, boolean sendMessages) {
         uuid = itemUuid;
         this.sendMessages = sendMessages;
+        this.config = config;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class FindUUIDDataRequest implements BackendRequest {
     }
 
     public RequestData submitRequest() {
-        String urlString = String.format("https://api.tem.cx/items/%s?key=%s", uuid, TEMConfig.getTemApiKey());
+        String urlString = String.format("https://api.tem.cx/items/%s?key=%s", uuid, config.getTemApiKey());
         return RequestUtil.sendGetRequest(urlString);
     }
 }

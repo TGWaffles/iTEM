@@ -162,7 +162,7 @@ public class TEMConfig extends Vigilant {
         });
     }
 
-    public static String getHypixelKey() {
+    public String getHypixelKey() {
         return guaranteedSafeKey;
     }
 
@@ -175,7 +175,7 @@ public class TEMConfig extends Vigilant {
     )
     private static boolean wasApiKeyValid = false;
 
-    public static boolean wasKeyValid() {
+    public boolean wasKeyValid() {
         return wasApiKeyValid;
     }
 
@@ -190,7 +190,7 @@ public class TEMConfig extends Vigilant {
     )
     private static String temApiKey = "";
 
-    public static String getTemApiKey() {
+    public String getTemApiKey() {
         return temApiKey;
     }
 

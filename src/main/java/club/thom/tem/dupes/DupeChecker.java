@@ -84,7 +84,7 @@ public class DupeChecker {
             PlayerData playerData;
             playerData = RequestsCache.getInstance().playerDataCache.getIfPresent(uuid);
             if (playerData == null) {
-                SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(possibleOwner);
+                SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, possibleOwner);
                 playerRequest.priority = true;
                 TEM.getInstance().getApi().addToQueue(playerRequest);
                 inventories.add(playerRequest.getFuture());
