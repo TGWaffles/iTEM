@@ -6,7 +6,6 @@ import club.thom.tem.constants.PureColours;
 import club.thom.tem.util.*;
 import club.thom.tem.util.HexUtil.Modifier;
 import club.thom.tem.hypixel.request.RequestData;
-import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -100,7 +99,7 @@ public class LobbyScanner {
                 // falls back to blank name
                 displayName = player.getDisplayNameString();
             }
-            if (displayName.contains("\u00A7c") && !TEMConfig.scanRedNames) {
+            if (displayName.contains("\u00A7c") && !tem.getConfig().shouldScanRedNames()) {
                 // helps in not scanning watchdog "players"
                 playersToRemove.add(player);
             }
@@ -143,7 +142,7 @@ public class LobbyScanner {
 
     public boolean checkItem(ArmourWithOwner armour) {
         // days -> milliseconds
-        long timePassed = TEMConfig.maxItemAge * 24 * 60 * 60 * 1000L;
+        long timePassed = tem.getConfig().getMaxItemAge() * 24 * 60 * 60 * 1000L;
         if (armour.lastChecked + timePassed < System.currentTimeMillis()) {
             return false;
         }
@@ -155,17 +154,17 @@ public class LobbyScanner {
         }
         switch (modifier) {
             case EXOTIC:
-                return TEMConfig.enableExotics;
+                return tem.getConfig().isExoticsEnabled();
             case CRYSTAL:
-                return TEMConfig.enableCrystal;
+                return tem.getConfig().isCrystalEnabled();
             case FAIRY:
-                return TEMConfig.enableFairy;
+                return tem.getConfig().isFairyEnabled();
             case OG_FAIRY:
-                return TEMConfig.enableOGFairy;
+                return tem.getConfig().isOGFairyEnabled();
             case UNDYED:
-                return TEMConfig.enableBleached;
+                return tem.getConfig().isBleachedEnabled();
             case GLITCHED:
-                return TEMConfig.enableGlitched;
+                return tem.getConfig().isGlitchedEnabled();
         }
 
         return false;

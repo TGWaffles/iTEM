@@ -135,7 +135,7 @@ public class TEM {
         ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener(getConfig()));
         MinecraftForge.EVENT_BUS.register(new ToolTipListener(this));
-        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getScanner()));
+        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getConfig(), getScanner()));
         onlinePlayerListener = new OnlinePlayerListener(getConfig());
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);

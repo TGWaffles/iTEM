@@ -34,7 +34,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Exotics",
             description = "Enable Exotic Armour"
     )
-    public static boolean enableExotics = false;
+    private boolean enableExotics = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -43,7 +43,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Crystal",
             description = "Enable Crystal Armour"
     )
-    public static boolean enableCrystal = false;
+    private boolean enableCrystal = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -52,7 +52,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Fairy",
             description = "Enable Fairy Armour"
     )
-    public static boolean enableFairy = false;
+    private boolean enableFairy = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -61,7 +61,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable OG Fairy",
             description = "Enable OG Fairy Armour"
     )
-    public static boolean enableOGFairy = false;
+    private boolean enableOGFairy = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -70,7 +70,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Bleached",
             description = "Enable Bleached Armour"
     )
-    public static boolean enableBleached = false;
+    private boolean enableBleached = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -79,7 +79,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Glitched",
             description = "Enable Glitched Armour"
     )
-    public static boolean enableGlitched = false;
+    private boolean enableGlitched = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -88,7 +88,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Auto-Scan",
             description = "Enable Auto TEM scan"
     )
-    public static boolean autoScan = false;
+    private boolean autoScan = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -97,7 +97,7 @@ public class TEMConfig extends Vigilant {
             name = "Scan Red-Names",
             description = "Choose whether to scan red-name players (WATCHDOG FAKE PLAYERS, but also YTs and Admins)"
     )
-    public static boolean scanRedNames = true;
+    private boolean scanRedNames = true;
 
     @Property(
             type = PropertyType.NUMBER,
@@ -108,7 +108,7 @@ public class TEMConfig extends Vigilant {
                     "NOTE: Too low means you might miss some items, depending on TEM's current refresh rate.",
             max = 31
     )
-    public static int maxItemAge = 31;
+    private int maxItemAge = 31;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -374,15 +374,43 @@ public class TEMConfig extends Vigilant {
         return useTEMApiForDupes;
     }
 
-    public void setUseTEMApiForDupes(boolean useTEMApiForDupes) {
-        this.useTEMApiForDupes = useTEMApiForDupes;
-    }
-
     public boolean isUseCofl() {
         return useCofl;
     }
 
-    public void setUseCofl(boolean useCofl) {
-        this.useCofl = useCofl;
+    public int getMaxItemAge() {
+        return maxItemAge;
+    }
+
+    public boolean isExoticsEnabled() {
+        return enableExotics;
+    }
+
+    public boolean isCrystalEnabled() {
+        return enableCrystal;
+    }
+
+    public boolean isFairyEnabled() {
+        return enableFairy;
+    }
+
+    public boolean isOGFairyEnabled() {
+        return enableOGFairy;
+    }
+
+    public boolean isBleachedEnabled() {
+        return enableBleached;
+    }
+
+    public boolean isGlitchedEnabled() {
+        return enableGlitched;
+    }
+
+    public boolean isAutoScanEnabled() {
+        return autoScan;
+    }
+
+    public boolean shouldScanRedNames() {
+        return scanRedNames;
     }
 }

@@ -37,7 +37,6 @@ public class SetKeyCommand implements SubCommand {
             logger.error("Error setting hypixel key from command", e);
             return;
         }
-        TEMConfig.enableExotics = true;
         MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "API key set to " + args[1] + "!"));
     }
 }
