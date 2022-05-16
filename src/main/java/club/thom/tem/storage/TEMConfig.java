@@ -148,10 +148,14 @@ public class TEMConfig extends Vigilant {
     )
     private static String hypixelKey = "";
 
+    private static String guaranteedSafeKey = "";
+
     public static Future<?> setHypixelKey(String newKey) {
         return executor.submit(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
+                logger.info("TEM Config -> Setting guaranteed key from function! Key: {}", hypixelKey);
+                guaranteedSafeKey = hypixelKey;
                 wasApiKeyValid = true;
                 TEM.getInstance().forceSaveConfig();
             }
@@ -159,7 +163,7 @@ public class TEMConfig extends Vigilant {
     }
 
     public static String getHypixelKey() {
-        return hypixelKey;
+        return guaranteedSafeKey;
     }
 
     @Property(
@@ -289,11 +293,16 @@ public class TEMConfig extends Vigilant {
 
     Consumer<String> checkApiKey = key -> executor.submit(() -> {
         String oldKey = hypixelKey;
-        if (!isKeyValid(key)) {
+        if (key.length() == 0 || !isKeyValid(key)) {
             try {
                 Thread.sleep(10);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+            if (oldKey.length() == 0) {
+                // better something than nothing I suppose?
+                hypixelKey = key;
+                return;
             }
             hypixelKey = oldKey;
             TEM.getInstance().forceSaveConfig();
@@ -301,6 +310,8 @@ public class TEMConfig extends Vigilant {
         }
         wasApiKeyValid = true;
         hypixelKey = key;
+        logger.info("TEM Config -> Setting guaranteed key from consumer! Key: {}", hypixelKey);
+        guaranteedSafeKey = hypixelKey;
         TEM.getInstance().forceSaveConfig();
     });
 
@@ -314,5 +325,7 @@ public class TEMConfig extends Vigilant {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.info("TEM Config -> Setting guaranteed key from constructor! Key: {}", hypixelKey);
+        guaranteedSafeKey = hypixelKey;
     }
 }
