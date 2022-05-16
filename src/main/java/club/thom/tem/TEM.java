@@ -184,9 +184,9 @@ public class TEM {
         tem.getConfig().setHypixelKey(apiKey);
         tem.getConfig().setSpareRateLimit(0);
         // 15 is a decent number for minimising ram usage
-        TEMConfig.maxSimultaneousThreads = 15;
-        TEMConfig.timeOffset = 0;
-        TEMConfig.enableContributions = true;
+        tem.getConfig().setMaxSimultaneousThreads(15);
+        tem.getConfig().setTimeOffset(0);
+        tem.getConfig().setEnableContributions(true);
         new Thread(tem.socketHandler::reconnectSocket, "TEM-socket").start();
         // Create global API/rate-limit handler
         // Start the requests loop

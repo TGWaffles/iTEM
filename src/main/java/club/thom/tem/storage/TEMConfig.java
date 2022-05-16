@@ -205,7 +205,7 @@ public class TEMConfig extends Vigilant {
             max = 120,
             increment = 5
     )
-    public static int maxSimultaneousThreads = 120;
+    private int maxSimultaneousThreads = 120;
 
     @Property(
             type = PropertyType.NUMBER,
@@ -216,7 +216,7 @@ public class TEMConfig extends Vigilant {
                     "you are earning low contributions, or have a low simultaneous threads value)",
             max = 60
     )
-    public static int timeOffset = 50;
+    private int timeOffset = 50;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -225,7 +225,15 @@ public class TEMConfig extends Vigilant {
             name = "Enable Contributions",
             description = "Enable Earning Contributions"
     )
-    public static boolean enableContributions = true;
+    private boolean enableContributions = true;
+
+    public boolean shouldContribute() {
+        return enableContributions;
+    }
+
+    public void setEnableContributions(boolean enableContributions) {
+        this.enableContributions = enableContributions;
+    }
 
     @Property(
             type = PropertyType.NUMBER,
@@ -246,7 +254,6 @@ public class TEMConfig extends Vigilant {
     public void setSpareRateLimit(int spareRateLimit) {
         this.spareRateLimit = spareRateLimit;
     }
-
     @Property(
             type = PropertyType.SWITCH,
             category = "API",
@@ -256,6 +263,7 @@ public class TEMConfig extends Vigilant {
     )
     public boolean maxOnAfk = true;
     public static String saveFolder = "config/tem/";
+
     public static String fileName = "preferences.toml";
 
     public File CONFIG_FILE;
@@ -340,5 +348,21 @@ public class TEMConfig extends Vigilant {
         }
         logger.info("TEM Config -> Setting guaranteed key from constructor! Key: {}", hypixelKey);
         guaranteedSafeKey = hypixelKey;
+    }
+
+    public int getMaxSimultaneousThreads() {
+        return maxSimultaneousThreads;
+    }
+
+    public void setMaxSimultaneousThreads(int maxSimultaneousThreads) {
+        this.maxSimultaneousThreads = maxSimultaneousThreads;
+    }
+
+    public int getTimeOffset() {
+        return timeOffset;
+    }
+
+    public void setTimeOffset(int timeOffset) {
+        this.timeOffset = timeOffset;
     }
 }

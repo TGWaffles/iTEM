@@ -5,7 +5,6 @@ import club.thom.tem.listeners.PlayerAFKListener;
 import club.thom.tem.util.KeyFetcher;
 import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
-import club.thom.tem.storage.TEMConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +25,7 @@ public class Hypixel {
     public boolean hasValidApiKey;
     private int triesWithoutValidKey = 0;
 
-    private final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(TEMConfig.maxSimultaneousThreads);
+    private final ThreadPoolExecutor threadPool;
 
     protected final LinkedBlockingDeque<Request> requestQueue = new LinkedBlockingDeque<>();
 
@@ -42,10 +41,11 @@ public class Hypixel {
         this.tem = tem;
         this.hasValidApiKey = !tem.getConfig().getHypixelKey().equals("");
         this.afkListener = tem.getAfkListener();
+        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(tem.getConfig().getMaxSimultaneousThreads());
     }
 
     public long getRateLimitResetTime() {
-        return (rateLimitResetTime + (TEMConfig.timeOffset * 1000L) % 60);
+        return (rateLimitResetTime + (tem.getConfig().getTimeOffset() * 1000L) % 60);
     }
 
     private void setRateLimitResetTime(long resetTime) {
@@ -203,7 +203,7 @@ public class Hypixel {
                     logger.debug("LOOP-> for loop!");
                     waitingForItemLock.lock();
                     try {
-                        while (!(requestQueue.peek() instanceof KeyLookupRequest) && !hasValidApiKey || (!TEMConfig.enableContributions && !(requestQueue.peek() instanceof KeyLookupRequest))) {
+                        while (!(requestQueue.peek() instanceof KeyLookupRequest) && !hasValidApiKey || (!tem.getConfig().shouldContribute() && !(requestQueue.peek() instanceof KeyLookupRequest))) {
                             logger.debug("LOOP-> API key is invalid or contributions disabled. " +
                                     "Waiting for new API key or contributions to be re-enabled.");
                             //noinspection ResultOfMethodCallIgnored
