@@ -1,5 +1,6 @@
 package club.thom.tem.listeners;
 
+import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
@@ -24,6 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ToolTipListener {
+    TEM tem;
+
+    public ToolTipListener(TEM parent) {
+        this.tem = parent;
+    }
+
     public static final HashMap<String, List<String>> uuidToLore = new HashMap<>();
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -46,8 +53,8 @@ public class ToolTipListener {
             // We're only caring about armour on tooltips, to add colour.
             return;
         }
-        ArmourPieceData armour = new ArmourPieceData("inventory", itemNbt);
-        HexUtil.Modifier armourTypeModifier = HexUtil.getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
+        ArmourPieceData armour = new ArmourPieceData(tem, "inventory", itemNbt);
+        HexUtil.Modifier armourTypeModifier = new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
         String colourCode = armourTypeModifier.getColourCode();
         int ownerCount = checkArmourOwners(armour);
         String toolTipString = colourCode + armourTypeModifier;
@@ -95,7 +102,7 @@ public class ToolTipListener {
         String hexCode = armour.getHexCode();
 
         if (armour.isCustomDyed()) {
-            hexCode = HexUtil.getOriginalHex(armour.getItemId());
+            hexCode = new HexUtil(tem.getItems()).getOriginalHex(armour.getItemId());
         }
 
         for (HexAmount amountData : response.amounts) {
@@ -113,7 +120,7 @@ public class ToolTipListener {
     public void fetchDuped(NBTTagCompound itemNbt, List<String> tooltip) {
         String uuid;
         if (MiscItemData.isValidItem(itemNbt)) {
-            MiscItemData itemData = new MiscItemData("", itemNbt);
+            MiscItemData itemData = new MiscItemData(tem, "", itemNbt);
             ClientMessages.InventoryItem item = itemData.toInventoryItem();
             if (!item.hasUuid() || item.getUuid().length() == 0) {
                 return;
@@ -136,7 +143,7 @@ public class ToolTipListener {
     public boolean checkDuped(NBTTagCompound itemNbt) {
         String uuid;
         if (MiscItemData.isValidItem(itemNbt)) {
-            MiscItemData itemData = new MiscItemData("", itemNbt);
+            MiscItemData itemData = new MiscItemData(tem, "", itemNbt);
             ClientMessages.InventoryItem item = itemData.toInventoryItem();
             if (!item.hasUuid() || item.getUuid().length() == 0) {
                 return false;

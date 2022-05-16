@@ -13,8 +13,10 @@ import java.util.Arrays;
 public class ArmourPieceData extends InventoryItemData {
     private final NBTTagCompound itemData;
     private final String inventoryName;
-    public ArmourPieceData(String inventoryName, NBTTagCompound itemData) {
+    private final TEM tem;
+    public ArmourPieceData(TEM main, String inventoryName, NBTTagCompound itemData) {
         this.itemData = itemData;
+        this.tem = main;
         this.inventoryName = inventoryName;
     }
 
@@ -41,7 +43,7 @@ public class ArmourPieceData extends InventoryItemData {
         }
         // GEN_SPEED_WITHER_BOOTS_+_NECROTIC_+_MYTHIC (possibly _+_191919 for hex code)
         String fakeUuid = "GEN=" + getItemId() + "_+_" + getReforge() + "_+_" + getRarity().toString();
-        if (!convertIntArrayToHex(TEM.getItems().getDefaultColour(getItemId())).equals(getHexCode())) {
+        if (!convertIntArrayToHex(tem.getItems().getDefaultColour(getItemId())).equals(getHexCode())) {
             fakeUuid += "_+_" + getHexCode();
         }
         return fakeUuid;
@@ -70,7 +72,7 @@ public class ArmourPieceData extends InventoryItemData {
         NBTTagCompound extraAttributes = getExtraAttributes();
         String itemId = getItemId();
         int upgrades = extraAttributes.getInteger("rarity_upgrades");
-        ClientMessages.Rarity baseRarity = RarityConverter.getRarityFromItemId(itemId);
+        ClientMessages.Rarity baseRarity = new RarityConverter(tem).getRarityFromItemId(itemId);
         assert baseRarity != null;
         for (int i = 0; i < upgrades; i++) {
             baseRarity = RarityConverter.levelUp(baseRarity);
@@ -79,7 +81,7 @@ public class ArmourPieceData extends InventoryItemData {
             System.out.println("ISSUE = BASERARITY IS NULL?!");
             System.out.println(upgrades);
             System.out.println(extraAttributes);
-            System.out.println(RarityConverter.getRarityFromItemId(itemId));
+            System.out.println(new RarityConverter(tem).getRarityFromItemId(itemId));
         }
         return baseRarity;
     }

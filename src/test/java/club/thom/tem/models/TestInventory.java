@@ -29,7 +29,8 @@ public class TestInventory {
 
     @Test
     public void testInventory() {
-        Inventory inventory = new Inventory("inventory", sampleData);
+        TEM tem = new TEM();
+        Inventory inventory = new Inventory(tem, "inventory", sampleData);
         List<ClientMessages.InventoryItem> data = inventory.getItems();
         System.out.println(data);
     }

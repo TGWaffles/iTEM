@@ -13,11 +13,13 @@ public class MiscItemData extends InventoryItemData {
     public final NBTTagCompound itemData;
     public final NBTTagCompound extraAttributes;
     private final String inventoryName;
+    TEM tem;
 
-    public MiscItemData(String inventoryName, NBTTagCompound itemData) {
+    public MiscItemData(TEM tem, String inventoryName, NBTTagCompound itemData) {
         this.itemData = itemData;
         extraAttributes = getExtraAttributes();
         this.inventoryName = inventoryName;
+        this.tem = tem;
     }
 
     final ClientMessages.MiscItem.Builder dataBuilder = ClientMessages.MiscItem.newBuilder();
@@ -70,7 +72,7 @@ public class MiscItemData extends InventoryItemData {
     }
 
     private ClientMessages.Rarity getItemRarity() {
-        return RarityConverter.getRarityFromItemId(getItemId());
+        return new RarityConverter(tem).getRarityFromItemId(getItemId());
     }
 
     /**
@@ -112,7 +114,7 @@ public class MiscItemData extends InventoryItemData {
             return colourInt;
         }
         // no colour on item, get original item colour?
-        int[] colours = TEM.getItems().getDefaultColour(getItemId());
+        int[] colours = tem.getItems().getDefaultColour(getItemId());
         if (colours[0] != -1) {
             // original colour was found!
             int colourInt = 0;

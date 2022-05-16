@@ -23,6 +23,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LobbyScanner {
+    TEM tem;
+    public LobbyScanner(TEM parent) {
+        this.tem = parent;
+    }
+
     static class ArmourWithOwner {
         public final String uuid;
         public final long creationTime;
@@ -38,7 +43,7 @@ public class LobbyScanner {
         public String username = "Unknown Player";
         public String plainUsername = "";
 
-        public ArmourWithOwner(JsonElement element) {
+        public ArmourWithOwner(ItemUtil items, JsonElement element) {
             JsonObject jsonData = element.getAsJsonObject();
             uuid = jsonData.get("uuid").getAsString();
             creationTime = jsonData.get("creationTime").getAsLong();
@@ -48,7 +53,7 @@ public class LobbyScanner {
             reforge = jsonData.get("reforge").getAsString();
             ownerUuid = jsonData.get("owner").getAsJsonObject().get("playerUuid").getAsString();
             ownerProfile = jsonData.get("owner").getAsJsonObject().get("profileUuid").getAsString();
-            modifier = HexUtil.getModifier(itemId, hexCode, creationTime);
+            modifier = new HexUtil(items).getModifier(itemId, hexCode, creationTime);
 
             if (jsonData.has("lastChecked")) {
                 lastChecked = jsonData.get("lastChecked").getAsLong();
@@ -122,7 +127,7 @@ public class LobbyScanner {
             return;
         }
         for (JsonElement element : returnedData.getJsonAsObject().get("armour").getAsJsonArray()) {
-            ArmourWithOwner armour = new ArmourWithOwner(element);
+            ArmourWithOwner armour = new ArmourWithOwner(tem.getItems(), element);
             if (checkItem(armour)) {
                 armourToSend.add(armour);
             }
@@ -169,7 +174,7 @@ public class LobbyScanner {
     public void sendItemMessage(ArmourWithOwner item) {
         String prefixColour = item.modifier.getColourCode();
 
-        String itemName = TEM.getItems().nameFromId(item.itemId);
+        String itemName = tem.getItems().nameFromId(item.itemId);
 
         String pureColourText = "";
         if (PureColours.isPureColour(item.hexCode)) {

@@ -54,7 +54,7 @@ public class TEM {
 
     public static boolean standAlone = false;
 
-    private static ItemUtil items = new ItemUtil();
+    private final ItemUtil items;
 
     public static AuctionHouse auctions;
 
@@ -63,7 +63,8 @@ public class TEM {
         instance = this;
         config = new TEMConfig();
         socketHandler = new SocketHandler();
-        scanner = new LobbyScanner();
+        scanner = new LobbyScanner(this);
+        items = new ItemUtil();
     }
 
     public static TEM getInstance() {
@@ -74,12 +75,8 @@ public class TEM {
         return instance;
     }
 
-    public static ItemUtil getItems() {
-        return items;
-    }
-
-    public static void setItems(ItemUtil items) {
-        TEM.items = items;
+    public ItemUtil getItems() {
+        return getInstance().items;
     }
 
     public void forceSaveConfig() {
@@ -130,7 +127,7 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(afkListener);
         // Create global API/rate-limit handler
         api = new Hypixel(this);
-        auctions = new AuctionHouse();
+        auctions = new AuctionHouse(this);
         config.initialize();
         new Thread(socketHandler::reconnectSocket, "TEM-socket").start();
         // Start the requests loop
@@ -139,7 +136,7 @@ public class TEM {
         new Thread(auctions::run, "TEM-dupe-auctions").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
-        MinecraftForge.EVENT_BUS.register(new ToolTipListener());
+        MinecraftForge.EVENT_BUS.register(new ToolTipListener(this));
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getScanner()));
         onlinePlayerListener = new OnlinePlayerListener();
         onlinePlayerListener.start();

@@ -25,10 +25,10 @@ public class TestRarityConverter {
 
     @Test
     public void testRarityFromItemId() {
-        TEM.setItems(new ItemUtil());
-        new Thread(() -> TEM.getItems().fillItems()).start();
-        TEM.getItems().waitForInit();
-        assertEquals(ClientMessages.Rarity.LEGENDARY, RarityConverter.getRarityFromItemId("SPEED_WITHER_BOOTS"));
+        TEM tem = new TEM();
+        new Thread(() -> tem.getItems().fillItems()).start();
+        tem.getItems().waitForInit();
+        assertEquals(ClientMessages.Rarity.LEGENDARY, new RarityConverter(tem).getRarityFromItemId("SPEED_WITHER_BOOTS"));
     }
 
 }

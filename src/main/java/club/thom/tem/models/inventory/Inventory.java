@@ -1,5 +1,6 @@
 package club.thom.tem.models.inventory;
 
+import club.thom.tem.TEM;
 import club.thom.tem.models.inventory.item.*;
 import club.thom.tem.models.messages.ClientMessages.InventoryItem;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -21,9 +22,11 @@ public class Inventory {
     // Contains InventoryItemData array of items
     private final NBTTagCompound data;
     private final String name;
-    public Inventory(String inventoryName, String base64EncodedNBT) {
+    TEM tem;
+    public Inventory(TEM tem, String inventoryName, String base64EncodedNBT) {
         data = processNbtString(base64EncodedNBT);
         name = inventoryName;
+        this.tem = tem;
     }
 
     private static final Logger logger = LogManager.getLogger(Inventory.class);
@@ -40,14 +43,14 @@ public class Inventory {
         return nbtData;
     }
 
-    public static List<InventoryItemData> nbtToItems(String name, NBTTagCompound data) {
+    public List<InventoryItemData> nbtToItems(String name, NBTTagCompound data) {
         ArrayList<InventoryItemData> items = new ArrayList<>();
         NBTTagList list = data.getTagList("i", Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < list.tagCount(); i++) {
             NBTTagCompound item = list.getCompoundTagAt(i);
             // adds to tem's database
             if (ArmourPieceData.isValidItem(item)) {
-                items.add(new ArmourPieceData(name, item));
+                items.add(new ArmourPieceData(tem, name, item));
             }  else if (PetSkinData.isValidItem(item)) {
                 items.add(new PetSkinData(name, item));
             }
@@ -56,7 +59,7 @@ public class Inventory {
             if (PetData.isValidItem(item)) {
                 items.add(new PetData(name, item));
             } else if (MiscItemData.isValidItem(item)) {
-                items.add(new MiscItemData(name, item));
+                items.add(new MiscItemData(tem, name, item));
             }
         }
         return items;
