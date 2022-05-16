@@ -207,6 +207,14 @@ public class TEMConfig extends Vigilant {
     )
     private int maxSimultaneousThreads = 120;
 
+    public int getMaxSimultaneousThreads() {
+        return maxSimultaneousThreads;
+    }
+
+    public void setMaxSimultaneousThreads(int maxSimultaneousThreads) {
+        this.maxSimultaneousThreads = maxSimultaneousThreads;
+    }
+
     @Property(
             type = PropertyType.NUMBER,
             category = "API",
@@ -217,6 +225,14 @@ public class TEMConfig extends Vigilant {
             max = 60
     )
     private int timeOffset = 50;
+
+    public int getTimeOffset() {
+        return timeOffset;
+    }
+
+    public void setTimeOffset(int timeOffset) {
+        this.timeOffset = timeOffset;
+    }
 
     @Property(
             type = PropertyType.SWITCH,
@@ -350,19 +366,5 @@ public class TEMConfig extends Vigilant {
         guaranteedSafeKey = hypixelKey;
     }
 
-    public int getMaxSimultaneousThreads() {
-        return maxSimultaneousThreads;
-    }
 
-    public void setMaxSimultaneousThreads(int maxSimultaneousThreads) {
-        this.maxSimultaneousThreads = maxSimultaneousThreads;
-    }
-
-    public int getTimeOffset() {
-        return timeOffset;
-    }
-
-    public void setTimeOffset(int timeOffset) {
-        this.timeOffset = timeOffset;
-    }
 }
