@@ -1,6 +1,7 @@
 package club.thom.tem.hypixel;
 
 import club.thom.tem.TEM;
+import club.thom.tem.listeners.PlayerAFKListener;
 import club.thom.tem.util.KeyFetcher;
 import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
@@ -31,7 +32,13 @@ public class Hypixel {
 
     private int remainingRateLimit = 0;
 
+    private PlayerAFKListener afkListener;
+
     private long rateLimitResetTime = System.currentTimeMillis();
+
+    public Hypixel(PlayerAFKListener afkListener) {
+        this.afkListener = afkListener;
+    }
 
     public long getRateLimitResetTime() {
         return (rateLimitResetTime + (TEMConfig.timeOffset * 1000L) % 60);
@@ -149,7 +156,10 @@ public class Hypixel {
      *
      * @return Number to exhaust your rate limit to.
      */
-    private static int getMinRateLimit() {
+    private int getMinRateLimit() {
+        if (TEMConfig.maxOnAfk && afkListener.isAfk()) {
+            return Math.min(TEMConfig.spareRateLimit, 5); // leaves 5 just in case they come back from afk
+        }
         return TEMConfig.spareRateLimit;
     }
 

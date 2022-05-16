@@ -235,6 +235,15 @@ public class TEMConfig extends Vigilant {
     )
     public static int spareRateLimit = 10;
 
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "API",
+            subcategory = "Hypixel Api",
+            name = "Max On AFK",
+            description = "Earn max contributions when you go AFK."
+    )
+    public static boolean maxOnAfk = true;
+
     public static String saveFolder = "config/tem/";
     public static String fileName = "preferences.toml";
     public static File CONFIG_FILE = null;

@@ -4,10 +4,8 @@ import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.dupes.auction_house.AuctionHouse;
 import club.thom.tem.hypixel.Hypixel;
-import club.thom.tem.listeners.ApiKeyListener;
-import club.thom.tem.listeners.LobbySwitchListener;
-import club.thom.tem.listeners.OnlinePlayerListener;
-import club.thom.tem.listeners.ToolTipListener;
+import club.thom.tem.listeners.*;
+import club.thom.tem.listeners.packets.ClientPacketListener;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.ItemUtil;
@@ -46,7 +44,8 @@ public class TEM {
 
     private static TEM instance = null;
 
-    private OnlinePlayerListener playerListener = null;
+    private OnlinePlayerListener onlinePlayerListener = null;
+    private PlayerAFKListener afkListener = null;
     private final SocketHandler socketHandler;
 
     public TEMConfig config = new TEMConfig();
@@ -115,8 +114,10 @@ public class TEM {
         // Don't set up logging on any version released - log files grow very quickly.
 //        setUpLogging();
         logger.info("Initialising TEM");
+        afkListener = new PlayerAFKListener();
+        MinecraftForge.EVENT_BUS.register(afkListener);
         // Create global API/rate-limit handler
-        api = new Hypixel();
+        api = new Hypixel(afkListener);
         auctions = new AuctionHouse();
         config.initialize();
         new Thread(socketHandler::reconnectSocket, "TEM-socket").start();
@@ -128,9 +129,10 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
         MinecraftForge.EVENT_BUS.register(new ToolTipListener());
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener());
-        playerListener = new OnlinePlayerListener();
-        playerListener.start();
-        MinecraftForge.EVENT_BUS.register(playerListener);
+        onlinePlayerListener = new OnlinePlayerListener();
+        onlinePlayerListener.start();
+        MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
+        MinecraftForge.EVENT_BUS.register(new ClientPacketListener());
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -145,11 +147,15 @@ public class TEM {
     }
 
     public OnlinePlayerListener getOnlinePlayerListener() {
-        return playerListener;
+        return onlinePlayerListener;
     }
 
     public SocketHandler getSocketHandler() {
         return socketHandler;
+    }
+
+    public PlayerAFKListener getAfkListener() {
+        return afkListener;
     }
 
     @Mod.EventHandler
@@ -162,7 +168,8 @@ public class TEM {
         TEM tem = getInstance();
         PlayerUtil.setUUID(inputUuid);
         standAlone = true;
-        tem.api = new Hypixel();
+        tem.afkListener = new PlayerAFKListener();
+        tem.api = new Hypixel(tem.afkListener);
         TEMConfig.setHypixelKey(apiKey);
         TEMConfig.spareRateLimit = 0;
         // 15 is a decent number for minimising ram usage
