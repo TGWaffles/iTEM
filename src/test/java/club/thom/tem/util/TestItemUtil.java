@@ -18,12 +18,12 @@ import static org.junit.Assert.*;
 public class TestItemUtil {
     private static final Path exampleResponsePath = FileSystems.getDefault().getPath("src", "test", "resources", "responses", "itemsResponse.json");
 
-    private JsonElement generateExampleItemsResponse() throws IOException {
+    private static JsonElement generateExampleItemsResponse() throws IOException {
         String jsonAsText = new String(Files.readAllBytes(exampleResponsePath));
         return new JsonParser().parse(jsonAsText);
     }
 
-    private ItemUtil getSetupItemUtil() throws IOException {
+    public static ItemUtil getSetupItemUtil() throws IOException {
         ItemUtil itemUtil = new ItemUtil();
         RequestUtil mockRequester = Mockito.mock(RequestUtil.class);
         RequestData exampleRequestData = new RequestData(200, new HashMap<>(), generateExampleItemsResponse());
