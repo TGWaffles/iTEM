@@ -22,7 +22,7 @@ public class UUIDUtil {
             uuidArray.add(uuid);
         }
         data.add("uuids", uuidArray);
-        JsonObject response = RequestUtil.sendPostRequest("https://api.thom.club/bulk_uuids", data).getJsonAsObject();
+        JsonObject response = new RequestUtil().sendPostRequest("https://api.thom.club/bulk_uuids", data).getJsonAsObject();
         assert response != null;
         HashMap<String, String> uuidToUsernameMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : response.getAsJsonObject("uuids").entrySet()) {
@@ -49,7 +49,7 @@ public class UUIDUtil {
             usernameArray.add(username);
         }
         data.add("usernames", usernameArray);
-        JsonObject response = RequestUtil.sendPostRequest("https://api.thom.club/bulk_usernames", data).getJsonAsObject();
+        JsonObject response = new RequestUtil().sendPostRequest("https://api.thom.club/bulk_usernames", data).getJsonAsObject();
         assert response != null;
         HashMap<String, String> usernameToUUIDMap = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : response.getAsJsonObject("usernames").entrySet()) {

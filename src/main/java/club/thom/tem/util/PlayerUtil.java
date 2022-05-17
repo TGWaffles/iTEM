@@ -23,6 +23,11 @@ public class PlayerUtil {
     private static String uuid = null;
     private static long lastToastTime = 0;
     private static boolean waitingToTellAboutAPI = false;
+    TEMConfig config;
+
+    public PlayerUtil(TEMConfig config) {
+        this.config = config;
+    }
 
     public static void sendToast(String title, String description, float stayTime) {
         if (System.currentTimeMillis() - lastToastTime < 1000) {
@@ -33,12 +38,12 @@ public class PlayerUtil {
         lastToastTime = System.currentTimeMillis();
     }
 
-    public static String getUUID() {
+    public String getUUID() {
         waitForPlayer();
         return uuid;
     }
 
-    public static void setUUID(String newUuid) {
+    public void setUUID(String newUuid) {
         uuid = newUuid;
     }
 
@@ -55,10 +60,68 @@ public class PlayerUtil {
         }
     }
 
-    public static void tellAboutInvalidKey() {
+    public void attemptUuidSet(String possibleUuid) {
+        playerUpdateExecutor.submit(() -> checkValidUUIDSync(possibleUuid));
+    }
+
+    private boolean checkValidUUIDSync(String possibleUuid) {
+        try {
+            if (UUIDUtil.mojangFetchUsernameFromUUID(possibleUuid) == null) {
+                logger.warn("UUID was not valid!");
+                return false;
+            }
+        } catch (NullPointerException e) {
+            // This will be thrown when/if the API server is down. Ignore it and act as if the uuid is valid
+            // until the server comes back up.
+        }
+        uuid = possibleUuid;
         lock.lock();
         try {
-            if (!TEMConfig.getHypixelKey().equals("") || waitingToTellAboutAPI) {
+            waitForUuid.signalAll();
+        } finally {
+            lock.unlock();
+        }
+        return true;
+    }
+
+    private void checkAndUpdateUUID(boolean firstTry) {
+        UUID possibleUuid = Minecraft.getMinecraft().thePlayer.getGameProfile().getId();
+        if (possibleUuid != null) {
+            String possibleUuidString = possibleUuid.toString().replaceAll("-", "");
+            if (checkValidUUIDSync(possibleUuidString)) {
+                return;
+            }
+            if (firstTry) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                checkAndUpdateUUID(false);
+            }
+        }
+        logger.info("UUID was null...");
+        if (firstTry) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            checkAndUpdateUUID(false);
+        }
+    }
+
+    public void processPlayerJoinedWorld() {
+        if (uuid == null) {
+            playerUpdateExecutor.submit(() -> checkAndUpdateUUID(true));
+            playerUpdateExecutor.submit(this::tellAboutInvalidKey);
+        }
+    }
+
+    public void tellAboutInvalidKey() {
+        lock.lock();
+        try {
+            if (!config.getHypixelKey().equals("") || waitingToTellAboutAPI) {
                 return;
             }
             waitingToTellAboutAPI = true;
@@ -73,53 +136,5 @@ public class PlayerUtil {
         MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
                 "Your hypixel API key is set wrong! This means you are no longer earning contributions! " +
                 "Do /tem setkey <api-key> or /api new to set it again!"));
-    }
-
-    private static void checkAndUpdateUUID(boolean firstTry) {
-        UUID possibleUuid = Minecraft.getMinecraft().thePlayer.getGameProfile().getId();
-        if (possibleUuid != null) {
-            String possibleUuidString = possibleUuid.toString().replaceAll("-", "");
-            try {
-                if (UUIDUtil.mojangFetchUsernameFromUUID(possibleUuidString) == null) {
-                    logger.info("UUID was not valid!");
-                    if (firstTry) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        checkAndUpdateUUID(false);
-                    }
-                    return;
-                }
-            } catch (NullPointerException e) {
-                // This will be thrown when/if the API server is down. Ignore it and act as if the uuid is valid
-                // until the server comes back up.
-            }
-            uuid = possibleUuidString;
-            lock.lock();
-            try {
-                waitForUuid.signalAll();
-            } finally {
-                lock.unlock();
-            }
-            return;
-        }
-        logger.info("UUID was null...");
-        if (firstTry) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            checkAndUpdateUUID(false);
-        }
-    }
-
-    public static void processPlayerJoinedWorld() {
-        if (uuid == null) {
-            playerUpdateExecutor.submit(() -> checkAndUpdateUUID(true));
-            playerUpdateExecutor.submit(PlayerUtil::tellAboutInvalidKey);
-        }
     }
 }

@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class ItemData {
 
-    public final String uuid;
     public static class PlayerAndProfile {
         public final String playerUuid;
         public final String profileUuid;
@@ -18,19 +17,20 @@ public class ItemData {
             this.profileUuid = profileUuid;
         }
     }
-
     public static class PreviousOwner {
+
         public final PlayerAndProfile owner;
         public final long start;
         public final long end;
-
         public PreviousOwner(PlayerAndProfile owner, long start, long end) {
             this.owner = owner;
             this.start = start;
             this.end = end;
         }
+
     }
 
+    public final String uuid;
     public final PlayerAndProfile currentOwner;
     public final HashMap<String, Object> extraAttributes;
     public final String itemId;

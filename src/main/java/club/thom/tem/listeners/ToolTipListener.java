@@ -1,6 +1,6 @@
 package club.thom.tem.listeners;
 
-import club.thom.tem.backend.ScanLobby;
+import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
@@ -13,18 +13,30 @@ import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
+import club.thom.tem.util.MessageUtil;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.HashMap;
 import java.util.List;
 
 public class ToolTipListener {
+    TEM tem;
+    long lastCopyTime = System.currentTimeMillis();
+
+    public ToolTipListener(TEM parent) {
+        this.tem = parent;
+    }
+
     public static final HashMap<String, List<String>> uuidToLore = new HashMap<>();
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -43,13 +55,18 @@ public class ToolTipListener {
         if (GameSettings.isKeyDown(KeyBinds.checkDuped)) {
             fetchDuped(itemNbt, event.toolTip);
         }
+        if (GameSettings.isKeyDown(KeyBinds.copyUuid) && System.currentTimeMillis() - lastCopyTime > 1000) {
+            copyUuidToClipboard(itemNbt);
+            lastCopyTime = System.currentTimeMillis();
+        }
+
         if (!ArmourPieceData.isValidItem(itemNbt)) {
             // We're only caring about armour on tooltips, to add colour.
             return;
         }
-        ArmourPieceData armour = new ArmourPieceData("inventory", itemNbt);
-        HexUtil.Modifier armourTypeModifier = HexUtil.getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
-        String colourCode = ScanLobby.getColourCode(armourTypeModifier);
+        ArmourPieceData armour = new ArmourPieceData(tem, "inventory", itemNbt);
+        HexUtil.Modifier armourTypeModifier = new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
+        String colourCode = armourTypeModifier.getColourCode();
         int ownerCount = checkArmourOwners(armour);
         String toolTipString = colourCode + armourTypeModifier;
 
@@ -89,14 +106,14 @@ public class ToolTipListener {
 
     public int checkArmourOwners(ArmourPieceData armour) {
         HexFromItemIdResponse response = (HexFromItemIdResponse) RequestsCache.getInstance().getIfExists(
-                new HexFromItemIdRequest(armour.getItemId()));
+                new HexFromItemIdRequest(tem.getConfig(), armour.getItemId()));
         if (response == null) {
             return -1;
         }
         String hexCode = armour.getHexCode();
 
         if (armour.isCustomDyed()) {
-            hexCode = HexUtil.getOriginalHex(armour.getItemId());
+            hexCode = new HexUtil(tem.getItems()).getOriginalHex(armour.getItemId());
         }
 
         for (HexAmount amountData : response.amounts) {
@@ -108,59 +125,69 @@ public class ToolTipListener {
     }
 
     public void fetchArmourOwners(ArmourPieceData armour) {
-        RequestsCache.getInstance().addToQueue(new HexFromItemIdRequest(armour.getItemId()));
+        RequestsCache.getInstance().addToQueue(new HexFromItemIdRequest(tem.getConfig(), armour.getItemId()));
     }
 
     public void fetchDuped(NBTTagCompound itemNbt, List<String> tooltip) {
-        String uuid;
-        if (MiscItemData.isValidItem(itemNbt)) {
-            MiscItemData itemData = new MiscItemData("", itemNbt);
-            ClientMessages.InventoryItem item = itemData.toInventoryItem();
-            if (!item.hasUuid() || item.getUuid().length() == 0) {
-                return;
-            }
-            uuid = item.getUuid();
-        } else if (PetData.isValidItem(itemNbt)) {
-            PetData petData = new PetData("", itemNbt);
-            ClientMessages.InventoryItem item = petData.toInventoryItem();
-            if (!item.hasUuid() || item.getUuid().length() == 0) {
-                return;
-            }
-            uuid = item.getUuid();
-        } else {
+        String uuid = itemNbtToUuid(itemNbt);
+        if (uuid == null) {
             return;
         }
         uuidToLore.put(uuid, tooltip);
-        RequestsCache.getInstance().addToQueue(new CombinedDupeRequest(uuid, true));
+        RequestsCache.getInstance().addToQueue(new CombinedDupeRequest(tem, uuid, true));
     }
 
     public boolean checkDuped(NBTTagCompound itemNbt) {
-        String uuid;
-        if (MiscItemData.isValidItem(itemNbt)) {
-            MiscItemData itemData = new MiscItemData("", itemNbt);
-            ClientMessages.InventoryItem item = itemData.toInventoryItem();
-            if (!item.hasUuid() || item.getUuid().length() == 0) {
-                return false;
-            }
-            uuid = item.getUuid();
-
-        } else if (PetData.isValidItem(itemNbt)) {
-            PetData petData = new PetData("", itemNbt);
-            ClientMessages.InventoryItem item = petData.toInventoryItem();
-            if (!item.hasUuid() || item.getUuid().length() == 0) {
-                return false;
-            }
-            uuid = item.getUuid();
-        } else {
+        String uuid = itemNbtToUuid(itemNbt);
+        if (uuid == null) {
             return false;
         }
 
         CombinedDupeResponse response = (CombinedDupeResponse) RequestsCache.getInstance().getIfExists(
-                new CombinedDupeRequest(uuid, true));
+                new CombinedDupeRequest(tem, uuid, true));
         if (response == null) {
             return false;
         }
         return response.verifiedOwners.size() > 1;
+    }
+
+    public void copyUuidToClipboard(NBTTagCompound itemNbt) {
+        String uuid = itemNbtToUuid(itemNbt);
+        if (uuid == null) {
+            return;
+        }
+
+        StringSelection uuidSelection = new StringSelection(uuid);
+        try {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(uuidSelection, null);
+        } catch (IllegalStateException ignored) {
+            return;
+        }
+        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Copied uuid (" + uuid + ") to clipboard!"));
+    }
+
+    public String itemNbtToUuid(NBTTagCompound itemNbt) {
+        String uuid;
+        if (MiscItemData.isValidItem(itemNbt)) {
+            MiscItemData itemData = new MiscItemData(tem, "", itemNbt);
+            ClientMessages.InventoryItem item = itemData.toInventoryItem();
+            if (!item.hasUuid() || item.getUuid().length() == 0) {
+                return null;
+            }
+            uuid = item.getUuid();
+
+        } else if (PetData.isValidItem(itemNbt)) {
+            PetData petData = new PetData("", itemNbt);
+            ClientMessages.InventoryItem item = petData.toInventoryItem();
+            if (!item.hasUuid() || item.getUuid().length() == 0) {
+                return null;
+            }
+            uuid = item.getUuid();
+        } else {
+            return null;
+        }
+        return uuid;
     }
 
 }

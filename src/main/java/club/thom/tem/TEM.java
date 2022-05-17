@@ -1,5 +1,6 @@
 package club.thom.tem;
 
+import club.thom.tem.backend.LobbyScanner;
 import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.dupes.auction_house.AuctionHouse;
@@ -11,6 +12,7 @@ import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.ItemUtil;
 import club.thom.tem.util.KeyFetcher;
 import club.thom.tem.util.PlayerUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -42,37 +44,34 @@ public class TEM {
 
     public static final int CLIENT_VERSION = clientVersionFromVersion();
 
-    private static TEM instance = null;
-
     private OnlinePlayerListener onlinePlayerListener = null;
     private PlayerAFKListener afkListener = null;
     private final SocketHandler socketHandler;
+    private final LobbyScanner scanner;
     private Hypixel api;
+    private final TEMConfig config;
+    private final ItemUtil items;
+    private AuctionHouse auctions;
+    private final PlayerUtil player;
 
-    public TEMConfig config = new TEMConfig();
     public static boolean standAlone = false;
-
-    public static ItemUtil items = new ItemUtil();
-
-    public static AuctionHouse auctions;
 
 
     public TEM() {
-        instance = this;
-        socketHandler = new SocketHandler();
+        config = new TEMConfig(this);
+        socketHandler = new SocketHandler(this);
+        scanner = new LobbyScanner(this);
+        items = new ItemUtil();
+        player = new PlayerUtil(config);
     }
 
-    public static TEM getInstance() {
-        if (instance == null) {
-            new TEM();
-        }
-
-        return instance;
+    public ItemUtil getItems() {
+        return items;
     }
 
     public void forceSaveConfig() {
-        config.markDirty();
-        config.writeData();
+        getConfig().markDirty();
+        getConfig().writeData();
     }
 
     private static int clientVersionFromVersion() {
@@ -114,25 +113,26 @@ public class TEM {
         // Don't set up logging on any version released - log files grow very quickly.
 //        setUpLogging();
         logger.info("Initialising TEM");
+        player.attemptUuidSet(Minecraft.getMinecraft().getSession().getPlayerID());
         afkListener = new PlayerAFKListener();
         MinecraftForge.EVENT_BUS.register(afkListener);
         // Create global API/rate-limit handler
-        api = new Hypixel(afkListener);
-        auctions = new AuctionHouse();
-        config.initialize();
+        api = new Hypixel(this);
+        auctions = new AuctionHouse(this);
+        getConfig().initialize();
         new Thread(socketHandler::reconnectSocket, "TEM-socket").start();
         // Start the requests loop
         new Thread(api::run, "TEM-rate-limits").start();
-        new Thread(items::fillItems, "TEM-items").start();
-        new Thread(auctions::run, "TEM-dupe-auctions").start();
-        ClientCommandHandler.instance.registerCommand(new TEMCommand());
-        MinecraftForge.EVENT_BUS.register(new ApiKeyListener());
-        MinecraftForge.EVENT_BUS.register(new ToolTipListener());
-        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener());
-        onlinePlayerListener = new OnlinePlayerListener();
+        new Thread(getItems()::fillItems, "TEM-items").start();
+        new Thread(getAuctions()::run, "TEM-dupe-auctions").start();
+        ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
+        MinecraftForge.EVENT_BUS.register(new ApiKeyListener(getConfig()));
+        MinecraftForge.EVENT_BUS.register(new ToolTipListener(this));
+        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getConfig(), getScanner()));
+        onlinePlayerListener = new OnlinePlayerListener(getConfig());
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
-        MinecraftForge.EVENT_BUS.register(new ClientPacketListener());
+        MinecraftForge.EVENT_BUS.register(new ClientPacketListener(afkListener));
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -143,7 +143,7 @@ public class TEM {
 
     @Mod.EventHandler
     public void onPostInit(FMLPostInitializationEvent event) {
-        new Thread(KeyFetcher::checkForApiKey, "TEM-key-checker").start();
+        new Thread(() -> new KeyFetcher(this).checkForApiKey(), "TEM-key-checker").start();
     }
 
     public OnlinePlayerListener getOnlinePlayerListener() {
@@ -158,6 +158,10 @@ public class TEM {
         return afkListener;
     }
 
+    public LobbyScanner getScanner() {
+        return scanner;
+    }
+
     @Mod.EventHandler
     public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
         System.out.println("You are using an unofficial build of TEM. " +
@@ -165,21 +169,33 @@ public class TEM {
     }
 
     public static void main(String inputUuid, String apiKey) {
-        TEM tem = getInstance();
-        PlayerUtil.setUUID(inputUuid);
+        TEM tem = new TEM();
+        tem.getPlayer().setUUID(inputUuid);
         standAlone = true;
+        tem.items.fillItems();
         tem.afkListener = new PlayerAFKListener();
-        tem.api = new Hypixel(tem.afkListener);
-        TEMConfig.setHypixelKey(apiKey);
-        TEMConfig.spareRateLimit = 0;
+        tem.api = new Hypixel(tem);
+        tem.getConfig().setHypixelKey(apiKey);
+        tem.getConfig().setSpareRateLimit(0);
         // 15 is a decent number for minimising ram usage
-        TEMConfig.maxSimultaneousThreads = 15;
-        TEMConfig.timeOffset = 0;
-        TEMConfig.enableContributions = true;
+        tem.getConfig().setMaxSimultaneousThreads(15);
+        tem.getConfig().setTimeOffset(0);
+        tem.getConfig().setEnableContributions(true);
         new Thread(tem.socketHandler::reconnectSocket, "TEM-socket").start();
         // Create global API/rate-limit handler
         // Start the requests loop
         new Thread(tem.api::run, "TEM-rate-limits").start();
     }
 
+    public AuctionHouse getAuctions() {
+        return auctions;
+    }
+
+    public TEMConfig getConfig() {
+        return config;
+    }
+
+    public PlayerUtil getPlayer() {
+        return player;
+    }
 }

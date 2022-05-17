@@ -2,6 +2,7 @@ package club.thom.tem.backend.requests.item_data_from_uuids;
 
 import club.thom.tem.backend.requests.BackendRequest;
 import club.thom.tem.backend.requests.BackendResponse;
+import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.RequestUtil;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.storage.TEMConfig;
@@ -13,13 +14,15 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Objects;
 
-public class FindUUIDsDataRequest implements BackendRequest {
+public class FindItemUUIDsDataRequest implements BackendRequest {
     final List<String> uuids;
     final boolean sendMessages = true;
-    private static final Logger logger = LogManager.getLogger(FindUUIDsDataRequest.class);
+    private static final Logger logger = LogManager.getLogger(FindItemUUIDsDataRequest.class);
+    TEMConfig config;
 
-    public FindUUIDsDataRequest(List<String> itemUuids) {
+    public FindItemUUIDsDataRequest(TEMConfig config, List<String> itemUuids) {
         uuids = itemUuids;
+        this.config = config;
     }
 
     @Override
@@ -29,37 +32,37 @@ public class FindUUIDsDataRequest implements BackendRequest {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof FindUUIDsDataRequest)) {
+        if (!(o instanceof FindItemUUIDsDataRequest)) {
             return false;
         }
-        FindUUIDsDataRequest otherRequest = (FindUUIDsDataRequest) o;
+        FindItemUUIDsDataRequest otherRequest = (FindItemUUIDsDataRequest) o;
         return otherRequest.uuids.equals(uuids);
     }
 
     @Override
     public BackendResponse makeRequest() {
         RequestData response = submitRequest();
-        if (response.getStatus() != 200) {
+        if (response.getStatus() != 200 && response.getStatus() != 404) {
             if (sendMessages) {
-                RequestUtil.tellPlayerAboutFailedRequest(response.getStatus());
+                MessageUtil.tellPlayerAboutFailedRequest(response.getStatus());
             } else {
                 logger.error("TEM returned error: " + response.getStatus());
             }
             return null;
         }
         logger.info("returning response!");
-        return new FindUUIDsDataResponse(response.getJsonAsObject());
+        return new FindItemUUIDsDataResponse(response.getJsonAsObject());
     }
 
     public RequestData submitRequest() {
         String urlString = "https://api.tem.cx/items";
         JsonObject postData = new JsonObject();
-        postData.addProperty("key", TEMConfig.getTemApiKey());
+        postData.addProperty("key", config.getTemApiKey());
         JsonArray uuidArray = new JsonArray();
         for (String uuid : uuids) {
             uuidArray.add(uuid);
         }
         postData.add("uuids", uuidArray);
-        return RequestUtil.sendPostRequest(urlString, postData);
+        return new RequestUtil().sendPostRequest(urlString, postData);
     }
 }

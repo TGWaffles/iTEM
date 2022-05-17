@@ -1,5 +1,6 @@
 package club.thom.tem.models.inventory;
 
+import club.thom.tem.TEM;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.models.messages.ClientMessages.InventoryResponse;
@@ -26,9 +27,11 @@ public class ProfileData {
     private final JsonObject profileAsJson;
     protected final String playerUuid;
     private String profileUuid;
-    public ProfileData(JsonObject profileJson, String uuid) {
+    TEM tem;
+    public ProfileData(TEM tem, JsonObject profileJson, String uuid) {
         profileAsJson = profileJson;
         playerUuid = uuid;
+        this.tem = tem;
         processInventories();
     }
 
@@ -48,13 +51,13 @@ public class ProfileData {
                 continue;
             }
             logger.debug("Starting inventory: {}", inventoryName);
-            inventories.add(new Inventory(inventoryName, playerProfile.get(inventoryName).getAsJsonObject().get("data").getAsString()));
+            inventories.add(new Inventory(tem, inventoryName, playerProfile.get(inventoryName).getAsJsonObject().get("data").getAsString()));
         }
         logger.debug("Starting backpacks...");
         int backpackNumber = 0;
         if (playerProfile.has("backpack_contents") && !playerProfile.get("backpack_contents").isJsonNull()) {
             for (Map.Entry<String, JsonElement> entry : playerProfile.get("backpack_contents").getAsJsonObject().entrySet()) {
-                inventories.add(new Inventory("backpack-" + backpackNumber, entry.getValue().getAsJsonObject().get("data").getAsString()));
+                inventories.add(new Inventory(tem, "backpack-" + backpackNumber, entry.getValue().getAsJsonObject().get("data").getAsString()));
                 backpackNumber++;
             }
         }
@@ -75,9 +78,6 @@ public class ProfileData {
         PetData pet;
         for (JsonElement element : playerProfile.getAsJsonArray("pets")) {
             pet = new PetData(element.getAsJsonObject());
-            if (pet.getSkin() == null) {
-                continue;
-            }
             pets.add(pet.toInventoryItem());
         }
         return pets;

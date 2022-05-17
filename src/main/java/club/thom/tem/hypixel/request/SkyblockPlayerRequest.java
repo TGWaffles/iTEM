@@ -1,5 +1,6 @@
 package club.thom.tem.hypixel.request;
 
+import club.thom.tem.TEM;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.storage.TEMConfig;
 import org.apache.logging.log4j.LogManager;
@@ -12,17 +13,19 @@ public class SkyblockPlayerRequest extends Request {
     private static final Logger logger = LogManager.getLogger(SkyblockPlayerRequest.class);
     final CompletableFuture<PlayerData> future = new CompletableFuture<>();
     final String uuid;
+    TEMConfig config;
 
-    public SkyblockPlayerRequest(String uuid) {
-        super("skyblock/profiles");
+    public SkyblockPlayerRequest(TEM tem, String uuid) {
+        super(tem, "skyblock/profiles");
         this.uuid = uuid;
+        this.config = tem.getConfig();
     }
 
     @Override
     public HashMap<String, String> generateParameters() {
         HashMap<String, String> parameters = new HashMap<>();
         parameters.put("uuid", uuid);
-        parameters.put("key", TEMConfig.getHypixelKey());
+        parameters.put("key", config.getHypixelKey());
         return parameters;
     }
 
@@ -33,7 +36,7 @@ public class SkyblockPlayerRequest extends Request {
             return;
         }
         logger.debug("Creating player data.");
-        PlayerData playerData = new PlayerData(data.getJsonAsObject(), uuid);
+        PlayerData playerData = new PlayerData(getTem(), data.getJsonAsObject(), uuid);
         logger.debug("Completing future...");
         future.complete(playerData);
         if (data.getStatus() != 200) {

@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -42,8 +43,9 @@ public class TestApiKeyListener {
 
     @Test
     public void testSendApiMessage() {
+        TEMConfig config = Mockito.mock(TEMConfig.class);
         // Sets the boolean to true when the method is called (from any thread)
-        PowerMockito.when(TEMConfig.setHypixelKey(anyString())).thenAnswer(
+        Mockito.when(config.setHypixelKey(anyString())).thenAnswer(
             invocation -> {
                 String apiKey = invocation.getArgument(0);
                 setSuccessfully = apiKey.equals(exampleApiKey);
@@ -51,9 +53,9 @@ public class TestApiKeyListener {
             }
         );
         // Needs to run for the above method to work...
-        TEMConfig.setHypixelKey("none");
+        config.setHypixelKey("none");
         // Sends command.
-        ApiKeyListener listener = new ApiKeyListener();
+        ApiKeyListener listener = new ApiKeyListener(config);
         ChatComponentText text = new ChatComponentText(EnumChatFormatting.GREEN + "Your new API key is " + exampleApiKey);
         text.setChatStyle(new ChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, exampleApiKey)));
         text.appendSibling(new ChatComponentText("."));

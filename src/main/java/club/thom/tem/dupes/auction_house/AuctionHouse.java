@@ -1,12 +1,12 @@
 package club.thom.tem.dupes.auction_house;
 
-import club.thom.tem.util.RequestUtil;
+import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.inventory.Inventory;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
-import club.thom.tem.storage.TEMConfig;
+import club.thom.tem.util.RequestUtil;
 import com.google.gson.JsonElement;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.Constants;
@@ -22,9 +22,14 @@ public class AuctionHouse {
     long lastKnownLastUpdated = 0;
     // only use 2 threads to download the auction house to reduce bandwidth for other uses
     private final ExecutorService threadPool = Executors.newFixedThreadPool(2);
+    TEM tem;
+
+    public AuctionHouse(TEM tem) {
+        this.tem = tem;
+    }
 
     public RequestData downloadPage(int pageNum) {
-        return RequestUtil.sendGetRequest(String.format("https://api.hypixel.net/skyblock/auctions?page=%d", pageNum));
+        return new RequestUtil().sendGetRequest(String.format("https://api.hypixel.net/skyblock/auctions?page=%d", pageNum));
     }
 
     public void addOwnerToItemUUIDMap(String itemUuid, String owner) {
@@ -52,7 +57,7 @@ public class AuctionHouse {
             itemNbt = itemNbt.getTagList("i", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(0);
             ClientMessages.InventoryItem item;
             if (MiscItemData.isValidItem(itemNbt)) {
-                MiscItemData itemData = new MiscItemData("ah", itemNbt);
+                MiscItemData itemData = new MiscItemData(tem, "ah", itemNbt);
                 item = itemData.toInventoryItem();
 
             } else if (PetData.isValidItem(itemNbt)) {
@@ -115,7 +120,7 @@ public class AuctionHouse {
     public void run() {
         //noinspection InfiniteLoopStatement
         while (true) {
-            if (!TEMConfig.useAuctionHouseForDupes) {
+            if (!tem.getConfig().shouldUseAuctionHouseForDupes()) {
                 try {
                     //noinspection BusyWait
                     Thread.sleep(1000);

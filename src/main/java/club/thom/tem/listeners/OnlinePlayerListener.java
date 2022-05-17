@@ -19,7 +19,11 @@ import java.util.concurrent.TimeUnit;
 public class OnlinePlayerListener {
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private final Set<String> onlinePlayerUuids = ConcurrentHashMap.newKeySet();
+    TEMConfig config;
 
+    public OnlinePlayerListener(TEMConfig config) {
+        this.config = config;
+    }
 
     public void reportOnlinePlayers() {
         Set<String> requestSet = new HashSet<>(onlinePlayerUuids);
@@ -28,14 +32,14 @@ public class OnlinePlayerListener {
             return;
         }
         JsonObject requestData = new JsonObject();
-        requestData.addProperty("key", TEMConfig.getTemApiKey());
+        requestData.addProperty("key", config.getTemApiKey());
         JsonArray playersArray = new JsonArray();
         for (String playerUuid : requestSet) {
             playersArray.add(playerUuid);
         }
         requestData.add("players", playersArray);
         // asks TEM's api to recheck these online players sooner than inactive players
-        RequestUtil.sendPostRequest("https://api.tem.cx/request", requestData);
+        new RequestUtil().sendPostRequest("https://api.tem.cx/request", requestData);
     }
 
     public void start() {
@@ -47,7 +51,7 @@ public class OnlinePlayerListener {
         if (!(event.entity instanceof EntityPlayer)) {
             return;
         }
-        PlayerUtil.processPlayerJoinedWorld();
+        new PlayerUtil(config).processPlayerJoinedWorld();
         EntityPlayer player = (EntityPlayer) event.entity;
         // get player uuid
         String uuid = player.getGameProfile().getId().toString().replaceAll("-", "");

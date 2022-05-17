@@ -5,7 +5,6 @@ import club.thom.tem.listeners.PlayerAFKListener;
 import club.thom.tem.util.KeyFetcher;
 import club.thom.tem.hypixel.request.KeyLookupRequest;
 import club.thom.tem.hypixel.request.Request;
-import club.thom.tem.storage.TEMConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,25 +22,30 @@ public class Hypixel {
     final Lock waitingForItemLock = new ReentrantLock();
     final Condition newItemInQueue = waitingForItemLock.newCondition();
 
-    public boolean hasValidApiKey = !TEMConfig.getHypixelKey().equals("");
+    public boolean hasValidApiKey;
     private int triesWithoutValidKey = 0;
 
-    private final ThreadPoolExecutor threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(TEMConfig.maxSimultaneousThreads);
+    private final ThreadPoolExecutor threadPool;
 
     protected final LinkedBlockingDeque<Request> requestQueue = new LinkedBlockingDeque<>();
 
     private int remainingRateLimit = 0;
 
-    private PlayerAFKListener afkListener;
+    private final PlayerAFKListener afkListener;
 
     private long rateLimitResetTime = System.currentTimeMillis();
 
-    public Hypixel(PlayerAFKListener afkListener) {
-        this.afkListener = afkListener;
+    private final TEM tem;
+
+    public Hypixel(TEM tem) {
+        this.tem = tem;
+        this.hasValidApiKey = !tem.getConfig().getHypixelKey().equals("");
+        this.afkListener = tem.getAfkListener();
+        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(tem.getConfig().getMaxSimultaneousThreads());
     }
 
     public long getRateLimitResetTime() {
-        return (rateLimitResetTime + (TEMConfig.timeOffset * 1000L) % 60);
+        return (rateLimitResetTime + (tem.getConfig().getTimeOffset() * 1000L) % 60);
     }
 
     private void setRateLimitResetTime(long resetTime) {
@@ -144,7 +148,7 @@ public class Hypixel {
             rateLimitLock.writeLock().unlock();
         }
         if (getRateLimit() > requestQueue.size()) {
-            TEM.getInstance().getSocketHandler().getClientResponseHandler().needMoreRequests();
+            tem.getSocketHandler().getClientResponseHandler().needMoreRequests();
         }
     }
 
@@ -157,10 +161,10 @@ public class Hypixel {
      * @return Number to exhaust your rate limit to.
      */
     private int getMinRateLimit() {
-        if (TEMConfig.maxOnAfk && afkListener.isAfk()) {
-            return Math.min(TEMConfig.spareRateLimit, 5); // leaves 5 just in case they come back from afk
+        if (tem.getConfig().maxOnAfk && afkListener.isAfk()) {
+            return Math.min(tem.getConfig().getSpareRateLimit(), 5); // leaves 5 just in case they come back from afk
         }
-        return TEMConfig.spareRateLimit;
+        return tem.getConfig().getSpareRateLimit();
     }
 
     /**
@@ -199,7 +203,7 @@ public class Hypixel {
                     logger.debug("LOOP-> for loop!");
                     waitingForItemLock.lock();
                     try {
-                        while (!(requestQueue.peek() instanceof KeyLookupRequest) && !hasValidApiKey || (!TEMConfig.enableContributions && !(requestQueue.peek() instanceof KeyLookupRequest))) {
+                        while (!(requestQueue.peek() instanceof KeyLookupRequest) && !hasValidApiKey || (!tem.getConfig().shouldContribute() && !(requestQueue.peek() instanceof KeyLookupRequest))) {
                             logger.debug("LOOP-> API key is invalid or contributions disabled. " +
                                     "Waiting for new API key or contributions to be re-enabled.");
                             //noinspection ResultOfMethodCallIgnored
@@ -209,10 +213,10 @@ public class Hypixel {
                             }
                             triesWithoutValidKey++;
                             if (triesWithoutValidKey % 20 == 0) {
-                                Thread thread = new Thread(KeyFetcher::checkForApiKey, "TEM-key-checker");
+                                Thread thread = new Thread(() -> new KeyFetcher(tem).checkForApiKey(), "TEM-key-checker");
                                 thread.start();
                                 thread.join(5000);
-                                KeyLookupRequest request = new KeyLookupRequest(TEMConfig.getHypixelKey(), this);
+                                KeyLookupRequest request = new KeyLookupRequest(tem, tem.getConfig().getHypixelKey(), this);
                                 addToQueue(request);
                             }
                         }

@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -37,19 +38,25 @@ public class TestKeyFetcher {
 
     @Test
     public void testGetKeyFromNEU() {
-        KeyFetcher.checkNeuForApiKey();
+        TEM tem = Mockito.mock(TEM.class);
+        TEMConfig config = Mockito.mock(TEMConfig.class);
+        Mockito.when(tem.getConfig()).thenReturn(config);
+        KeyFetcher fetcher = new KeyFetcher(tem);
+        fetcher.checkNeuForApiKey();
         ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
-        PowerMockito.verifyStatic(TEMConfig.class, times(1));
-        TEMConfig.setHypixelKey(stringCaptor.capture());
+        Mockito.verify(config).setHypixelKey(stringCaptor.capture());
         assertEquals("testApiKey123", stringCaptor.getValue());
     }
 
     @Test
     public void testGetKeyFromSkytils() {
-        KeyFetcher.checkSkytilsForApiKey();
+        TEM tem = Mockito.mock(TEM.class);
+        TEMConfig config = Mockito.mock(TEMConfig.class);
+        Mockito.when(tem.getConfig()).thenReturn(config);
+        KeyFetcher fetcher = new KeyFetcher(tem);
+        fetcher.checkSkytilsForApiKey();
         ArgumentCaptor<String> stringCaptor = ArgumentCaptor.forClass(String.class);
-        PowerMockito.verifyStatic(TEMConfig.class, times(1));
-        TEMConfig.setHypixelKey(stringCaptor.capture());
+        Mockito.verify(config).setHypixelKey(stringCaptor.capture());
         assertEquals("testApiKey123", stringCaptor.getValue());
     }
 }

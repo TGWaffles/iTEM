@@ -32,10 +32,12 @@ public class ServerMessageHandler extends WebSocketAdapter {
     private final ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(2);
     private final SocketHandler socketHandler;
     private final ClientResponseHandler clientResponseHandler;
+    private final TEM tem;
 
     public ServerMessageHandler(SocketHandler handler) {
         socketHandler = handler;
         clientResponseHandler = new ClientResponseHandler(socketHandler);
+        tem = handler.getTem();
     }
 
     @Override
@@ -134,8 +136,8 @@ public class ServerMessageHandler extends WebSocketAdapter {
             logger.debug("it's a friends request");
             // Origin player uuid
             String uuid = request.getFriendRequest().getUuid();
-            FriendsListRequest friendRequest = new FriendsListRequest(uuid);
-            TEM.getInstance().getApi().addToQueue(friendRequest);
+            FriendsListRequest friendRequest = new FriendsListRequest(tem, uuid);
+            tem.getApi().addToQueue(friendRequest);
             friendRequest.getFuture().whenCompleteAsync((friends, exception) -> {
                 if (exception != null) {
                     logger.error("Error getting friends list request", exception);
@@ -150,8 +152,8 @@ public class ServerMessageHandler extends WebSocketAdapter {
             logger.debug("it's an inventory request!");
             // Player uuid
             String uuid = request.getInventoryRequest().getPlayerUuid();
-            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(uuid);
-            TEM.getInstance().getApi().addToQueue(playerRequest);
+            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, uuid);
+            tem.getApi().addToQueue(playerRequest);
             logger.debug("Getting player future...");
             playerRequest.getFuture().whenCompleteAsync((player, exception) -> {
                 if (exception != null) {
@@ -168,8 +170,8 @@ public class ServerMessageHandler extends WebSocketAdapter {
         if (request.hasMiscRequest()) {
             logger.debug("Misc request!");
             ServerMessages.MiscRequest serverRequest = request.getMiscRequest();
-            MiscRequest miscRequest = new MiscRequest(serverRequest);
-            TEM.getInstance().getApi().addToQueue(miscRequest);
+            MiscRequest miscRequest = new MiscRequest(tem, serverRequest);
+            tem.getApi().addToQueue(miscRequest);
             miscRequest.getFuture().whenCompleteAsync((data, exception) -> {
                 if (exception != null) {
                     logger.error("Error while getting misc request: ", exception);

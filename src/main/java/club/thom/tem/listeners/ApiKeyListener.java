@@ -1,5 +1,6 @@
 package club.thom.tem.listeners;
 
+import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.MessageUtil;
 import net.minecraft.util.ChatComponentText;
@@ -17,9 +18,11 @@ import java.util.concurrent.Executors;
 public class ApiKeyListener {
     private static final Logger logger = LogManager.getLogger(ApiKeyListener.class);
     private final ExecutorService executor;
+    TEMConfig config;
 
-    public ApiKeyListener() {
+    public ApiKeyListener(TEMConfig config) {
         executor = Executors.newFixedThreadPool(1);
+        this.config = config;
     }
 
     @SubscribeEvent(receiveCanceled = true, priority = EventPriority.HIGH)
@@ -39,7 +42,7 @@ public class ApiKeyListener {
             logger.debug("Setting API key to: {}", apiKey);
             try {
                 // asks Hypixel to ensure the key is valid before setting it
-                TEMConfig.setHypixelKey(apiKey).get();
+                config.setHypixelKey(apiKey).get();
             } catch (InterruptedException | ExecutionException e) {
                 logger.error("setHypixelKey was interrupted.");
                 return;

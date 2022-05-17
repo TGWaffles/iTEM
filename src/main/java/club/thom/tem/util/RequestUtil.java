@@ -19,8 +19,83 @@ import java.util.HashMap;
 
 public class RequestUtil {
     private static final Logger logger = LogManager.getLogger(RequestUtil.class);
-    
-    public static RequestData sendPostRequest(String urlString, JsonObject postData) {
+
+    public static SSLSocketFactory getAllowAllFactory() {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+                    public void checkClientTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                    public void checkServerTrusted(
+                            java.security.cert.X509Certificate[] certs, String authType) {
+                    }
+                }
+        };
+
+        // Install the all-trusting trust manager
+        try {
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            return sc.getSocketFactory();
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+    private RequestData printErrorDebug(URL url, String jsonAsText, int status, Exception e) {
+        logger.error("Exception when fetching data... (uc maybe null)", e);
+        logger.error("URL was: {}", url != null ? url.toExternalForm() : "null url");
+        logger.error("Json data: {}", jsonAsText);
+        JsonObject errorObject = new JsonObject();
+        errorObject.addProperty("success", false);
+        errorObject.addProperty("status", status);
+        return new RequestData(status, new HashMap<>(), errorObject);
+    }
+
+    @NotNull
+    private HttpsURLConnection getHttpsURLConnection(URL url, String post) throws IOException {
+        HttpsURLConnection uc;
+        uc = (HttpsURLConnection) url.openConnection();
+        uc.setSSLSocketFactory(getAllowAllFactory());
+        uc.setReadTimeout(20000);
+        uc.setConnectTimeout(20000);
+        uc.setRequestMethod(post);
+        uc.addRequestProperty("User-Agent",
+                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+        uc.setRequestProperty("Content-Type", "application/json; utf-8");
+        uc.setRequestProperty("Accept", "application/json");
+        return uc;
+    }
+
+    public RequestData sendGetRequest(String urlString) {
+        URL url = null;
+        JsonElement jsonData;
+        HttpsURLConnection uc;
+        String jsonAsText = "";
+        int status = -1;
+        try {
+            url = new URL(urlString);
+            uc = getHttpsURLConnection(url, "GET");
+            status = uc.getResponseCode();
+            InputStream inputStream;
+            if (status != 200) {
+                inputStream = uc.getErrorStream();
+            } else {
+                inputStream = uc.getInputStream();
+            }
+            jsonAsText = IOUtils.toString(inputStream);
+            jsonData = new JsonParser().parse(jsonAsText);
+            return new RequestData(status, uc.getHeaderFields(), jsonData);
+        } catch (IOException | JsonSyntaxException | JsonIOException e) {
+            return printErrorDebug(url, jsonAsText, status, e);
+        }
+    }
+
+    public RequestData sendPostRequest(String urlString, JsonObject postData) {
         URL url = null;
         JsonElement jsonData;
         HttpsURLConnection uc;
@@ -47,100 +122,5 @@ public class RequestUtil {
         } catch (IOException | JsonSyntaxException | JsonIOException e) {
             return printErrorDebug(url, jsonAsText, status, e);
         }
-    }
-
-    public static RequestData sendGetRequest(String urlString) {
-        URL url = null;
-        JsonElement jsonData;
-        HttpsURLConnection uc;
-        String jsonAsText = "";
-        int status = -1;
-        try {
-            url = new URL(urlString);
-            uc = getHttpsURLConnection(url, "GET");
-            status = uc.getResponseCode();
-            InputStream inputStream;
-            if (status != 200) {
-                inputStream = uc.getErrorStream();
-            } else {
-                inputStream = uc.getInputStream();
-            }
-            jsonAsText = IOUtils.toString(inputStream);
-            jsonData = new JsonParser().parse(jsonAsText);
-            return new RequestData(status, uc.getHeaderFields(), jsonData);
-        } catch (IOException | JsonSyntaxException | JsonIOException e) {
-            return printErrorDebug(url, jsonAsText, status, e);
-        }
-    }
-
-    @NotNull
-    private static HttpsURLConnection getHttpsURLConnection(URL url, String post) throws IOException {
-        HttpsURLConnection uc;
-        uc = (HttpsURLConnection) url.openConnection();
-        uc.setSSLSocketFactory(getAllowAllFactory());
-        uc.setReadTimeout(20000);
-        uc.setConnectTimeout(20000);
-        uc.setRequestMethod(post);
-        uc.addRequestProperty("User-Agent",
-                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
-        uc.setRequestProperty("Content-Type", "application/json; utf-8");
-        uc.setRequestProperty("Accept", "application/json");
-        return uc;
-    }
-
-    @NotNull
-    private static RequestData printErrorDebug(URL url, String jsonAsText, int status, Exception e) {
-        logger.error("Exception when fetching data... (uc maybe null)", e);
-        logger.error("URL was: {}", url != null ? url.toExternalForm() : "null url");
-        logger.error("Json data: {}", jsonAsText);
-        JsonObject errorObject = new JsonObject();
-        errorObject.addProperty("success", false);
-        errorObject.addProperty("status", status);
-        return new RequestData(status, new HashMap<>(), errorObject);
-    }
-    
-    public static void tellPlayerAboutFailedRequest(int status) {
-        switch (status) {
-            case 401:
-            case 403:
-                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
-                        "(NOT HYPIXEL API KEY!) is invalid! Set it in /tem config!"));
-                return;
-            case 402:
-                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
-                return;
-            case 404:
-                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: No data found!"));
-                return;
-            default:
-                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown error ("
-                        + status + ")"));
-        }
-    }
-
-    public static SSLSocketFactory getAllowAllFactory() {
-        // Create a trust manager that does not validate certificate chains
-        TrustManager[] trustAllCerts = new TrustManager[]{
-                new X509TrustManager() {
-                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-                    public void checkClientTrusted(
-                            java.security.cert.X509Certificate[] certs, String authType) {
-                    }
-                    public void checkServerTrusted(
-                            java.security.cert.X509Certificate[] certs, String authType) {
-                    }
-                }
-        };
-
-        // Install the all-trusting trust manager
-        try {
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            return sc.getSocketFactory();
-        } catch (Exception ignored) {
-        }
-        return null;
     }
 }

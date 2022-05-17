@@ -6,7 +6,6 @@ import club.thom.tem.constants.PureColours;
 import club.thom.tem.util.*;
 import club.thom.tem.util.HexUtil.Modifier;
 import club.thom.tem.hypixel.request.RequestData;
-import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,7 +21,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ScanLobby {
+public class LobbyScanner {
+    TEM tem;
+    public LobbyScanner(TEM parent) {
+        this.tem = parent;
+    }
+
     static class ArmourWithOwner {
         public final String uuid;
         public final long creationTime;
@@ -38,7 +42,7 @@ public class ScanLobby {
         public String username = "Unknown Player";
         public String plainUsername = "";
 
-        public ArmourWithOwner(JsonElement element) {
+        public ArmourWithOwner(ItemUtil items, JsonElement element) {
             JsonObject jsonData = element.getAsJsonObject();
             uuid = jsonData.get("uuid").getAsString();
             creationTime = jsonData.get("creationTime").getAsLong();
@@ -48,7 +52,7 @@ public class ScanLobby {
             reforge = jsonData.get("reforge").getAsString();
             ownerUuid = jsonData.get("owner").getAsJsonObject().get("playerUuid").getAsString();
             ownerProfile = jsonData.get("owner").getAsJsonObject().get("profileUuid").getAsString();
-            modifier = HexUtil.getModifier(itemId, hexCode, creationTime);
+            modifier = new HexUtil(items).getModifier(itemId, hexCode, creationTime);
 
             if (jsonData.has("lastChecked")) {
                 lastChecked = jsonData.get("lastChecked").getAsLong();
@@ -74,7 +78,7 @@ public class ScanLobby {
         }
     }
 
-    public static void scan() {
+    public void scan() {
         MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Starting scan..."));
         HashMap<String, String> colouredNameMap = new HashMap<>();
         HashMap<String, String> commandNameMap = new HashMap<>();
@@ -84,7 +88,7 @@ public class ScanLobby {
             String displayName;
             String uuid = player.getGameProfile().getId().toString().replaceAll("-", "");
             // Remove your player from the scanned list.
-            if (uuid.equals(PlayerUtil.getUUID())) {
+            if (uuid.equals(tem.getPlayer().getUUID())) {
                 // yourself
                 playersToRemove.add(player);
             }
@@ -95,7 +99,7 @@ public class ScanLobby {
                 // falls back to blank name
                 displayName = player.getDisplayNameString();
             }
-            if (displayName.contains("\u00A7c") && !TEMConfig.scanRedNames) {
+            if (displayName.contains("\u00A7c") && !tem.getConfig().shouldScanRedNames()) {
                 // helps in not scanning watchdog "players"
                 playersToRemove.add(player);
             }
@@ -112,7 +116,7 @@ public class ScanLobby {
 
         RequestData returnedData = scanPlayers(players);
         if (returnedData.getStatus() != 200) {
-            RequestUtil.tellPlayerAboutFailedRequest(returnedData.getStatus());
+            MessageUtil.tellPlayerAboutFailedRequest(returnedData.getStatus());
             return;
         }
         ArrayList<ArmourWithOwner> armourToSend = new ArrayList<>();
@@ -122,7 +126,7 @@ public class ScanLobby {
             return;
         }
         for (JsonElement element : returnedData.getJsonAsObject().get("armour").getAsJsonArray()) {
-            ArmourWithOwner armour = new ArmourWithOwner(element);
+            ArmourWithOwner armour = new ArmourWithOwner(tem.getItems(), element);
             if (checkItem(armour)) {
                 armourToSend.add(armour);
             }
@@ -136,9 +140,9 @@ public class ScanLobby {
                 armourToSend.size() + " suitable items found."));
     }
 
-    public static boolean checkItem(ArmourWithOwner armour) {
+    public boolean checkItem(ArmourWithOwner armour) {
         // days -> milliseconds
-        long timePassed = TEMConfig.maxItemAge * 24 * 60 * 60 * 1000L;
+        long timePassed = tem.getConfig().getMaxItemAge() * 24 * 60 * 60 * 1000L;
         if (armour.lastChecked + timePassed < System.currentTimeMillis()) {
             return false;
         }
@@ -150,54 +154,26 @@ public class ScanLobby {
         }
         switch (modifier) {
             case EXOTIC:
-                return TEMConfig.enableExotics;
+                return tem.getConfig().isExoticsEnabled();
             case CRYSTAL:
-                return TEMConfig.enableCrystal;
+                return tem.getConfig().isCrystalEnabled();
             case FAIRY:
-                return TEMConfig.enableFairy;
+                return tem.getConfig().isFairyEnabled();
             case OG_FAIRY:
-                return TEMConfig.enableOGFairy;
+                return tem.getConfig().isOGFairyEnabled();
             case UNDYED:
-                return TEMConfig.enableBleached;
+                return tem.getConfig().isBleachedEnabled();
             case GLITCHED:
-                return TEMConfig.enableGlitched;
+                return tem.getConfig().isGlitchedEnabled();
         }
 
         return false;
     }
 
-    public static String getColourCode(Modifier modifier) {
-        String prefixColour = EnumChatFormatting.WHITE.toString();
-        switch (modifier) {
-            case CRYSTAL:
-                prefixColour = EnumChatFormatting.AQUA.toString();
-                break;
-            case FAIRY:
-                prefixColour = EnumChatFormatting.LIGHT_PURPLE.toString();
-                break;
-            case OG_FAIRY:
-                prefixColour = EnumChatFormatting.DARK_PURPLE.toString();
-                break;
-            case EXOTIC:
-                prefixColour = EnumChatFormatting.GOLD.toString();
-                break;
-            case ORIGINAL:
-                prefixColour = EnumChatFormatting.DARK_GRAY.toString();
-                break;
-            case UNDYED:
-                prefixColour = EnumChatFormatting.GRAY.toString();
-                break;
-            case GLITCHED:
-                // magic grey pipe in front of glitched armour
-                prefixColour = EnumChatFormatting.BLUE.toString();
-        }
-        return prefixColour;
-    }
+    public void sendItemMessage(ArmourWithOwner item) {
+        String prefixColour = item.modifier.getColourCode();
 
-    public static void sendItemMessage(ArmourWithOwner item) {
-        String prefixColour = getColourCode(item.modifier);
-
-        String itemName = TEM.items.nameFromId(item.itemId);
+        String itemName = tem.getItems().nameFromId(item.itemId);
 
         String pureColourText = "";
         if (PureColours.isPureColour(item.hexCode)) {
@@ -234,15 +210,15 @@ public class ScanLobby {
         MessageUtil.sendMessage(message);
     }
 
-    public static RequestData scanPlayers(List<EntityPlayer> players) {
+    public RequestData scanPlayers(List<EntityPlayer> players) {
         JsonObject requestJson = new JsonObject();
-        requestJson.addProperty("key", TEMConfig.getTemApiKey());
+        requestJson.addProperty("key", tem.getConfig().getTemApiKey());
         JsonArray playerArray = new JsonArray();
         for (EntityPlayer player : players) {
             playerArray.add(player.getGameProfile().getId().toString().replaceAll("-", ""));
         }
         requestJson.add("players", playerArray);
-        return RequestUtil.sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
+        return new RequestUtil().sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
     }
 
 }

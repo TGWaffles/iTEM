@@ -1,5 +1,6 @@
 package club.thom.tem.models.inventory;
 
+import club.thom.tem.TEM;
 import club.thom.tem.models.messages.ClientMessages.InventoryResponse;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -16,8 +17,10 @@ public class PlayerData {
     private static final Logger logger = LogManager.getLogger(PlayerData.class);
     public final String playerUuid;
     private final List<ProfileData> profiles = new ArrayList<>();
+    TEM tem;
 
-    public PlayerData(JsonObject responseFromApi, String uuid) {
+    public PlayerData(TEM tem, JsonObject responseFromApi, String uuid) {
+        this.tem = tem;
         logger.debug("Generating player data...");
         jsonData = responseFromApi;
         playerUuid = uuid;
@@ -35,7 +38,7 @@ public class PlayerData {
         logger.debug("Generating profiles.");
         for (JsonElement profileJson : jsonProfiles) {
             logger.debug("Starting profile");
-            profiles.add(new ProfileData(profileJson.getAsJsonObject(), playerUuid));
+            profiles.add(new ProfileData(tem, profileJson.getAsJsonObject(), playerUuid));
             logger.debug("Finished profile");
         }
         logger.debug("Generated profiles.");
@@ -43,7 +46,7 @@ public class PlayerData {
 
     private void fillProfilesWithBlank() {
         // Special case where a profile has no inventories, but we want to mark it as done to clear the queue.
-        profiles.add(new BlankProfileData());
+        profiles.add(new BlankProfileData(tem));
     }
 
     public List<InventoryResponse> getInventoryResponses() {

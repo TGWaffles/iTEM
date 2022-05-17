@@ -8,7 +8,6 @@ import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;
-import club.thom.tem.storage.TEMConfig;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
@@ -21,9 +20,11 @@ import java.util.concurrent.ExecutionException;
 @SuppressWarnings("ALL")
 public class DupeChecker {
     public boolean enableMessages;
+    TEM tem;
 
-    public DupeChecker(boolean enableMessages) {
+    public DupeChecker(TEM tem, boolean enableMessages) {
         this.enableMessages = enableMessages;
+        this.tem = tem;
     }
 
     public static class ItemWithLocation {
@@ -55,8 +56,8 @@ public class DupeChecker {
         HashSet<ItemWithLocation> verifiedOwners = new HashSet<>();
         HashMap<String, String> lookupMap = UUIDUtil.usernamesFromUUIDs(possibleOwners);
         // anyone with the item on the AH is automatically a verified owner
-        if (TEMConfig.useAuctionHouseForDupes) {
-            for (String ownerUuid : TEM.auctions.getOwnersForItemUUID(uuid)) {
+        if (tem.getConfig().shouldUseAuctionHouseForDupes()) {
+            for (String ownerUuid : tem.getAuctions().getOwnersForItemUUID(uuid)) {
                 verifiedOwners.add(new ItemWithLocation(lookupMap.getOrDefault(ownerUuid, ownerUuid), "auction_house"));
             }
         }
@@ -82,9 +83,9 @@ public class DupeChecker {
             PlayerData playerData;
             playerData = RequestsCache.getInstance().playerDataCache.getIfPresent(uuid);
             if (playerData == null) {
-                SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(possibleOwner);
+                SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, possibleOwner);
                 playerRequest.priority = true;
-                TEM.getInstance().getApi().addToQueue(playerRequest);
+                tem.getApi().addToQueue(playerRequest);
                 inventories.add(playerRequest.getFuture());
             } else {
                 CompletableFuture<PlayerData> mockFuture = new CompletableFuture<>();

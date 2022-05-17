@@ -17,28 +17,35 @@ import java.nio.file.Paths;
 public class KeyFetcher {
     static String skytilsFolder = "config/skytils/";
     static String neuFolder = "config/notenoughupdates/";
+    TEM tem;
+    TEMConfig config;
 
-    public static void checkForApiKey(){
+    public KeyFetcher(TEM tem) {
+        this.tem = tem;
+        this.config = tem.getConfig();
+    }
+
+    public void checkForApiKey() {
         // If the API key has already been set (and is valid!) no point fetching from skytils/neu.
-        if (!TEMConfig.getHypixelKey().equals("") && TEMConfig.wasKeyValid()) {
+        if (!config.getHypixelKey().equals("") && config.wasKeyValid()) {
             return;
         }
         // Checks Skytils for the key.
         checkSkytilsForApiKey();
         // Validates that the key got set & that it works.
-        if(!TEMConfig.getHypixelKey().equals("") && TEMConfig.isKeyValid(TEMConfig.getHypixelKey())) {
+        if(!config.getHypixelKey().equals("") && config.isKeyValid(config.getHypixelKey())) {
             MessageUtil.sendMessage(new ChatComponentText("Fetched your api key from Skytils!"));
             return;
         }
         // Skytils failed, checking if NEU has an api key...
         checkNeuForApiKey();
         // Validates it got set and works.
-        if(!TEMConfig.getHypixelKey().equals("") && TEMConfig.isKeyValid(TEMConfig.getHypixelKey())) {
+        if(!config.getHypixelKey().equals("") && config.isKeyValid(config.getHypixelKey())) {
             MessageUtil.sendMessage(new ChatComponentText("Fetched your api key from NEU!"));
         }
     }
 
-    protected static void checkSkytilsForApiKey() {
+    protected void checkSkytilsForApiKey() {
         try {
             final String fileName = "config.toml";
             Path skytilsDirectory = Paths.get(skytilsFolder + fileName);
@@ -48,23 +55,23 @@ public class KeyFetcher {
                 skytilsConfigFile.load();
                 String apiKey = skytilsConfigFile.get("general.api.hypixel_api_key");
                 if (apiKey != null && !apiKey.equals("")) {
-                    TEMConfig.setHypixelKey(apiKey);
-                    TEM.getInstance().forceSaveConfig();
+                    config.setHypixelKey(apiKey);
+                    tem.forceSaveConfig();
                 }
             }
         } catch (Exception ignored) {
         }
     }
 
-    protected static void checkNeuForApiKey() {
+    protected void checkNeuForApiKey() {
         Path neuDirectory = Paths.get(neuFolder + "configNew.json");
         if (Files.exists(neuDirectory)) {
             try {
                 JsonObject neuConfigData = new JsonParser().parse(new FileReader(neuDirectory.toString())).getAsJsonObject();
                 String apiKey = neuConfigData.get("apiKey").getAsJsonObject().get("apiKey").getAsString();
                 if (apiKey != null && !apiKey.equals("")) {
-                    TEMConfig.setHypixelKey(apiKey);
-                    TEM.getInstance().forceSaveConfig();
+                    config.setHypixelKey(apiKey);
+                    tem.forceSaveConfig();
                 }
             } catch (Exception ignored) {
                 // TODO: Add logging here once SLF4J is implemented

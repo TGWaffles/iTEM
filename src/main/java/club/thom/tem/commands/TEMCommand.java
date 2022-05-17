@@ -1,5 +1,6 @@
 package club.thom.tem.commands;
 
+import club.thom.tem.TEM;
 import club.thom.tem.commands.subcommands.SubCommand;
 import club.thom.tem.commands.subcommands.SubCommandGenerator;
 import club.thom.tem.util.MessageUtil;
@@ -13,6 +14,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TEMCommand extends CommandBase {
+    private TEM tem;
+
+    public TEMCommand(TEM tem) {
+        this.tem = tem;
+    }
+
     @Override
     public String getCommandName() {
         return "tem";
@@ -67,7 +74,7 @@ public class TEMCommand extends CommandBase {
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
         if (subCommands.size() == 0) {
-            subCommands.addAll(SubCommandGenerator.getSubCommands());
+            subCommands.addAll(SubCommandGenerator.getSubCommands(tem));
         }
         if (args.length == 0) {
             MessageUtil.sendMessage(getHelpMessage());

@@ -25,8 +25,6 @@ public class TEMConfig extends Vigilant {
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);
     private static final ExecutorService executor = Executors.newFixedThreadPool(2, r -> new Thread(r, "TEMConfig"));
 
-
-
     @Property(
             type = PropertyType.SWITCH,
             category = "TEM",
@@ -34,7 +32,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Exotics",
             description = "Enable Exotic Armour"
     )
-    public static boolean enableExotics = false;
+    private boolean enableExotics = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -43,7 +41,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Crystal",
             description = "Enable Crystal Armour"
     )
-    public static boolean enableCrystal = false;
+    private boolean enableCrystal = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -52,7 +50,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Fairy",
             description = "Enable Fairy Armour"
     )
-    public static boolean enableFairy = false;
+    private boolean enableFairy = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -61,7 +59,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable OG Fairy",
             description = "Enable OG Fairy Armour"
     )
-    public static boolean enableOGFairy = false;
+    private boolean enableOGFairy = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -70,7 +68,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Bleached",
             description = "Enable Bleached Armour"
     )
-    public static boolean enableBleached = false;
+    private boolean enableBleached = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -79,7 +77,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Glitched",
             description = "Enable Glitched Armour"
     )
-    public static boolean enableGlitched = false;
+    private boolean enableGlitched = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -88,7 +86,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Auto-Scan",
             description = "Enable Auto TEM scan"
     )
-    public static boolean autoScan = false;
+    private boolean autoScan = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -97,7 +95,7 @@ public class TEMConfig extends Vigilant {
             name = "Scan Red-Names",
             description = "Choose whether to scan red-name players (WATCHDOG FAKE PLAYERS, but also YTs and Admins)"
     )
-    public static boolean scanRedNames = true;
+    private boolean scanRedNames = true;
 
     @Property(
             type = PropertyType.NUMBER,
@@ -108,7 +106,7 @@ public class TEMConfig extends Vigilant {
                     "NOTE: Too low means you might miss some items, depending on TEM's current refresh rate.",
             max = 31
     )
-    public static int maxItemAge = 31;
+    private int maxItemAge = 31;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -117,7 +115,7 @@ public class TEMConfig extends Vigilant {
             name = "Use Cofl",
             description = "Use Cofl's api to aid dupe checks."
     )
-    public static boolean useCofl = true;
+    private boolean useCofl = true;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -126,7 +124,7 @@ public class TEMConfig extends Vigilant {
             name = "Use TEM",
             description = "Use TEM's api (costs contributions) to aid dupe checks."
     )
-    public static boolean useTEMApiForDupes = true;
+    private boolean useTEMApiForDupes = true;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -135,8 +133,11 @@ public class TEMConfig extends Vigilant {
             name = "Use AH",
             description = "Use the Auction House to aid dupe checks."
     )
-    public static boolean useAuctionHouseForDupes = true;
+    private boolean useAuctionHouseForDupes = true;
 
+    public boolean shouldUseAuctionHouseForDupes() {
+        return useAuctionHouseForDupes;
+    }
 
     @Property(
             type = PropertyType.TEXT,
@@ -146,23 +147,23 @@ public class TEMConfig extends Vigilant {
             description = "Enter your Hypixel Api Key",
             protectedText = true
     )
-    private static String hypixelKey = "";
+    private String hypixelKey = "";
 
-    private static String guaranteedSafeKey = "";
+    private String guaranteedSafeKey;
 
-    public static Future<?> setHypixelKey(String newKey) {
+    public Future<?> setHypixelKey(String newKey) {
         return executor.submit(() -> {
             if (isKeyValid(newKey)) {
                 hypixelKey = newKey;
                 logger.info("TEM Config -> Setting guaranteed key from function! Key: {}", hypixelKey);
                 guaranteedSafeKey = hypixelKey;
                 wasApiKeyValid = true;
-                TEM.getInstance().forceSaveConfig();
+                tem.forceSaveConfig();
             }
         });
     }
 
-    public static String getHypixelKey() {
+    public String getHypixelKey() {
         return guaranteedSafeKey;
     }
 
@@ -173,9 +174,9 @@ public class TEMConfig extends Vigilant {
             name = "Was Valid Key",
             hidden = true
     )
-    private static boolean wasApiKeyValid = false;
+    private boolean wasApiKeyValid = false;
 
-    public static boolean wasKeyValid() {
+    public boolean wasKeyValid() {
         return wasApiKeyValid;
     }
 
@@ -188,9 +189,9 @@ public class TEMConfig extends Vigilant {
                     "or in the Discord server.",
             protectedText = true
     )
-    private static String temApiKey = "";
+    private String temApiKey = "";
 
-    public static String getTemApiKey() {
+    public String getTemApiKey() {
         return temApiKey;
     }
 
@@ -205,7 +206,15 @@ public class TEMConfig extends Vigilant {
             max = 120,
             increment = 5
     )
-    public static int maxSimultaneousThreads = 120;
+    private int maxSimultaneousThreads = 120;
+
+    public int getMaxSimultaneousThreads() {
+        return maxSimultaneousThreads;
+    }
+
+    public void setMaxSimultaneousThreads(int maxSimultaneousThreads) {
+        this.maxSimultaneousThreads = maxSimultaneousThreads;
+    }
 
     @Property(
             type = PropertyType.NUMBER,
@@ -216,7 +225,15 @@ public class TEMConfig extends Vigilant {
                     "you are earning low contributions, or have a low simultaneous threads value)",
             max = 60
     )
-    public static int timeOffset = 50;
+    private int timeOffset = 50;
+
+    public int getTimeOffset() {
+        return timeOffset;
+    }
+
+    public void setTimeOffset(int timeOffset) {
+        this.timeOffset = timeOffset;
+    }
 
     @Property(
             type = PropertyType.SWITCH,
@@ -225,7 +242,15 @@ public class TEMConfig extends Vigilant {
             name = "Enable Contributions",
             description = "Enable Earning Contributions"
     )
-    public static boolean enableContributions = true;
+    private boolean enableContributions = true;
+
+    public boolean shouldContribute() {
+        return enableContributions;
+    }
+
+    public void setEnableContributions(boolean enableContributions) {
+        this.enableContributions = enableContributions;
+    }
 
     @Property(
             type = PropertyType.NUMBER,
@@ -237,8 +262,15 @@ public class TEMConfig extends Vigilant {
             max = 120,
             increment = 5
     )
-    public static int spareRateLimit = 10;
+    private int spareRateLimit = 10;
 
+    public int getSpareRateLimit() {
+        return spareRateLimit;
+    }
+
+    public void setSpareRateLimit(int spareRateLimit) {
+        this.spareRateLimit = spareRateLimit;
+    }
     @Property(
             type = PropertyType.SWITCH,
             category = "API",
@@ -246,11 +278,12 @@ public class TEMConfig extends Vigilant {
             name = "Max On AFK",
             description = "Earn max contributions when you go AFK."
     )
-    public static boolean maxOnAfk = true;
-
+    public boolean maxOnAfk = true;
     public static String saveFolder = "config/tem/";
+
     public static String fileName = "preferences.toml";
-    public static File CONFIG_FILE = null;
+
+    public File CONFIG_FILE;
 
     private void checkFolderExists() {
         Path directory = Paths.get(saveFolder);
@@ -263,23 +296,23 @@ public class TEMConfig extends Vigilant {
         }
     }
 
-    public static boolean isKeyValid(String key) {
+    public boolean isKeyValid(String key) {
         if (key.length() == 0) {
             return false;
         }
-        KeyLookupRequest request = new KeyLookupRequest(key, TEM.getInstance().getApi());
-        TEM.getInstance().getApi().addToQueue(request);
+        KeyLookupRequest request = new KeyLookupRequest(tem, key, tem.getApi());
+        tem.getApi().addToQueue(request);
         try {
             boolean result = request.getFuture().get();
             if (result) {
-                TEM.getInstance().getApi().hasValidApiKey = true;
+                tem.getApi().hasValidApiKey = true;
                 executor.submit(() -> {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         logger.error("Thread interrupted while waiting to trigger api key set.", e);
                     }
-                    TEM.getInstance().getApi().signalApiKeySet();
+                    tem.getApi().signalApiKeySet();
                 });
             } else {
                 logger.warn("TEMConfig - warning: API key is invalid!");
@@ -291,41 +324,91 @@ public class TEMConfig extends Vigilant {
         }
     }
 
-    Consumer<String> checkApiKey = key -> executor.submit(() -> {
-        String oldKey = hypixelKey;
-        if (key.length() == 0 || !isKeyValid(key)) {
-            try {
-                Thread.sleep(10);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (oldKey.length() == 0) {
-                // better something than nothing I suppose?
-                hypixelKey = key;
+    public Consumer<String> getKeyConsumer() {
+        return key -> executor.submit(() -> {
+            String oldKey = hypixelKey;
+            if (key.length() == 0 || !isKeyValid(key)) {
+                try {
+                    Thread.sleep(10);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (oldKey.length() == 0) {
+                    // better something than nothing I suppose?
+                    hypixelKey = key;
+                    return;
+                }
+                hypixelKey = oldKey;
+                tem.forceSaveConfig();
                 return;
             }
-            hypixelKey = oldKey;
-            TEM.getInstance().forceSaveConfig();
-            return;
-        }
-        wasApiKeyValid = true;
-        hypixelKey = key;
-        logger.info("TEM Config -> Setting guaranteed key from consumer! Key: {}", hypixelKey);
-        guaranteedSafeKey = hypixelKey;
-        TEM.getInstance().forceSaveConfig();
-    });
+            wasApiKeyValid = true;
+            hypixelKey = key;
+            logger.info("TEM Config -> Setting guaranteed key from consumer! Key: {}", hypixelKey);
+            guaranteedSafeKey = hypixelKey;
+            tem.forceSaveConfig();
+        });
+    }
 
-    public TEMConfig() {
+    private final TEM tem;
+
+    public TEMConfig(TEM tem) {
         super(new File(saveFolder + fileName), "TEM Configuration");
+        this.tem = tem;
         checkFolderExists();
         CONFIG_FILE = new File(saveFolder + fileName);
         initialize();
         try {
-            registerListener(this.getClass().getDeclaredField("hypixelKey"), checkApiKey);
+            registerListener(this.getClass().getDeclaredField("hypixelKey"), getKeyConsumer());
         } catch (Exception e) {
             e.printStackTrace();
         }
         logger.info("TEM Config -> Setting guaranteed key from constructor! Key: {}", hypixelKey);
         guaranteedSafeKey = hypixelKey;
+    }
+
+
+    public boolean isUseTEMApiForDupes() {
+        return useTEMApiForDupes;
+    }
+
+    public boolean isUseCofl() {
+        return useCofl;
+    }
+
+    public int getMaxItemAge() {
+        return maxItemAge;
+    }
+
+    public boolean isExoticsEnabled() {
+        return enableExotics;
+    }
+
+    public boolean isCrystalEnabled() {
+        return enableCrystal;
+    }
+
+    public boolean isFairyEnabled() {
+        return enableFairy;
+    }
+
+    public boolean isOGFairyEnabled() {
+        return enableOGFairy;
+    }
+
+    public boolean isBleachedEnabled() {
+        return enableBleached;
+    }
+
+    public boolean isGlitchedEnabled() {
+        return enableGlitched;
+    }
+
+    public boolean isAutoScanEnabled() {
+        return autoScan;
+    }
+
+    public boolean shouldScanRedNames() {
+        return scanRedNames;
     }
 }

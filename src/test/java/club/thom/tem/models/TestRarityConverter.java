@@ -5,12 +5,16 @@ import club.thom.tem.util.ItemUtil;
 import club.thom.tem.util.TestHelper;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.storage.TEMConfig;
+import club.thom.tem.util.TestItemUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,11 +28,13 @@ public class TestRarityConverter {
     }
 
     @Test
-    public void testRarityFromItemId() {
-        TEM.items = new ItemUtil();
-        new Thread(() -> TEM.items.fillItems()).start();
-        TEM.items.waitForInit();
-        assertEquals(ClientMessages.Rarity.LEGENDARY, RarityConverter.getRarityFromItemId("SPEED_WITHER_BOOTS"));
+    public void testRarityFromItemId() throws IOException {
+        TEM tem = Mockito.mock(TEM.class);
+        ItemUtil items = TestItemUtil.getSetupItemUtil();
+        items.fillItems();
+        Mockito.when(tem.getItems()).thenReturn(items);
+
+        assertEquals(ClientMessages.Rarity.LEGENDARY, new RarityConverter(tem).getRarityFromItemId("SPEED_WITHER_BOOTS"));
     }
 
 }

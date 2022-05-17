@@ -1,6 +1,6 @@
 package club.thom.tem.listeners;
 
-import club.thom.tem.backend.ScanLobby;
+import club.thom.tem.backend.LobbyScanner;
 import club.thom.tem.storage.TEMConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -22,6 +22,13 @@ public class LobbySwitchListener {
     public boolean isInHub = false;
     public long hubJoinTime = 0;
     public long lastScanTime = 0;
+    private final LobbyScanner scanner;
+    TEMConfig config;
+
+    public LobbySwitchListener(TEMConfig config, LobbyScanner scanner) {
+        this.scanner = scanner;
+        this.config = config;
+    }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onLobbySwitch(EntityJoinWorldEvent event) {
@@ -98,9 +105,9 @@ public class LobbySwitchListener {
     public void processHubJoin() {
         hubJoinTime = System.currentTimeMillis();
         isInHub = true;
-        if (TEMConfig.autoScan && System.currentTimeMillis() - lastScanTime > 1000) {
+        if (config.isAutoScanEnabled() && System.currentTimeMillis() - lastScanTime > 1000) {
             lastScanTime = System.currentTimeMillis();
-            new Thread(ScanLobby::scan, "TEM-auto-scan").start();
+            new Thread(scanner::scan, "TEM-auto-scan").start();
         }
     }
 

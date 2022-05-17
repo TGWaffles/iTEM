@@ -1,5 +1,6 @@
 package club.thom.tem.commands.subcommands;
 
+import club.thom.tem.TEM;
 import club.thom.tem.dupes.DupeCommandExecutor;
 import club.thom.tem.util.MessageUtil;
 import net.minecraft.command.ICommandSender;
@@ -7,6 +8,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public class PlayerDupeCheck implements SubCommand {
+    TEM tem;
+    public PlayerDupeCheck(TEM tem) {
+        this.tem = tem;
+    }
+
     @Override
     public String getName() {
         return "player-dupe-check";
@@ -24,6 +30,6 @@ public class PlayerDupeCheck implements SubCommand {
                     "/tem player-dupe-check <username>"));
             return;
         }
-        new DupeCommandExecutor().run(args[0]);
+        new DupeCommandExecutor(tem).run(args[0]);
     }
 }
