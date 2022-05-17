@@ -5,8 +5,11 @@ import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
 import club.thom.tem.backend.requests.item_data.ItemData;
-import club.thom.tem.backend.requests.item_data_from_uuids.FindUUIDsDataRequest;
-import club.thom.tem.backend.requests.item_data_from_uuids.FindUUIDsDataResponse;
+import club.thom.tem.backend.requests.item_data.PetData;
+import club.thom.tem.backend.requests.item_data_from_uuids.FindItemUUIDsDataRequest;
+import club.thom.tem.backend.requests.item_data_from_uuids.FindItemUUIDsDataResponse;
+import club.thom.tem.backend.requests.item_data_from_uuids.FindPetUUIDsDataRequest;
+import club.thom.tem.backend.requests.item_data_from_uuids.FindPetUUIDsDataResponse;
 import club.thom.tem.dupes.cofl.CoflRequestMaker;
 import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.PlayerUtil;
@@ -183,23 +186,48 @@ public class DupeCommandExecutor {
 
     public HashMap<String, List<String>> findAllPreviousOwners(List<String> itemUuids) {
         HashMap<String, List<String>> previousOwnerMap = new HashMap<>();
-        FindUUIDsDataResponse response = (FindUUIDsDataResponse) new FindUUIDsDataRequest(tem.getConfig(), itemUuids).makeRequest();
-        if (response == null) {
-            return previousOwnerMap;
+        addItemOwners(previousOwnerMap, itemUuids);
+
+        if (itemUuids.size() > 0) {
+            // do pets too!
+            addPetOwners(previousOwnerMap, itemUuids);
         }
-        for (Map.Entry<String, ItemData> entry : response.data.entrySet()) {
-            HashSet<String> previousOwners = new HashSet<>();
-            for (Iterator<ItemData.PreviousOwner> it = entry.getValue().previousOwners.descendingIterator(); it.hasNext(); ) {
-                ItemData.PreviousOwner previousOwnerData = it.next();
-                if (previousOwners.size() > 3) {
-                    break;
-                }
-                String playerUuid = previousOwnerData.owner.playerUuid;
-                previousOwners.add(playerUuid);
-            }
-            previousOwnerMap.put(entry.getKey(), new ArrayList<>(previousOwners));
-        }
+
         logger.info("tem finish");
         return previousOwnerMap;
     }
+
+    private void addItemOwners(HashMap<String, List<String>> previousOwnerMap, List<String> itemUuids) {
+        FindItemUUIDsDataResponse itemResponse = (FindItemUUIDsDataResponse) new FindItemUUIDsDataRequest(tem.getConfig(), itemUuids).makeRequest();
+        if (itemResponse == null) {
+            return;
+        }
+        for (Map.Entry<String, ItemData> entry : itemResponse.data.entrySet()) {
+            addPreviousOwnersToMap(previousOwnerMap, entry.getKey(), entry.getValue().previousOwners);
+        }
+    }
+
+    private void addPetOwners(HashMap<String, List<String>> previousOwnerMap, List<String> petUuids) {
+        FindPetUUIDsDataResponse petResponse = (FindPetUUIDsDataResponse) new FindPetUUIDsDataRequest(tem.getConfig(), petUuids).makeRequest();
+        if (petResponse == null) {
+            return;
+        }
+        for (Map.Entry<String, PetData> entry : petResponse.data.entrySet()) {
+            addPreviousOwnersToMap(previousOwnerMap, entry.getKey(), entry.getValue().previousOwners);
+        }
+    }
+
+    private void addPreviousOwnersToMap(HashMap<String, List<String>> previousOwnerMap, String itemUuid, LinkedList<ItemData.PreviousOwner> previousOwnersFromDb) {
+        HashSet<String> previousOwners = new HashSet<>();
+        for (Iterator<ItemData.PreviousOwner> it = previousOwnersFromDb.descendingIterator(); it.hasNext(); ) {
+            ItemData.PreviousOwner previousOwnerData = it.next();
+            if (previousOwners.size() > 3) {
+                break;
+            }
+            String playerUuid = previousOwnerData.owner.playerUuid;
+            previousOwners.add(playerUuid);
+        }
+        previousOwnerMap.put(itemUuid, new ArrayList<>(previousOwners));
+    }
+
 }

@@ -14,13 +14,13 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Objects;
 
-public class FindUUIDsDataRequest implements BackendRequest {
+public class FindItemUUIDsDataRequest implements BackendRequest {
     final List<String> uuids;
     final boolean sendMessages = true;
-    private static final Logger logger = LogManager.getLogger(FindUUIDsDataRequest.class);
+    private static final Logger logger = LogManager.getLogger(FindItemUUIDsDataRequest.class);
     TEMConfig config;
 
-    public FindUUIDsDataRequest(TEMConfig config, List<String> itemUuids) {
+    public FindItemUUIDsDataRequest(TEMConfig config, List<String> itemUuids) {
         uuids = itemUuids;
         this.config = config;
     }
@@ -32,17 +32,17 @@ public class FindUUIDsDataRequest implements BackendRequest {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof FindUUIDsDataRequest)) {
+        if (!(o instanceof FindItemUUIDsDataRequest)) {
             return false;
         }
-        FindUUIDsDataRequest otherRequest = (FindUUIDsDataRequest) o;
+        FindItemUUIDsDataRequest otherRequest = (FindItemUUIDsDataRequest) o;
         return otherRequest.uuids.equals(uuids);
     }
 
     @Override
     public BackendResponse makeRequest() {
         RequestData response = submitRequest();
-        if (response.getStatus() != 200) {
+        if (response.getStatus() != 200 && response.getStatus() != 404) {
             if (sendMessages) {
                 MessageUtil.tellPlayerAboutFailedRequest(response.getStatus());
             } else {
@@ -51,7 +51,7 @@ public class FindUUIDsDataRequest implements BackendRequest {
             return null;
         }
         logger.info("returning response!");
-        return new FindUUIDsDataResponse(response.getJsonAsObject());
+        return new FindItemUUIDsDataResponse(response.getJsonAsObject());
     }
 
     public RequestData submitRequest() {
