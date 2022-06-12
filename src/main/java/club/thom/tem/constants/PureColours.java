@@ -23,7 +23,7 @@ public class PureColours {
         pureColours.put("FFFFFF", "WHITE");
         pureColours.put("999999", "LIGHT GRAY");
         pureColours.put("4C4C4C", "DARK GRAY");
-        pureColours.put("19191919", "BLACK");
+        pureColours.put("191919", "BLACK");
         return pureColours;
     }
 
