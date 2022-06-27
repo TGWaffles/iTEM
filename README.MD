@@ -5,11 +5,19 @@
 
 ---
 
-An open-source, free, scanner for exotic armour in Hypixel Skyblock! 
+__What is TEM?__
 
-Searches friendslists, the auction house, and inventories to find exotic, crystal and fairy armour, which is then uploaded to a database for searching.
+TEM is an open source, community-led effort to track every single item in Hypixel Skyblock.
 
-Includes an AH sniper to snipe any exotics/crystal/fairy armour listed on the AH.
+By contributing to the effort, you earn "contributions" (because you contributed), and using the contributions you can search the TEM database for (currently) exotic armour sets, applied pet skins, and unapplied pet skins. In the future, you will be able to search for any item with any attribute you want.
+
+TEM uses this data to be able to provide "active dupe checking", item ownership history, quick access to item nbt, hypixel searches, item statistics/rarity, and more to come.
+
+It also provides handy in-game features, such as lobby scanning for exotics, exotic labelling (eg fairy/spooky/exotic/glitched), copying item uuid to clipboard, dupe-checking via a hotkey, and armour rarity annotations (how many there are in the game).
+
+At the moment, it takes 12 hours for any item/inventory update to be reflected in the TEM database. We have over 110 million items tracked, and almost 15 million players known about.
+
+We currently aren't advertising as we want to build up the utility and add more publically accessible options (eg https://tem.cx is being worked on) and uses for the database, but you can join while we're in beta and help to contribute.
 
 [Join the Discord!](https://discord.gg/bUE3r3Jckc)
 
