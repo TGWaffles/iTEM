@@ -19,7 +19,7 @@ public class StandaloneStart {
             logger.error("You must include the uuid and API key as an argument to this program!\nUsage: java -jar TEMStandalone.jar <uuid> <api-key>");
             Runtime.getRuntime().exit(1);
         }
-        String uuid = args[0];
+        String uuid = args[0].replace("-", "");
         String apiKey = args[1];
         TEMConfig.saveFolder = "config/";
         TEMConfig.fileName = apiKey + ".toml";
