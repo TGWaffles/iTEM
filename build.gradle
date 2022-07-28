@@ -134,9 +134,7 @@ shadowJar {
             it.moduleGroup == 'com.google.protobuf'
         })
 
-        include(dependency {
-            it.moduleGroup == 'com.google.gson'
-        })
+        include(dependency('com.google.code.gson:gson:2.8.2'))
 
         include(dependency {
             it.moduleGroup == 'com.neovisionaries'
