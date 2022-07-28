@@ -135,6 +135,10 @@ shadowJar {
         })
 
         include(dependency {
+            it.moduleGroup == 'com.google.gson'
+        })
+
+        include(dependency {
             it.moduleGroup == 'com.neovisionaries'
         })
 
