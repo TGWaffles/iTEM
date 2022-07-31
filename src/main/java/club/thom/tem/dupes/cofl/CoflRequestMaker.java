@@ -7,6 +7,7 @@ import club.thom.tem.models.CoflAuctionModel;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.logging.log4j.LogManager;
@@ -58,7 +59,7 @@ public class CoflRequestMaker {
         JsonObject requestData = new JsonObject();
         JsonArray uuidArray = new JsonArray();
         for (String uuid : itemUuids) {
-            uuidArray.add(uuid);
+            uuidArray.add(new JsonPrimitive(uuid));
         }
         requestData.add("uuids", uuidArray);
         RequestData returnedData = new RequestUtil().sendPostRequest(String.format(COFL_URL, "uids"), requestData);

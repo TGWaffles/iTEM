@@ -9,6 +9,7 @@ import club.thom.tem.hypixel.request.RequestData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
@@ -215,7 +216,7 @@ public class LobbyScanner {
         requestJson.addProperty("key", tem.getConfig().getTemApiKey());
         JsonArray playerArray = new JsonArray();
         for (EntityPlayer player : players) {
-            playerArray.add(player.getGameProfile().getId().toString().replaceAll("-", ""));
+            playerArray.add(new JsonPrimitive(player.getGameProfile().getId().toString().replaceAll("-", "")));
         }
         requestJson.add("players", playerArray);
         return new RequestUtil().sendPostRequest("https://api.tem.cx/armour/bulk_armour", requestJson);
