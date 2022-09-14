@@ -70,16 +70,14 @@ public class UUIDUtil {
     }
 
     public static String mojangFetchUsernameFromUUID(String uuid) {
-        String url = "https://api.mojang.com/user/profiles/" + uuid.replace("-", "")+"/names";
+        String url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid.replace("-", "");
         try {
             URL urlObject = new URL(url);
             HttpsURLConnection uc = (HttpsURLConnection) urlObject.openConnection();
             uc.setSSLSocketFactory(RequestUtil.getAllowAllFactory());
             String json = IOUtils.toString(uc.getInputStream());
-            JsonElement element = new JsonParser().parse(json);
-            JsonArray nameArray = element.getAsJsonArray();
-            JsonObject nameElement = nameArray.get(nameArray.size()-1).getAsJsonObject();
-            return nameElement.get("name").getAsString();
+            JsonObject element = new JsonParser().parse(json).getAsJsonObject();
+            return element.get("name").getAsString();
         } catch (IOException e) {
             e.printStackTrace();
             if (e.getMessage().contains("response code: 400")) {
