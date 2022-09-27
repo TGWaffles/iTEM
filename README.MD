@@ -26,6 +26,7 @@ We currently aren't advertising as we want to build up the utility and add more 
 Brought to you by the creator of TFM, the fastest AH sniper. 
 
 [Join TFM's Discord](https://discord.gg/jS9qNkX4Pu)
+
 [TFM's Anti-Rat Github link (just takes you to the discord](https://github.com/TGWaffles/TheFlippingMod)
 
 ---
