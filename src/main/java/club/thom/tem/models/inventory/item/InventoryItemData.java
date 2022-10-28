@@ -25,7 +25,11 @@ public abstract class InventoryItemData {
         try {
             date = format.parse(hypixelDateTimeString);
         } catch (ParseException e) {
-            return 0;
+            try {
+                return Long.parseLong(timestamp);
+            } catch (NumberFormatException ex) {
+                return 0;
+            }
         }
         return date.getTime();
     }

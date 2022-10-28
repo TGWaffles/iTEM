@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         // Skytils dependency to build with essential (for GUI)
-        classpath 'com.github.Skytils:ForgeGradle:6f5327'
+        classpath 'com.github.hard2make1name:ForgeGradle:e682169'
         // ShadowJar (include dependencies in the jar)
         classpath "com.github.johnrengelman:shadow:6.1.0"
 
