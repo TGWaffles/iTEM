@@ -8,6 +8,7 @@ import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.RequestUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -60,7 +61,7 @@ public class FindPetUUIDsDataRequest implements BackendRequest {
         postData.addProperty("key", config.getTemApiKey());
         JsonArray uuidArray = new JsonArray();
         for (String uuid : uuids) {
-            uuidArray.add(uuid);
+            uuidArray.add(new JsonPrimitive(uuid));
         }
         postData.add("uuids", uuidArray);
         return new RequestUtil().sendPostRequest(urlString, postData);

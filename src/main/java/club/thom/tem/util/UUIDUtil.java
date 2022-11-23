@@ -1,9 +1,6 @@
 package club.thom.tem.util;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import org.apache.commons.io.IOUtils;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -19,7 +16,7 @@ public class UUIDUtil {
         JsonObject data = new JsonObject();
         JsonArray uuidArray = new JsonArray();
         for (String uuid : uuids) {
-            uuidArray.add(uuid);
+            uuidArray.add(new JsonPrimitive(uuid));
         }
         data.add("uuids", uuidArray);
         JsonObject response = new RequestUtil().sendPostRequest("https://api.thom.club/bulk_uuids", data).getJsonAsObject();
@@ -32,12 +29,16 @@ public class UUIDUtil {
     }
 
     public static String usernameFromUuid(String uuid) {
+        String username = mojangFetchUsernameFromUUID(uuid);
+        if (username != null) {
+            return username;
+        }
         HashMap<String, String> uuidToUsernameMap = usernamesFromUUIDs(Collections.singletonList(uuid));
-        for (String username : uuidToUsernameMap.values()) {
-            if (username.equals("Unknown Player")) {
+        for (String fetchedUsername : uuidToUsernameMap.values()) {
+            if (fetchedUsername.equals("Unknown Player")) {
                 return null;
             }
-            return username;
+            return fetchedUsername;
         }
         return null;
     }
@@ -46,7 +47,7 @@ public class UUIDUtil {
         JsonObject data = new JsonObject();
         JsonArray usernameArray = new JsonArray();
         for (String username : usernames) {
-            usernameArray.add(username);
+            usernameArray.add(new JsonPrimitive(username));
         }
         data.add("usernames", usernameArray);
         JsonObject response = new RequestUtil().sendPostRequest("https://api.thom.club/bulk_usernames", data).getJsonAsObject();

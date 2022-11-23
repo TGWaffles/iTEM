@@ -2,18 +2,21 @@ package club.thom.tem.dupes;
 
 import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.RequestsCache;
-import club.thom.tem.util.MessageUtil;
-import club.thom.tem.util.UUIDUtil;
 import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
 import club.thom.tem.listeners.ToolTipListener;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;
+import club.thom.tem.util.MessageUtil;
+import club.thom.tem.util.UUIDUtil;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -51,23 +54,30 @@ public class DupeChecker {
         }
     }
 
+    private String playerName(String playerUuid) {
+        String username = UUIDUtil.mojangFetchUsernameFromUUID(playerUuid);
+        if (username != null) {
+            return username;
+        }
+        return playerUuid;
+    }
+
     public HashSet<ItemWithLocation> findVerifiedOwners(String uuid, List<String> possibleOwners) {
         ArrayList<CompletableFuture<PlayerData>> inventories = new ArrayList<>();
         HashSet<ItemWithLocation> verifiedOwners = new HashSet<>();
-        HashMap<String, String> lookupMap = UUIDUtil.usernamesFromUUIDs(possibleOwners);
         // anyone with the item on the AH is automatically a verified owner
         if (tem.getConfig().shouldUseAuctionHouseForDupes()) {
             for (String ownerUuid : tem.getAuctions().getOwnersForItemUUID(uuid)) {
-                verifiedOwners.add(new ItemWithLocation(lookupMap.getOrDefault(ownerUuid, ownerUuid), "auction_house"));
+                verifiedOwners.add(new ItemWithLocation(playerName(ownerUuid), "auction_house"));
             }
         }
         for (String possibleOwner : possibleOwners) {
             // if it's on ah
-            if (verifiedOwners.contains(new ItemWithLocation(lookupMap.getOrDefault(possibleOwner, possibleOwner),
+            if (verifiedOwners.contains(new ItemWithLocation(playerName(possibleOwner),
                     "auction_house"))) {
                 ChatComponentText chatMessage = new ChatComponentText(EnumChatFormatting.YELLOW +
                         String.format("Definitely owned by %s, check their auction house!",
-                                lookupMap.getOrDefault(possibleOwner, possibleOwner)
+                                playerName(possibleOwner)
                         )
                 );
                 List<String> lore = ToolTipListener.uuidToLore.get(uuid);
@@ -106,11 +116,11 @@ public class DupeChecker {
             for (ClientMessages.InventoryResponse inventory : playerData.getInventoryResponses()) {
                 for (ClientMessages.InventoryItem item : inventory.getItemsList()) {
                     if (item.getUuid().equals(uuid)) {
-                        verifiedOwners.add(new ItemWithLocation(lookupMap.getOrDefault(playerUuid, playerUuid), item.getLocation()));
+                        verifiedOwners.add(new ItemWithLocation(playerName(playerUuid), item.getLocation()));
                         found = true;
                         ChatComponentText chatMessage = new ChatComponentText(EnumChatFormatting.YELLOW +
-                                String.format("Definitely owned by %s, check their %s", lookupMap.getOrDefault(playerUuid,
-                                        playerUuid), item.getLocation()));
+                                String.format("Definitely owned by %s, check their %s", playerName(playerUuid),
+                                        item.getLocation()));
                         List<String> lore = ToolTipListener.uuidToLore.get(uuid);
                         if (lore != null && lore.size() > 0) {
                             chatMessage.setChatStyle(new ChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,

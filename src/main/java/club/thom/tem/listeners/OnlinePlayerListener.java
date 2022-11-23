@@ -5,6 +5,7 @@ import club.thom.tem.util.RequestUtil;
 import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -35,7 +36,7 @@ public class OnlinePlayerListener {
         requestData.addProperty("key", config.getTemApiKey());
         JsonArray playersArray = new JsonArray();
         for (String playerUuid : requestSet) {
-            playersArray.add(playerUuid);
+            playersArray.add(new JsonPrimitive(playerUuid));
         }
         requestData.add("players", playersArray);
         // asks TEM's api to recheck these online players sooner than inactive players
