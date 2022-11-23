@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DupeCommandExecutor {
     private static final Logger logger = LogManager.getLogger(DupeCommandExecutor.class);
     private final static int THREAD_COUNT = 2;
-    private final static int COFL_BATCH_SIZE = 25;
+    private final static int COFL_BATCH_SIZE = 34;
     private final ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
     // 2n threads to check cofl and TEM simultaneously in all the above
     private final ExecutorService subExecutor = Executors.newFixedThreadPool(THREAD_COUNT * 2);
