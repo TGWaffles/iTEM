@@ -58,6 +58,7 @@ dependencies {
     // Essential for GUI stuff
     implementation "gg.essential:loader-launchwrapper:1.1.3"
     implementation "gg.essential:essential-1.8.9-forge:47+"
+    implementation "gg.essential:vigilance-1.8.9-forge:178"
 
     // Included in essentials but just in case
     //noinspection GradlePackageUpdate
