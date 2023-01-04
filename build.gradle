@@ -57,8 +57,7 @@ minecraft {
 dependencies {
     // Essential for GUI stuff
     implementation "gg.essential:loader-launchwrapper:1.1.3"
-    implementation "gg.essential:essential-1.8.9-forge:47+"
-    implementation "gg.essential:vigilance-1.8.9-forge:178"
+    implementation "gg.essential:essential-1.8.9-forge:4246+g8be73312c"
 
     // Included in essentials but just in case
     //noinspection GradlePackageUpdate
@@ -125,7 +124,7 @@ shadowJar {
     )
 
     dependencies {
-        include(dependency("gg.essential:loader-launchwrapper:1.1.2"))
+        include(dependency("gg.essential:loader-launchwrapper:1.1.3"))
         include(dependency {
             it.moduleGroup == 'com.electronwill.night-config'
         })
@@ -165,7 +164,7 @@ task standaloneShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.
     )
 
     dependencies {
-        include(dependency("gg.essential:loader-launchwrapper:1.1.2"))
+        include(dependency("gg.essential:loader-launchwrapper:1.1.3"))
         include(dependency('org.reflections:reflections:0.10.2'))
 
         // standalone
