@@ -21,6 +21,11 @@ public class TEMCommand extends CommandBase {
     }
 
     @Override
+    public List<String> getCommandAliases() {
+        return Arrays.asList("item", "theexoticsmod");
+    }
+
+    @Override
     public String getCommandName() {
         return "tem";
     }
