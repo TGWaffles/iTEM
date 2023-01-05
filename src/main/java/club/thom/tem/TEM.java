@@ -97,8 +97,9 @@ public class TEM {
             if (loggerSetup) {
                 return;
             }
+            PatternLayout layout = PatternLayout.createLayout("[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n", null, null, Charset.defaultCharset().name(), "true");
             FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
-                    null, null, null, null, null, null, null, null);
+                    null, null, null, layout, null, null, null, null);
             fa.start();
             rootLoggerConfig.addAppender(fa, Level.ALL, null);
             loggerSetup = true;
