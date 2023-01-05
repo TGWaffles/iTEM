@@ -54,7 +54,9 @@ public class TEM {
     private AuctionHouse auctions;
     private final PlayerUtil player;
 
+    private static boolean loggerSetup = false;
     public static boolean standAlone = false;
+
 
 
     public TEM() {
@@ -84,23 +86,48 @@ public class TEM {
         return clientVersion;
     }
 
-    public static void setUpLogging(Level logLevel, boolean toFile) {
+    public void setUpLogging() {
+        LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
+
+        Configuration configuration = loggerContext.getConfiguration();
+        LoggerConfig rootLoggerConfig = configuration.getLoggerConfig("club.thom.tem");
+
+        if (getConfig().debugMode) {
+            if (loggerSetup) {
+                rootLoggerConfig.setLevel(Level.ALL);
+                return;
+            }
+            FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
+                    null, null, null, null, null, null, null, null);
+            fa.start();
+            rootLoggerConfig.addAppender(fa, Level.ALL, null);
+            loggerSetup = true;
+        } else {
+            rootLoggerConfig.setLevel(Level.OFF);
+        }
+        loggerContext.updateLoggers();
+    }
+
+    public void setUpStandaloneLogging(boolean debug) {
+        Level level = debug ? Level.ALL : Level.INFO;
         LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
 
         Configuration configuration = loggerContext.getConfiguration();
         LoggerConfig rootLoggerConfig = configuration.getLoggerConfig("");
 
-        if (toFile) {
+        PatternLayout layout = PatternLayout.createLayout("[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n", null, null, Charset.defaultCharset().name(), "true");
+        ConsoleAppender ca = ConsoleAppender.createAppender(layout, null, null, "Console", null, null);
+        ca.start();
+        rootLoggerConfig.addAppender(ca, level, null);
+
+        if (debug) {
             FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
                     null, null, null, null, null, null, null, null);
             fa.start();
-            rootLoggerConfig.addAppender(fa, logLevel, null);
-        } else {
-            PatternLayout layout = PatternLayout.createLayout("[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n", null, null, Charset.defaultCharset().name(), "true");
-            ConsoleAppender ca = ConsoleAppender.createAppender(layout, null, null, "Console", null, null);
-            ca.start();
-            rootLoggerConfig.addAppender(ca, logLevel, null);
+            rootLoggerConfig.addAppender(fa, Level.ALL, null);
         }
+
+        loggerContext.updateLoggers();
     }
 
     @Mod.EventHandler
@@ -111,7 +138,6 @@ public class TEM {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         // Don't set up logging on any version released - log files grow very quickly.
-//        setUpLogging();
         logger.info("Initialising TEM");
         player.attemptUuidSet(Minecraft.getMinecraft().getSession().getPlayerID());
         afkListener = new PlayerAFKListener();
@@ -134,6 +160,7 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
         MinecraftForge.EVENT_BUS.register(new ClientPacketListener(afkListener));
         MinecraftForge.EVENT_BUS.register(this);
+        setUpLogging();
     }
 
     public Hypixel getApi() {
@@ -168,7 +195,7 @@ public class TEM {
                 "I cannot guarantee the safety/performance of this mod.");
     }
 
-    public static void main(String inputUuid, String apiKey) {
+    public static TEM startStandalone(String inputUuid, String apiKey) {
         TEM tem = new TEM();
         tem.getPlayer().setUUID(inputUuid);
         standAlone = true;
@@ -185,6 +212,8 @@ public class TEM {
         // Create global API/rate-limit handler
         // Start the requests loop
         new Thread(tem.api::run, "TEM-rate-limits").start();
+
+        return tem;
     }
 
     public AuctionHouse getAuctions() {

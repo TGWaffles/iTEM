@@ -279,6 +279,16 @@ public class TEMConfig extends Vigilant {
             description = "Earn max contributions when you go AFK."
     )
     public boolean maxOnAfk = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Debug Mode",
+            description = "Generate debug logs."
+    )
+    public boolean debugMode = false;
+
     public static String saveFolder = "config/tem/";
 
     public static String fileName = "preferences.toml";
@@ -350,6 +360,13 @@ public class TEMConfig extends Vigilant {
         });
     }
 
+    public Consumer<Boolean> getDebugConsumer() {
+        return debug -> executor.submit(() -> {
+            debugMode = debug;
+            tem.setUpLogging();
+        });
+    }
+
     private final TEM tem;
 
     public TEMConfig(TEM tem) {
@@ -360,6 +377,7 @@ public class TEMConfig extends Vigilant {
         initialize();
         try {
             registerListener(this.getClass().getDeclaredField("hypixelKey"), getKeyConsumer());
+            registerListener(this.getClass().getDeclaredField("debugMode"), getDebugConsumer());
         } catch (Exception e) {
             e.printStackTrace();
         }

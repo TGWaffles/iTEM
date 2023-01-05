@@ -2,7 +2,6 @@ package club.thom.tem;
 
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.vigilance.Vigilance;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,20 +22,19 @@ public class StandaloneStart {
         String apiKey = args[1];
         TEMConfig.saveFolder = "config/";
         TEMConfig.fileName = apiKey + ".toml";
-        boolean doneLogging = false;
-        TEM.main(uuid, apiKey);
+        TEM tem = TEM.startStandalone(uuid, apiKey);
+
+        boolean debugMode = false;
 
         if (args.length > 2) {
             for (String arg : args) {
                 if (arg.equalsIgnoreCase("--debug")) {
-                    TEM.setUpLogging(Level.ALL, false);
-                    doneLogging = true;
+                    debugMode = true;
+                    break;
                 }
             }
         }
-        if (!doneLogging) {
-            TEM.setUpLogging(Level.INFO, false);
-        }
+        tem.setUpStandaloneLogging(debugMode);
     }
 
 }
