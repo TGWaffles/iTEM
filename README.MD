@@ -22,14 +22,6 @@ We currently aren't advertising as we want to build up the utility and add more 
 [Join the Discord!](https://discord.gg/bUE3r3Jckc)
 
 ---
-
-Brought to you by the creator of TFM, the fastest AH sniper. 
-
-[Join TFM's Discord](https://discord.gg/jS9qNkX4Pu)
-
-[TFM's Anti-Rat Github link (just takes you to the discord](https://github.com/TGWaffles/TheFlippingMod)
-
----
 ## How to build?
 
 ### Protoc Files
