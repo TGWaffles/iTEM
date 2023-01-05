@@ -93,8 +93,8 @@ public class TEM {
         LoggerConfig rootLoggerConfig = configuration.getLoggerConfig("club.thom.tem");
 
         if (getConfig().debugMode) {
+            rootLoggerConfig.setLevel(Level.ALL);
             if (loggerSetup) {
-                rootLoggerConfig.setLevel(Level.ALL);
                 return;
             }
             FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
