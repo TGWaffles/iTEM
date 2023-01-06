@@ -60,8 +60,9 @@ public class Hypixel {
         rateLimitLock.writeLock().lock();
         try {
             remainingRateLimit = 0;
-            logger.debug("Setting remaining rate limit to 0 as we got a 429, for {} seconds", resetSeconds);
-            setRateLimitResetTime(System.currentTimeMillis() + (1000L * Math.max(resetSeconds, 1)));
+            long time = Math.max(System.currentTimeMillis() + (1000L * Math.max(resetSeconds, 1)), rateLimitResetTime);
+            logger.debug("Setting remaining rate limit to 0 as we got a 429, for {} seconds", (time - System.currentTimeMillis()) / 1000);
+            setRateLimitResetTime(time);
         } finally {
             rateLimitLock.writeLock().unlock();
         }
@@ -154,7 +155,6 @@ public class Hypixel {
 
     /**
      * So the mod doesn't break other commands by using your whole rate limit every minute.
-     *
      * Default is to leave 10 spare requests, but can be reconfigured to leave none if eg. running on an alt or
      * you're AFK.
      *
