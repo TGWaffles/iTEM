@@ -1,11 +1,11 @@
 package club.thom.tem.hypixel.request;
 
 import club.thom.tem.TEM;
+import club.thom.tem.hypixel.Hypixel;
+import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.PlayerUtil;
 import club.thom.tem.util.RequestUtil;
-import club.thom.tem.hypixel.Hypixel;
-import club.thom.tem.storage.TEMConfig;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Base Request class for all requests to inherit from
@@ -71,15 +72,16 @@ public abstract class Request {
             logger.debug("Opening connection to url: {}, params: {}", urlString, params);
             uc.addRequestProperty("User-Agent",
                     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            uc.setRequestProperty("Accept-Encoding", "gzip, deflate");
             logger.debug("Added request property for url: {}, params: {}, code: {}", urlString, params, status);
             uc.connect();
             status = uc.getResponseCode();
             logger.debug("Got response code for url: {}, params: {}, code: {}", urlString, params, status);
             InputStream inputStream;
             if (status != 200) {
-                inputStream = uc.getErrorStream();
+                inputStream = new GZIPInputStream(uc.getErrorStream());
             } else {
-                inputStream = uc.getInputStream();
+                inputStream = new GZIPInputStream(uc.getInputStream());
             }
             logger.debug("Parsing data from url: {}, params: {}", urlString, params);
             jsonData = new JsonParser().parse(new InputStreamReader(inputStream)).getAsJsonObject();
