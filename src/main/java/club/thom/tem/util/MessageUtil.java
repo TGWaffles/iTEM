@@ -69,8 +69,8 @@ public class MessageUtil {
         switch (status) {
             case 401:
             case 403:
-                sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: TEM API Key " +
-                        "(NOT HYPIXEL API KEY!) is invalid! Set it in /tem config!"));
+                sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Please set your iTEM key in " +
+                        "/item config by typing /api in the iTEM Discord!"));
                 return;
             case 402:
                 sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Error: Not enough contributions!"));
