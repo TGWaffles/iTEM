@@ -203,10 +203,10 @@ public class TEMConfig extends Vigilant {
             description = "The number of simultaneous threads to start. (requires game restart, " +
                     "the higher the faster you earn contributions, but the higher the cpu usage)",
             min = 1,
-            max = 120,
+            max = 30,
             increment = 5
     )
-    private int maxSimultaneousThreads = 120;
+    private int maxSimultaneousThreads = 5;
 
     public int getMaxSimultaneousThreads() {
         return maxSimultaneousThreads;

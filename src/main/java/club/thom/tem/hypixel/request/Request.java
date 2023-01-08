@@ -116,10 +116,6 @@ public abstract class Request {
         RequestData returnedData = requestToReturnedData(urlBuilder.toString(), parameters);
         if (returnedData.getStatus() == 429) {
             int rateLimitResetSeconds = getNextResetSeconds(returnedData.getHeaders());
-            // If there was no reset header
-            if (rateLimitResetSeconds == -1) {
-                rateLimitResetSeconds = 10;
-            }
             controller.setRateLimited(rateLimitResetSeconds);
             logger.debug("REQUEST-> Rate limited, readding to queue.");
             controller.addToQueue(this);
