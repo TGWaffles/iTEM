@@ -13,10 +13,6 @@ import java.nio.file.Paths;
 
 public class TestHelper {
     public static void setupTEMConfig() throws NoSuchFieldException, IllegalAccessException {
-        // Allow TEMConfig to initialize without Minecraft running.
-        Field initialized = Vigilance.class.getDeclaredField("initialized");
-        initialized.setAccessible(true);
-        initialized.set(null, true);
         // Creates testdata/ folder to put the config in (temporarily)
         TEMConfig.saveFolder = "testdata/";
     }
