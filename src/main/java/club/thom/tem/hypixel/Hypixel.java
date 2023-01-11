@@ -52,6 +52,11 @@ public class Hypixel {
         rateLimitResetTime = resetTime;
     }
 
+    public void setSimultaneousThreads(int threads) {
+        threadPool.setCorePoolSize(threads);
+        threadPool.setMaximumPoolSize(threads);
+    }
+
     /**
      * Got a 429 from Hypixel - we have 0 requests left and possibly
      * have no idea when they'll reset. (in that case, this should be 10s in the future)
