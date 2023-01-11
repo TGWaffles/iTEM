@@ -12,6 +12,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,22 +33,26 @@ import java.util.zip.GZIPInputStream;
 public abstract class Request {
     private static final Logger logger = LogManager.getLogger(Request.class);
     protected final Hypixel controller;
-    protected final String endpoint;
     TEMConfig config;
     private final TEM tem;
     public boolean priority;
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
     // Hypixel API
-    protected final String apiUrl = "https://api.hypixel.net/";
+    protected static final String apiUrl = "api.hypixel.net";
+
+    protected URIBuilder urlBuilder;
 
     public Request(TEM tem, String endpoint, boolean runAsap) {
-        // To be appended to the apiUrl (no preceding /)
-        this.endpoint = endpoint;
+        // To be appended to the apiUrl
+        if (endpoint.charAt(0) != '/') {
+            endpoint = "/" + endpoint;
+        }
         // Run it as soon as we have a "rate-limit spot" available.
         this.priority = runAsap;
         this.tem = tem;
         this.controller = tem.getApi();
         this.config = tem.getConfig();
+        this.urlBuilder = new URIBuilder().setScheme("https").setHost(apiUrl).setPath(endpoint);
     }
 
     public Request(TEM tem, String endpoint) {
@@ -99,19 +104,9 @@ public abstract class Request {
     }
 
     protected RequestData requestToReturnedData() {
-        StringBuilder urlBuilder = new StringBuilder();
-        urlBuilder.append(apiUrl);
-        urlBuilder.append(endpoint);
-        urlBuilder.append("?");
         HashMap<String, String> parameters = generateParameters();
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            urlBuilder.append(entry.getKey());
-            urlBuilder.append('=');
-            urlBuilder.append(entry.getValue());
-            urlBuilder.append('&');
-        }
-        if (urlBuilder.charAt(urlBuilder.length() - 1) == '&') {
-            urlBuilder.deleteCharAt(urlBuilder.length() - 1);
+            urlBuilder.addParameter(entry.getKey(), entry.getValue());
         }
         RequestData returnedData = requestToReturnedData(urlBuilder.toString(), parameters);
         if (returnedData.getStatus() == 429) {

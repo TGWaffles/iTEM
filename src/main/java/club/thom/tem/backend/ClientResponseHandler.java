@@ -4,7 +4,6 @@ import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages.*;
-import club.thom.tem.util.PlayerUtil;
 import com.google.protobuf.ByteString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
