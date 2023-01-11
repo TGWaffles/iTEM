@@ -13,12 +13,17 @@ import java.util.HashMap;
 public class PetData extends InventoryItemData {
     private final JsonObject petJson;
     private String inventoryName;
+
+    private String uuid = null;
     /**
      * @param itemData NBT data of a pet in an inventory. This method gets the json and runs the json init method.
      */
     public PetData(String inventoryName, NBTTagCompound itemData) {
         this(new JsonParser().parse(itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("petInfo")).getAsJsonObject());
         this.inventoryName = inventoryName;
+        if (itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").hasKey("uuid")) {
+            uuid = itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getString("uuid");
+        }
     }
 
     public PetData(JsonObject petJson) {
@@ -41,6 +46,9 @@ public class PetData extends InventoryItemData {
     }
 
     private String getUuid() {
+        if (uuid != null) {
+            return uuid;
+        }
         if (petJson.has("uuid") && !petJson.get("uuid").isJsonNull()) {
             return petJson.get("uuid").getAsString();
         }
