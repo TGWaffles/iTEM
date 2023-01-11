@@ -127,6 +127,7 @@ public class AuctionHouse {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                continue;
             }
             long sleepTime = lastKnownLastUpdated + 70000 - System.currentTimeMillis();
             if (sleepTime > 0) {
