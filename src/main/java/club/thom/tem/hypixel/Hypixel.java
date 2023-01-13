@@ -53,6 +53,9 @@ public class Hypixel {
     }
 
     public void setSimultaneousThreads(int threads) {
+        if (threads < 1) {
+            return;
+        }
         threadPool.setCorePoolSize(threads);
         threadPool.setMaximumPoolSize(threads);
     }
