@@ -56,8 +56,8 @@ public class Hypixel {
         if (threads < 1) {
             return;
         }
-        threadPool.setCorePoolSize(threads);
         threadPool.setMaximumPoolSize(threads);
+        threadPool.setCorePoolSize(threads);
     }
 
     /**
