@@ -38,6 +38,7 @@ public class DupeCommandExecutor {
     private String uuid;
     private final AtomicInteger processedItems = new AtomicInteger();
     private int totalItems = 0;
+    private Set<String> dupedItems = ConcurrentHashMap.newKeySet();
     TEM tem;
 
     public DupeCommandExecutor(TEM tem) {
@@ -112,6 +113,7 @@ public class DupeCommandExecutor {
         monitorAll.awaitAdvance(monitorAll.arriveAndDeregister());
         MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
                 + EnumChatFormatting.GREEN + "Completed Scan of " + username + "!\n"
+                + EnumChatFormatting.GREEN + "Found " + dupedItems.size() + " duped items!\n"
                 + EnumChatFormatting.YELLOW + "----------"));
     }
 
@@ -175,6 +177,7 @@ public class DupeCommandExecutor {
                 }
                 text.append(EnumChatFormatting.YELLOW).append("----------");
                 MessageUtil.sendMessage(new ChatComponentText(text.toString()));
+                dupedItems.add(request.itemUuid);
             }
         }
         int processed = processedItems.addAndGet(thisRequestAuctions.entrySet().size());

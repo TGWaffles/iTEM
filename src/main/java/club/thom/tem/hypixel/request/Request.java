@@ -62,7 +62,7 @@ public abstract class Request {
     // Parameters, eg user to look-up, api key, etc.
     protected abstract HashMap<String, String> generateParameters();
 
-    private static RequestData requestToReturnedData(String urlString, HashMap<String, String> params) {
+    private static RequestData requestToReturnedData(String urlString, String agent, HashMap<String, String> params) {
         logger.debug("Creating request to url: {}, params: {}", urlString, params);
         URL url = null;
         JsonObject jsonData;
@@ -75,8 +75,7 @@ public abstract class Request {
             uc.setReadTimeout(10000);
             uc.setConnectTimeout(10000);
             logger.debug("Opening connection to url: {}, params: {}", urlString, params);
-            uc.addRequestProperty("User-Agent",
-                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+            uc.addRequestProperty("User-Agent", agent);
             uc.setRequestProperty("Accept-Encoding", "gzip, deflate");
             logger.debug("Added request property for url: {}, params: {}, code: {}", urlString, params, status);
             uc.connect();
@@ -108,7 +107,11 @@ public abstract class Request {
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             urlBuilder.addParameter(entry.getKey(), entry.getValue());
         }
-        RequestData returnedData = requestToReturnedData(urlBuilder.toString(), parameters);
+        String userUuid = tem.getPlayer().getUUID();
+        if (userUuid == null) {
+            userUuid = "Unknown Player";
+        }
+        RequestData returnedData = requestToReturnedData(urlBuilder.toString(), userUuid, parameters);
         if (returnedData.getStatus() == 429) {
             int rateLimitResetSeconds = getNextResetSeconds(returnedData.getHeaders());
             controller.setRateLimited(rateLimitResetSeconds);
