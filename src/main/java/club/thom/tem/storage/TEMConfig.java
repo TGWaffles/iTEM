@@ -156,7 +156,7 @@ public class TEMConfig extends Vigilant {
     @Property(
             type = PropertyType.TEXT,
             category = "API",
-            subcategory = "Hypixel Api",
+            subcategory = "Api Keys",
             name = "Hypixel Api Key",
             description = "Enter your Hypixel Api Key",
             protectedText = true
