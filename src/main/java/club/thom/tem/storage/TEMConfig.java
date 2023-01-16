@@ -241,9 +241,9 @@ public class TEMConfig extends Vigilant {
             name = "Time Offset",
             description = "Seconds to wait after refresh before starting contributions (make this lower if " +
                     "you are earning low contributions, or have a low simultaneous threads value)",
-            max = 60
+            max = 55
     )
-    private int timeOffset = 50;
+    private int timeOffset = 30;
 
     public int getTimeOffset() {
         return timeOffset;
