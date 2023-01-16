@@ -113,7 +113,7 @@ public class DupeCommandExecutor {
         monitorAll.awaitAdvance(monitorAll.arriveAndDeregister());
         MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
                 + EnumChatFormatting.GREEN + "Completed Scan of " + username + "!\n"
-                + EnumChatFormatting.GREEN + "Found " + dupedItems.size() + " duped items!\n"
+                + EnumChatFormatting.GREEN + "Found " + dupedItems.size() + " duped item(s)!\n"
                 + EnumChatFormatting.YELLOW + "----------"));
     }
 
