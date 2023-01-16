@@ -1,9 +1,8 @@
 package club.thom.tem.util;
 
+import club.thom.tem.TEM;
 import club.thom.tem.hypixel.request.RequestData;
 import com.google.gson.*;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,7 +64,7 @@ public class RequestUtil {
         uc.setConnectTimeout(20000);
         uc.setRequestMethod(post);
         uc.addRequestProperty("User-Agent",
-                "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0)");
+                "iTEM-Mod/" + TEM.VERSION);
         uc.setRequestProperty("Content-Type", "application/json; utf-8");
         uc.setRequestProperty("Accept", "application/json");
         return uc;

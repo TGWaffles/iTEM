@@ -36,10 +36,10 @@ import java.nio.charset.Charset;
 public class TEM {
     private static final Logger logger = LogManager.getLogger(TEM.class);
 
-    public static final String MOD_ID = "TEM";
+    public static final String MOD_ID = "iTEM";
     // This is replaced by build.gradle with the real version name
     public static final String VERSION = "@@VERSION@@";
-    // Signature to compare to, so you know this is an official release of TEM.
+    // Signature to compare to, so you know this is an official release of iTEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
 
     public static final int CLIENT_VERSION = clientVersionFromVersion();
