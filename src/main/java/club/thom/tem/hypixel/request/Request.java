@@ -83,9 +83,17 @@ public abstract class Request {
             logger.debug("Got response code for url: {}, params: {}, code: {}", urlString, params, status);
             InputStream inputStream;
             if (status != 200) {
-                inputStream = new GZIPInputStream(uc.getErrorStream());
+                if (uc.getContentEncoding().equalsIgnoreCase("gzip")) {
+                    inputStream = new GZIPInputStream(uc.getErrorStream());
+                } else {
+                    inputStream = uc.getErrorStream();
+                }
             } else {
-                inputStream = new GZIPInputStream(uc.getInputStream());
+                if (uc.getContentEncoding().equals("gzip")) {
+                    inputStream = new GZIPInputStream(uc.getInputStream());
+                } else {
+                    inputStream = uc.getInputStream();
+                }
             }
             logger.debug("Parsing data from url: {}, params: {}", urlString, params);
             jsonData = new JsonParser().parse(new InputStreamReader(inputStream)).getAsJsonObject();
