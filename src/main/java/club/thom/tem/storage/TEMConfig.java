@@ -171,7 +171,7 @@ public class TEMConfig extends Vigilant {
     @Property(
             type = PropertyType.SWITCH,
             category = "API",
-            subcategory = "Hypixel Api",
+            subcategory = "Api Keys",
             name = "Was Valid Key",
             hidden = true
     )
@@ -184,7 +184,7 @@ public class TEMConfig extends Vigilant {
     @Property(
             type = PropertyType.TEXT,
             category = "API",
-            subcategory = "TEM API",
+            subcategory = "Api Keys",
             name = "TEM API Key",
             description = "TEM API Key - given from the Discord TEMBot by doing /api in your Discord DMs with the bot, " +
                     "or in the Discord server.",
