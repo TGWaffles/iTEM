@@ -181,10 +181,19 @@ public class DupeCommandExecutor {
             }
         }
         int processed = processedItems.addAndGet(thisRequestAuctions.entrySet().size());
-        PlayerUtil.sendToast("Player Scan of " + username,
-                String.format("%1$d/%2$d items processed! (%3$d remaining)",
-                        processed, totalItems, totalItems - processed),
-                1.0f);
+        String title = "Player Scan of " + username;
+        String description = String.format("%1$d/%2$d items processed! (%3$d remaining)",
+                processed, totalItems, totalItems - processed);
+        if (tem.getConfig().showProgressInChat()) {
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.YELLOW + "----------\n"
+                    + EnumChatFormatting.GREEN + title + "\n"
+                    + EnumChatFormatting.GREEN + description + "\n"
+                    + EnumChatFormatting.YELLOW + "----------"));
+        } else {
+            PlayerUtil.sendToast(title,
+                    description,
+                    1.0f);
+        }
     }
 
     public HashMap<String, List<String>> findAllPreviousOwners(List<String> itemUuids) {

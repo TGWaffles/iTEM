@@ -136,6 +136,19 @@ public class TEMConfig extends Vigilant {
     )
     private boolean useAuctionHouseForDupes = true;
 
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Dupe Checker",
+            name = "Show Progress In Chat",
+            description = "Whether to show dupe-checking progress in chat rather than in a toast in the corner of the screen."
+    )
+    private boolean showDupeCheckProgressInChat = false;
+
+    public boolean showProgressInChat() {
+        return showDupeCheckProgressInChat;
+    }
+
     public boolean shouldUseAuctionHouseForDupes() {
         return useAuctionHouseForDupes;
     }
