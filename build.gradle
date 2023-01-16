@@ -87,6 +87,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.3.2'
     implementation 'commons-io:commons-io:2.4'
     implementation 'net.minecraftforge:forgeSrc:1.8.9-11.15.1.2318-1.8.9'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+    implementation group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.16'
     // standalone ^^
 
     // For talking to the backend
@@ -177,6 +179,8 @@ task standaloneShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.
         include(dependency('com.google.code.gson:gson:2.2.4'))
         include(dependency('org.apache.commons:commons-lang3:3.3.2'))
         include(dependency('commons-io:commons-io:2.4'))
+        include(dependency('org.apache.httpcomponents:httpclient:4.5.14'))
+        include(dependency('org.apache.httpcomponents:httpcore:4.4.16'))
 
         include(dependency {
             it.moduleGroup == 'com.electronwill.night-config'
