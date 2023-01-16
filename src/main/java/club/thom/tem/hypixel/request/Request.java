@@ -83,13 +83,13 @@ public abstract class Request {
             logger.debug("Got response code for url: {}, params: {}, code: {}", urlString, params, status);
             InputStream inputStream;
             if (status != 200) {
-                if (uc.getContentEncoding().equalsIgnoreCase("gzip")) {
+                if (uc.getContentEncoding() != null && uc.getContentEncoding().equalsIgnoreCase("gzip")) {
                     inputStream = new GZIPInputStream(uc.getErrorStream());
                 } else {
                     inputStream = uc.getErrorStream();
                 }
             } else {
-                if (uc.getContentEncoding().equals("gzip")) {
+                if (uc.getContentEncoding() != null && uc.getContentEncoding().equals("gzip")) {
                     inputStream = new GZIPInputStream(uc.getInputStream());
                 } else {
                     inputStream = uc.getInputStream();
