@@ -198,13 +198,18 @@ public class TEM {
     }
 
     public static TEM startStandalone(String inputUuid, String apiKey) {
+        logger.info("Starting TEM in standalone mode");
         TEM tem = new TEM();
         tem.getPlayer().setUUID(inputUuid);
+        logger.info("Player uuid set");
         standAlone = true;
         tem.items.fillItems();
+        logger.info("Items filled");
         tem.afkListener = new PlayerAFKListener();
         tem.api = new Hypixel(tem);
+        logger.info("Started Hypixel");
         tem.getConfig().setHypixelKey(apiKey);
+        logger.info("Key set");
         tem.getConfig().setSpareRateLimit(0);
         // 15 is a decent number for minimising ram usage
         tem.getConfig().setMaxSimultaneousThreads(15);

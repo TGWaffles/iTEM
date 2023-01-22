@@ -167,12 +167,18 @@ public class TEMConfig extends Vigilant {
 
     public Future<?> setHypixelKey(String newKey) {
         return executor.submit(() -> {
-            if (isKeyValid(newKey)) {
-                hypixelKey = newKey;
-                logger.info("TEM Config -> Setting guaranteed key from function! Key: {}", hypixelKey);
-                guaranteedSafeKey = hypixelKey;
-                wasApiKeyValid = true;
-                tem.forceSaveConfig();
+            try {
+                logger.info("Checking valid key...");
+                if (isKeyValid(newKey)) {
+                    logger.info("Key is valid!");
+                    hypixelKey = newKey;
+                    logger.info("TEM Config -> Setting guaranteed key from function! Key: {}", hypixelKey);
+                    guaranteedSafeKey = hypixelKey;
+                    wasApiKeyValid = true;
+                    tem.forceSaveConfig();
+                }
+            } catch (Exception e) {
+                logger.error("Error setting Hypixel key", e);
             }
         });
     }
@@ -326,12 +332,16 @@ public class TEMConfig extends Vigilant {
 
     public boolean isKeyValid(String key) {
         if (key.length() == 0) {
+            logger.info("Key length 0");
             return false;
         }
+        logger.info("Adding to queue...");
         KeyLookupRequest request = new KeyLookupRequest(tem, key, tem.getApi());
         tem.getApi().addToQueue(request);
+        logger.info("Added to queue");
         try {
             boolean result = request.getFuture().get();
+            logger.info("Got result");
             if (result) {
                 tem.getApi().hasValidApiKey = true;
                 executor.submit(() -> {
