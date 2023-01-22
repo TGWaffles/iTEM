@@ -3,7 +3,6 @@
 
 package club.thom.tem.models.messages;
 
-@SuppressWarnings("ALL")
 @javax.annotation.Generated(value="protoc", comments="annotations:ClientMessages.java.pb.meta")
 public final class ClientMessages {
   private ClientMessages() {}
@@ -57,6 +56,10 @@ public final class ClientMessages {
      * <code>VERY_SPECIAL = 8;</code>
      */
     VERY_SPECIAL(8),
+    /**
+     * <code>UNOBTAINABLE = 9;</code>
+     */
+    UNOBTAINABLE(9),
     UNRECOGNIZED(-1),
     ;
 
@@ -96,6 +99,10 @@ public final class ClientMessages {
      * <code>VERY_SPECIAL = 8;</code>
      */
     public static final int VERY_SPECIAL_VALUE = 8;
+    /**
+     * <code>UNOBTAINABLE = 9;</code>
+     */
+    public static final int UNOBTAINABLE_VALUE = 9;
 
 
     public final int getNumber() {
@@ -131,6 +138,7 @@ public final class ClientMessages {
         case 6: return DIVINE;
         case 7: return SPECIAL;
         case 8: return VERY_SPECIAL;
+        case 9: return UNOBTAINABLE;
         default: return null;
       }
     }
@@ -19574,11 +19582,12 @@ public final class ClientMessages {
       "nseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.clientMess" +
       "age.ReadyForRequestsH\000\0224\n\013infoRequest\030\005 " +
       "\001(\0132\035.clientMessage.GetInformationH\000B\t\n\007" +
-      "message*|\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMO" +
-      "N\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n" +
-      "\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014V" +
-      "ERY_SPECIAL\020\010B8\n\035club.thom.tem.models.me" +
-      "ssagesZ\027protobuf/clientMessagesb\006proto3"
+      "message*\216\001\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMM" +
+      "ON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022" +
+      "\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014" +
+      "VERY_SPECIAL\020\010\022\020\n\014UNOBTAINABLE\020\tB8\n\035club" +
+      ".thom.tem.models.messagesZ\027protobuf/clie" +
+      "ntMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

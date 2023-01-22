@@ -35,6 +35,7 @@ enum Rarity {
   DIVINE = 6;
   SPECIAL = 7;
   VERY_SPECIAL = 8;
+  UNOBTAINABLE = 9;
 }
 
 message Armour {
