@@ -162,7 +162,6 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(new ClientPacketListener(afkListener));
         MinecraftForge.EVENT_BUS.register(this);
         setUpLogging();
-        setUpStandaloneLogging(true);
     }
 
     public Hypixel getApi() {
