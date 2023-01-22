@@ -238,7 +238,14 @@ public class Hypixel {
                     if (request != null) {
                         logger.debug("LOOP-> Taken.");
                         requestFutures.add(request.getCompletionFuture());
-                        threadPool.submit(request::makeRequest);
+                        threadPool.submit(() -> {
+                            try {
+                                request.makeRequest();
+                            } catch (Throwable e) {
+                                logger.error(e);
+                                request.getCompletionFuture().complete(false);
+                            }
+                        });
                     } else {
                         logger.debug("LOOP-> Quit due to timeout...");
                         break;
