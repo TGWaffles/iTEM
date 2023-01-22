@@ -13,10 +13,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -93,7 +90,7 @@ public class DupeChecker {
             PlayerData playerData;
             playerData = RequestsCache.getInstance().playerDataCache.getIfPresent(uuid);
             if (playerData == null) {
-                SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, possibleOwner);
+                SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, possibleOwner, Collections.emptyMap(), "https");
                 playerRequest.priority = true;
                 tem.getApi().addToQueue(playerRequest);
                 inventories.add(playerRequest.getFuture());

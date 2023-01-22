@@ -58,7 +58,7 @@ public class DupeCommandExecutor {
         PlayerData playerData;
         playerData = RequestsCache.getInstance().playerDataCache.getIfPresent(uuid);
         if (playerData == null) {
-            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, uuid);
+            SkyblockPlayerRequest playerRequest = new SkyblockPlayerRequest(tem, uuid, Collections.emptyMap(), "https");
             playerRequest.priority = true;
             tem.getApi().addToQueue(playerRequest);
             PlayerUtil.sendToast(username + " Dupe Check", "Downloading inventory...", 1.0f);

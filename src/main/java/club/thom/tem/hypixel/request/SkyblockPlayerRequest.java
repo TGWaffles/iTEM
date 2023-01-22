@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class SkyblockPlayerRequest extends Request {
@@ -15,8 +16,8 @@ public class SkyblockPlayerRequest extends Request {
     final String uuid;
     TEMConfig config;
 
-    public SkyblockPlayerRequest(TEM tem, String uuid) {
-        super(tem, "skyblock/profiles");
+    public SkyblockPlayerRequest(TEM tem, String uuid, Map<String, String> headers, String requestScheme) {
+        super(tem, "skyblock/profiles", headers, requestScheme);
         this.uuid = uuid;
         this.config = tem.getConfig();
     }

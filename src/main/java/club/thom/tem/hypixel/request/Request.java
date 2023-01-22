@@ -39,10 +39,11 @@ public abstract class Request {
     private CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
     // Hypixel API
     protected static final String apiUrl = "api.hypixel.net";
+    Map<String, String> headers;
 
     protected URIBuilder urlBuilder;
 
-    public Request(TEM tem, String endpoint, boolean runAsap) {
+    public Request(TEM tem, String endpoint, Map<String, String> headers, String requestScheme, boolean runAsap) {
         // To be appended to the apiUrl
         if (endpoint.charAt(0) != '/') {
             endpoint = "/" + endpoint;
@@ -52,17 +53,18 @@ public abstract class Request {
         this.tem = tem;
         this.controller = tem.getApi();
         this.config = tem.getConfig();
-        this.urlBuilder = new URIBuilder().setScheme("https").setHost(apiUrl).setPath(endpoint);
+        this.headers = headers;
+        this.urlBuilder = new URIBuilder().setScheme(requestScheme).setHost(apiUrl).setPath(endpoint);
     }
 
-    public Request(TEM tem, String endpoint) {
-        this(tem, endpoint, false);
+    public Request(TEM tem, String endpoint, Map<String, String> headers, String requestScheme) {
+        this(tem, endpoint, headers, requestScheme, false);
     }
 
     // Parameters, eg user to look-up, api key, etc.
     protected abstract HashMap<String, String> generateParameters();
 
-    private static RequestData requestToReturnedData(String urlString, String agent, HashMap<String, String> params) {
+    private RequestData requestToReturnedData(String urlString, HashMap<String, String> params) {
         logger.debug("Creating request to url: {}, params: {}", urlString, params);
         URL url = null;
         JsonObject jsonData;
@@ -75,8 +77,11 @@ public abstract class Request {
             uc.setReadTimeout(10000);
             uc.setConnectTimeout(10000);
             logger.debug("Opening connection to url: {}, params: {}", urlString, params);
-            uc.addRequestProperty("User-Agent", agent);
+            uc.setRequestProperty("User-Agent", "iTEM-Mod/" + TEM.VERSION);
             uc.setRequestProperty("Accept-Encoding", "gzip, deflate");
+            for (Map.Entry<String, String> entry : this.headers.entrySet()) {
+                uc.setRequestProperty(entry.getKey(), entry.getValue());
+            }
             logger.debug("Added request property for url: {}, params: {}, code: {}", urlString, params, status);
             uc.connect();
             status = uc.getResponseCode();
@@ -115,11 +120,7 @@ public abstract class Request {
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             urlBuilder.addParameter(entry.getKey(), entry.getValue());
         }
-        String userUuid = tem.getPlayer().getUUID();
-        if (userUuid == null) {
-            userUuid = "Unknown Player";
-        }
-        RequestData returnedData = requestToReturnedData(urlBuilder.toString(), userUuid, parameters);
+        RequestData returnedData = requestToReturnedData(urlBuilder.toString(), parameters);
         if (returnedData.getStatus() == 429) {
             int rateLimitResetSeconds = getNextResetSeconds(returnedData.getHeaders());
             controller.setRateLimited(rateLimitResetSeconds);
@@ -167,7 +168,7 @@ public abstract class Request {
                 } catch (InterruptedException e) {
                     logger.error("Interrupted while waiting to add new KeyLookupRequest", e);
                 }
-                KeyLookupRequest request = new KeyLookupRequest(getTem(), config.getHypixelKey(), this.controller);
+                KeyLookupRequest request = new KeyLookupRequest(getTem(), config.getHypixelKey());
                 this.controller.addToQueue(request);
             }, "TEM-request-new-key-check").start();
             return null;

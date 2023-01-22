@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class FriendsListRequest extends Request {
@@ -15,8 +16,8 @@ public class FriendsListRequest extends Request {
     final String uuid;
     private final TEMConfig config;
 
-    public FriendsListRequest(TEM tem, String uuid) {
-        super(tem, "friends");
+    public FriendsListRequest(TEM tem, String uuid, Map<String, String> headers, String requestScheme) {
+        super(tem, "friends", headers, requestScheme);
         this.uuid = uuid;
         this.config = tem.getConfig();
     }

@@ -55,10 +55,12 @@ message MiscRequest {
 message RequestMessage {
   // nonce to be acknowledged in Responses
   int32 nonce = 1;
+  map<string, string> headers = 2;
+  string requestScheme = 3;
   oneof message {
-    FriendRequest friendRequest = 2;
-    InventoryRequest inventoryRequest = 3;
-    MiscRequest miscRequest = 4;
+    FriendRequest friendRequest = 4;
+    InventoryRequest inventoryRequest = 5;
+    MiscRequest miscRequest = 6;
   }
 }
 

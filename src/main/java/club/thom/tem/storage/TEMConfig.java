@@ -336,7 +336,7 @@ public class TEMConfig extends Vigilant {
             return false;
         }
         logger.info("Adding to queue...");
-        KeyLookupRequest request = new KeyLookupRequest(tem, key, tem.getApi());
+        KeyLookupRequest request = new KeyLookupRequest(tem, key);
         tem.getApi().addToQueue(request);
         logger.info("Added to queue");
         try {

@@ -3,7 +3,6 @@
 
 package club.thom.tem.models.messages;
 
-@SuppressWarnings("ALL")
 @javax.annotation.Generated(value="protoc", comments="annotations:ServerMessages.java.pb.meta")
 public final class ServerMessages {
   private ServerMessages() {}
@@ -4057,47 +4056,93 @@ public final class ServerMessages {
     int getNonce();
 
     /**
-     * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+    int getHeadersCount();
+    /**
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+    boolean containsHeaders(
+        java.lang.String key);
+    /**
+     * Use {@link #getHeadersMap()} instead.
+     */
+    @java.lang.Deprecated
+    java.util.Map<java.lang.String, java.lang.String>
+    getHeaders();
+    /**
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+    java.util.Map<java.lang.String, java.lang.String>
+    getHeadersMap();
+    /**
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+
+    java.lang.String getHeadersOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue);
+    /**
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+
+    java.lang.String getHeadersOrThrow(
+        java.lang.String key);
+
+    /**
+     * <code>string requestScheme = 3;</code>
+     * @return The requestScheme.
+     */
+    java.lang.String getRequestScheme();
+    /**
+     * <code>string requestScheme = 3;</code>
+     * @return The bytes for requestScheme.
+     */
+    com.google.protobuf.ByteString
+        getRequestSchemeBytes();
+
+    /**
+     * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
      * @return Whether the friendRequest field is set.
      */
     boolean hasFriendRequest();
     /**
-     * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+     * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
      * @return The friendRequest.
      */
     club.thom.tem.models.messages.ServerMessages.FriendRequest getFriendRequest();
     /**
-     * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+     * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
      */
     club.thom.tem.models.messages.ServerMessages.FriendRequestOrBuilder getFriendRequestOrBuilder();
 
     /**
-     * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+     * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
      * @return Whether the inventoryRequest field is set.
      */
     boolean hasInventoryRequest();
     /**
-     * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+     * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
      * @return The inventoryRequest.
      */
     club.thom.tem.models.messages.ServerMessages.InventoryRequest getInventoryRequest();
     /**
-     * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+     * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
      */
     club.thom.tem.models.messages.ServerMessages.InventoryRequestOrBuilder getInventoryRequestOrBuilder();
 
     /**
-     * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+     * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
      * @return Whether the miscRequest field is set.
      */
     boolean hasMiscRequest();
     /**
-     * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+     * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
      * @return The miscRequest.
      */
     club.thom.tem.models.messages.ServerMessages.MiscRequest getMiscRequest();
     /**
-     * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+     * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
      */
     club.thom.tem.models.messages.ServerMessages.MiscRequestOrBuilder getMiscRequestOrBuilder();
 
@@ -4116,6 +4161,7 @@ public final class ServerMessages {
       super(builder);
     }
     private RequestMessage() {
+      requestScheme_ = "";
     }
 
     @java.lang.Override
@@ -4138,6 +4184,7 @@ public final class ServerMessages {
       if (extensionRegistry == null) {
         throw new java.lang.NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -4154,8 +4201,27 @@ public final class ServerMessages {
               break;
             }
             case 18: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                headers_ = com.google.protobuf.MapField.newMapField(
+                    HeadersDefaultEntryHolder.defaultEntry);
+                mutable_bitField0_ |= 0x00000001;
+              }
+              com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+              headers__ = input.readMessage(
+                  HeadersDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+              headers_.getMutableMap().put(
+                  headers__.getKey(), headers__.getValue());
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              requestScheme_ = s;
+              break;
+            }
+            case 34: {
               club.thom.tem.models.messages.ServerMessages.FriendRequest.Builder subBuilder = null;
-              if (messageCase_ == 2) {
+              if (messageCase_ == 4) {
                 subBuilder = ((club.thom.tem.models.messages.ServerMessages.FriendRequest) message_).toBuilder();
               }
               message_ =
@@ -4164,12 +4230,12 @@ public final class ServerMessages {
                 subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.FriendRequest) message_);
                 message_ = subBuilder.buildPartial();
               }
-              messageCase_ = 2;
+              messageCase_ = 4;
               break;
             }
-            case 26: {
+            case 42: {
               club.thom.tem.models.messages.ServerMessages.InventoryRequest.Builder subBuilder = null;
-              if (messageCase_ == 3) {
+              if (messageCase_ == 5) {
                 subBuilder = ((club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_).toBuilder();
               }
               message_ =
@@ -4178,12 +4244,12 @@ public final class ServerMessages {
                 subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_);
                 message_ = subBuilder.buildPartial();
               }
-              messageCase_ = 3;
+              messageCase_ = 5;
               break;
             }
-            case 34: {
+            case 50: {
               club.thom.tem.models.messages.ServerMessages.MiscRequest.Builder subBuilder = null;
-              if (messageCase_ == 4) {
+              if (messageCase_ == 6) {
                 subBuilder = ((club.thom.tem.models.messages.ServerMessages.MiscRequest) message_).toBuilder();
               }
               message_ =
@@ -4192,7 +4258,7 @@ public final class ServerMessages {
                 subBuilder.mergeFrom((club.thom.tem.models.messages.ServerMessages.MiscRequest) message_);
                 message_ = subBuilder.buildPartial();
               }
-              messageCase_ = 4;
+              messageCase_ = 6;
               break;
             }
             default: {
@@ -4219,6 +4285,18 @@ public final class ServerMessages {
       return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_RequestMessage_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    @java.lang.Override
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 2:
+          return internalGetHeaders();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -4232,9 +4310,9 @@ public final class ServerMessages {
     public enum MessageCase
         implements com.google.protobuf.Internal.EnumLite,
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
-      FRIENDREQUEST(2),
-      INVENTORYREQUEST(3),
-      MISCREQUEST(4),
+      FRIENDREQUEST(4),
+      INVENTORYREQUEST(5),
+      MISCREQUEST(6),
       MESSAGE_NOT_SET(0);
       private final int value;
       private MessageCase(int value) {
@@ -4252,9 +4330,9 @@ public final class ServerMessages {
 
       public static MessageCase forNumber(int value) {
         switch (value) {
-          case 2: return FRIENDREQUEST;
-          case 3: return INVENTORYREQUEST;
-          case 4: return MISCREQUEST;
+          case 4: return FRIENDREQUEST;
+          case 5: return INVENTORYREQUEST;
+          case 6: return MISCREQUEST;
           case 0: return MESSAGE_NOT_SET;
           default: return null;
         }
@@ -4285,94 +4363,213 @@ public final class ServerMessages {
       return nonce_;
     }
 
-    public static final int FRIENDREQUEST_FIELD_NUMBER = 2;
+    public static final int HEADERS_FIELD_NUMBER = 2;
+    private static final class HeadersDefaultEntryHolder {
+      static final com.google.protobuf.MapEntry<
+          java.lang.String, java.lang.String> defaultEntry =
+              com.google.protobuf.MapEntry
+              .<java.lang.String, java.lang.String>newDefaultInstance(
+                  club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_RequestMessage_HeadersEntry_descriptor, 
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "",
+                  com.google.protobuf.WireFormat.FieldType.STRING,
+                  "");
+    }
+    private com.google.protobuf.MapField<
+        java.lang.String, java.lang.String> headers_;
+    private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+    internalGetHeaders() {
+      if (headers_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            HeadersDefaultEntryHolder.defaultEntry);
+      }
+      return headers_;
+    }
+
+    public int getHeadersCount() {
+      return internalGetHeaders().getMap().size();
+    }
     /**
-     * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+
+    @java.lang.Override
+    public boolean containsHeaders(
+        java.lang.String key) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      return internalGetHeaders().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getHeadersMap()} instead.
+     */
+    @java.lang.Override
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, java.lang.String> getHeaders() {
+      return getHeadersMap();
+    }
+    /**
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+    @java.lang.Override
+
+    public java.util.Map<java.lang.String, java.lang.String> getHeadersMap() {
+      return internalGetHeaders().getMap();
+    }
+    /**
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+    @java.lang.Override
+
+    public java.lang.String getHeadersOrDefault(
+        java.lang.String key,
+        java.lang.String defaultValue) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetHeaders().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;string, string&gt; headers = 2;</code>
+     */
+    @java.lang.Override
+
+    public java.lang.String getHeadersOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new NullPointerException("map key"); }
+      java.util.Map<java.lang.String, java.lang.String> map =
+          internalGetHeaders().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public static final int REQUESTSCHEME_FIELD_NUMBER = 3;
+    private volatile java.lang.Object requestScheme_;
+    /**
+     * <code>string requestScheme = 3;</code>
+     * @return The requestScheme.
+     */
+    @java.lang.Override
+    public java.lang.String getRequestScheme() {
+      java.lang.Object ref = requestScheme_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        requestScheme_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string requestScheme = 3;</code>
+     * @return The bytes for requestScheme.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getRequestSchemeBytes() {
+      java.lang.Object ref = requestScheme_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        requestScheme_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int FRIENDREQUEST_FIELD_NUMBER = 4;
+    /**
+     * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
      * @return Whether the friendRequest field is set.
      */
     @java.lang.Override
     public boolean hasFriendRequest() {
-      return messageCase_ == 2;
+      return messageCase_ == 4;
     }
     /**
-     * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+     * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
      * @return The friendRequest.
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ServerMessages.FriendRequest getFriendRequest() {
-      if (messageCase_ == 2) {
+      if (messageCase_ == 4) {
          return (club.thom.tem.models.messages.ServerMessages.FriendRequest) message_;
       }
       return club.thom.tem.models.messages.ServerMessages.FriendRequest.getDefaultInstance();
     }
     /**
-     * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+     * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ServerMessages.FriendRequestOrBuilder getFriendRequestOrBuilder() {
-      if (messageCase_ == 2) {
+      if (messageCase_ == 4) {
          return (club.thom.tem.models.messages.ServerMessages.FriendRequest) message_;
       }
       return club.thom.tem.models.messages.ServerMessages.FriendRequest.getDefaultInstance();
     }
 
-    public static final int INVENTORYREQUEST_FIELD_NUMBER = 3;
+    public static final int INVENTORYREQUEST_FIELD_NUMBER = 5;
     /**
-     * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+     * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
      * @return Whether the inventoryRequest field is set.
      */
     @java.lang.Override
     public boolean hasInventoryRequest() {
-      return messageCase_ == 3;
+      return messageCase_ == 5;
     }
     /**
-     * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+     * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
      * @return The inventoryRequest.
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ServerMessages.InventoryRequest getInventoryRequest() {
-      if (messageCase_ == 3) {
+      if (messageCase_ == 5) {
          return (club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_;
       }
       return club.thom.tem.models.messages.ServerMessages.InventoryRequest.getDefaultInstance();
     }
     /**
-     * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+     * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ServerMessages.InventoryRequestOrBuilder getInventoryRequestOrBuilder() {
-      if (messageCase_ == 3) {
+      if (messageCase_ == 5) {
          return (club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_;
       }
       return club.thom.tem.models.messages.ServerMessages.InventoryRequest.getDefaultInstance();
     }
 
-    public static final int MISCREQUEST_FIELD_NUMBER = 4;
+    public static final int MISCREQUEST_FIELD_NUMBER = 6;
     /**
-     * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+     * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
      * @return Whether the miscRequest field is set.
      */
     @java.lang.Override
     public boolean hasMiscRequest() {
-      return messageCase_ == 4;
+      return messageCase_ == 6;
     }
     /**
-     * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+     * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
      * @return The miscRequest.
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ServerMessages.MiscRequest getMiscRequest() {
-      if (messageCase_ == 4) {
+      if (messageCase_ == 6) {
          return (club.thom.tem.models.messages.ServerMessages.MiscRequest) message_;
       }
       return club.thom.tem.models.messages.ServerMessages.MiscRequest.getDefaultInstance();
     }
     /**
-     * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+     * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
      */
     @java.lang.Override
     public club.thom.tem.models.messages.ServerMessages.MiscRequestOrBuilder getMiscRequestOrBuilder() {
-      if (messageCase_ == 4) {
+      if (messageCase_ == 6) {
          return (club.thom.tem.models.messages.ServerMessages.MiscRequest) message_;
       }
       return club.thom.tem.models.messages.ServerMessages.MiscRequest.getDefaultInstance();
@@ -4395,14 +4592,23 @@ public final class ServerMessages {
       if (nonce_ != 0) {
         output.writeInt32(1, nonce_);
       }
-      if (messageCase_ == 2) {
-        output.writeMessage(2, (club.thom.tem.models.messages.ServerMessages.FriendRequest) message_);
-      }
-      if (messageCase_ == 3) {
-        output.writeMessage(3, (club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_);
+      com.google.protobuf.GeneratedMessageV3
+        .serializeStringMapTo(
+          output,
+          internalGetHeaders(),
+          HeadersDefaultEntryHolder.defaultEntry,
+          2);
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(requestScheme_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, requestScheme_);
       }
       if (messageCase_ == 4) {
-        output.writeMessage(4, (club.thom.tem.models.messages.ServerMessages.MiscRequest) message_);
+        output.writeMessage(4, (club.thom.tem.models.messages.ServerMessages.FriendRequest) message_);
+      }
+      if (messageCase_ == 5) {
+        output.writeMessage(5, (club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_);
+      }
+      if (messageCase_ == 6) {
+        output.writeMessage(6, (club.thom.tem.models.messages.ServerMessages.MiscRequest) message_);
       }
       unknownFields.writeTo(output);
     }
@@ -4417,17 +4623,30 @@ public final class ServerMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, nonce_);
       }
-      if (messageCase_ == 2) {
+      for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
+           : internalGetHeaders().getMap().entrySet()) {
+        com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
+        headers__ = HeadersDefaultEntryHolder.defaultEntry.newBuilderForType()
+            .setKey(entry.getKey())
+            .setValue(entry.getValue())
+            .build();
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, (club.thom.tem.models.messages.ServerMessages.FriendRequest) message_);
+            .computeMessageSize(2, headers__);
       }
-      if (messageCase_ == 3) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, (club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_);
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(requestScheme_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, requestScheme_);
       }
       if (messageCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (club.thom.tem.models.messages.ServerMessages.MiscRequest) message_);
+          .computeMessageSize(4, (club.thom.tem.models.messages.ServerMessages.FriendRequest) message_);
+      }
+      if (messageCase_ == 5) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, (club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_);
+      }
+      if (messageCase_ == 6) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, (club.thom.tem.models.messages.ServerMessages.MiscRequest) message_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4446,17 +4665,21 @@ public final class ServerMessages {
 
       if (getNonce()
           != other.getNonce()) return false;
+      if (!internalGetHeaders().equals(
+          other.internalGetHeaders())) return false;
+      if (!getRequestScheme()
+          .equals(other.getRequestScheme())) return false;
       if (!getMessageCase().equals(other.getMessageCase())) return false;
       switch (messageCase_) {
-        case 2:
+        case 4:
           if (!getFriendRequest()
               .equals(other.getFriendRequest())) return false;
           break;
-        case 3:
+        case 5:
           if (!getInventoryRequest()
               .equals(other.getInventoryRequest())) return false;
           break;
-        case 4:
+        case 6:
           if (!getMiscRequest()
               .equals(other.getMiscRequest())) return false;
           break;
@@ -4476,16 +4699,22 @@ public final class ServerMessages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + NONCE_FIELD_NUMBER;
       hash = (53 * hash) + getNonce();
+      if (!internalGetHeaders().getMap().isEmpty()) {
+        hash = (37 * hash) + HEADERS_FIELD_NUMBER;
+        hash = (53 * hash) + internalGetHeaders().hashCode();
+      }
+      hash = (37 * hash) + REQUESTSCHEME_FIELD_NUMBER;
+      hash = (53 * hash) + getRequestScheme().hashCode();
       switch (messageCase_) {
-        case 2:
+        case 4:
           hash = (37 * hash) + FRIENDREQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getFriendRequest().hashCode();
           break;
-        case 3:
+        case 5:
           hash = (37 * hash) + INVENTORYREQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getInventoryRequest().hashCode();
           break;
-        case 4:
+        case 6:
           hash = (37 * hash) + MISCREQUEST_FIELD_NUMBER;
           hash = (53 * hash) + getMiscRequest().hashCode();
           break;
@@ -4599,6 +4828,28 @@ public final class ServerMessages {
         return club.thom.tem.models.messages.ServerMessages.internal_static_serverMessage_RequestMessage_descriptor;
       }
 
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMapField(
+          int number) {
+        switch (number) {
+          case 2:
+            return internalGetHeaders();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
+      @SuppressWarnings({"rawtypes"})
+      protected com.google.protobuf.MapField internalGetMutableMapField(
+          int number) {
+        switch (number) {
+          case 2:
+            return internalGetMutableHeaders();
+          default:
+            throw new RuntimeException(
+                "Invalid map field number: " + number);
+        }
+      }
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
@@ -4626,6 +4877,9 @@ public final class ServerMessages {
       public Builder clear() {
         super.clear();
         nonce_ = 0;
+
+        internalGetMutableHeaders().clear();
+        requestScheme_ = "";
 
         messageCase_ = 0;
         message_ = null;
@@ -4655,22 +4909,26 @@ public final class ServerMessages {
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.RequestMessage buildPartial() {
         club.thom.tem.models.messages.ServerMessages.RequestMessage result = new club.thom.tem.models.messages.ServerMessages.RequestMessage(this);
+        int from_bitField0_ = bitField0_;
         result.nonce_ = nonce_;
-        if (messageCase_ == 2) {
+        result.headers_ = internalGetHeaders();
+        result.headers_.makeImmutable();
+        result.requestScheme_ = requestScheme_;
+        if (messageCase_ == 4) {
           if (friendRequestBuilder_ == null) {
             result.message_ = message_;
           } else {
             result.message_ = friendRequestBuilder_.build();
           }
         }
-        if (messageCase_ == 3) {
+        if (messageCase_ == 5) {
           if (inventoryRequestBuilder_ == null) {
             result.message_ = message_;
           } else {
             result.message_ = inventoryRequestBuilder_.build();
           }
         }
-        if (messageCase_ == 4) {
+        if (messageCase_ == 6) {
           if (miscRequestBuilder_ == null) {
             result.message_ = message_;
           } else {
@@ -4728,6 +4986,12 @@ public final class ServerMessages {
         if (other == club.thom.tem.models.messages.ServerMessages.RequestMessage.getDefaultInstance()) return this;
         if (other.getNonce() != 0) {
           setNonce(other.getNonce());
+        }
+        internalGetMutableHeaders().mergeFrom(
+            other.internalGetHeaders());
+        if (!other.getRequestScheme().isEmpty()) {
+          requestScheme_ = other.requestScheme_;
+          onChanged();
         }
         switch (other.getMessageCase()) {
           case FRIENDREQUEST: {
@@ -4789,6 +5053,7 @@ public final class ServerMessages {
         return this;
       }
 
+      private int bitField0_;
 
       private int nonce_ ;
       /**
@@ -4833,36 +5098,243 @@ public final class ServerMessages {
         return this;
       }
 
+      private com.google.protobuf.MapField<
+          java.lang.String, java.lang.String> headers_;
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetHeaders() {
+        if (headers_ == null) {
+          return com.google.protobuf.MapField.emptyMapField(
+              HeadersDefaultEntryHolder.defaultEntry);
+        }
+        return headers_;
+      }
+      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
+      internalGetMutableHeaders() {
+        onChanged();;
+        if (headers_ == null) {
+          headers_ = com.google.protobuf.MapField.newMapField(
+              HeadersDefaultEntryHolder.defaultEntry);
+        }
+        if (!headers_.isMutable()) {
+          headers_ = headers_.copy();
+        }
+        return headers_;
+      }
+
+      public int getHeadersCount() {
+        return internalGetHeaders().getMap().size();
+      }
+      /**
+       * <code>map&lt;string, string&gt; headers = 2;</code>
+       */
+
+      @java.lang.Override
+      public boolean containsHeaders(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        return internalGetHeaders().getMap().containsKey(key);
+      }
+      /**
+       * Use {@link #getHeadersMap()} instead.
+       */
+      @java.lang.Override
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String> getHeaders() {
+        return getHeadersMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; headers = 2;</code>
+       */
+      @java.lang.Override
+
+      public java.util.Map<java.lang.String, java.lang.String> getHeadersMap() {
+        return internalGetHeaders().getMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; headers = 2;</code>
+       */
+      @java.lang.Override
+
+      public java.lang.String getHeadersOrDefault(
+          java.lang.String key,
+          java.lang.String defaultValue) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetHeaders().getMap();
+        return map.containsKey(key) ? map.get(key) : defaultValue;
+      }
+      /**
+       * <code>map&lt;string, string&gt; headers = 2;</code>
+       */
+      @java.lang.Override
+
+      public java.lang.String getHeadersOrThrow(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        java.util.Map<java.lang.String, java.lang.String> map =
+            internalGetHeaders().getMap();
+        if (!map.containsKey(key)) {
+          throw new java.lang.IllegalArgumentException();
+        }
+        return map.get(key);
+      }
+
+      public Builder clearHeaders() {
+        internalGetMutableHeaders().getMutableMap()
+            .clear();
+        return this;
+      }
+      /**
+       * <code>map&lt;string, string&gt; headers = 2;</code>
+       */
+
+      public Builder removeHeaders(
+          java.lang.String key) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        internalGetMutableHeaders().getMutableMap()
+            .remove(key);
+        return this;
+      }
+      /**
+       * Use alternate mutation accessors instead.
+       */
+      @java.lang.Deprecated
+      public java.util.Map<java.lang.String, java.lang.String>
+      getMutableHeaders() {
+        return internalGetMutableHeaders().getMutableMap();
+      }
+      /**
+       * <code>map&lt;string, string&gt; headers = 2;</code>
+       */
+      public Builder putHeaders(
+          java.lang.String key,
+          java.lang.String value) {
+        if (key == null) { throw new NullPointerException("map key"); }
+        if (value == null) {
+  throw new NullPointerException("map value");
+}
+
+        internalGetMutableHeaders().getMutableMap()
+            .put(key, value);
+        return this;
+      }
+      /**
+       * <code>map&lt;string, string&gt; headers = 2;</code>
+       */
+
+      public Builder putAllHeaders(
+          java.util.Map<java.lang.String, java.lang.String> values) {
+        internalGetMutableHeaders().getMutableMap()
+            .putAll(values);
+        return this;
+      }
+
+      private java.lang.Object requestScheme_ = "";
+      /**
+       * <code>string requestScheme = 3;</code>
+       * @return The requestScheme.
+       */
+      public java.lang.String getRequestScheme() {
+        java.lang.Object ref = requestScheme_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          requestScheme_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string requestScheme = 3;</code>
+       * @return The bytes for requestScheme.
+       */
+      public com.google.protobuf.ByteString
+          getRequestSchemeBytes() {
+        java.lang.Object ref = requestScheme_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          requestScheme_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string requestScheme = 3;</code>
+       * @param value The requestScheme to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRequestScheme(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        requestScheme_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string requestScheme = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearRequestScheme() {
+        
+        requestScheme_ = getDefaultInstance().getRequestScheme();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string requestScheme = 3;</code>
+       * @param value The bytes for requestScheme to set.
+       * @return This builder for chaining.
+       */
+      public Builder setRequestSchemeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        requestScheme_ = value;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ServerMessages.FriendRequest, club.thom.tem.models.messages.ServerMessages.FriendRequest.Builder, club.thom.tem.models.messages.ServerMessages.FriendRequestOrBuilder> friendRequestBuilder_;
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        * @return Whether the friendRequest field is set.
        */
       @java.lang.Override
       public boolean hasFriendRequest() {
-        return messageCase_ == 2;
+        return messageCase_ == 4;
       }
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        * @return The friendRequest.
        */
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.FriendRequest getFriendRequest() {
         if (friendRequestBuilder_ == null) {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 4) {
             return (club.thom.tem.models.messages.ServerMessages.FriendRequest) message_;
           }
           return club.thom.tem.models.messages.ServerMessages.FriendRequest.getDefaultInstance();
         } else {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 4) {
             return friendRequestBuilder_.getMessage();
           }
           return club.thom.tem.models.messages.ServerMessages.FriendRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        */
       public Builder setFriendRequest(club.thom.tem.models.messages.ServerMessages.FriendRequest value) {
         if (friendRequestBuilder_ == null) {
@@ -4874,11 +5346,11 @@ public final class ServerMessages {
         } else {
           friendRequestBuilder_.setMessage(value);
         }
-        messageCase_ = 2;
+        messageCase_ = 4;
         return this;
       }
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        */
       public Builder setFriendRequest(
           club.thom.tem.models.messages.ServerMessages.FriendRequest.Builder builderForValue) {
@@ -4888,15 +5360,15 @@ public final class ServerMessages {
         } else {
           friendRequestBuilder_.setMessage(builderForValue.build());
         }
-        messageCase_ = 2;
+        messageCase_ = 4;
         return this;
       }
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        */
       public Builder mergeFriendRequest(club.thom.tem.models.messages.ServerMessages.FriendRequest value) {
         if (friendRequestBuilder_ == null) {
-          if (messageCase_ == 2 &&
+          if (messageCase_ == 4 &&
               message_ != club.thom.tem.models.messages.ServerMessages.FriendRequest.getDefaultInstance()) {
             message_ = club.thom.tem.models.messages.ServerMessages.FriendRequest.newBuilder((club.thom.tem.models.messages.ServerMessages.FriendRequest) message_)
                 .mergeFrom(value).buildPartial();
@@ -4905,26 +5377,26 @@ public final class ServerMessages {
           }
           onChanged();
         } else {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 4) {
             friendRequestBuilder_.mergeFrom(value);
           }
           friendRequestBuilder_.setMessage(value);
         }
-        messageCase_ = 2;
+        messageCase_ = 4;
         return this;
       }
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        */
       public Builder clearFriendRequest() {
         if (friendRequestBuilder_ == null) {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 4) {
             messageCase_ = 0;
             message_ = null;
             onChanged();
           }
         } else {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 4) {
             messageCase_ = 0;
             message_ = null;
           }
@@ -4933,33 +5405,33 @@ public final class ServerMessages {
         return this;
       }
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        */
       public club.thom.tem.models.messages.ServerMessages.FriendRequest.Builder getFriendRequestBuilder() {
         return getFriendRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        */
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.FriendRequestOrBuilder getFriendRequestOrBuilder() {
-        if ((messageCase_ == 2) && (friendRequestBuilder_ != null)) {
+        if ((messageCase_ == 4) && (friendRequestBuilder_ != null)) {
           return friendRequestBuilder_.getMessageOrBuilder();
         } else {
-          if (messageCase_ == 2) {
+          if (messageCase_ == 4) {
             return (club.thom.tem.models.messages.ServerMessages.FriendRequest) message_;
           }
           return club.thom.tem.models.messages.ServerMessages.FriendRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.FriendRequest friendRequest = 2;</code>
+       * <code>.serverMessage.FriendRequest friendRequest = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ServerMessages.FriendRequest, club.thom.tem.models.messages.ServerMessages.FriendRequest.Builder, club.thom.tem.models.messages.ServerMessages.FriendRequestOrBuilder> 
           getFriendRequestFieldBuilder() {
         if (friendRequestBuilder_ == null) {
-          if (!(messageCase_ == 2)) {
+          if (!(messageCase_ == 4)) {
             message_ = club.thom.tem.models.messages.ServerMessages.FriendRequest.getDefaultInstance();
           }
           friendRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -4969,7 +5441,7 @@ public final class ServerMessages {
                   isClean());
           message_ = null;
         }
-        messageCase_ = 2;
+        messageCase_ = 4;
         onChanged();;
         return friendRequestBuilder_;
       }
@@ -4977,33 +5449,33 @@ public final class ServerMessages {
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ServerMessages.InventoryRequest, club.thom.tem.models.messages.ServerMessages.InventoryRequest.Builder, club.thom.tem.models.messages.ServerMessages.InventoryRequestOrBuilder> inventoryRequestBuilder_;
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        * @return Whether the inventoryRequest field is set.
        */
       @java.lang.Override
       public boolean hasInventoryRequest() {
-        return messageCase_ == 3;
+        return messageCase_ == 5;
       }
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        * @return The inventoryRequest.
        */
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.InventoryRequest getInventoryRequest() {
         if (inventoryRequestBuilder_ == null) {
-          if (messageCase_ == 3) {
+          if (messageCase_ == 5) {
             return (club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_;
           }
           return club.thom.tem.models.messages.ServerMessages.InventoryRequest.getDefaultInstance();
         } else {
-          if (messageCase_ == 3) {
+          if (messageCase_ == 5) {
             return inventoryRequestBuilder_.getMessage();
           }
           return club.thom.tem.models.messages.ServerMessages.InventoryRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        */
       public Builder setInventoryRequest(club.thom.tem.models.messages.ServerMessages.InventoryRequest value) {
         if (inventoryRequestBuilder_ == null) {
@@ -5015,11 +5487,11 @@ public final class ServerMessages {
         } else {
           inventoryRequestBuilder_.setMessage(value);
         }
-        messageCase_ = 3;
+        messageCase_ = 5;
         return this;
       }
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        */
       public Builder setInventoryRequest(
           club.thom.tem.models.messages.ServerMessages.InventoryRequest.Builder builderForValue) {
@@ -5029,15 +5501,15 @@ public final class ServerMessages {
         } else {
           inventoryRequestBuilder_.setMessage(builderForValue.build());
         }
-        messageCase_ = 3;
+        messageCase_ = 5;
         return this;
       }
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        */
       public Builder mergeInventoryRequest(club.thom.tem.models.messages.ServerMessages.InventoryRequest value) {
         if (inventoryRequestBuilder_ == null) {
-          if (messageCase_ == 3 &&
+          if (messageCase_ == 5 &&
               message_ != club.thom.tem.models.messages.ServerMessages.InventoryRequest.getDefaultInstance()) {
             message_ = club.thom.tem.models.messages.ServerMessages.InventoryRequest.newBuilder((club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_)
                 .mergeFrom(value).buildPartial();
@@ -5046,26 +5518,26 @@ public final class ServerMessages {
           }
           onChanged();
         } else {
-          if (messageCase_ == 3) {
+          if (messageCase_ == 5) {
             inventoryRequestBuilder_.mergeFrom(value);
           }
           inventoryRequestBuilder_.setMessage(value);
         }
-        messageCase_ = 3;
+        messageCase_ = 5;
         return this;
       }
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        */
       public Builder clearInventoryRequest() {
         if (inventoryRequestBuilder_ == null) {
-          if (messageCase_ == 3) {
+          if (messageCase_ == 5) {
             messageCase_ = 0;
             message_ = null;
             onChanged();
           }
         } else {
-          if (messageCase_ == 3) {
+          if (messageCase_ == 5) {
             messageCase_ = 0;
             message_ = null;
           }
@@ -5074,33 +5546,33 @@ public final class ServerMessages {
         return this;
       }
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        */
       public club.thom.tem.models.messages.ServerMessages.InventoryRequest.Builder getInventoryRequestBuilder() {
         return getInventoryRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        */
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.InventoryRequestOrBuilder getInventoryRequestOrBuilder() {
-        if ((messageCase_ == 3) && (inventoryRequestBuilder_ != null)) {
+        if ((messageCase_ == 5) && (inventoryRequestBuilder_ != null)) {
           return inventoryRequestBuilder_.getMessageOrBuilder();
         } else {
-          if (messageCase_ == 3) {
+          if (messageCase_ == 5) {
             return (club.thom.tem.models.messages.ServerMessages.InventoryRequest) message_;
           }
           return club.thom.tem.models.messages.ServerMessages.InventoryRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.InventoryRequest inventoryRequest = 3;</code>
+       * <code>.serverMessage.InventoryRequest inventoryRequest = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ServerMessages.InventoryRequest, club.thom.tem.models.messages.ServerMessages.InventoryRequest.Builder, club.thom.tem.models.messages.ServerMessages.InventoryRequestOrBuilder> 
           getInventoryRequestFieldBuilder() {
         if (inventoryRequestBuilder_ == null) {
-          if (!(messageCase_ == 3)) {
+          if (!(messageCase_ == 5)) {
             message_ = club.thom.tem.models.messages.ServerMessages.InventoryRequest.getDefaultInstance();
           }
           inventoryRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5110,7 +5582,7 @@ public final class ServerMessages {
                   isClean());
           message_ = null;
         }
-        messageCase_ = 3;
+        messageCase_ = 5;
         onChanged();;
         return inventoryRequestBuilder_;
       }
@@ -5118,33 +5590,33 @@ public final class ServerMessages {
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ServerMessages.MiscRequest, club.thom.tem.models.messages.ServerMessages.MiscRequest.Builder, club.thom.tem.models.messages.ServerMessages.MiscRequestOrBuilder> miscRequestBuilder_;
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        * @return Whether the miscRequest field is set.
        */
       @java.lang.Override
       public boolean hasMiscRequest() {
-        return messageCase_ == 4;
+        return messageCase_ == 6;
       }
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        * @return The miscRequest.
        */
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.MiscRequest getMiscRequest() {
         if (miscRequestBuilder_ == null) {
-          if (messageCase_ == 4) {
+          if (messageCase_ == 6) {
             return (club.thom.tem.models.messages.ServerMessages.MiscRequest) message_;
           }
           return club.thom.tem.models.messages.ServerMessages.MiscRequest.getDefaultInstance();
         } else {
-          if (messageCase_ == 4) {
+          if (messageCase_ == 6) {
             return miscRequestBuilder_.getMessage();
           }
           return club.thom.tem.models.messages.ServerMessages.MiscRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        */
       public Builder setMiscRequest(club.thom.tem.models.messages.ServerMessages.MiscRequest value) {
         if (miscRequestBuilder_ == null) {
@@ -5156,11 +5628,11 @@ public final class ServerMessages {
         } else {
           miscRequestBuilder_.setMessage(value);
         }
-        messageCase_ = 4;
+        messageCase_ = 6;
         return this;
       }
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        */
       public Builder setMiscRequest(
           club.thom.tem.models.messages.ServerMessages.MiscRequest.Builder builderForValue) {
@@ -5170,15 +5642,15 @@ public final class ServerMessages {
         } else {
           miscRequestBuilder_.setMessage(builderForValue.build());
         }
-        messageCase_ = 4;
+        messageCase_ = 6;
         return this;
       }
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        */
       public Builder mergeMiscRequest(club.thom.tem.models.messages.ServerMessages.MiscRequest value) {
         if (miscRequestBuilder_ == null) {
-          if (messageCase_ == 4 &&
+          if (messageCase_ == 6 &&
               message_ != club.thom.tem.models.messages.ServerMessages.MiscRequest.getDefaultInstance()) {
             message_ = club.thom.tem.models.messages.ServerMessages.MiscRequest.newBuilder((club.thom.tem.models.messages.ServerMessages.MiscRequest) message_)
                 .mergeFrom(value).buildPartial();
@@ -5187,26 +5659,26 @@ public final class ServerMessages {
           }
           onChanged();
         } else {
-          if (messageCase_ == 4) {
+          if (messageCase_ == 6) {
             miscRequestBuilder_.mergeFrom(value);
           }
           miscRequestBuilder_.setMessage(value);
         }
-        messageCase_ = 4;
+        messageCase_ = 6;
         return this;
       }
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        */
       public Builder clearMiscRequest() {
         if (miscRequestBuilder_ == null) {
-          if (messageCase_ == 4) {
+          if (messageCase_ == 6) {
             messageCase_ = 0;
             message_ = null;
             onChanged();
           }
         } else {
-          if (messageCase_ == 4) {
+          if (messageCase_ == 6) {
             messageCase_ = 0;
             message_ = null;
           }
@@ -5215,33 +5687,33 @@ public final class ServerMessages {
         return this;
       }
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        */
       public club.thom.tem.models.messages.ServerMessages.MiscRequest.Builder getMiscRequestBuilder() {
         return getMiscRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        */
       @java.lang.Override
       public club.thom.tem.models.messages.ServerMessages.MiscRequestOrBuilder getMiscRequestOrBuilder() {
-        if ((messageCase_ == 4) && (miscRequestBuilder_ != null)) {
+        if ((messageCase_ == 6) && (miscRequestBuilder_ != null)) {
           return miscRequestBuilder_.getMessageOrBuilder();
         } else {
-          if (messageCase_ == 4) {
+          if (messageCase_ == 6) {
             return (club.thom.tem.models.messages.ServerMessages.MiscRequest) message_;
           }
           return club.thom.tem.models.messages.ServerMessages.MiscRequest.getDefaultInstance();
         }
       }
       /**
-       * <code>.serverMessage.MiscRequest miscRequest = 4;</code>
+       * <code>.serverMessage.MiscRequest miscRequest = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           club.thom.tem.models.messages.ServerMessages.MiscRequest, club.thom.tem.models.messages.ServerMessages.MiscRequest.Builder, club.thom.tem.models.messages.ServerMessages.MiscRequestOrBuilder> 
           getMiscRequestFieldBuilder() {
         if (miscRequestBuilder_ == null) {
-          if (!(messageCase_ == 4)) {
+          if (!(messageCase_ == 6)) {
             message_ = club.thom.tem.models.messages.ServerMessages.MiscRequest.getDefaultInstance();
           }
           miscRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -5251,7 +5723,7 @@ public final class ServerMessages {
                   isClean());
           message_ = null;
         }
-        messageCase_ = 4;
+        messageCase_ = 6;
         onChanged();;
         return miscRequestBuilder_;
       }
@@ -10037,6 +10509,11 @@ public final class ServerMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_serverMessage_RequestMessage_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_serverMessage_RequestMessage_HeadersEntry_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_serverMessage_RequestMessage_HeadersEntry_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_serverMessage_BulkRequests_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -10079,33 +10556,36 @@ public final class ServerMessages {
       "\022\n\nrequestURL\030\001 \001(\t\022\021\n\tuseApiKey\030\002 \001(\010\022>" +
       "\n\nparameters\030\003 \003(\0132*.serverMessage.MiscR" +
       "equest.ParametersEntry\0321\n\017ParametersEntr" +
-      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\321\001\n\016Re" +
-      "questMessage\022\r\n\005nonce\030\001 \001(\005\0225\n\rfriendReq" +
-      "uest\030\002 \001(\0132\034.serverMessage.FriendRequest" +
-      "H\000\022;\n\020inventoryRequest\030\003 \001(\0132\037.serverMes" +
-      "sage.InventoryRequestH\000\0221\n\013miscRequest\030\004" +
-      " \001(\0132\032.serverMessage.MiscRequestH\000B\t\n\007me" +
-      "ssage\"?\n\014BulkRequests\022/\n\010requests\030\001 \003(\0132" +
-      "\035.serverMessage.RequestMessage\"w\n\013Armour" +
-      "Snipe\022\016\n\006itemId\030\001 \001(\t\022\017\n\007hexCode\030\002 \001(\t\022%" +
-      "\n\006rarity\030\003 \001(\0162\025.serverMessage.Rarity\022\r\n" +
-      "\005price\030\004 \001(\003\022\021\n\textraData\030\005 \001(\t\"u\n\rSnipe" +
-      "rMessage\022\023\n\013auctionUuid\030\001 \001(\t\022\026\n\016auction" +
-      "eerUuid\030\002 \001(\t\022,\n\006armour\030\003 \001(\0132\032.serverMe" +
-      "ssage.ArmourSnipeH\000B\t\n\007message\"\266\002\n\rServe" +
-      "rMessage\022\035\n\025expectedClientVersion\030\001 \001(\005\022" +
-      "\'\n\004auth\030\002 \001(\0132\027.serverMessage.AuthDataH\000" +
-      "\0227\n\020multipleRequests\030\003 \001(\0132\033.serverMessa" +
-      "ge.BulkRequestsH\000\0226\n\rsingleRequest\030\004 \001(\013" +
-      "2\035.serverMessage.RequestMessageH\000\0222\n\004inf" +
-      "o\030\005 \001(\0132\".serverMessage.InformationRespo" +
-      "nseH\000\022-\n\005snipe\030\006 \001(\0132\034.serverMessage.Sni" +
-      "perMessageH\000B\t\n\007message*|\n\006Rarity\022\n\n\006COM" +
-      "MON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022" +
-      "\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013" +
-      "\n\007SPECIAL\020\007\022\020\n\014VERY_SPECIAL\020\010B8\n\035club.th" +
-      "om.tem.models.messagesZ\027protobuf/serverM" +
-      "essagesb\006proto3"
+      "y\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\325\002\n\016Re" +
+      "questMessage\022\r\n\005nonce\030\001 \001(\005\022;\n\007headers\030\002" +
+      " \003(\0132*.serverMessage.RequestMessage.Head" +
+      "ersEntry\022\025\n\rrequestScheme\030\003 \001(\t\0225\n\rfrien" +
+      "dRequest\030\004 \001(\0132\034.serverMessage.FriendReq" +
+      "uestH\000\022;\n\020inventoryRequest\030\005 \001(\0132\037.serve" +
+      "rMessage.InventoryRequestH\000\0221\n\013miscReque" +
+      "st\030\006 \001(\0132\032.serverMessage.MiscRequestH\000\032." +
+      "\n\014HeadersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001" +
+      "(\t:\0028\001B\t\n\007message\"?\n\014BulkRequests\022/\n\010req" +
+      "uests\030\001 \003(\0132\035.serverMessage.RequestMessa" +
+      "ge\"w\n\013ArmourSnipe\022\016\n\006itemId\030\001 \001(\t\022\017\n\007hex" +
+      "Code\030\002 \001(\t\022%\n\006rarity\030\003 \001(\0162\025.serverMessa" +
+      "ge.Rarity\022\r\n\005price\030\004 \001(\003\022\021\n\textraData\030\005 " +
+      "\001(\t\"u\n\rSniperMessage\022\023\n\013auctionUuid\030\001 \001(" +
+      "\t\022\026\n\016auctioneerUuid\030\002 \001(\t\022,\n\006armour\030\003 \001(" +
+      "\0132\032.serverMessage.ArmourSnipeH\000B\t\n\007messa" +
+      "ge\"\266\002\n\rServerMessage\022\035\n\025expectedClientVe" +
+      "rsion\030\001 \001(\005\022\'\n\004auth\030\002 \001(\0132\027.serverMessag" +
+      "e.AuthDataH\000\0227\n\020multipleRequests\030\003 \001(\0132\033" +
+      ".serverMessage.BulkRequestsH\000\0226\n\rsingleR" +
+      "equest\030\004 \001(\0132\035.serverMessage.RequestMess" +
+      "ageH\000\0222\n\004info\030\005 \001(\0132\".serverMessage.Info" +
+      "rmationResponseH\000\022-\n\005snipe\030\006 \001(\0132\034.serve" +
+      "rMessage.SniperMessageH\000B\t\n\007message*|\n\006R" +
+      "arity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020" +
+      "\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n" +
+      "\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY_SPECIAL\020" +
+      "\010B8\n\035club.thom.tem.models.messagesZ\027prot" +
+      "obuf/serverMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -10152,7 +10632,13 @@ public final class ServerMessages {
     internal_static_serverMessage_RequestMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_serverMessage_RequestMessage_descriptor,
-        new java.lang.String[] { "Nonce", "FriendRequest", "InventoryRequest", "MiscRequest", "Message", });
+        new java.lang.String[] { "Nonce", "Headers", "RequestScheme", "FriendRequest", "InventoryRequest", "MiscRequest", "Message", });
+    internal_static_serverMessage_RequestMessage_HeadersEntry_descriptor =
+      internal_static_serverMessage_RequestMessage_descriptor.getNestedTypes().get(0);
+    internal_static_serverMessage_RequestMessage_HeadersEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_serverMessage_RequestMessage_HeadersEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
     internal_static_serverMessage_BulkRequests_descriptor =
       getDescriptor().getMessageTypes().get(6);
     internal_static_serverMessage_BulkRequests_fieldAccessorTable = new

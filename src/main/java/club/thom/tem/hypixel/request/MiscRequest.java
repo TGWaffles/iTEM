@@ -18,8 +18,8 @@ public class MiscRequest extends Request {
     final CompletableFuture<RequestData> future = new CompletableFuture<>();
     TEMConfig config;
 
-    public MiscRequest(TEM tem, ServerMessages.MiscRequest request) {
-        super(tem, "/none");
+    public MiscRequest(TEM tem, ServerMessages.MiscRequest request, Map<String, String> headers, String requestScheme) {
+        super(tem, "/none", headers, requestScheme);
         try {
             urlBuilder = new URIBuilder(request.getRequestURL());
         } catch (Exception e) {
