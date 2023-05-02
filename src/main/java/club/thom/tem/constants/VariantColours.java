@@ -2,11 +2,17 @@ package club.thom.tem.constants;
 
 import com.google.common.collect.ImmutableSet;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class VariantColours {
     public static final Map<String, ImmutableSet<String>> variants = getPossibleVariants();
+
+    public static final List<String> seymourItems = Collections.unmodifiableList(Arrays.asList(
+            "VELVET_TOP_HAT",
+            "CASHMERE_JACKET",
+            "SATIN_TROUSERS",
+            "OXFORD_SHOES"
+    ));
 
     private static Map<String, ImmutableSet<String>> getPossibleVariants() {
         HashMap<String, ImmutableSet<String>> possibleVariants = new HashMap<>();
@@ -44,6 +50,9 @@ public class VariantColours {
             return true;
         }
         if (itemId.equals("GHOST_BOOTS")) {
+            return true;
+        }
+        if (seymourItems.contains(itemId)) {
             return true;
         }
         ImmutableSet<String> possibleColoursForItem = variants.get(itemId);
