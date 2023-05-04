@@ -65,7 +65,11 @@ public class ToolTipListener {
             return;
         }
         ArmourPieceData armour = new ArmourPieceData(tem, "inventory", itemNbt);
-        HexUtil.Modifier armourTypeModifier = new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
+
+        HexUtil.Modifier armourTypeModifier = (armour.getItemId().startsWith("LEATHER_") && item.getItemDamage()>0) ?
+                new HexUtil(tem.getItems()).getNullModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp()) :
+                new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
+
         String colourCode = armourTypeModifier.getColourCode();
         int ownerCount = checkArmourOwners(armour);
         String toolTipString = colourCode + armourTypeModifier;

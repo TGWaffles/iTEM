@@ -49,6 +49,7 @@ public class ArmourPieceData extends InventoryItemData {
         return fakeUuid;
     }
 
+
     public long getCreationTimestamp() {
         return getCreationTimestamp(getExtraAttributes().getString("timestamp"));
     }

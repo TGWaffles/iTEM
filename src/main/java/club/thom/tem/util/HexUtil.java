@@ -3,6 +3,8 @@ package club.thom.tem.util;
 import club.thom.tem.constants.*;
 import net.minecraft.util.EnumChatFormatting;
 
+import javax.script.ScriptEngine;
+
 import static club.thom.tem.models.inventory.item.ArmourPieceData.convertIntArrayToHex;
 
 public class HexUtil {
@@ -28,10 +30,13 @@ public class HexUtil {
         return hexCode.equalsIgnoreCase(originalHex);
     }
 
-    public Modifier getModifier(String itemId, String hexCode, long creationTime) {
-        if (checkOriginal(itemId, hexCode)) {
-            return Modifier.ORIGINAL;
-        }
+    public Modifier getNullModifier (String itemId, String hexCode, long creationDate) {
+        //Passing itemId although only LEATHER_BOOTS null should be possible
+        Modifier modifier = getDyedModifier(itemId, hexCode, creationDate);
+        return (modifier == Modifier.UNDYED) ? Modifier.ORIGINAL : modifier;
+    }
+
+    public Modifier getDyedModifier (String itemId, String hexCode, long creationTime) {
         if (FairyColours.isOGFairyColour(itemId, hexCode)) {
             return Modifier.OG_FAIRY;
         }
@@ -50,7 +55,13 @@ public class HexUtil {
         }
 
         return Modifier.EXOTIC;
+    }
 
+    public Modifier getModifier(String itemId, String hexCode, long creationTime) {
+        if (checkOriginal(itemId, hexCode)) {
+            return Modifier.ORIGINAL;
+        }
+        return getDyedModifier(itemId, hexCode, creationTime);
     }
 
     public enum Modifier {
