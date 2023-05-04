@@ -3,8 +3,6 @@ package club.thom.tem.util;
 import club.thom.tem.constants.*;
 import net.minecraft.util.EnumChatFormatting;
 
-import javax.script.ScriptEngine;
-
 import static club.thom.tem.models.inventory.item.ArmourPieceData.convertIntArrayToHex;
 
 public class HexUtil {
