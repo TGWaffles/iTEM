@@ -18,6 +18,7 @@ public class ClientPacketListener extends ChannelOutboundHandlerAdapter {
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
+        ctx.write(msg, promise);
         if (msg instanceof C03PacketPlayer) {
             C03PacketPlayer packet = (C03PacketPlayer) msg;
             if (hasMoved(packet)) {
@@ -39,7 +40,6 @@ public class ClientPacketListener extends ChannelOutboundHandlerAdapter {
         ) {
             resetAfk();
         }
-        ctx.write(msg, promise);
     }
 
     @SubscribeEvent
