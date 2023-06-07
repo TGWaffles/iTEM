@@ -7,7 +7,10 @@ import club.thom.tem.dupes.auction_house.AuctionHouse;
 import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.listeners.*;
 import club.thom.tem.listeners.packets.ClientPacketListener;
+import club.thom.tem.listeners.packets.PacketListener;
+import club.thom.tem.listeners.packets.ServerPacketListener;
 import club.thom.tem.misc.KeyBinds;
+import club.thom.tem.position.ItemPositionHandler;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.ItemUtil;
 import club.thom.tem.util.KeyFetcher;
@@ -45,7 +48,8 @@ public class TEM {
     public static final int CLIENT_VERSION = clientVersionFromVersion();
 
     private OnlinePlayerListener onlinePlayerListener = null;
-    private PlayerAFKListener afkListener = null;
+    private PlayerAFKListener playerAFKListener = null;
+    private PacketListener packetListener = null;
     private final SocketHandler socketHandler;
     private final LobbyScanner scanner;
     private Hypixel api;
@@ -141,8 +145,14 @@ public class TEM {
         // Don't set up logging on any version released - log files grow very quickly.
         logger.info("Initialising TEM");
         player.attemptUuidSet(Minecraft.getMinecraft().getSession().getPlayerID());
-        afkListener = new PlayerAFKListener();
-        MinecraftForge.EVENT_BUS.register(afkListener);
+
+        packetListener = new PacketListener();
+        MinecraftForge.EVENT_BUS.register(packetListener);
+
+        playerAFKListener = new PlayerAFKListener();
+        packetListener.registerListener(playerAFKListener);
+        MinecraftForge.EVENT_BUS.register(playerAFKListener);
+
         // Create global API/rate-limit handler
         api = new Hypixel(this);
         auctions = new AuctionHouse(this);
@@ -154,12 +164,16 @@ public class TEM {
         new Thread(getAuctions()::run, "TEM-dupe-auctions").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener(getConfig()));
-        MinecraftForge.EVENT_BUS.register(new ToolTipListener(this));
+
+        ItemPositionHandler itemPositionHandler = new ItemPositionHandler(this);
+        packetListener.registerListener(itemPositionHandler);
+        MinecraftForge.EVENT_BUS.register(new ToolTipListener(this, itemPositionHandler));
+
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getConfig(), getScanner()));
         onlinePlayerListener = new OnlinePlayerListener(getConfig());
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
-        MinecraftForge.EVENT_BUS.register(new ClientPacketListener(afkListener));
+
         MinecraftForge.EVENT_BUS.register(this);
         setUpLogging();
     }
@@ -183,7 +197,7 @@ public class TEM {
     }
 
     public PlayerAFKListener getAfkListener() {
-        return afkListener;
+        return playerAFKListener;
     }
 
     public LobbyScanner getScanner() {
@@ -204,7 +218,6 @@ public class TEM {
         standAlone = true;
         tem.items.fillItems();
         logger.info("Items filled");
-        tem.afkListener = new PlayerAFKListener();
         tem.api = new Hypixel(tem);
         logger.info("Started Hypixel");
         tem.getConfig().setHypixelKey(apiKey);
