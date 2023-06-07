@@ -36,6 +36,18 @@ public class MiscItemData extends InventoryItemData {
         dataBuilder.setItemCount(getItemCount());
     }
 
+    public long getCreationTimestamp() {
+        if (extraAttributes.hasKey("date")) {
+            return extraAttributes.getLong("date");
+        }
+
+        if (extraAttributes.hasKey("timestamp")) {
+            return getCreationTimestamp(extraAttributes.getString("timestamp"));
+        }
+        // else it's unix 0
+        return 0;
+    }
+
     @Override
     public ClientMessages.InventoryItem toInventoryItem() {
         assembleItem();
@@ -67,7 +79,7 @@ public class MiscItemData extends InventoryItemData {
         return itemData.getByte("Count");
     }
 
-    private String getItemId() {
+    public String getItemId() {
         return extraAttributes.getString("id");
     }
 

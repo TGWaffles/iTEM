@@ -7,12 +7,13 @@ import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
-import club.thom.tem.util.HexUtil;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
+import club.thom.tem.position.ItemPositionHandler;
+import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.MessageUtil;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.ItemStack;
@@ -32,9 +33,11 @@ import java.util.List;
 public class ToolTipListener {
     TEM tem;
     long lastCopyTime = System.currentTimeMillis();
+    ItemPositionHandler itemPositionHandler;
 
-    public ToolTipListener(TEM parent) {
+    public ToolTipListener(TEM parent, ItemPositionHandler itemPositionHandler) {
         this.tem = parent;
+        this.itemPositionHandler = itemPositionHandler;
     }
 
     public static final HashMap<String, List<String>> uuidToLore = new HashMap<>();
@@ -49,6 +52,7 @@ public class ToolTipListener {
             // Possible bugs where items don't have nbt, ignore the item.
             return;
         }
+        itemPositionHandler.runPositionTooltip(event);
         if (checkDuped(itemNbt)) {
             event.toolTip.add(1, EnumChatFormatting.RED + "DEFINITELY DUPED");
         }
