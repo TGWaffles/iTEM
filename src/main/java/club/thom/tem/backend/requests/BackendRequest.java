@@ -4,4 +4,8 @@ public interface BackendRequest {
 
     BackendResponse makeRequest();
 
+    int hashCode();
+
+    boolean equals(Object o);
+
 }

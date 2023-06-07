@@ -1,6 +1,7 @@
 package club.thom.tem.dupes;
 
 import club.thom.tem.TEM;
+import club.thom.tem.backend.requests.BackendResponse;
 import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
 import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
@@ -132,7 +133,7 @@ public class DupeCommandExecutor {
 
 
     public void runAuctionSet(HashMap<String, ClientMessages.InventoryItem> thisRequestAuctions) {
-        ArrayList<CombinedDupeRequest> requests = new ArrayList<>();
+        Map<CombinedDupeRequest, CompletableFuture<BackendResponse>> requests = new HashMap<>();
         HashMap<String, String> uuidToItemId = new HashMap<>();
         CompletableFuture<HashMap<String, List<String>>> coflFuture = new CompletableFuture<>();
         CompletableFuture<HashMap<String, List<String>>> temFuture = new CompletableFuture<>();
@@ -154,8 +155,8 @@ public class DupeCommandExecutor {
             possibleOwnersSeed.addAll(entry.getValue());
             CombinedDupeRequest request = new CombinedDupeRequest(tem, itemUuid, false,
                     possibleOwnersSeed, false, false);
-            RequestsCache.getInstance().addToQueue(request);
-            requests.add(request);
+            CompletableFuture<BackendResponse> future = RequestsCache.getInstance().addToQueue(request);
+            requests.put(request, future);
             String itemName = "";
             if (item.hasItem() || item.hasArmourPiece()) {
                 itemName = item.hasItem() ? item.getItem().getItemId() : item.getArmourPiece().getItemId();
@@ -164,8 +165,14 @@ public class DupeCommandExecutor {
             }
             uuidToItemId.put(itemUuid, itemName);
         }
-        for (CombinedDupeRequest request : requests) {
-            CombinedDupeResponse response = (CombinedDupeResponse) RequestsCache.getInstance().poll(request);
+        for (Map.Entry<CombinedDupeRequest, CompletableFuture<BackendResponse>> entry : requests.entrySet()) {
+            CombinedDupeRequest request = entry.getKey();
+            CombinedDupeResponse response;
+            try {
+                response = (CombinedDupeResponse) entry.getValue().get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
             if (response.verifiedOwners.size() > 1) {
                 String itemId = uuidToItemId.get(request.itemUuid);
                 StringBuilder text = new StringBuilder();
