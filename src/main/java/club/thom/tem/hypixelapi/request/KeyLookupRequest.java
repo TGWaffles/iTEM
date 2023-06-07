@@ -1,4 +1,4 @@
-package club.thom.tem.hypixel.request;
+package club.thom.tem.hypixelapi.request;
 
 import club.thom.tem.TEM;
 import org.apache.logging.log4j.LogManager;

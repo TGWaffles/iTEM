@@ -1,8 +1,8 @@
 package club.thom.tem.storage;
 
 import club.thom.tem.TEM;
-import club.thom.tem.hypixel.Hypixel;
-import club.thom.tem.hypixel.request.KeyLookupRequest;
+import club.thom.tem.hypixelapi.HypixelAPI;
+import club.thom.tem.hypixelapi.request.KeyLookupRequest;
 import gg.essential.vigilance.Vigilant;
 import gg.essential.vigilance.data.Property;
 import gg.essential.vigilance.data.PropertyType;
@@ -234,7 +234,7 @@ public class TEMConfig extends Vigilant {
 
     public void setMaxSimultaneousThreads(int maxSimultaneousThreads) {
         this.maxSimultaneousThreads = maxSimultaneousThreads;
-        Hypixel api = tem.getApi();
+        HypixelAPI api = tem.getApi();
         if (api != null) {
             api.setSimultaneousThreads(maxSimultaneousThreads);
         }

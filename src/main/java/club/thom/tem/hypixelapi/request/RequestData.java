@@ -1,4 +1,4 @@
-package club.thom.tem.hypixel.request;
+package club.thom.tem.hypixelapi.request;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

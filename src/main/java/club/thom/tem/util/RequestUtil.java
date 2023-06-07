@@ -1,7 +1,7 @@
 package club.thom.tem.util;
 
 import club.thom.tem.TEM;
-import club.thom.tem.hypixel.request.RequestData;
+import club.thom.tem.hypixelapi.request.RequestData;
 import com.google.gson.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;

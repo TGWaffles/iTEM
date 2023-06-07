@@ -1,9 +1,9 @@
 package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
-import club.thom.tem.hypixel.request.FriendsListRequest;
-import club.thom.tem.hypixel.request.MiscRequest;
-import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
+import club.thom.tem.hypixelapi.request.FriendsListRequest;
+import club.thom.tem.hypixelapi.request.MiscRequest;
+import club.thom.tem.hypixelapi.request.SkyblockPlayerRequest;
 import club.thom.tem.models.messages.ServerMessages;
 import club.thom.tem.models.messages.ServerMessages.AuthData;
 import club.thom.tem.models.messages.ServerMessages.RequestMessage;

@@ -15,7 +15,7 @@ import club.thom.tem.dupes.cofl.CoflRequestMaker;
 import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.PlayerUtil;
 import club.thom.tem.util.UUIDUtil;
-import club.thom.tem.hypixel.request.SkyblockPlayerRequest;
+import club.thom.tem.hypixelapi.request.SkyblockPlayerRequest;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages;
 import net.minecraft.util.ChatComponentText;

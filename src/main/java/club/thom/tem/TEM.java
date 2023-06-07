@@ -4,11 +4,9 @@ import club.thom.tem.backend.LobbyScanner;
 import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.dupes.auction_house.AuctionHouse;
-import club.thom.tem.hypixel.Hypixel;
+import club.thom.tem.hypixelapi.HypixelAPI;
 import club.thom.tem.listeners.*;
-import club.thom.tem.listeners.packets.ClientPacketListener;
 import club.thom.tem.listeners.packets.PacketListener;
-import club.thom.tem.listeners.packets.ServerPacketListener;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.position.ItemPositionHandler;
 import club.thom.tem.storage.TEMConfig;
@@ -52,7 +50,7 @@ public class TEM {
     private PacketListener packetListener = null;
     private final SocketHandler socketHandler;
     private final LobbyScanner scanner;
-    private Hypixel api;
+    private HypixelAPI api;
     private final TEMConfig config;
     private final ItemUtil items;
     private AuctionHouse auctions;
@@ -154,7 +152,7 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(playerAFKListener);
 
         // Create global API/rate-limit handler
-        api = new Hypixel(this);
+        api = new HypixelAPI(this);
         auctions = new AuctionHouse(this);
         getConfig().initialize();
         new Thread(socketHandler::reconnectSocket, "TEM-socket").start();
@@ -178,7 +176,7 @@ public class TEM {
         setUpLogging();
     }
 
-    public Hypixel getApi() {
+    public HypixelAPI getApi() {
         return api;
     }
 
@@ -218,8 +216,8 @@ public class TEM {
         standAlone = true;
         tem.items.fillItems();
         logger.info("Items filled");
-        tem.api = new Hypixel(tem);
-        logger.info("Started Hypixel");
+        tem.api = new HypixelAPI(tem);
+        logger.info("Started HypixelAPI");
         tem.getConfig().setHypixelKey(apiKey);
         logger.info("Key set");
         tem.getConfig().setSpareRateLimit(0);

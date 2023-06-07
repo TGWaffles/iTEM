@@ -1,7 +1,7 @@
 package club.thom.tem.dupes.auction_house;
 
 import club.thom.tem.TEM;
-import club.thom.tem.hypixel.request.RequestData;
+import club.thom.tem.hypixelapi.request.RequestData;
 import club.thom.tem.models.inventory.Inventory;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;

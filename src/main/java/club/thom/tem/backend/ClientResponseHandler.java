@@ -1,7 +1,7 @@
 package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
-import club.thom.tem.hypixel.request.RequestData;
+import club.thom.tem.hypixelapi.request.RequestData;
 import club.thom.tem.models.inventory.PlayerData;
 import club.thom.tem.models.messages.ClientMessages.*;
 import com.google.protobuf.ByteString;

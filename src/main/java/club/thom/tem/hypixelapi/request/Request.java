@@ -1,7 +1,7 @@
-package club.thom.tem.hypixel.request;
+package club.thom.tem.hypixelapi.request;
 
 import club.thom.tem.TEM;
-import club.thom.tem.hypixel.Hypixel;
+import club.thom.tem.hypixelapi.HypixelAPI;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.PlayerUtil;
@@ -32,7 +32,7 @@ import java.util.zip.GZIPInputStream;
  */
 public abstract class Request {
     private static final Logger logger = LogManager.getLogger(Request.class);
-    protected final Hypixel controller;
+    protected final HypixelAPI controller;
     TEMConfig config;
     private final TEM tem;
     public boolean priority;

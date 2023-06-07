@@ -1,10 +1,10 @@
-package club.thom.tem.hypixel;
+package club.thom.tem.hypixelapi;
 
 import club.thom.tem.TEM;
 import club.thom.tem.listeners.PlayerAFKListener;
 import club.thom.tem.util.KeyFetcher;
-import club.thom.tem.hypixel.request.KeyLookupRequest;
-import club.thom.tem.hypixel.request.Request;
+import club.thom.tem.hypixelapi.request.KeyLookupRequest;
+import club.thom.tem.hypixelapi.request.Request;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,8 +16,8 @@ import java.util.concurrent.locks.*;
 /**
  * Class for talking to the Hypixel API. Uses the API key set in TEMConfig.
  */
-public class Hypixel {
-    private static final Logger logger = LogManager.getLogger(Hypixel.class);
+public class HypixelAPI {
+    private static final Logger logger = LogManager.getLogger(HypixelAPI.class);
     final ReadWriteLock rateLimitLock = new ReentrantReadWriteLock();
     final Lock waitingForItemLock = new ReentrantLock();
     final Condition newItemInQueue = waitingForItemLock.newCondition();
@@ -37,7 +37,7 @@ public class Hypixel {
 
     private final TEM tem;
 
-    public Hypixel(TEM tem) {
+    public HypixelAPI(TEM tem) {
         this.tem = tem;
         this.hasValidApiKey = !tem.getConfig().getHypixelKey().equals("");
         this.afkListener = tem.getAfkListener();
@@ -279,7 +279,7 @@ public class Hypixel {
                     waitingForItemLock.unlock();
                 }
             } catch (InterruptedException e) {
-                logger.error("LOOP-> Hypixel requests loop interrupted!");
+                logger.error("LOOP-> HypixelAPI requests loop interrupted!");
                 return;
             }
         }

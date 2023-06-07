@@ -1,13 +1,10 @@
 package club.thom.tem.util;
 
 import club.thom.tem.TEM;
-import club.thom.tem.hypixel.Hypixel;
 import club.thom.tem.storage.TEMConfig;
-import gg.essential.vigilance.Vigilance;
 import org.powermock.api.mockito.PowerMockito;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

@@ -5,7 +5,7 @@ import club.thom.tem.constants.ColourNames;
 import club.thom.tem.constants.PureColours;
 import club.thom.tem.util.*;
 import club.thom.tem.util.HexUtil.Modifier;
-import club.thom.tem.hypixel.request.RequestData;
+import club.thom.tem.hypixelapi.request.RequestData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

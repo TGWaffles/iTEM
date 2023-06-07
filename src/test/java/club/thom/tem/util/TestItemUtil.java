@@ -1,6 +1,6 @@
 package club.thom.tem.util;
 
-import club.thom.tem.hypixel.request.RequestData;
+import club.thom.tem.hypixelapi.request.RequestData;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.junit.Test;
