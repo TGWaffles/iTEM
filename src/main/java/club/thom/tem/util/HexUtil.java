@@ -49,6 +49,10 @@ public class HexUtil {
             return Modifier.GLITCHED;
         }
 
+        if (itemId.startsWith("FAIRY_") && SpookColours.isSpookColour(hexCode)) {
+            return Modifier.SPOOK;
+        }
+
         return Modifier.EXOTIC;
 
     }
@@ -61,34 +65,31 @@ public class HexUtil {
         ORIGINAL,
         EXOTIC,
         GLITCHED,
+        SPOOK,
         ;
 
         public String getColourCode() {
-            String prefixColour = EnumChatFormatting.WHITE.toString();
             switch (this) {
                 case CRYSTAL:
-                    prefixColour = EnumChatFormatting.AQUA.toString();
-                    break;
+                    return EnumChatFormatting.AQUA.toString();
                 case FAIRY:
-                    prefixColour = EnumChatFormatting.LIGHT_PURPLE.toString();
-                    break;
+                    return EnumChatFormatting.LIGHT_PURPLE.toString();
                 case OG_FAIRY:
-                    prefixColour = EnumChatFormatting.DARK_PURPLE.toString();
-                    break;
+                    return EnumChatFormatting.DARK_PURPLE.toString();
                 case EXOTIC:
-                    prefixColour = EnumChatFormatting.GOLD.toString();
-                    break;
+                    return EnumChatFormatting.GOLD.toString();
                 case ORIGINAL:
-                    prefixColour = EnumChatFormatting.DARK_GRAY.toString();
-                    break;
+                    return EnumChatFormatting.DARK_GRAY.toString();
                 case UNDYED:
-                    prefixColour = EnumChatFormatting.GRAY.toString();
-                    break;
+                    return EnumChatFormatting.GRAY.toString();
+                case SPOOK:
+                    return EnumChatFormatting.RED.toString();
                 case GLITCHED:
                     // magic grey pipe in front of glitched armour
-                    prefixColour = EnumChatFormatting.BLUE.toString();
+                    return EnumChatFormatting.BLUE.toString();
+                default:
+                    return EnumChatFormatting.WHITE.toString();
             }
-            return prefixColour;
         }
     }
 
