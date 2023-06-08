@@ -1,0 +1,74 @@
+package club.thom.tem.export;
+
+import club.thom.tem.TEM;
+import club.thom.tem.listeners.packets.PacketManager;
+import club.thom.tem.models.inventory.item.InventoryItemData;
+import club.thom.tem.util.MessageUtil;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.MinecraftForge;
+
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.util.*;
+import java.util.List;
+
+public class ItemExporter {
+    private boolean isExporting = false;
+    private final Set<String> foundItemUuids = new HashSet<>();
+    private final List<ExportableItem> itemData = new ArrayList<>();
+    private final TEM tem;
+
+    public ItemExporter(TEM tem, PacketManager packetManager) {
+        this.tem = tem;
+        packetManager.registerListener(new ChestExporter(this, tem));
+        MinecraftForge.EVENT_BUS.register(new EntityExporter(this, tem));
+    }
+
+    public void startExporting() {
+        isExporting = true;
+    }
+
+    public void stopExporting() {
+        isExporting = false;
+        Collections.sort(itemData);
+        StringBuilder sb = new StringBuilder();
+        for (ExportableItem item : itemData) {
+            sb.append(item.toString()).append("\n");
+        }
+        foundItemUuids.clear();
+        itemData.clear();
+        try {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(new StringSelection(sb.toString()), null);
+        } catch (IllegalStateException ignored) {
+        }
+    }
+
+    public boolean isExporting() {
+        return isExporting;
+    }
+
+    public void addItem(ExportableItem item) {
+        if (!isExporting) {
+            return;
+        }
+        InventoryItemData data = item.getItemData();
+        if (data == null) {
+            return;
+        }
+        String uuid = item.getUuid();
+        if (uuid == null) {
+            return;
+        }
+        if (foundItemUuids.contains(uuid)) {
+            return;
+        }
+        foundItemUuids.add(uuid);
+        itemData.add(item);
+
+        MessageUtil.sendMessage(new ChatComponentText("Added item: ")
+                .appendSibling(item.getItem().getChatComponent()).appendSibling(new ChatComponentText(" to export list.")));
+    }
+
+}

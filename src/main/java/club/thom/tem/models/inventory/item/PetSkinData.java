@@ -42,6 +42,11 @@ public class PetSkinData extends InventoryItemData {
         return super.getCreationTimestamp(getExtraAttributes().getString("timestamp"));
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s, uuid: `%s`, extraAttributes: `%s`", skinId, getUuid(), getExtraAttributes());
+    }
+
     private NBTTagCompound getExtraAttributes() {
         return itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes");
     }

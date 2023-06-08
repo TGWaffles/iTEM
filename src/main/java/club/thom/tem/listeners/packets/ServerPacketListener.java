@@ -10,9 +10,9 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 @ChannelHandler.Sharable
 public class ServerPacketListener extends ChannelInboundHandlerAdapter {
-    PacketListener parent;
+    PacketManager parent;
 
-    public ServerPacketListener(PacketListener parent) {
+    public ServerPacketListener(PacketManager parent) {
         this.parent = parent;
     }
 

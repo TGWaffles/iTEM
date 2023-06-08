@@ -34,4 +34,6 @@ public abstract class InventoryItemData {
         return date.getTime();
     }
 
+    public abstract String toString();
+
 }

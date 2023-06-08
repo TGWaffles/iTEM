@@ -28,4 +28,8 @@ interface IPacketEventListener {
 
     default void onServerSetItemsInGui(ServerSetItemsInGuiEvent event) {}
 
+    default void onServerBlockUpdate(ServerBlockUpdateEvent event) {}
+
+    default void onServerChat(ServerChatEvent event) {}
+
 }

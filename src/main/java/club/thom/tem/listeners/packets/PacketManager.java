@@ -17,8 +17,8 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class PacketListener {
-    private static final Logger logger = LogManager.getLogger(PacketListener.class);
+public class PacketManager {
+    private static final Logger logger = LogManager.getLogger(PacketManager.class);
     private final ClientPacketListener clientListener = new ClientPacketListener(this);
     private final ServerPacketListener serverListener = new ServerPacketListener(this);
     private final List<IPacketEventListener> listeners = new ArrayList<>();
@@ -27,7 +27,7 @@ public class PacketListener {
 
     private static final ExecutorService listenerRunner = Executors.newCachedThreadPool();
 
-    public PacketListener() {
+    public PacketManager() {
         buildHandles();
     }
 
@@ -70,8 +70,8 @@ public class PacketListener {
     @SubscribeEvent
     public void connect(FMLNetworkEvent.ClientConnectedToServerEvent event) {
         ChannelPipeline pipeline = event.manager.channel().pipeline();
-        pipeline.addBefore("packet_handler", this.getClass().getName(), clientListener);
-        pipeline.addBefore("packet_handler", this.getClass().getName(), serverListener);
+        pipeline.addBefore("packet_handler", clientListener.getClass().getName(), clientListener);
+        pipeline.addBefore("packet_handler", serverListener.getClass().getName(), serverListener);
     }
 
     public void registerListener(IPacketEventListener listener) {
@@ -103,13 +103,13 @@ public class PacketListener {
             }
             if (listener instanceof PacketEventListener) {
                 // Run the event in a separate thread.
-                listenerRunner.execute(() -> invokeHandle(handle, event));
+                listenerRunner.execute(() -> invokeHandle(handle, listener, event));
                 continue;
             } else if (!(listener instanceof CancellablePacketEventListener)) {
                 throw new IllegalStateException("Unsupported listener type: " + listener.getClass().getName());
             }
 
-            invokeHandle(handle, event);
+            invokeHandle(handle, listener, event);
             if (event.isCancelled()) {
                 // Event's been cancelled, let's not forward the packet to the next listener.
                 return false;
@@ -118,9 +118,9 @@ public class PacketListener {
         return true;
     }
 
-    private void invokeHandle(MethodHandle handle, PacketEvent event) {
+    private void invokeHandle(MethodHandle handle, IPacketEventListener listener, PacketEvent event) {
         try {
-            handle.invoke(event);
+            handle.invoke(listener, event);
         } catch (Throwable throwable) {
             logger.error("Error invoking packet event listener", throwable);
         }

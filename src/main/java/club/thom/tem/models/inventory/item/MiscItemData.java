@@ -248,4 +248,17 @@ public class MiscItemData extends InventoryItemData {
         // make sure the item has a skyblock item id
         return itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").hasKey("id");
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("`").append(getItemId()).append("` ");
+        if (tem.getConfig().isExportIncludeUuid()) {
+            sb.append("uuid: `").append(getUuid()).append("` ");
+        }
+
+        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+            sb.append("extraAttributes: `").append(getExtraAttributes()).append("` ");
+        }
+        return sb.toString();
+    }
 }

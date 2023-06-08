@@ -2,6 +2,7 @@ package club.thom.tem.listeners.packets.events;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.util.BlockPos;
 
 public class ClientPlayerRightClickBlockEvent extends PacketEvent {
     private final int[] blockPos;

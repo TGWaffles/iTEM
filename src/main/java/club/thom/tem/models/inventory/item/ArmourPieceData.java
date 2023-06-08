@@ -148,4 +148,21 @@ public class ArmourPieceData extends InventoryItemData {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("`").append(getItemId()).append("`, hex: `").append(getHexCode()).append("` ");
+        if (getReforge() != null && !getReforge().isEmpty()) {
+            sb.append("reforge: `").append(getReforge()).append("` ");
+        }
+        sb.append("(**").append(tem.getHexUtil().getModifier(getItemId(), getHexCode(), getCreationTimestamp())).append("**)");
+        if (isCustomDyed()) {
+            sb.append(" (custom dyed)");
+        }
+        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+            sb.append("extraAttributes: `").append(getExtraAttributes()).append("` ");
+        }
+        return sb.toString();
+    }
 }

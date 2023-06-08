@@ -28,11 +28,11 @@ public class MessageUtil {
      *
      * @param message ChatComponentText message to send in chat
      */
-    public static void sendMessage(ChatComponentText message) {
+    public static void sendMessage(IChatComponent message) {
         chatExecutor.submit(() -> sendChatMessageSync(message));
     }
 
-    public synchronized static void sendChatMessageSync(ChatComponentText message) {
+    public synchronized static void sendChatMessageSync(IChatComponent message) {
         if (TEM.standAlone) {
             logger.info(message.getUnformattedTextForChat());
             return;

@@ -43,7 +43,7 @@ public class Inventory {
         return nbtData;
     }
 
-    public List<InventoryItemData> nbtToItems(String name, NBTTagCompound data) {
+    public List<InventoryItemData> nbtToItems(NBTTagCompound data) {
         ArrayList<InventoryItemData> items = new ArrayList<>();
         NBTTagList list = data.getTagList("i", Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < list.tagCount(); i++) {
@@ -67,7 +67,7 @@ public class Inventory {
 
     public List<InventoryItem> getItems() {
         List<InventoryItem> items = new ArrayList<>();
-        for (InventoryItemData itemData : nbtToItems(name, data)) {
+        for (InventoryItemData itemData : nbtToItems(data)) {
             items.add(itemData.toInventoryItem());
         }
         return items;

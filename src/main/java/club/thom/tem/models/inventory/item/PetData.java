@@ -151,4 +151,10 @@ public class PetData extends InventoryItemData {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "PET: " + getName() + " (" + getRarity().toString() + ") [Level. " + getPetLevel(getExp(), getRarity()) + "]" +
+                "extraAttributes: " + petJson.toString();
+    }
 }

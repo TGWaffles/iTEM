@@ -9,9 +9,9 @@ import net.minecraft.network.Packet;
 @ChannelHandler.Sharable
 public class ClientPacketListener extends ChannelOutboundHandlerAdapter {
 
-    PacketListener parent;
+    PacketManager parent;
 
-    public ClientPacketListener(PacketListener parent) {
+    public ClientPacketListener(PacketManager parent) {
         this.parent = parent;
     }
 

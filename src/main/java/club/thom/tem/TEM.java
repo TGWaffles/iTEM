@@ -4,12 +4,14 @@ import club.thom.tem.backend.LobbyScanner;
 import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.dupes.auction_house.AuctionHouse;
+import club.thom.tem.export.ItemExporter;
 import club.thom.tem.hypixelapi.HypixelAPI;
 import club.thom.tem.listeners.*;
-import club.thom.tem.listeners.packets.PacketListener;
+import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.position.ItemPositionHandler;
 import club.thom.tem.storage.TEMConfig;
+import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.ItemUtil;
 import club.thom.tem.util.KeyFetcher;
 import club.thom.tem.util.PlayerUtil;
@@ -47,7 +49,9 @@ public class TEM {
 
     private OnlinePlayerListener onlinePlayerListener = null;
     private PlayerAFKListener playerAFKListener = null;
-    private PacketListener packetListener = null;
+    private ItemExporter itemExporter = null;
+    private LocRawListener locRaw = null;
+    private final HexUtil hexUtil;
     private final SocketHandler socketHandler;
     private final LobbyScanner scanner;
     private HypixelAPI api;
@@ -66,6 +70,7 @@ public class TEM {
         socketHandler = new SocketHandler(this);
         scanner = new LobbyScanner(this);
         items = new ItemUtil();
+        hexUtil = new HexUtil(items);
         player = new PlayerUtil(config);
     }
 
@@ -106,7 +111,7 @@ public class TEM {
             rootLoggerConfig.addAppender(fa, Level.ALL, null);
             loggerSetup = true;
         } else {
-            rootLoggerConfig.setLevel(Level.OFF);
+            rootLoggerConfig.setLevel(Level.WARN);
         }
         loggerContext.updateLoggers();
     }
@@ -144,12 +149,18 @@ public class TEM {
         logger.info("Initialising TEM");
         player.attemptUuidSet(Minecraft.getMinecraft().getSession().getPlayerID());
 
-        packetListener = new PacketListener();
-        MinecraftForge.EVENT_BUS.register(packetListener);
+        PacketManager packetManager = new PacketManager();
+        MinecraftForge.EVENT_BUS.register(packetManager);
 
         playerAFKListener = new PlayerAFKListener();
-        packetListener.registerListener(playerAFKListener);
+        packetManager.registerListener(playerAFKListener);
         MinecraftForge.EVENT_BUS.register(playerAFKListener);
+
+        locRaw = new LocRawListener(packetManager);
+
+        itemExporter = new ItemExporter(this, packetManager);
+
+        MinecraftForge.EVENT_BUS.register(locRaw);
 
         // Create global API/rate-limit handler
         api = new HypixelAPI(this);
@@ -164,7 +175,7 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(new ApiKeyListener(getConfig()));
 
         ItemPositionHandler itemPositionHandler = new ItemPositionHandler(this);
-        packetListener.registerListener(itemPositionHandler);
+        packetManager.registerListener(itemPositionHandler);
         MinecraftForge.EVENT_BUS.register(new ToolTipListener(this, itemPositionHandler));
 
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getConfig(), getScanner()));
@@ -200,6 +211,14 @@ public class TEM {
 
     public LobbyScanner getScanner() {
         return scanner;
+    }
+
+    public ItemExporter getItemExporter() {
+        return itemExporter;
+    }
+
+    public LocRawListener getLocRaw() {
+        return locRaw;
     }
 
     @Mod.EventHandler
@@ -243,5 +262,9 @@ public class TEM {
 
     public PlayerUtil getPlayer() {
         return player;
+    }
+
+    public HexUtil getHexUtil() {
+        return hexUtil;
     }
 }

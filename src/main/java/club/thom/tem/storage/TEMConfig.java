@@ -28,6 +28,143 @@ public class TEMConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Item Types",
+            name = "Enable Armour",
+            description = "Enable exporting armour pieces."
+    )
+    private boolean enableExportArmour = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Item Types",
+            name = "Enable Pets",
+            description = "Enable exporting pets."
+    )
+    private boolean enableExportPets = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Item Types",
+            name = "Enable Pet Skins",
+            description = "Enable exporting pet skins."
+    )
+    private boolean enableExportPetSkins = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Item Types",
+            name = "Enable All Other Items",
+            description = "Enable exporting all other items."
+    )
+    private boolean enableExportOtherItems = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Include Location",
+            description = "Whether to include the location of the item in the export."
+    )
+    private boolean exportIncludeLocation = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Include UUID",
+            description = "Whether to include the UUID of the item in the export."
+    )
+    private boolean exportIncludeUuid = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Include Armour Hex",
+            description = "Whether to include the hex code of armour in the export."
+    )
+    private boolean exportIncludeHex = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Include ALL Extra Attributes",
+            description = "Whether to include all extra attributes of every item in the export."
+    )
+    private boolean exportIncludeExtraAttributes = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Export Item Frames",
+            description = "Whether to export items in item frames."
+    )
+    private boolean exportIncludeItemFrames = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Export Armour Stands",
+            description = "Whether to export items on armour stands."
+    )
+    private boolean exportIncludeArmourStands = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Export Dropped Items",
+            description = "Whether to export dropped items."
+    )
+    private boolean exportIncludeDroppedItems = false;
+
+    @Property(
+            type = PropertyType.SELECTOR,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Sort Order",
+            description = "How to sort the items in the export.",
+            options = {"Alphabetical", "Item Type", "Hex Code", "Location"}
+    )
+    private int exportSortOrder = 2;
+
+    public boolean isEnableExportArmour() {
+        return enableExportArmour;
+    }
+
+    public boolean isEnableExportPets() {
+        return enableExportPets;
+    }
+
+    public boolean isEnableExportPetSkins() {
+        return enableExportPetSkins;
+    }
+
+    public boolean isEnableExportOtherItems() {
+        return enableExportOtherItems;
+    }
+
+    public boolean isExportIncludeLocation() {
+        return exportIncludeLocation;
+    }
+
+    public boolean isExportIncludeUuid() {
+        return exportIncludeUuid;
+    }
+
+    public boolean isExportIncludeHex() {
+        return exportIncludeHex;
+    }
+
+    @Property(
+            type = PropertyType.SWITCH,
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Exotics",
@@ -456,5 +593,25 @@ public class TEMConfig extends Vigilant {
 
     public boolean shouldScanRedNames() {
         return scanRedNames;
+    }
+
+    public int getExportSortOrder() {
+        return exportSortOrder;
+    }
+
+    public boolean isExportIncludeItemFrames() {
+        return exportIncludeItemFrames;
+    }
+
+    public boolean isExportIncludeExtraAttributes() {
+        return exportIncludeExtraAttributes;
+    }
+
+    public boolean isExportIncludeArmourStands() {
+        return exportIncludeArmourStands;
+    }
+
+    public boolean isExportIncludeDroppedItems() {
+        return exportIncludeDroppedItems;
     }
 }
