@@ -5,6 +5,11 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
 
@@ -19,19 +24,20 @@ public abstract class InventoryItemData {
         if (timestamp.equals("")) {
             return 0;
         }
-        String hypixelDateTimeString = timestamp + " EST";
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yy hh:mm a z", Locale.US);
-        Date date;
+        ZonedDateTime zonedDateTime;
         try {
-            date = format.parse(hypixelDateTimeString);
-        } catch (ParseException e) {
+            LocalDateTime localDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern("M/d/yy h:mm a", Locale.US));
+            ZoneId chicagoZoneId = ZoneId.of("America/Toronto");
+            zonedDateTime = localDateTime.atZone(chicagoZoneId);
+
+        } catch (DateTimeParseException e) {
             try {
                 return Long.parseLong(timestamp);
             } catch (NumberFormatException ex) {
                 return 0;
             }
         }
-        return date.getTime();
+        return zonedDateTime.toInstant().toEpochMilli();
     }
 
     public abstract String toString();
