@@ -1,19 +1,23 @@
 package club.thom.tem.models.inventory.item;
 
 import club.thom.tem.models.messages.ClientMessages.InventoryItem;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.nbt.NBTTagCompound;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public abstract class InventoryItemData {
+    List<DateTimeFormatter> parsers = ImmutableList.of(
+            DateTimeFormatter.ofPattern("M/d/yy h:mm a", Locale.US),
+            DateTimeFormatter.ofPattern("dd/MM/yy HH:mm", Locale.US)
+    );
+
     public abstract InventoryItem toInventoryItem();
 
     public static boolean isValidItem(NBTTagCompound itemData) {
@@ -24,13 +28,17 @@ public abstract class InventoryItemData {
         if (timestamp.equals("")) {
             return 0;
         }
-        ZonedDateTime zonedDateTime;
-        try {
-            LocalDateTime localDateTime = LocalDateTime.parse(timestamp, DateTimeFormatter.ofPattern("M/d/yy h:mm a", Locale.US));
-            ZoneId chicagoZoneId = ZoneId.of("America/Toronto");
-            zonedDateTime = localDateTime.atZone(chicagoZoneId);
-
-        } catch (DateTimeParseException e) {
+        ZonedDateTime zonedDateTime = null;
+        for (DateTimeFormatter parser : parsers) {
+            try {
+                LocalDateTime localDateTime = LocalDateTime.parse(timestamp, parser);
+                ZoneId chicagoZoneId = ZoneId.of("America/Toronto");
+                zonedDateTime = localDateTime.atZone(chicagoZoneId);
+                // Success
+                break;
+            } catch (DateTimeParseException ignored) {}
+        }
+        if (zonedDateTime == null) {
             try {
                 return Long.parseLong(timestamp);
             } catch (NumberFormatException ex) {
