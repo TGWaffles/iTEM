@@ -9,7 +9,7 @@ import java.io.IOException;
 public class ClientPlayerEntityActionEvent extends PacketEvent {
     private final int entityID;
     private final C02PacketUseEntity.Action action;
-    private final double[] hitVec;
+    private final double[] hitVec = new double[3];
 
     public ClientPlayerEntityActionEvent(C02PacketUseEntity packet) {
         int foundEntityId;
@@ -23,7 +23,11 @@ public class ClientPlayerEntityActionEvent extends PacketEvent {
         }
         this.entityID = foundEntityId;
         this.action = packet.getAction();
-        this.hitVec = new double[] {packet.getHitVec().xCoord, packet.getHitVec().yCoord, packet.getHitVec().zCoord};
+        if (packet.getHitVec() != null) {
+            this.hitVec[0] = packet.getHitVec().xCoord;
+            this.hitVec[1] = packet.getHitVec().yCoord;
+            this.hitVec[2] = packet.getHitVec().zCoord;
+        }
     }
 
     public int getEntityID() {
