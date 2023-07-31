@@ -6,6 +6,12 @@ public class GlitchedColours {
     // 20th of November 2020
     private static final long GLITCHED_AFTER_DATE = 1605830400000L;
 
+    public static final ImmutableMap<String, String> OTHER_GLITCHED = ImmutableMap.of(
+            "FFDC51", "SHARK_SCALE",
+            "F7DA33", "FROZEN_BLAZE",
+            "606060", "BAT_PERSON"
+    );
+
     public static final ImmutableMap<String, String> CHESTPLATE_COLOURS = ImmutableMap.of(
             "E7413C", "POWER_WITHER_CHESTPLATE",
             "45413C", "TANK_WITHER_CHESTPLATE",
@@ -35,6 +41,14 @@ public class GlitchedColours {
     }
 
     public static boolean isGlitched(String itemId, String hex, long creationTimestamp) {
+        if (itemId.contains("WITHER")) {
+            return checkWitherGlitched(itemId, hex, creationTimestamp);
+        }
+        String otherGlitchedItemId = OTHER_GLITCHED.get(hex);
+        return otherGlitchedItemId != null && itemId.startsWith(otherGlitchedItemId);
+    }
+
+    private static boolean checkWitherGlitched(String itemId, String hex, long creationTimestamp) {
         if (hex.equals("000000") && isTooOld(creationTimestamp)) {
             return false;
         }

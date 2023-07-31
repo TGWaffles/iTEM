@@ -40,7 +40,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 // Restriction: never make one of the subversion numbers > 255 due to how versioning works.
-version = "0.0.5.4"
+version = "0.0.5.5"
 group= "club.thom.tem" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "iTEM"
 
@@ -68,9 +68,9 @@ dependencies {
     // Tests for MCForge
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.awaitility:awaitility-groovy:4.1.1'
-    testCompile 'org.powermock:powermock-core:2.0.9'
-    testCompile 'org.powermock:powermock-module-junit4:2.0.9'
-    testCompile 'org.powermock:powermock-api-mockito2:2.0.9'
+    testImplementation 'org.powermock:powermock-core:2.0.9'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
+    testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
     implementation('org.reflections:reflections:0.10.2')
 
     implementation 'com.google.code.gson:gson:2.2.4'
