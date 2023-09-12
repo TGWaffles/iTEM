@@ -32,13 +32,6 @@ pipeline {
                 }
             }
         }
-        stage ('Build Standalone') {
-            steps {
-                withGradle {
-                    sh './gradlew standaloneShadowJar'
-                }
-            }
-        }
     }
     post {
         always {
