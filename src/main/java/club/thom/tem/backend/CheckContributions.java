@@ -2,7 +2,7 @@ package club.thom.tem.backend;
 
 import club.thom.tem.TEM;
 import club.thom.tem.util.*;
-import club.thom.tem.hypixelapi.request.RequestData;
+import club.thom.tem.models.RequestData;
 import com.google.gson.JsonObject;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;

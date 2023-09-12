@@ -2,8 +2,6 @@ package club.thom.tem.listeners;
 
 import club.thom.tem.TEM;
 import club.thom.tem.backend.requests.RequestsCache;
-import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeRequest;
-import club.thom.tem.backend.requests.dupe_lookup.CombinedDupeResponse;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
@@ -53,12 +51,6 @@ public class ToolTipListener {
             return;
         }
         itemPositionHandler.runPositionTooltip(event);
-        if (checkDuped(itemNbt)) {
-            event.toolTip.add(1, EnumChatFormatting.RED + "DEFINITELY DUPED");
-        }
-        if (GameSettings.isKeyDown(KeyBinds.checkDuped)) {
-            fetchDuped(itemNbt, event.toolTip);
-        }
         if (GameSettings.isKeyDown(KeyBinds.copyUuid) && System.currentTimeMillis() - lastCopyTime > 1000) {
             copyUuidToClipboard(itemNbt);
             lastCopyTime = System.currentTimeMillis();
@@ -130,29 +122,6 @@ public class ToolTipListener {
 
     public void fetchArmourOwners(ArmourPieceData armour) {
         RequestsCache.getInstance().addToQueue(new HexFromItemIdRequest(tem.getConfig(), armour.getItemId()));
-    }
-
-    public void fetchDuped(NBTTagCompound itemNbt, List<String> tooltip) {
-        String uuid = itemNbtToUuid(itemNbt);
-        if (uuid == null) {
-            return;
-        }
-        uuidToLore.put(uuid, tooltip);
-        RequestsCache.getInstance().addToQueue(new CombinedDupeRequest(tem, uuid, true));
-    }
-
-    public boolean checkDuped(NBTTagCompound itemNbt) {
-        String uuid = itemNbtToUuid(itemNbt);
-        if (uuid == null) {
-            return false;
-        }
-
-        CombinedDupeResponse response = (CombinedDupeResponse) RequestsCache.getInstance().getIfExists(
-                new CombinedDupeRequest(tem, uuid, true));
-        if (response == null) {
-            return false;
-        }
-        return response.verifiedOwners.size() > 1;
     }
 
     public void copyUuidToClipboard(NBTTagCompound itemNbt) {

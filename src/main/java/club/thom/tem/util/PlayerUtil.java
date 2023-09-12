@@ -3,8 +3,6 @@ package club.thom.tem.util;
 import club.thom.tem.storage.TEMConfig;
 import gg.essential.api.EssentialAPI;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -114,27 +112,7 @@ public class PlayerUtil {
     public void processPlayerJoinedWorld() {
         if (uuid == null) {
             playerUpdateExecutor.submit(() -> checkAndUpdateUUID(true));
-            playerUpdateExecutor.submit(this::tellAboutInvalidKey);
         }
     }
 
-    public void tellAboutInvalidKey() {
-        lock.lock();
-        try {
-            if (!config.getHypixelKey().equals("") || waitingToTellAboutAPI) {
-                return;
-            }
-            waitingToTellAboutAPI = true;
-        } finally {
-            lock.unlock();
-        }
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            logger.error("Interrupted while waiting to tell about invalid key!", e);
-        }
-        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() +
-                "Your hypixel API key is set wrong! This means you are no longer earning contributions! " +
-                "Do /tem setkey <api-key> or /api new to set it again!"));
-    }
 }

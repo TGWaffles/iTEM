@@ -1,11 +1,8 @@
 package club.thom.tem;
 
 import club.thom.tem.backend.LobbyScanner;
-import club.thom.tem.backend.SocketHandler;
 import club.thom.tem.commands.TEMCommand;
-import club.thom.tem.dupes.auction_house.AuctionHouse;
 import club.thom.tem.export.ItemExporter;
-import club.thom.tem.hypixelapi.HypixelAPI;
 import club.thom.tem.listeners.*;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.misc.KeyBinds;
@@ -13,7 +10,6 @@ import club.thom.tem.position.ItemPositionHandler;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.ItemUtil;
-import club.thom.tem.util.KeyFetcher;
 import club.thom.tem.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -21,7 +17,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -52,12 +47,9 @@ public class TEM {
     private ItemExporter itemExporter = null;
     private LocRawListener locRaw = null;
     private final HexUtil hexUtil;
-    private final SocketHandler socketHandler;
     private final LobbyScanner scanner;
-    private HypixelAPI api;
     private final TEMConfig config;
     private final ItemUtil items;
-    private AuctionHouse auctions;
     private final PlayerUtil player;
 
     private static boolean loggerSetup = false;
@@ -67,7 +59,6 @@ public class TEM {
 
     public TEM() {
         config = new TEMConfig(this);
-        socketHandler = new SocketHandler(this);
         scanner = new LobbyScanner(this);
         items = new ItemUtil();
         hexUtil = new HexUtil(items);
@@ -162,17 +153,9 @@ public class TEM {
 
         MinecraftForge.EVENT_BUS.register(locRaw);
 
-        // Create global API/rate-limit handler
-        api = new HypixelAPI(this);
-        auctions = new AuctionHouse(this);
         getConfig().initialize();
-        new Thread(socketHandler::reconnectSocket, "TEM-socket").start();
-        // Start the requests loop
-        new Thread(api::run, "TEM-rate-limits").start();
         new Thread(getItems()::fillItems, "TEM-items").start();
-        new Thread(getAuctions()::run, "TEM-dupe-auctions").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
-        MinecraftForge.EVENT_BUS.register(new ApiKeyListener(getConfig()));
 
         ItemPositionHandler itemPositionHandler = new ItemPositionHandler(this);
         packetManager.registerListener(itemPositionHandler);
@@ -187,23 +170,11 @@ public class TEM {
         setUpLogging();
     }
 
-    public HypixelAPI getApi() {
-        return api;
-    }
-
-
-    @Mod.EventHandler
-    public void onPostInit(FMLPostInitializationEvent event) {
-        new Thread(() -> new KeyFetcher(this).checkForApiKey(), "TEM-key-checker").start();
-    }
 
     public OnlinePlayerListener getOnlinePlayerListener() {
         return onlinePlayerListener;
     }
 
-    public SocketHandler getSocketHandler() {
-        return socketHandler;
-    }
 
     public PlayerAFKListener getAfkListener() {
         return playerAFKListener;
@@ -225,35 +196,6 @@ public class TEM {
     public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
         System.out.println("You are using an unofficial build of TEM. " +
                 "I cannot guarantee the safety/performance of this mod.");
-    }
-
-    public static TEM startStandalone(String inputUuid, String apiKey) {
-        logger.info("Starting TEM in standalone mode");
-        TEM tem = new TEM();
-        tem.getPlayer().setUUID(inputUuid);
-        logger.info("Player uuid set");
-        standAlone = true;
-        tem.items.fillItems();
-        logger.info("Items filled");
-        tem.api = new HypixelAPI(tem);
-        logger.info("Started HypixelAPI");
-        tem.getConfig().setHypixelKey(apiKey);
-        logger.info("Key set");
-        tem.getConfig().setSpareRateLimit(0);
-        // 15 is a decent number for minimising ram usage
-        tem.getConfig().setMaxSimultaneousThreads(15);
-        tem.getConfig().setTimeOffset(0);
-        tem.getConfig().setEnableContributions(true);
-        new Thread(tem.socketHandler::reconnectSocket, "TEM-socket").start();
-        // Create global API/rate-limit handler
-        // Start the requests loop
-        new Thread(tem.api::run, "TEM-rate-limits").start();
-
-        return tem;
-    }
-
-    public AuctionHouse getAuctions() {
-        return auctions;
     }
 
     public TEMConfig getConfig() {

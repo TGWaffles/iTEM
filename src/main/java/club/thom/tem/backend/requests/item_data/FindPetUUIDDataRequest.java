@@ -2,7 +2,7 @@ package club.thom.tem.backend.requests.item_data;
 
 import club.thom.tem.backend.requests.BackendRequest;
 import club.thom.tem.backend.requests.BackendResponse;
-import club.thom.tem.hypixelapi.request.RequestData;
+import club.thom.tem.models.RequestData;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.MessageUtil;
 import club.thom.tem.util.RequestUtil;
