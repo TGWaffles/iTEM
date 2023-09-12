@@ -20,14 +20,38 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class ItemPositionHandler implements PacketEventListener {
     private final TEM tem;
     private final ConcurrentHashMap<ItemWithCreationTime, Long> queuedItems = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<ItemWithCreationTime, ItemPositionData> itemPositionData = new ConcurrentHashMap<>();
+    private static final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     public ItemPositionHandler(TEM tem) {
         this.tem = tem;
+        executorService.scheduleAtFixedRate(this::processQueue, 0, 200, TimeUnit.MILLISECONDS); // Process the queue every 10 ticks.
+    }
+
+    private void processQueue() {
+        if (queuedItems.size() == 0) {
+            return;
+        }
+
+        List<ItemWithCreationTime> items = new ArrayList<>(queuedItems.keySet());
+
+        RequestsCache.getInstance().addToQueue(new MultiPositionRequest(items)).whenComplete((response, throwable) -> {
+            if (response == null) {
+                return;
+            }
+            MultiPositionResponse posResponse = (MultiPositionResponse) response;
+            for (Map.Entry<ItemWithCreationTime, ItemPositionData> entry : posResponse.getItemPositionData().entrySet()) {
+                this.itemPositionData.put(entry.getKey(), entry.getValue());
+                this.queuedItems.remove(entry.getKey());
+            }
+        });
     }
 
     @Override
@@ -92,17 +116,6 @@ public class ItemPositionHandler implements PacketEventListener {
         for (ItemWithCreationTime item : items) {
             queuedItems.put(item, now);
         }
-
-        RequestsCache.getInstance().addToQueue(new MultiPositionRequest(items)).whenComplete((response, throwable) -> {
-            if (response == null) {
-                return;
-            }
-            MultiPositionResponse posResponse = (MultiPositionResponse) response;
-            for (Map.Entry<ItemWithCreationTime, ItemPositionData> entry : posResponse.getItemPositionData().entrySet()) {
-                this.itemPositionData.put(entry.getKey(), entry.getValue());
-                this.queuedItems.remove(entry.getKey());
-            }
-        });
     }
 
     public ItemWithCreationTime getItemWithCreationTime(ItemStack item) {
