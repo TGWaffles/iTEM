@@ -34,25 +34,25 @@ public class FairyColours {
         return fairyColourConstants.contains(hex.toUpperCase());
     }
 
-    public static boolean isOGFairyColour(String itemId, String hex) {
+    public static boolean isOGFairyColour(String itemId, String category, String hex) {
         hex = hex.toUpperCase();
         if (ogFairyColourConstants.contains(hex)) {
             return true;
         }
 
-        if (itemId.contains("BOOTS")) {
+        if (itemId.contains("BOOTS") || category.equals("BOOTS")) {
             return ogFairyColourBootsExtras.contains(hex);
         }
 
-        if (itemId.contains("LEGGINGS")) {
+        if (itemId.contains("LEGGINGS") || category.equals("LEGGINGS")) {
             return ogFairyColourLeggingsExtras.contains(hex);
         }
 
-        if (itemId.contains("CHESTPLATE")) {
+        if (itemId.contains("CHESTPLATE") || category.equals("CHESTPLATE")) {
             return ogFairyColourChestplateExtras.contains(hex);
         }
 
-        if (itemId.contains("HELMET")) {
+        if (itemId.contains("HELMET") || category.equals("HELMET")) {
             return ogFairyColourHelmetExtras.contains(hex);
         }
 

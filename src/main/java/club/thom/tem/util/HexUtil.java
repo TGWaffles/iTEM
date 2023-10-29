@@ -32,7 +32,9 @@ public class HexUtil {
         if (checkOriginal(itemId, hexCode)) {
             return Modifier.ORIGINAL;
         }
-        if (FairyColours.isOGFairyColour(itemId, hexCode)) {
+        String category = items.getItemCategory(itemId);
+
+        if (FairyColours.isOGFairyColour(itemId, category, hexCode)) {
             return Modifier.OG_FAIRY;
         }
         if (FairyColours.isFairyColour(hexCode)) {

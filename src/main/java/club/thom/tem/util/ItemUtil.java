@@ -89,4 +89,12 @@ public class ItemUtil {
         }
         return itemData.get("name").getAsString();
     }
+
+    public String getItemCategory(String itemId) {
+        JsonObject itemData = items.get(itemId);
+        if (itemData == null) {
+            return "Unknown";
+        }
+        return itemData.get("category").getAsString();
+    }
 }
