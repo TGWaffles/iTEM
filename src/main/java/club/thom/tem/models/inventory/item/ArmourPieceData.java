@@ -3,6 +3,8 @@ package club.thom.tem.models.inventory.item;
 import club.thom.tem.TEM;
 import club.thom.tem.models.RarityConverter;
 import club.thom.tem.models.messages.ClientMessages;
+import club.thom.tem.util.NBTToJsonConverter;
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagShort;
@@ -164,5 +166,25 @@ public class ArmourPieceData extends InventoryItemData {
             sb.append("extraAttributes: `").append(getExtraAttributes()).append("` ");
         }
         return sb.toString();
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject data = new JsonObject();
+        data.addProperty("itemId", getItemId());
+        data.addProperty("hex", getHexCode());
+        if (getReforge() != null && !getReforge().isEmpty()) {
+            data.addProperty("reforge", getReforge());
+        }
+
+        data.addProperty("modifier", tem.getHexUtil().getModifier(getItemId(), getHexCode(), getCreationTimestamp()).toString());
+        if (isCustomDyed()) {
+            data.addProperty("customDyed", true);
+        }
+        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+            data.add("extraAttributes", NBTToJsonConverter.convertToJSON(getExtraAttributes()));
+        }
+
+        return data;
     }
 }

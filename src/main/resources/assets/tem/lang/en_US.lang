@@ -1,4 +1,5 @@
 key.get_armour_rarity=Get Armour Rarity
-key.check_duped=Check Duped
 key.copy_uuid=Copy Item UUID
+key.copy_gui=Copy Current GUI
+key.paste_gui=Paste Saved GUI
 key.categories.tem=The Exotics Mod

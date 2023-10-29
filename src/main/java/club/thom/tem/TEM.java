@@ -7,6 +7,7 @@ import club.thom.tem.listeners.*;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.position.ItemPositionHandler;
+import club.thom.tem.storage.StoredGUI;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.ItemUtil;
@@ -51,6 +52,7 @@ public class TEM {
     private final TEMConfig config;
     private final ItemUtil items;
     private final PlayerUtil player;
+    private StoredGUI storedGUI = null;
 
     private static boolean loggerSetup = false;
     public static boolean standAlone = false;
@@ -165,6 +167,7 @@ public class TEM {
         onlinePlayerListener = new OnlinePlayerListener(getConfig());
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
+        MinecraftForge.EVENT_BUS.register(new KeyPressListener(this));
 
         MinecraftForge.EVENT_BUS.register(this);
         setUpLogging();
@@ -208,5 +211,13 @@ public class TEM {
 
     public HexUtil getHexUtil() {
         return hexUtil;
+    }
+
+    public void setStoredGUI(StoredGUI storedGUI) {
+        this.storedGUI = storedGUI;
+    }
+
+    public StoredGUI getStoredGUI() {
+        return storedGUI;
     }
 }

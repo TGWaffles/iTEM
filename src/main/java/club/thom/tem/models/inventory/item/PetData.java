@@ -157,4 +157,21 @@ public class PetData extends InventoryItemData {
         return "PET: " + getName() + " (" + getRarity().toString() + ") [Level. " + getPetLevel(getExp(), getRarity()) + "]" +
                 "extraAttributes: " + petJson.toString();
     }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject data = new JsonObject();
+        data.addProperty("name", getName());
+        data.addProperty("rarity", getRarity().toString());
+        data.addProperty("level", getPetLevel(getExp(), getRarity()));
+        data.addProperty("candied", isCandied());
+        data.addProperty("heldItem", getHeldItem());
+        data.addProperty("candyCount", getCandyCount());
+        if (getSkin() != null) {
+            data.addProperty("skin", getSkin().getSkinId());
+        }
+
+        data.add("extraAttributes", petJson);
+        return data;
+    }
 }

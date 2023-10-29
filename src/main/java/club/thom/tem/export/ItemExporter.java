@@ -4,6 +4,7 @@ import club.thom.tem.TEM;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.models.inventory.item.InventoryItemData;
 import club.thom.tem.util.MessageUtil;
+import com.google.gson.JsonArray;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -33,8 +34,16 @@ public class ItemExporter {
         isExporting = false;
         Collections.sort(itemData);
         StringBuilder sb = new StringBuilder();
-        for (ExportableItem item : itemData) {
-            sb.append(item.toString()).append("\n");
+        if (tem.getConfig().isExportItemsAsJson()) {
+            JsonArray array = new JsonArray();
+            for (ExportableItem item : itemData) {
+                array.add(item.toJson());
+            }
+            sb.append(array);
+        } else {
+            for (ExportableItem item : itemData) {
+                sb.append(item.toString()).append("\n");
+            }
         }
         foundItemUuids.clear();
         itemData.clear();

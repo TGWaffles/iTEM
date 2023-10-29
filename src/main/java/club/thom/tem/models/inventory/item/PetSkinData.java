@@ -2,6 +2,8 @@ package club.thom.tem.models.inventory.item;
 
 import club.thom.tem.models.messages.ClientMessages.InventoryItem;
 import club.thom.tem.models.messages.ClientMessages.PetSkin;
+import club.thom.tem.util.NBTToJsonConverter;
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class PetSkinData extends InventoryItemData {
@@ -45,6 +47,15 @@ public class PetSkinData extends InventoryItemData {
     @Override
     public String toString() {
         return String.format("%s, uuid: `%s`, extraAttributes: `%s`", skinId, getUuid(), getExtraAttributes());
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("skinId", skinId);
+        jsonObject.addProperty("uuid", getUuid());
+        jsonObject.add("extraAttributes", NBTToJsonConverter.convertToJSON(getExtraAttributes()));
+        return jsonObject;
     }
 
     private NBTTagCompound getExtraAttributes() {

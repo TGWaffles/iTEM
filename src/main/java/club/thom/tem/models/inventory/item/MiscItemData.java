@@ -3,6 +3,8 @@ package club.thom.tem.models.inventory.item;
 import club.thom.tem.TEM;
 import club.thom.tem.models.RarityConverter;
 import club.thom.tem.models.messages.ClientMessages;
+import club.thom.tem.util.NBTToJsonConverter;
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.*;
 import net.minecraftforge.common.util.Constants;
 
@@ -260,5 +262,20 @@ public class MiscItemData extends InventoryItemData {
             sb.append("extraAttributes: `").append(getExtraAttributes()).append("` ");
         }
         return sb.toString();
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("itemId", getItemId());
+        if (tem.getConfig().isExportIncludeUuid()) {
+            jsonObject.addProperty("uuid", getUuid());
+        }
+
+        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+            jsonObject.add("extraAttributes", NBTToJsonConverter.convertToJSON(getExtraAttributes()));
+        }
+
+        return jsonObject;
     }
 }
