@@ -16,6 +16,9 @@ public class TestHexUtil {
         Mockito.when(items.getDefaultColour("POWER_WITHER_CHESTPLATE")).thenReturn(
                 new int[]{231, 65, 60}
         );
+        Mockito.when(items.getItemCategory("POWER_WITHER_CHESTPLATE")).thenReturn(
+                "CHESTPLATE"
+        );
     }
 
     @Test
