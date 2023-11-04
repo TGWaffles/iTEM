@@ -76,6 +76,10 @@ public class LocRawListener implements CancellablePacketEventListener {
             // We're not in a world.
             return;
         }
+        if (Minecraft.getMinecraft().isSingleplayer()) {
+            // We're in singleplayer.
+            return;
+        }
         Minecraft.getMinecraft().thePlayer.sendChatMessage("/LocRaw");
         lastSendTime = System.currentTimeMillis();
     }
