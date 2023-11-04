@@ -9,10 +9,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 public class LocRawListener implements CancellablePacketEventListener {
     private long lastSendTime = 0L;
     private long lastReceiveTime = 0L;
+    private boolean canSendLocraw = true;
     private String lastMap = "Unknown";
 
     public LocRawListener(PacketManager packetManager) {
@@ -22,6 +24,12 @@ public class LocRawListener implements CancellablePacketEventListener {
     @Override
     public void onServerChat(ServerChatEvent event) {
         String message = event.getChatComponent().getUnformattedText();
+        if (System.currentTimeMillis() - lastSendTime < 500L && message.toLowerCase().contains("unknown command")) {
+            // Within 500ms of sending our locraw command there was an "Unknown Command" response... we're likely
+            // not on Hypixel.
+            canSendLocraw = false;
+            return;
+        }
         if (message.length() == 0 || message.charAt(0) != '{' || message.charAt(message.length() - 1) != '}') {
             // Not a LocRaw.
             return;
@@ -49,8 +57,6 @@ public class LocRawListener implements CancellablePacketEventListener {
 
         lastMap = locRawObject.get("map").getAsString();
         lastReceiveTime = System.currentTimeMillis();
-
-
     }
 
     @SubscribeEvent
@@ -61,7 +67,7 @@ public class LocRawListener implements CancellablePacketEventListener {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if (lastReceiveTime == -1 && System.currentTimeMillis() - lastSendTime > 1000L) {
+        if (canSendLocraw && lastReceiveTime == -1 && System.currentTimeMillis() - lastSendTime > 1000L) {
             // We haven't sent a LocRaw in this world yet.
             send();
         }
@@ -86,6 +92,11 @@ public class LocRawListener implements CancellablePacketEventListener {
 
     public String getLastMap() {
         return lastMap;
+    }
+
+    @SubscribeEvent
+    public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
+        canSendLocraw = true;
     }
 
 
