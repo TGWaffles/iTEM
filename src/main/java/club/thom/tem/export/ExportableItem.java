@@ -3,8 +3,12 @@ package club.thom.tem.export;
 import club.thom.tem.TEM;
 import club.thom.tem.models.inventory.item.*;
 import club.thom.tem.storage.TEMConfig;
+import club.thom.tem.util.NBTToJsonConverter;
+import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.JsonUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class ExportableItem implements Comparable<ExportableItem> {
@@ -69,10 +73,26 @@ public class ExportableItem implements Comparable<ExportableItem> {
 
     public String toString() {
         String itemData = this.itemData.toString();
+
         if (tem.getConfig().isExportIncludeLocation()) {
-            return String.format("%s - Location: %s", itemData, locationData);
+            itemData = String.format("%s - Location: %s", itemData, locationData);
         }
+
         return itemData;
+    }
+
+    public JsonObject toJson() {
+        JsonObject data = new JsonObject();
+        data.add("rawNbt", NBTToJsonConverter.convertToJSON(itemNbt));
+        data.addProperty("outputString", itemData.toString());
+
+        if (tem.getConfig().isExportIncludeLocation()) {
+            data.addProperty("location", locationData);
+        }
+
+        data.add("itemData", this.itemData.toJson());
+
+        return data;
     }
 
     @Override

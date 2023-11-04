@@ -122,6 +122,15 @@ public class TEMConfig extends Vigilant {
     private boolean exportIncludeDroppedItems = false;
 
     @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Export Options",
+            name = "Export As JSON",
+            description = "Whether to export the items as JSON."
+    )
+    private boolean exportItemsAsJson = false;
+
+    @Property(
             type = PropertyType.SELECTOR,
             category = "Export",
             subcategory = "Export Options",
@@ -157,6 +166,10 @@ public class TEMConfig extends Vigilant {
 
     public boolean isExportIncludeHex() {
         return exportIncludeHex;
+    }
+
+    public boolean isExportItemsAsJson() {
+        return exportItemsAsJson;
     }
 
     @Property(

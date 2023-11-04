@@ -2,6 +2,7 @@ package club.thom.tem.models.inventory.item;
 
 import club.thom.tem.models.messages.ClientMessages.InventoryItem;
 import com.google.common.collect.ImmutableList;
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.time.LocalDateTime;
@@ -49,5 +50,7 @@ public abstract class InventoryItemData {
     }
 
     public abstract String toString();
+
+    public abstract JsonObject toJson();
 
 }
