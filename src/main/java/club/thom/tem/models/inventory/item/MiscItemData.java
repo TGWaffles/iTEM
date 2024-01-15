@@ -44,6 +44,15 @@ public class MiscItemData extends InventoryItemData {
         }
 
         if (extraAttributes.hasKey("timestamp")) {
+            NBTBase timestamp = extraAttributes.getTag("timestamp");
+            if (timestamp instanceof NBTTagLong) {
+                long timestampAsLong = ((NBTTagLong) timestamp).getLong();
+                if (timestampAsLong < 10000000000L) {
+                    // unless it's the year 2286, it's probably in seconds, not milliseconds
+                    return timestampAsLong * 1000;
+                }
+                return timestampAsLong;
+            }
             return getCreationTimestamp(extraAttributes.getString("timestamp"));
         }
         // else it's unix 0
