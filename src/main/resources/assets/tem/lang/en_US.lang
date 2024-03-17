@@ -1,3 +1,5 @@
 key.get_armour_rarity=Get Armour Rarity
 key.copy_uuid=Copy Item UUID
+key.copy_lore=Copy Item Lore
+key.screenshot_lore=Screenshot Item Lore
 key.categories.tem=The Exotics Mod

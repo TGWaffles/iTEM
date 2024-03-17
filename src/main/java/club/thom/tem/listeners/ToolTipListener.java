@@ -5,6 +5,7 @@ import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
+import club.thom.tem.lore.Screenshot;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
@@ -13,7 +14,11 @@ import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.position.ItemPositionHandler;
 import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.MessageUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -25,12 +30,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ToolTipListener {
     TEM tem;
+    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     long lastCopyTime = System.currentTimeMillis();
+    Lock copyLock = new ReentrantLock();
     ItemPositionHandler itemPositionHandler;
 
     public ToolTipListener(TEM parent, ItemPositionHandler itemPositionHandler) {
@@ -38,11 +47,24 @@ public class ToolTipListener {
         this.itemPositionHandler = itemPositionHandler;
     }
 
-    public static final HashMap<String, List<String>> uuidToLore = new HashMap<>();
+    private boolean shouldCopy() {
+        copyLock.lock();
+        try {
+            if (System.currentTimeMillis() - lastCopyTime > 1000) {
+                lastCopyTime = System.currentTimeMillis();
+                return true;
+            }
+            return false;
+        } finally {
+            copyLock.unlock();
+        }
+    }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onItemToolTipEvent(ItemTooltipEvent event) {
-        ItemStack item = event.itemStack;
+        // As some mods call this event all the time, get the item the player's hovering over.
+        ItemStack item = getItemStack(event);
+
         NBTTagCompound itemNbt;
         try {
             itemNbt = item.serializeNBT();
@@ -50,10 +72,23 @@ public class ToolTipListener {
             // Possible bugs where items don't have nbt, ignore the item.
             return;
         }
+        if (GameSettings.isKeyDown(KeyBinds.screenshotLore) && System.currentTimeMillis() - lastCopyTime > 1000) {
+            if (shouldCopy()) {
+                new Screenshot().takeScreenshot(item);
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Took a screenshot of the item's lore!"));
+            }
+        }
+        if (GameSettings.isKeyDown(KeyBinds.copyLore) && System.currentTimeMillis() - lastCopyTime > 1000) {
+            if (shouldCopy()) {
+                copyLoreToClipboard(item, event.entityPlayer, event.showAdvancedItemTooltips);
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Copied item's lore to clipboard!"));
+            }
+        }
         itemPositionHandler.runPositionTooltip(event);
         if (GameSettings.isKeyDown(KeyBinds.copyUuid) && System.currentTimeMillis() - lastCopyTime > 1000) {
-            copyUuidToClipboard(itemNbt);
-            lastCopyTime = System.currentTimeMillis();
+            if (shouldCopy()) {
+                copyUuidToClipboard(itemNbt);
+            }
         }
 
         if (!ArmourPieceData.isValidItem(itemNbt)) {
@@ -77,6 +112,21 @@ public class ToolTipListener {
         if (GameSettings.isKeyDown(KeyBinds.getArmourRarityKey)) {
             fetchArmourOwners(armour);
         }
+    }
+
+    private static ItemStack getItemStack(ItemTooltipEvent event) {
+        ItemStack item = null;
+        if (Minecraft.getMinecraft().currentScreen != null && Minecraft.getMinecraft().currentScreen instanceof GuiContainer) {
+            Slot slot = ((GuiContainer) Minecraft.getMinecraft().currentScreen).getSlotUnderMouse();
+            if (slot != null) {
+                item = slot.getStack();
+            }
+        }
+        if (item == null) {
+            // Failed to get item from current screen, use the event's item instead.
+            item = event.itemStack;
+        }
+        return item;
     }
 
     public void addColourToTooltip(ItemTooltipEvent event, String hexWithColour) {
@@ -122,6 +172,15 @@ public class ToolTipListener {
 
     public void fetchArmourOwners(ArmourPieceData armour) {
         RequestsCache.getInstance().addToQueue(new HexFromItemIdRequest(tem.getConfig(), armour.getItemId()));
+    }
+
+    public void copyLoreToClipboard(ItemStack item, EntityPlayer player, boolean advanced) {
+        try {
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            clipboard.setContents(new StringSelection(EnumChatFormatting.getTextWithoutFormattingCodes(String.join("\n",
+                    item.getTooltip(player, advanced)))), null);
+        } catch (IllegalStateException ignored) {}
+        MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Copied lore to clipboard!"));
     }
 
     public void copyUuidToClipboard(NBTTagCompound itemNbt) {
