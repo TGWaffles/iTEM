@@ -280,6 +280,15 @@ public class TEMConfig extends Vigilant {
     )
     public boolean debugMode = false;
 
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Export Chest Visualiser (ENABLE AT OWN RISK)",
+            description = "Enable the export chest visualiser. USE AT YOUR OWN RISK"
+    )
+    public boolean enableChestVisualiser = false;
+
     public static String saveFolder = "config/tem/";
 
     public static String fileName = "preferences.toml";

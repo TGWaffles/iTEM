@@ -7,11 +7,14 @@ import club.thom.tem.listeners.packets.events.ClientPlayerRightClickBlockEvent;
 import club.thom.tem.listeners.packets.events.ServerBlockUpdateEvent;
 import club.thom.tem.listeners.packets.events.ServerSetItemsInGuiEvent;
 import club.thom.tem.listeners.packets.events.ServerSetSlotInGuiEvent;
+import club.thom.tem.util.HighlightUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
 
 public class ChestExporter implements PacketEventListener {
@@ -22,11 +25,13 @@ public class ChestExporter implements PacketEventListener {
     long lastChestUpdateTime = 0;
     LocRawListener locRaw;
     TEM tem;
+    HighlightUtil highlighter;
 
-    public ChestExporter(ItemExporter exporter, TEM tem) {
+    public ChestExporter(ItemExporter exporter, HighlightUtil highlighter, TEM tem) {
         this.exporter = exporter;
         this.tem = tem;
         this.locRaw = tem.getLocRaw();
+        this.highlighter = highlighter;
     }
 
     @Override
@@ -44,12 +49,20 @@ public class ChestExporter implements PacketEventListener {
         if (Minecraft.getMinecraft().theWorld == null) {
             return;
         }
-        Block block = Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(event.getBlockPos()[0], event.getBlockPos()[1], event.getBlockPos()[2])).getBlock();
+        BlockPos eventBlockPos = new BlockPos(event.getBlockPos()[0], event.getBlockPos()[1], event.getBlockPos()[2]);
+        Block block = Minecraft.getMinecraft().theWorld.getBlockState(eventBlockPos).getBlock();
         if (!(block instanceof BlockContainer)) {
             return;
         }
         System.arraycopy(event.getBlockPos(), 0, lastRightClickCoordinates, 0, 3);
         lastContainerRightClickTime = System.currentTimeMillis();
+        if (!exporter.isExporting()) {
+            return;
+        }
+        TileEntity tileEntity = Minecraft.getMinecraft().theWorld.getTileEntity(eventBlockPos);
+        if (tileEntity instanceof TileEntityChest) {
+            highlighter.excludeChest((TileEntityChest) tileEntity);
+        }
     }
 
     @Override

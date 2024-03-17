@@ -3,6 +3,7 @@ package club.thom.tem.export;
 import club.thom.tem.TEM;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.models.inventory.item.InventoryItemData;
+import club.thom.tem.util.HighlightUtil;
 import club.thom.tem.util.MessageUtil;
 import com.google.gson.JsonArray;
 import net.minecraft.util.ChatComponentText;
@@ -19,11 +20,14 @@ public class ItemExporter {
     private final Set<String> foundItemUuids = new HashSet<>();
     private final List<ExportableItem> itemData = new ArrayList<>();
     private final TEM tem;
+    private final HighlightUtil highlighter;
 
     public ItemExporter(TEM tem, PacketManager packetManager) {
         this.tem = tem;
-        packetManager.registerListener(new ChestExporter(this, tem));
+        highlighter = new HighlightUtil(tem, this);
+        packetManager.registerListener(new ChestExporter(this, highlighter, tem));
         MinecraftForge.EVENT_BUS.register(new EntityExporter(this, tem));
+        MinecraftForge.EVENT_BUS.register(highlighter);
     }
 
     public void startExporting() {
@@ -52,6 +56,8 @@ public class ItemExporter {
             clipboard.setContents(new StringSelection(sb.toString()), null);
         } catch (IllegalStateException ignored) {
         }
+
+        highlighter.clearExcluded();
     }
 
     public boolean isExporting() {
