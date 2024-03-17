@@ -40,8 +40,6 @@ public class TEM {
     // Signature to compare to, so you know this is an official release of iTEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
 
-    public static final int CLIENT_VERSION = clientVersionFromVersion();
-
     private OnlinePlayerListener onlinePlayerListener = null;
     private PlayerAFKListener playerAFKListener = null;
     private ItemExporter itemExporter = null;
@@ -67,21 +65,6 @@ public class TEM {
 
     public ItemUtil getItems() {
         return items;
-    }
-
-    public void forceSaveConfig() {
-        getConfig().markDirty();
-        getConfig().writeData();
-    }
-
-    private static int clientVersionFromVersion() {
-        String[] splitVersion = VERSION.split("\\.");
-        // Allows for versioning up to 0-255 per field.
-        int clientVersion = Integer.parseInt(splitVersion[0]) << 24;
-        clientVersion += Integer.parseInt(splitVersion[1]) << 16;
-        clientVersion += Integer.parseInt(splitVersion[2]) << 8;
-        clientVersion += Integer.parseInt(splitVersion[3]);
-        return clientVersion;
     }
 
     public void setUpLogging() {
