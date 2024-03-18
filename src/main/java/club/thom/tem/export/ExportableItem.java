@@ -2,16 +2,16 @@ package club.thom.tem.export;
 
 import club.thom.tem.TEM;
 import club.thom.tem.models.inventory.item.*;
-import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.NBTToJsonConverter;
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.JsonUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 public class ExportableItem implements Comparable<ExportableItem> {
+    private static final Logger logger = LogManager.getLogger(ExportableItem.class);
     private final String locationData;
     private final ItemStack item;
     private InventoryItemData itemData = null;
@@ -36,6 +36,7 @@ public class ExportableItem implements Comparable<ExportableItem> {
         try {
             itemNbt = item.serializeNBT();
         } catch (NullPointerException e) {
+            logger.error("Failed to serialize NBT for item: {} at {}", item, locationData, e);
             return null;
         }
 
@@ -72,7 +73,13 @@ public class ExportableItem implements Comparable<ExportableItem> {
     }
 
     public String toString() {
-        String itemData = this.itemData.toString();
+        String itemData;
+        if (this.itemData == null) {
+            logger.warn("Null item data when converting to string for {} at {}", this.item, this.locationData);
+            itemData = item.toString();
+        } else {
+            itemData = this.itemData.toString();
+        }
 
         if (tem.getConfig().isExportIncludeLocation()) {
             itemData = String.format("%s - Location: %s", itemData, locationData);
@@ -99,22 +106,29 @@ public class ExportableItem implements Comparable<ExportableItem> {
     public int compareTo(@NotNull ExportableItem o) {
         String ourSortString;
         String theirSortString;
+        InventoryItemData ourData = this.getItemData();
+        InventoryItemData theirData = o.getItemData();
+        if (ourData == null || theirData == null) {
+            logger.warn("Failed to get item data for items: {} (at {}) or {} (at {})",
+                    this.item, this.locationData, o.item, o.locationData);
+            return 1;
+        }
         switch (tem.getConfig().getExportSortOrder()) {
             case 1:
                 // Item Type
-                ourSortString = this.getItemData().getClass().getSimpleName() + this; // Append the item data to the end to ensure that items of the same type are sorted alphabetically
-                theirSortString = o.getItemData().getClass().getSimpleName() + o;
+                ourSortString = ourData.getClass().getSimpleName() + this; // Append the item data to the end to ensure that items of the same type are sorted alphabetically
+                theirSortString = theirData.getClass().getSimpleName() + o;
                 return ourSortString.compareTo(theirSortString);
             case 2:
                 // Hex Code
-                if (getItemData() instanceof ArmourPieceData) {
-                    if (o.getItemData() instanceof ArmourPieceData) {
-                        return ((ArmourPieceData) this.getItemData()).getHexCode().compareTo(((ArmourPieceData) o.getItemData()).getHexCode());
+                if (ourData instanceof ArmourPieceData) {
+                    if (theirData instanceof ArmourPieceData) {
+                        return ((ArmourPieceData) ourData).getHexCode().compareTo(((ArmourPieceData) theirData).getHexCode());
                     }
                     // We're armour, they're not, we're first
                     return -1;
                 }
-                if (o.getItemData() instanceof ArmourPieceData) {
+                if (theirData instanceof ArmourPieceData) {
                     // They're armour, we're not, they're first
                     return 1;
                 }
