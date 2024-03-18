@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class HighlightUtil {
+    // Represents the face of a block - one tesselator draw call.
     public static class Face {
         public double[] oneCorner;
         public double[] oppositeCorner;
@@ -54,13 +55,16 @@ public class HighlightUtil {
     }
     private final Set<Face> facesToDraw = new HashSet<>();
     private final Set<Face> facesToExclude = new HashSet<>();
-    private Map<BlockPos, EnumFacing> chestsToDraw = new HashMap<>();
-    private Map<BlockPos, EnumFacing> chestsAlreadyDrawn = new HashMap<>();
-    private HashSet<BlockPos> excludedChests = new HashSet<>();
+    private final Map<BlockPos, EnumFacing> chestsToDraw = new HashMap<>();
+    private final Map<BlockPos, EnumFacing> chestsAlreadyDrawn = new HashMap<>();
+    private final HashSet<BlockPos> excludedChests = new HashSet<>();
     private boolean drawingPrepared = false;
     private Tessellator tessellator;
     private WorldRenderer worldRenderer;
-    private final float[] colour = new float[]{-1, -1, -1, -1};
+    private int tick;
+    private final float[] currentColour = new float[]{-1, -1, -1, -1};
+    private final float[] includedChestColour = new float[]{1.0f, 0.0f, 0.0f, 0.4f};
+    private final float[] excludedChestColour = new float[]{0.0f, 1.0f, 0.0f, 0.4f};
     private final Map<Long, Chunk> loadedChunks = new ConcurrentHashMap<>();
     private final ItemExporter exporter;
     private final TEM tem;
@@ -84,32 +88,46 @@ public class HighlightUtil {
         drawingPrepared = true;
     }
 
+    /**
+     * @param face The face to draw
+     * @param colour RGBA colour to draw the face
+     * @param enableDepth Whether the face should be obscured by other blocks
+     */
     private void drawFace(Face face, float[] colour, boolean enableDepth) {
         ensureDrawingPrepared();
-        if (!Arrays.equals(this.colour, colour)) {
+        if (!Arrays.equals(this.currentColour, colour)) {
+            // Current GL colour state is not the same as the colour we want to draw.
             GlStateManager.color(colour[0], colour[1], colour[2], colour[3]);
-            System.arraycopy(colour, 0, this.colour, 0, 4);
+            System.arraycopy(colour, 0, this.currentColour, 0, 4);
         }
         if (!enableDepth) {
             GlStateManager.disableDepth();
         }
+        // Drawing quadrilaterals (squares)
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-        // Start in the corners we know are correct
+        // These vertexes need to be in (anti)clockwise order, if you specify one that goes across you get a weird triangle.
+        // The first corner of the face. No matter which face we're drawing, this is the first corner.
         worldRenderer.pos(face.oneCorner[0], face.oneCorner[1], face.oneCorner[2]).endVertex();
 
 
         if (face.oneCorner[0] == face.oppositeCorner[0]) {
+            // X isn't changing (left/right face), so go vertical to opposite, not across.
             worldRenderer.pos(face.oneCorner[0], face.oppositeCorner[1], face.oneCorner[2]).endVertex();
         } else {
+            // X is changing, go across to opposite.
             worldRenderer.pos(face.oppositeCorner[0], face.oneCorner[1], face.oneCorner[2]).endVertex();
         }
+        // The opposite corner of the face. We've already drawn two corners, this is the third.
         worldRenderer.pos(face.oppositeCorner[0], face.oppositeCorner[1], face.oppositeCorner[2]).endVertex();
         if (face.oneCorner[2] == face.oppositeCorner[2]) {
+            // Z isn't changing (front or back face), so go vertical for last corner.
             worldRenderer.pos(face.oneCorner[0], face.oppositeCorner[1], face.oneCorner[2]).endVertex();
         } else {
+            // Z is changing, go depth for last corner.
             worldRenderer.pos(face.oneCorner[0], face.oneCorner[1], face.oppositeCorner[2]).endVertex();
         }
 
+        // Draw the square!
         tessellator.draw();
         if (!enableDepth) {
             GlStateManager.enableDepth();
@@ -118,22 +136,29 @@ public class HighlightUtil {
 
     private Face[] getChestFaces(Vec3 playerEyePosition, BlockPos chestPos, EnumFacing otherChestDirection) {
         Face[] faces = new Face[6];
+        // Moves the edges of the face in towards the block itself.
         double xzOffset = 0.06;
+        // Bottom of the chest down a tiny bit, avoid z-fighting
         double yMinOffset = Minecraft.getMinecraft().thePlayer.getEyeHeight() - 0.009999999776482582d;
+        // 0.12 below the block above, since chest isn't full height.
         double yMaxOffset = Minecraft.getMinecraft().thePlayer.getEyeHeight() - 0.12;
 
+        // Smallest x, smallest z, smallest y.
         double[] bottomBackLeftCorner = new double[] {
+                // Subtracting the player's eye vector from the chest vector gives us the chest's vector relative to the player.
                 (chestPos.getX() - playerEyePosition.xCoord) + xzOffset,
                 (chestPos.getY() - playerEyePosition.yCoord) + yMinOffset,
                 (chestPos.getZ() - playerEyePosition.zCoord) + xzOffset
         };
         double[] bottomFrontRightCorner = new double[] {
+                // Add 1 for the opposite corner, take 2x offset to remove the existing offset and move offset closer to the block.
                 bottomBackLeftCorner[0] + 1 - 2*xzOffset,
                 bottomBackLeftCorner[1],
                 bottomBackLeftCorner[2] + 1 - 2*xzOffset
         };
         double[] topFrontLeftCorner = new double[] {
                 bottomBackLeftCorner[0],
+                // Top of the chest, 1 block above - 0.12 of a block.
                 (chestPos.getY() - playerEyePosition.yCoord) + yMaxOffset + 1,
                 bottomFrontRightCorner[2]
         };
@@ -231,7 +256,14 @@ public class HighlightUtil {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) {
+        Minecraft mc = Minecraft.getMinecraft();
+        if (event.phase != TickEvent.Phase.END || mc == null || mc.theWorld == null) {
+            return;
+        }
+        tick++;
+
+        if (tick % 10 != 0) {
+            // Don't need to update every tick, half a second is fine.
             return;
         }
 
@@ -278,6 +310,7 @@ public class HighlightUtil {
             if (isSisterChestAlreadyDrawn(chestPos, otherChestDirection)) {
                 continue;
             }
+            // Calculate where on the screen the faces of the chest should be drawn. This changes each render tick.
             Face[] faces = getChestFaces(playerEyePosition, chestPos, otherChestDirection);
 
             if (excludedChests.contains(chestPos)) {
@@ -288,18 +321,22 @@ public class HighlightUtil {
             chestsAlreadyDrawn.put(chestPos, otherChestDirection);
         }
         for (Face face : facesToDraw) {
-            drawFace(face, new float[]{1.0f, 0.0f, 0.0f, 0.4f}, false);
+            drawFace(face, includedChestColour, false);
         }
         for (Face face : facesToExclude) {
-            drawFace(face, new float[]{0.0f, 1.0f, 0.0f, 0.4f}, true);
+            drawFace(face, excludedChestColour, true);
         }
+        // Clear faces, need to be recalculated next tick.
         facesToDraw.clear();
         facesToExclude.clear();
+        // No chests have been drawn next tick.
         chestsAlreadyDrawn.clear();
 
+        // Undo all the changes we made this tick.
         drawingPrepared = false;
         for (int i=0;i<4;i++) {
-            this.colour[i] = -1;
+            // Reset current colour as we don't know what the state will be next tick.
+            this.currentColour[i] = -1;
         }
         GlStateManager.enableTexture2D();
         GlStateManager.depthMask(true);
