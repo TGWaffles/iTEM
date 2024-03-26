@@ -3,7 +3,10 @@ package club.thom.tem.models.inventory.item;
 import club.thom.tem.models.messages.ClientMessages.InventoryItem;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonObject;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagLong;
+import net.minecraft.nbt.NBTTagString;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -25,14 +28,29 @@ public abstract class InventoryItemData {
         return false;
     }
 
-    protected long getCreationTimestamp(String timestamp) {
-        if (timestamp.equals("")) {
+    protected long getCreationTimestamp(NBTBase timestampNbt) {
+        if (timestampNbt == null) {
+            // Can't process a null timestamp
+            return 0;
+        }
+        if (timestampNbt instanceof NBTTagLong) {
+            long timestampAsLong = ((NBTTagLong) timestampNbt).getLong();
+            if (timestampAsLong < 10000000000L) {
+                // unless it's the year 2286, it's probably in seconds, not milliseconds
+                return timestampAsLong * 1000;
+            }
+            return timestampAsLong;
+        } else if (!(timestampNbt instanceof NBTTagString)) {
+            return 0;
+        }
+        String timestampAsString = ((NBTTagString) timestampNbt).getString();
+        if (timestampAsString.isEmpty()) {
             return 0;
         }
         ZonedDateTime zonedDateTime = null;
         for (DateTimeFormatter parser : parsers) {
             try {
-                LocalDateTime localDateTime = LocalDateTime.parse(timestamp, parser);
+                LocalDateTime localDateTime = LocalDateTime.parse(timestampAsString, parser);
                 ZoneId chicagoZoneId = ZoneId.of("America/Toronto");
                 zonedDateTime = localDateTime.atZone(chicagoZoneId);
                 // Success
@@ -41,7 +59,7 @@ public abstract class InventoryItemData {
         }
         if (zonedDateTime == null) {
             try {
-                return Long.parseLong(timestamp);
+                return Long.parseLong(timestampAsString);
             } catch (NumberFormatException ex) {
                 return 0;
             }

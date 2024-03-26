@@ -5,10 +5,7 @@ import club.thom.tem.models.RarityConverter;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.util.NBTToJsonConverter;
 import com.google.gson.JsonObject;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.*;
 
 import java.util.Arrays;
 
@@ -52,7 +49,15 @@ public class ArmourPieceData extends InventoryItemData {
     }
 
     public long getCreationTimestamp() {
-        return getCreationTimestamp(getExtraAttributes().getString("timestamp"));
+        NBTTagCompound extraAttributes = getExtraAttributes();
+        NBTBase timestamp;
+        if (extraAttributes.hasKey("date", 4)) {
+            // If it has a long date (type 4), use that.
+            timestamp = extraAttributes.getTag("date");
+        } else {
+            timestamp = extraAttributes.getTag("timestamp");
+        }
+        return getCreationTimestamp(timestamp);
     }
 
     public boolean isCustomDyed() {

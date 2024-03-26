@@ -4,6 +4,7 @@ import club.thom.tem.models.messages.ClientMessages.InventoryItem;
 import club.thom.tem.models.messages.ClientMessages.PetSkin;
 import club.thom.tem.util.NBTToJsonConverter;
 import com.google.gson.JsonObject;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class PetSkinData extends InventoryItemData {
@@ -25,7 +26,7 @@ public class PetSkinData extends InventoryItemData {
     @Override
     public InventoryItem toInventoryItem() {
         return InventoryItem.newBuilder().setPetSkin(toPetSkinMessage()).setUuid(getUuid())
-                .setCreationTimestamp(getCreationTimestamp(""))
+                .setCreationTimestamp(getCreationTimestamp())
                 .setLocation(inventoryName).build();
     }
 
@@ -36,12 +37,19 @@ public class PetSkinData extends InventoryItemData {
         return getExtraAttributes().getString("uuid");
     }
 
-    @Override
-    protected long getCreationTimestamp(String ignored) {
+    protected long getCreationTimestamp() {
         if (itemData == null || !getExtraAttributes().hasKey("timestamp")) {
             return 0;
         }
-        return super.getCreationTimestamp(getExtraAttributes().getString("timestamp"));
+        NBTTagCompound extraAttributes = getExtraAttributes();
+        NBTBase timestamp;
+        if (extraAttributes.hasKey("date", 4)) {
+            // If it has a long date (type 4), use that.
+            timestamp = extraAttributes.getTag("date");
+        } else {
+            timestamp = extraAttributes.getTag("timestamp");
+        }
+        return getCreationTimestamp(timestamp);
     }
 
     @Override

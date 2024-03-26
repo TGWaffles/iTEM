@@ -39,24 +39,15 @@ public class MiscItemData extends InventoryItemData {
     }
 
     public long getCreationTimestamp() {
-        if (extraAttributes.hasKey("date")) {
-            return extraAttributes.getLong("date");
+        NBTTagCompound extraAttributes = getExtraAttributes();
+        NBTBase timestamp;
+        if (extraAttributes.hasKey("date", 4)) {
+            // If it has a long date (type 4), use that.
+            timestamp = extraAttributes.getTag("date");
+        } else {
+            timestamp = extraAttributes.getTag("timestamp");
         }
-
-        if (extraAttributes.hasKey("timestamp")) {
-            NBTBase timestamp = extraAttributes.getTag("timestamp");
-            if (timestamp instanceof NBTTagLong) {
-                long timestampAsLong = ((NBTTagLong) timestamp).getLong();
-                if (timestampAsLong < 10000000000L) {
-                    // unless it's the year 2286, it's probably in seconds, not milliseconds
-                    return timestampAsLong * 1000;
-                }
-                return timestampAsLong;
-            }
-            return getCreationTimestamp(extraAttributes.getString("timestamp"));
-        }
-        // else it's unix 0
-        return 0;
+        return getCreationTimestamp(timestamp);
     }
 
     @Override
@@ -64,12 +55,7 @@ public class MiscItemData extends InventoryItemData {
         assembleItem();
         ClientMessages.InventoryItem.Builder itemBuilder = ClientMessages.InventoryItem.newBuilder();
         // If it has a creation timestamp, set it in the item.
-        if (extraAttributes.hasKey("timestamp")) {
-            itemBuilder.setCreationTimestamp(getCreationTimestamp(extraAttributes.getString("timestamp")));
-        } else {
-            // else it's unix 0
-            itemBuilder.setCreationTimestamp(0);
-        }
+        itemBuilder.setCreationTimestamp(getCreationTimestamp());
         if (getUuid() != null) {
             itemBuilder.setUuid(getUuid());
         }
