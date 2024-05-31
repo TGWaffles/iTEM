@@ -14,6 +14,10 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ItemExporter {
     private boolean isExporting = false;
@@ -21,6 +25,7 @@ public class ItemExporter {
     private final List<ExportableItem> itemData = new ArrayList<>();
     private final TEM tem;
     private final HighlightUtil highlighter;
+    ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public ItemExporter(TEM tem, PacketManager packetManager) {
         this.tem = tem;
@@ -31,33 +36,43 @@ public class ItemExporter {
     }
 
     public void startExporting() {
-        isExporting = true;
+        try {
+            lock.writeLock().lock();
+            isExporting = true;
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
     public void stopExporting() {
-        isExporting = false;
-        Collections.sort(itemData);
-        StringBuilder sb = new StringBuilder();
-        if (tem.getConfig().isExportItemsAsJson()) {
-            JsonArray array = new JsonArray();
-            for (ExportableItem item : itemData) {
-                array.add(item.toJson());
-            }
-            sb.append(array);
-        } else {
-            for (ExportableItem item : itemData) {
-                sb.append(item.toString()).append("\n");
-            }
-        }
-        foundItemUuids.clear();
-        itemData.clear();
         try {
-            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-            clipboard.setContents(new StringSelection(sb.toString()), null);
-        } catch (IllegalStateException ignored) {
-        }
+            lock.writeLock().lock();
+            isExporting = false;
+            Collections.sort(itemData);
+            StringBuilder sb = new StringBuilder();
+            if (tem.getConfig().isExportItemsAsJson()) {
+                JsonArray array = new JsonArray();
+                for (ExportableItem item : itemData) {
+                    array.add(item.toJson());
+                }
+                sb.append(array);
+            } else {
+                for (ExportableItem item : itemData) {
+                    sb.append(item.toString()).append("\n");
+                }
+            }
+            foundItemUuids.clear();
+            itemData.clear();
+            try {
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(new StringSelection(sb.toString()), null);
+            } catch (IllegalStateException ignored) {
+            }
 
-        highlighter.clearExcluded();
+            highlighter.clearExcluded();
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
     public boolean isExporting() {
@@ -76,11 +91,22 @@ public class ItemExporter {
         if (uuid == null) {
             return;
         }
-        if (foundItemUuids.contains(uuid)) {
-            return;
+        try {
+            lock.readLock().lock();
+            if (foundItemUuids.contains(uuid)) {
+                return;
+            }
+        } finally {
+            lock.readLock().unlock();
         }
-        foundItemUuids.add(uuid);
-        itemData.add(item);
+
+        try {
+            lock.writeLock().lock();
+            foundItemUuids.add(uuid);
+            itemData.add(item);
+        } finally {
+            lock.writeLock().unlock();
+        }
 
         MessageUtil.sendMessage(new ChatComponentText("Added item: ")
                 .appendSibling(item.getItem().getChatComponent()).appendSibling(new ChatComponentText(" to export list.")));
