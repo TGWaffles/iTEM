@@ -2,6 +2,8 @@ package club.thom.tem.util;
 
 import club.thom.tem.TEM;
 import club.thom.tem.export.ItemExporter;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -277,14 +279,29 @@ public class HighlightUtil {
         }
 
         LinkedList<BlockPos> invalidChests = new LinkedList<>();
+        LinkedList<BlockPos> unloadedChests = new LinkedList<>();
         for (BlockPos blockPos : chestsToDraw.keySet()) {
             if (validBlockPos.containsKey(blockPos)) {
                 continue;
             }
-            TileEntity tileEntity = Minecraft.getMinecraft().theWorld.getTileEntity(blockPos);
-            if (tileEntity == null) {
-                invalidChests.add(blockPos);
+
+            ChunkCoordIntPair chunkCoordIntPair = new ChunkCoordIntPair(blockPos.getX() >> 4, blockPos.getZ() >> 4);
+            if (!loadedChunks.containsKey(ChunkCoordIntPair.chunkXZ2Int(chunkCoordIntPair.chunkXPos, chunkCoordIntPair.chunkZPos))) {
+                unloadedChests.add(blockPos);
+                continue;
             }
+
+            Block blockAtPos = Minecraft.getMinecraft().theWorld.getBlockState(blockPos).getBlock();
+            if (!(blockAtPos instanceof BlockChest)) {
+                TileEntity tileEntity = Minecraft.getMinecraft().theWorld.getTileEntity(blockPos);
+                if (tileEntity == null) {
+                    invalidChests.add(blockPos);
+                }
+            }
+        }
+
+        for (BlockPos blockPos : unloadedChests) {
+            chestsToDraw.remove(blockPos);
         }
 
         for (BlockPos blockPos : invalidChests) {
