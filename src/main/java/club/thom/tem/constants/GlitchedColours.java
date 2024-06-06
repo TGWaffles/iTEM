@@ -17,7 +17,7 @@ public class GlitchedColours {
             "45413C", "TANK_WITHER_CHESTPLATE",
             "4A14B7", "SPEED_WITHER_CHESTPLATE",
             "1793C4", "WISE_WITHER_CHESTPLATE",
-            "000000", "WITHER_CHESPLATE"
+            "000000", "WITHER_CHESTPLATE"
     );
 
     public static final ImmutableMap<String, String> LEGGINGS_COLOURS = ImmutableMap.of(
