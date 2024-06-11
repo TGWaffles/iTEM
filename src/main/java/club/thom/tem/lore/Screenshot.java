@@ -1,5 +1,6 @@
 package club.thom.tem.lore;
 
+import club.thom.tem.TEM;
 import club.thom.tem.util.GuiUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -31,14 +32,22 @@ public class Screenshot {
     int width = 2560;
     int height = 2560;
     Method renderToolTipMethod;
+    TEM tem;
 
-    public Screenshot() {
+    public Screenshot(TEM tem) {
+        this.tem = tem;
         renderToolTipMethod = ReflectionHelper.findMethod(GuiScreen.class, null, new String[]{"renderToolTip", "func_146285_a"}, ItemStack.class, int.class, int.class);
         renderToolTipMethod.setAccessible(true);
     }
 
     public void takeScreenshot(ItemStack item) {
-        List<String> toolTip = item.getTooltip(Minecraft.getMinecraft().thePlayer, true);
+        boolean advanced = true;
+        if (tem.getConfig().getScreenshotAdvancedChoice() == 1) {
+            advanced = false;
+        } else if (tem.getConfig().getScreenshotAdvancedChoice() == 2) {
+            advanced = Minecraft.getMinecraft().gameSettings.advancedItemTooltips;
+        }
+        List<String> toolTip = item.getTooltip(Minecraft.getMinecraft().thePlayer, advanced);
 
         int trueTooltipHeight;
         int trueTooltipWidth;

@@ -263,6 +263,16 @@ public class TEMConfig extends Vigilant {
     private boolean showArmourColourType = true;
 
     @Property(
+            type = PropertyType.SELECTOR,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Screenshot Details",
+            description = "Whether advanced tooltips should be shown on screenshots.",
+            options = {"Always", "Never", "Copy Game Settings"}
+    )
+    private int screenshotAdvancedChoice = 0;
+
+    @Property(
             type = PropertyType.NUMBER,
             category = "TEM",
             subcategory = "Scan",
@@ -391,6 +401,10 @@ public class TEMConfig extends Vigilant {
 
     public boolean shouldShowArmourColourType() {
         return showArmourColourType;
+    }
+
+    public int getScreenshotAdvancedChoice() {
+        return screenshotAdvancedChoice;
     }
 
     public int getExportSortOrder() {

@@ -75,7 +75,7 @@ public class ToolTipListener {
         }
         if (GameSettings.isKeyDown(KeyBinds.screenshotLore) && System.currentTimeMillis() - lastCopyTime > 1000) {
             if (shouldCopy()) {
-                new Screenshot().takeScreenshot(item);
+                new Screenshot(tem).takeScreenshot(item);
                 MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Took a screenshot of the item's lore!"));
             }
         }
