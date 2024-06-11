@@ -254,6 +254,15 @@ public class TEMConfig extends Vigilant {
     private boolean showEstPos = true;
 
     @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Show Armour Colour Type",
+            description = "Choose whether to show armour colour type (EXOTIC/ORIGINAL/etc) in tooltips."
+    )
+    private boolean showArmourColourType = true;
+
+    @Property(
             type = PropertyType.NUMBER,
             category = "TEM",
             subcategory = "Scan",
@@ -378,6 +387,10 @@ public class TEMConfig extends Vigilant {
 
     public boolean shouldShowEstPos() {
         return showEstPos;
+    }
+
+    public boolean shouldShowArmourColourType() {
+        return showArmourColourType;
     }
 
     public int getExportSortOrder() {

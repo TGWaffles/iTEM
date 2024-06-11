@@ -12,6 +12,7 @@ import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.position.ItemPositionHandler;
+import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.MessageUtil;
 import net.minecraft.client.Minecraft;
@@ -93,10 +94,13 @@ public class ToolTipListener {
             }
         }
 
-        if (!ArmourPieceData.isValidItem(itemNbt)) {
+        if (ArmourPieceData.isValidItem(itemNbt) && tem.getConfig().shouldShowArmourColourType()) {
             // We're only caring about armour on tooltips, to add colour.
-            return;
+            addArmourColourType(event, itemNbt);
         }
+    }
+
+    private void addArmourColourType(ItemTooltipEvent event, NBTTagCompound itemNbt) {
         ArmourPieceData armour = new ArmourPieceData(tem, "inventory", itemNbt);
         HexUtil.Modifier armourTypeModifier = new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
         String colourCode = armourTypeModifier.getColourCode();
