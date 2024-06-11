@@ -245,6 +245,15 @@ public class TEMConfig extends Vigilant {
     private boolean scanRedNames = true;
 
     @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Show Estimated Item Position",
+            description = "Choose whether to show estimated item position (est pos) in tooltips."
+    )
+    private boolean showEstPos = true;
+
+    @Property(
             type = PropertyType.NUMBER,
             category = "TEM",
             subcategory = "Scan",
@@ -365,6 +374,10 @@ public class TEMConfig extends Vigilant {
 
     public boolean shouldScanRedNames() {
         return scanRedNames;
+    }
+
+    public boolean shouldShowEstPos() {
+        return showEstPos;
     }
 
     public int getExportSortOrder() {

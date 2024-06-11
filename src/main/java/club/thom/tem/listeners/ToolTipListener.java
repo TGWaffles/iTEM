@@ -84,7 +84,9 @@ public class ToolTipListener {
                 MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Copied item's lore to clipboard!"));
             }
         }
-        itemPositionHandler.runPositionTooltip(event);
+        if (tem.getConfig().shouldShowEstPos()) {
+            itemPositionHandler.runPositionTooltip(event);
+        }
         if (GameSettings.isKeyDown(KeyBinds.copyUuid) && System.currentTimeMillis() - lastCopyTime > 1000) {
             if (shouldCopy()) {
                 copyUuidToClipboard(itemNbt);
