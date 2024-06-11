@@ -7,12 +7,12 @@ import java.util.*;
 public class VariantColours {
     public static final Map<String, ImmutableSet<String>> variants = getPossibleVariants();
 
-    public static final List<String> seymourItems = Collections.unmodifiableList(Arrays.asList(
+    public static final ImmutableSet<String> seymourItems = ImmutableSet.of(
             "VELVET_TOP_HAT",
             "CASHMERE_JACKET",
             "SATIN_TROUSERS",
             "OXFORD_SHOES"
-    ));
+    );
 
     private static Map<String, ImmutableSet<String>> getPossibleVariants() {
         HashMap<String, ImmutableSet<String>> possibleVariants = new HashMap<>();
@@ -34,6 +34,12 @@ public class VariantColours {
         possibleVariants.put("STARRED_ADAPTIVE_BOOTS", adaptiveRest);
         possibleVariants.put("ADAPTIVE_BOOTS", adaptiveRest);
         // ^^ END OF ADAPTIVE
+
+        // Kuudra Follower Armour (Hypixel didn't feel like adding this to API)
+        possibleVariants.put("KUUDRA_FOLLOWER_CHESTPLATE", ImmutableSet.of("35530A"));
+        possibleVariants.put("KUUDRA_FOLLOWER_LEGGINGS", ImmutableSet.of("35530A"));
+        possibleVariants.put("KUUDRA_FOLLOWER_BOOTS", ImmutableSet.of("35530A"));
+        // ^^ END OF Kuudra Follower Armour
 
 
         return possibleVariants;
