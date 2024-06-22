@@ -43,7 +43,7 @@ public class TEM {
     private OnlinePlayerListener onlinePlayerListener = null;
     private PlayerAFKListener playerAFKListener = null;
     private ItemExporter itemExporter = null;
-    private LocRawListener locRaw = null;
+    private LocationListener locationListener = null;
     private final HexUtil hexUtil;
     private final LobbyScanner scanner;
     private final TEMConfig config;
@@ -130,11 +130,11 @@ public class TEM {
         packetManager.registerListener(playerAFKListener);
         MinecraftForge.EVENT_BUS.register(playerAFKListener);
 
-        locRaw = new LocRawListener(packetManager);
+        locationListener = new LocationListener(packetManager);
 
         itemExporter = new ItemExporter(this, packetManager);
 
-        MinecraftForge.EVENT_BUS.register(locRaw);
+        MinecraftForge.EVENT_BUS.register(locationListener);
 
         getConfig().initialize();
         new Thread(getItems()::fillItems, "TEM-items").start();
@@ -171,8 +171,8 @@ public class TEM {
         return itemExporter;
     }
 
-    public LocRawListener getLocRaw() {
-        return locRaw;
+    public LocationListener getLocationListener() {
+        return locationListener;
     }
 
     @Mod.EventHandler

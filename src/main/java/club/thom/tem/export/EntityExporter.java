@@ -7,7 +7,6 @@ import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.RenderItemInFrameEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -39,7 +38,7 @@ public class EntityExporter {
         if (item == null) {
             return;
         }
-        String lastMap = tem.getLocRaw().getLastMap();
+        String lastMap = tem.getLocationListener().getLastMap();
         if (!lastMap.equalsIgnoreCase("Private Island")) {
             return;
         }
@@ -63,7 +62,7 @@ public class EntityExporter {
             return;
         }
         EntityArmorStand entity = (EntityArmorStand) event.entity;
-        String lastMap = tem.getLocRaw().getLastMap();
+        String lastMap = tem.getLocationListener().getLastMap();
         if (!lastMap.equalsIgnoreCase("Private Island")) {
             return;
         }
@@ -110,7 +109,7 @@ public class EntityExporter {
                 coords[0] = (int) entity.posX;
                 coords[1] = (int) entity.posY;
                 coords[2] = (int) entity.posZ;
-                String locationString = String.format("Dropped Item @ %d,%d,%d on %s", coords[0], coords[1], coords[2], tem.getLocRaw().getLastMap());
+                String locationString = String.format("Dropped Item @ %d,%d,%d on %s", coords[0], coords[1], coords[2], tem.getLocationListener().getLastMap());
                 exporter.addItem(new ExportableItem(locationString, item, tem));
             }
         });

@@ -5,20 +5,30 @@ import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.listeners.packets.events.ServerChatEvent;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.hypixel.modapi.HypixelModAPI;
+import net.hypixel.modapi.packet.impl.clientbound.event.ClientboundLocationPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
-public class LocRawListener implements CancellablePacketEventListener {
+public class LocationListener implements CancellablePacketEventListener {
     private long lastSendTime = 0L;
     private long lastReceiveTime = 0L;
     private boolean canSendLocraw = true;
     private String lastMap = "Unknown";
 
-    public LocRawListener(PacketManager packetManager) {
+    public LocationListener(PacketManager packetManager) {
         packetManager.registerListener(this);
+        HypixelModAPI.getInstance().subscribeToEventPacket(ClientboundLocationPacket.class);
+        HypixelModAPI.getInstance().registerHandler(ClientboundLocationPacket.class, packet -> {
+            if (packet.getMap().isPresent()) {
+                lastMap = packet.getMap().get();
+                lastReceiveTime = System.currentTimeMillis();
+            }
+        });
     }
 
     @Override
@@ -96,7 +106,12 @@ public class LocRawListener implements CancellablePacketEventListener {
 
     @SubscribeEvent
     public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent event) {
-        canSendLocraw = true;
+        // Only send locraw if the hypixel mod api is loaded.
+        canSendLocraw = !isHypixelModApiLoaded();
+    }
+
+    private boolean isHypixelModApiLoaded() {
+        return Loader.isModLoaded("Hypixel Mod API");
     }
 
 

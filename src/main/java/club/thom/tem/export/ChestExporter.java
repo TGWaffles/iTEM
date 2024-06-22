@@ -1,7 +1,7 @@
 package club.thom.tem.export;
 
 import club.thom.tem.TEM;
-import club.thom.tem.listeners.LocRawListener;
+import club.thom.tem.listeners.LocationListener;
 import club.thom.tem.listeners.packets.PacketEventListener;
 import club.thom.tem.listeners.packets.events.ClientPlayerRightClickBlockEvent;
 import club.thom.tem.listeners.packets.events.ServerBlockUpdateEvent;
@@ -23,14 +23,14 @@ public class ChestExporter implements PacketEventListener {
     int[] lastRightClickCoordinates = new int[3];
     long lastContainerRightClickTime = 0;
     long lastChestUpdateTime = 0;
-    LocRawListener locRaw;
+    LocationListener locationListener;
     TEM tem;
     HighlightUtil highlighter;
 
     public ChestExporter(ItemExporter exporter, HighlightUtil highlighter, TEM tem) {
         this.exporter = exporter;
         this.tem = tem;
-        this.locRaw = tem.getLocRaw();
+        this.locationListener = tem.getLocationListener();
         this.highlighter = highlighter;
     }
 
@@ -90,7 +90,7 @@ public class ChestExporter implements PacketEventListener {
             return;
         }
 
-        String lastMap = locRaw.getLastMap();
+        String lastMap = locationListener.getLastMap();
 
         if (!lastMap.equalsIgnoreCase("Private Island")) {
             return;
