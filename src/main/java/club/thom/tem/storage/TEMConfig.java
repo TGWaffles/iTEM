@@ -279,7 +279,7 @@ public class TEMConfig extends Vigilant {
             name = "Max Item Age (days)",
             description = "How long ago an item was last seen before it is no longer shown in lobby scans. " +
                     "NOTE: Too low means you might miss some items, depending on TEM's current refresh rate.",
-            max = 365
+            max = 730
     )
     private int maxItemAge = 31;
 
