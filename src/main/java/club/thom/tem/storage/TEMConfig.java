@@ -263,6 +263,15 @@ public class TEMConfig extends Vigilant {
     private boolean showArmourColourType = true;
 
     @Property(
+            type = PropertyType.SWITCH,
+            category = "TEM",
+            subcategory = "Toggles",
+            name = "Show Pure Hint",
+            description = "Choose whether to show whether an exotic piece is pure in tooltips."
+    )
+    private boolean showArmourPureHint = true;
+
+    @Property(
             type = PropertyType.SELECTOR,
             category = "TEM",
             subcategory = "Toggles",
@@ -401,6 +410,10 @@ public class TEMConfig extends Vigilant {
 
     public boolean shouldShowArmourColourType() {
         return showArmourColourType;
+    }
+
+    public boolean shouldShowArmourPureHint() {
+        return showArmourPureHint;
     }
 
     public int getScreenshotAdvancedChoice() {

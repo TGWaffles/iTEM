@@ -5,6 +5,7 @@ import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdResponse;
+import club.thom.tem.constants.PureColours;
 import club.thom.tem.lore.Screenshot;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
@@ -12,7 +13,6 @@ import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.position.ItemPositionHandler;
-import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.MessageUtil;
 import net.minecraft.client.Minecraft;
@@ -106,6 +106,9 @@ public class ToolTipListener {
         String colourCode = armourTypeModifier.getColourCode();
         int ownerCount = checkArmourOwners(armour);
         String toolTipString = colourCode + armourTypeModifier;
+        if (tem.getConfig().shouldShowArmourPureHint() && armourTypeModifier == HexUtil.Modifier.EXOTIC && PureColours.isPureColour(armour.getHexCode())) {
+            toolTipString += " PURE " + PureColours.getPureColour(armour.getHexCode()) + "\n";
+        }
 
         if (armour.isCustomDyed()) {
             toolTipString = EnumChatFormatting.DARK_GRAY + "DYED";
