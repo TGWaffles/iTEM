@@ -107,7 +107,7 @@ public class ToolTipListener {
         int ownerCount = checkArmourOwners(armour);
         String toolTipString = colourCode + armourTypeModifier;
         if (tem.getConfig().shouldShowArmourPureHint() && armourTypeModifier == HexUtil.Modifier.EXOTIC && PureColours.isPureColour(armour.getHexCode())) {
-            toolTipString += " PURE " + PureColours.getPureColour(armour.getHexCode()) + "\n";
+            toolTipString += " PURE " + PureColours.getPureColour(armour.getHexCode());
         }
 
         if (armour.isCustomDyed()) {
