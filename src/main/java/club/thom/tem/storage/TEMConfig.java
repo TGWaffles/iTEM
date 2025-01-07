@@ -312,15 +312,6 @@ public class TEMConfig extends Vigilant {
             type = PropertyType.SWITCH,
             category = "TEM",
             subcategory = "Toggles",
-            name = "Debug Mode",
-            description = "Generate debug logs."
-    )
-    public boolean debugMode = false;
-
-    @Property(
-            type = PropertyType.SWITCH,
-            category = "TEM",
-            subcategory = "Toggles",
             name = "Export Chest Visualiser (ENABLE AT OWN RISK)",
             description = "Enable the export chest visualiser. USE AT YOUR OWN RISK"
     )
@@ -344,13 +335,6 @@ public class TEMConfig extends Vigilant {
     }
 
 
-    public Consumer<Boolean> getDebugConsumer() {
-        return debug -> executor.submit(() -> {
-            debugMode = debug;
-            tem.setUpLogging();
-        });
-    }
-
     private final TEM tem;
 
     public TEMConfig(TEM tem) {
@@ -359,11 +343,6 @@ public class TEMConfig extends Vigilant {
         checkFolderExists();
         CONFIG_FILE = new File(saveFolder + fileName);
         initialize();
-        try {
-            registerListener(this.getClass().getDeclaredField("debugMode"), getDebugConsumer());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 

@@ -67,51 +67,6 @@ public class TEM {
         return items;
     }
 
-    public void setUpLogging() {
-        LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
-
-        Configuration configuration = loggerContext.getConfiguration();
-        LoggerConfig rootLoggerConfig = configuration.getLoggerConfig("club.thom.tem");
-
-        if (getConfig().debugMode) {
-            rootLoggerConfig.setLevel(Level.ALL);
-            if (loggerSetup) {
-                return;
-            }
-            PatternLayout layout = PatternLayout.createLayout("[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n", null, null, Charset.defaultCharset().name(), "true");
-            FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
-                    null, null, null, layout, null, null, null, null);
-            fa.start();
-            rootLoggerConfig.addAppender(fa, Level.ALL, null);
-            loggerSetup = true;
-        } else {
-            rootLoggerConfig.setLevel(Level.WARN);
-        }
-        loggerContext.updateLoggers();
-    }
-
-    public void setUpStandaloneLogging(boolean debug) {
-        Level level = debug ? Level.ALL : Level.INFO;
-        LoggerContext loggerContext = (LoggerContext) LogManager.getContext(false);
-
-        Configuration configuration = loggerContext.getConfiguration();
-        LoggerConfig rootLoggerConfig = configuration.getLoggerConfig("");
-
-        PatternLayout layout = PatternLayout.createLayout("[%d{HH:mm:ss}] [%t/%level] [%logger]: %msg%n", null, null, Charset.defaultCharset().name(), "true");
-        ConsoleAppender ca = ConsoleAppender.createAppender(layout, null, null, "Console", null, null);
-        ca.start();
-        rootLoggerConfig.addAppender(ca, level, null);
-
-        if (debug) {
-            FileAppender fa = FileAppender.createAppender("tem.log", null, null, "tem-log",
-                    null, null, null, null, null, null, null, null);
-            fa.start();
-            rootLoggerConfig.addAppender(fa, Level.ALL, null);
-        }
-
-        loggerContext.updateLoggers();
-    }
-
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         KeyBinds.registerKeyBinds();
@@ -150,7 +105,6 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
 
         MinecraftForge.EVENT_BUS.register(this);
-        setUpLogging();
     }
 
 
