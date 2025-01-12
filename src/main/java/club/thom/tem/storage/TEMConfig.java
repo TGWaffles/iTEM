@@ -14,13 +14,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal"})
 public class TEMConfig extends Vigilant {
 
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);
     private static final ExecutorService executor = Executors.newFixedThreadPool(2, r -> new Thread(r, "TEMConfig"));
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Export",
+            subcategory = "Always Export",
+            name = "Enable Always Export",
+            description = "Enable \"always export\", which caches all items on your private island."
+    )
+    private boolean enableAlwaysExport = false;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -403,19 +411,23 @@ public class TEMConfig extends Vigilant {
         return exportSortOrder;
     }
 
-    public boolean isExportIncludeItemFrames() {
+    public boolean shouldExportIncludeItemFrames() {
         return exportIncludeItemFrames;
     }
 
-    public boolean isExportIncludeExtraAttributes() {
+    public boolean shouldExportIncludeExtraAttributes() {
         return exportIncludeExtraAttributes;
     }
 
-    public boolean isExportIncludeArmourStands() {
+    public boolean shouldExportIncludeArmourStands() {
         return exportIncludeArmourStands;
     }
 
-    public boolean isExportIncludeDroppedItems() {
+    public boolean shouldExportIncludeDroppedItems() {
         return exportIncludeDroppedItems;
+    }
+
+    public boolean shouldRunAlwaysExport() {
+        return enableAlwaysExport;
     }
 }

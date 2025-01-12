@@ -167,7 +167,7 @@ public class ArmourPieceData extends InventoryItemData {
         if (isCustomDyed()) {
             sb.append(" (custom dyed)");
         }
-        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+        if (tem.getConfig().shouldExportIncludeExtraAttributes()) {
             sb.append("extraAttributes: `").append(getExtraAttributes()).append("` ");
         }
         return sb.toString();
@@ -186,7 +186,7 @@ public class ArmourPieceData extends InventoryItemData {
         if (isCustomDyed()) {
             data.addProperty("customDyed", true);
         }
-        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+        if (tem.getConfig().shouldExportIncludeExtraAttributes()) {
             data.add("extraAttributes", NBTToJsonConverter.convertToJSON(getExtraAttributes()));
         }
 

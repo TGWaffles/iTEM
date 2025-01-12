@@ -19,17 +19,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.appender.ConsoleAppender;
-import org.apache.logging.log4j.core.appender.FileAppender;
-import org.apache.logging.log4j.core.config.Configuration;
-import org.apache.logging.log4j.core.config.LoggerConfig;
-import org.apache.logging.log4j.core.layout.PatternLayout;
-
-import java.nio.charset.Charset;
 
 @Mod(modid = TEM.MOD_ID, version = TEM.VERSION, certificateFingerprint = TEM.SIGNATURE)
 public class TEM {
@@ -45,6 +36,7 @@ public class TEM {
     private PlayerAFKListener playerAFKListener = null;
     private ItemExporter itemExporter = null;
     private LocationListener locationListener = null;
+    private ProfileIdListener profileIdListener = null;
     private final HexUtil hexUtil;
     private final LobbyScanner scanner;
     private final TEMConfig config;
@@ -73,7 +65,8 @@ public class TEM {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         KeyBinds.registerKeyBinds();
-        localDatabase.initialize(event);
+        localDatabase.setFileDirectory(event.getModConfigurationDirectory() + "/item/");
+        localDatabase.initialize();
     }
 
     @Mod.EventHandler
@@ -90,10 +83,12 @@ public class TEM {
         MinecraftForge.EVENT_BUS.register(playerAFKListener);
 
         locationListener = new LocationListener(packetManager);
+        MinecraftForge.EVENT_BUS.register(locationListener);
 
         itemExporter = new ItemExporter(this, packetManager);
 
-        MinecraftForge.EVENT_BUS.register(locationListener);
+        profileIdListener = new ProfileIdListener(packetManager);
+        MinecraftForge.EVENT_BUS.register(profileIdListener);
 
         getConfig().initialize();
         new Thread(getItems()::fillItems, "TEM-items").start();
@@ -131,6 +126,10 @@ public class TEM {
 
     public LocationListener getLocationListener() {
         return locationListener;
+    }
+
+    public ProfileIdListener getProfileIdListener() {
+        return profileIdListener;
     }
 
     @Mod.EventHandler

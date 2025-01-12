@@ -39,22 +39,4 @@ public class ScoreboardUtil {
         return scoreboardAsText;
     }
 
-    public static boolean isOnOwnIsland() {
-        List<String> scoreboardAsText = getScoreboard();
-        if (scoreboardAsText.isEmpty()) {
-            return false;
-        }
-
-        for (String line : scoreboardAsText) {
-            if (line.contains("Your Island")) {
-                return true;
-            }
-
-            if (line.contains("CO-OP")) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }

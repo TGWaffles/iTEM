@@ -253,7 +253,7 @@ public class MiscItemData extends InventoryItemData {
             sb.append("uuid: `").append(getUuid()).append("` ");
         }
 
-        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+        if (tem.getConfig().shouldExportIncludeExtraAttributes()) {
             sb.append("extraAttributes: `").append(getExtraAttributes()).append("` ");
         }
         return sb.toString();
@@ -267,7 +267,7 @@ public class MiscItemData extends InventoryItemData {
             jsonObject.addProperty("uuid", getUuid());
         }
 
-        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+        if (tem.getConfig().shouldExportIncludeExtraAttributes()) {
             jsonObject.add("extraAttributes", NBTToJsonConverter.convertToJSON(getExtraAttributes()));
         }
 

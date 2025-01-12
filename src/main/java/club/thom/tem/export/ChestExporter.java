@@ -7,8 +7,8 @@ import club.thom.tem.listeners.packets.events.ClientPlayerRightClickBlockEvent;
 import club.thom.tem.listeners.packets.events.ServerBlockUpdateEvent;
 import club.thom.tem.listeners.packets.events.ServerSetItemsInGuiEvent;
 import club.thom.tem.listeners.packets.events.ServerSetSlotInGuiEvent;
+import club.thom.tem.models.export.StoredItemLocation;
 import club.thom.tem.util.HighlightUtil;
-import club.thom.tem.util.ScoreboardUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
@@ -80,7 +80,12 @@ public class ChestExporter implements PacketEventListener {
     }
 
     private void processItems(int windowId, int slot, ItemStack... items) {
-        if (!exporter.isExporting() && !ScoreboardUtil.isOnOwnIsland()) {
+        String profileId = tem.getProfileIdListener().getProfileId();
+        if (profileId == null) {
+            return;
+        }
+
+        if (!exporter.isExporting() && !locationListener.isOnOwnIsland()) {
             return;
         }
         if (windowId != Minecraft.getMinecraft().thePlayer.openContainer.windowId) {
@@ -104,9 +109,13 @@ public class ChestExporter implements PacketEventListener {
         }
 
         String locationString = getContainerName();
+        StoredItemLocation location;
 
         if (System.currentTimeMillis() - worldInteractionTime < 500) {
             locationString = String.format("%s @ %d,%d,%d on %s", locationString, coords[0], coords[1], coords[2], lastMap);
+            location = new StoredItemLocation(profileId, getContainerName(), coords);
+        } else {
+            location = new StoredItemLocation(profileId, getContainerName(), null);
         }
 
         int i = 0;
@@ -118,14 +127,14 @@ public class ChestExporter implements PacketEventListener {
             if (item == null) {
                 continue;
             }
+            if (exporter.shouldAlwaysExport() && locationListener.isOnOwnIsland()) {
+                tem.getLocalDatabase().getUniqueItemService().queueStoreItem(item, location);
+            }
 
             ExportableItem exportableItem = new ExportableItem(locationString, item, tem);
 
             if (exporter.isExporting()) {
                 exporter.addItem(exportableItem);
-            }
-            if (ScoreboardUtil.isOnOwnIsland()) {
-                tem.getLocalDatabase().getUniqueItemService().queueStoreItem(exportableItem);
             }
         }
     }

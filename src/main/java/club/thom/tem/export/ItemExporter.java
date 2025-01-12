@@ -1,12 +1,15 @@
 package club.thom.tem.export;
 
 import club.thom.tem.TEM;
+import club.thom.tem.listeners.LocationListener;
 import club.thom.tem.listeners.packets.PacketManager;
+import club.thom.tem.models.export.StoredUniqueItem;
 import club.thom.tem.models.inventory.item.InventoryItemData;
 import club.thom.tem.util.HighlightUtil;
 import club.thom.tem.util.MessageUtil;
 import com.google.gson.JsonArray;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.awt.*;
@@ -25,10 +28,12 @@ public class ItemExporter {
     private final List<ExportableItem> itemData = new ArrayList<>();
     private final TEM tem;
     private final HighlightUtil highlighter;
+    private final LocationListener locationListener;
     ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public ItemExporter(TEM tem, PacketManager packetManager) {
         this.tem = tem;
+        this.locationListener = tem.getLocationListener();
         highlighter = new HighlightUtil(tem, this);
         packetManager.registerListener(new ChestExporter(this, highlighter, tem));
         MinecraftForge.EVENT_BUS.register(new EntityExporter(this, tem));
@@ -79,6 +84,15 @@ public class ItemExporter {
         return isExporting;
     }
 
+    public boolean shouldAlwaysExport() {
+        return locationListener.isOnOwnIsland() && tem.getConfig().shouldRunAlwaysExport();
+    }
+
+
+    public boolean exportEnabled() {
+        return isExporting() || shouldAlwaysExport();
+    }
+
     public void addItem(ExportableItem item) {
         if (!isExporting) {
             return;
@@ -110,6 +124,49 @@ public class ItemExporter {
 
         MessageUtil.sendMessage(new ChatComponentText("Added item: ")
                 .appendSibling(item.getItem().getChatComponent()).appendSibling(new ChatComponentText(" to export list.")));
+    }
+
+    public void exportDatabase() {
+        try {
+            lock.writeLock().lock();
+            MessageUtil.sendMessage(new ChatComponentText("Exporting database... " + EnumChatFormatting.GOLD + itemData.size() + EnumChatFormatting.WHITE + " items found."));
+            isExporting = false;
+            for (Iterator<StoredUniqueItem> it = tem.getLocalDatabase().getUniqueItemService().fetchAllItems(); it.hasNext(); ) {
+                StoredUniqueItem item = it.next();
+                if (foundItemUuids.contains(item.getUuid())) {
+                    continue;
+                }
+                foundItemUuids.add(item.getUuid());
+                itemData.add(new ExportableItem(item.getLocation().toString(), item.toItemStack(), tem));
+            }
+            MessageUtil.sendMessage(new ChatComponentText("Exporting database... " + EnumChatFormatting.GOLD + itemData.size() + EnumChatFormatting.WHITE + " items added!"));
+            Collections.sort(itemData);
+            MessageUtil.sendMessage(new ChatComponentText("Exporting database... " + EnumChatFormatting.GOLD + itemData.size() + EnumChatFormatting.WHITE + " items sorted!"));
+            StringBuilder sb = new StringBuilder();
+            if (tem.getConfig().isExportItemsAsJson()) {
+                JsonArray array = new JsonArray();
+                for (ExportableItem item : itemData) {
+                    array.add(item.toJson());
+                }
+                sb.append(array);
+            } else {
+                for (ExportableItem item : itemData) {
+                    sb.append(item.toString()).append("\n");
+                }
+            }
+            foundItemUuids.clear();
+            itemData.clear();
+            try {
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(new StringSelection(sb.toString()), null);
+            } catch (IllegalStateException ignored) {
+            }
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Database exported!"));
+
+//            highlighter.clearExcluded();
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package club.thom.tem.listeners;
 import club.thom.tem.listeners.packets.CancellablePacketEventListener;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.listeners.packets.events.ServerChatEvent;
+import club.thom.tem.util.ScoreboardUtil;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.hypixel.modapi.HypixelModAPI;
@@ -14,11 +15,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
+import java.util.List;
+
 public class LocationListener implements CancellablePacketEventListener {
     private long lastSendTime = 0L;
     private long lastReceiveTime = 0L;
     private boolean canSendLocraw = true;
     private String lastMap = "Unknown";
+    private Boolean isOnOwnIsland = null;
 
     public LocationListener(PacketManager packetManager) {
         packetManager.registerListener(this);
@@ -27,8 +31,44 @@ public class LocationListener implements CancellablePacketEventListener {
             if (packet.getMap().isPresent()) {
                 lastMap = packet.getMap().get();
                 lastReceiveTime = System.currentTimeMillis();
+                isOnOwnIsland = null;
             }
         });
+    }
+
+    private Boolean checkIsOnOwnIsland() {
+        if (!lastMap.equalsIgnoreCase("Private Island")) {
+            return false;
+        }
+
+        List<String> scoreboardAsText = ScoreboardUtil.getScoreboard();
+        if (scoreboardAsText.isEmpty()) {
+            return null;
+        }
+
+        for (String line : scoreboardAsText) {
+            if (line.contains("Your Island")) {
+                return true;
+            }
+
+            if (line.contains("CO-OP")) {
+                return true;
+            }
+        }
+
+        return null;
+    }
+
+    public boolean isOnOwnIsland() {
+        if (isOnOwnIsland == null) {
+            isOnOwnIsland = checkIsOnOwnIsland();
+        }
+        // if it's still null, we don't know if we're on our own island or not yet
+        if (isOnOwnIsland == null) {
+            // we'll say no, but not cache it until we know for sure
+            return false;
+        }
+        return isOnOwnIsland;
     }
 
     @Override
@@ -67,12 +107,14 @@ public class LocationListener implements CancellablePacketEventListener {
 
         lastMap = locRawObject.get("map").getAsString();
         lastReceiveTime = System.currentTimeMillis();
+        isOnOwnIsland = null;
     }
 
     @SubscribeEvent
     public void onWorldLoad(WorldEvent.Load event) {
         lastSendTime = -1;
         lastReceiveTime = -1;
+        isOnOwnIsland = null;
     }
 
     @SubscribeEvent

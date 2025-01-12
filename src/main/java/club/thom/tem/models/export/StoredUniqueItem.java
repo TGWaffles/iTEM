@@ -1,113 +1,108 @@
 package club.thom.tem.models.export;
 
-import club.thom.tem.models.messages.ClientMessages;
+import club.thom.tem.storage.converters.MappableNBTBase;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import org.dizitart.no2.Document;
+import org.dizitart.no2.IndexType;
+import org.dizitart.no2.mapper.Mappable;
+import org.dizitart.no2.mapper.NitriteMapper;
+import org.dizitart.no2.objects.Id;
+import org.dizitart.no2.objects.Index;
+import org.dizitart.no2.objects.Indices;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class StoredUniqueItem {
+@Indices(
+        {
+                @Index(value="uuid"),
+                @Index(value="itemId", type = IndexType.NonUnique),
+                @Index(value="location.position", type = IndexType.NonUnique)
+        }
+)
+public class StoredUniqueItem implements Mappable {
+    @Id
     public String uuid;
     public String itemId;
-    public ClientMessages.Rarity rarity;
-    public String reforge;
-    public int hexCode;
-    public long creationTimestamp;
-    public StoredItemData itemData;
+    public long lastSeenTimestamp;
+    public NBTTagCompound itemData;
+    public StoredItemLocation location;
 
-    public StoredUniqueItem(String uuid, String itemId, int rarity, String reforge, int hexCode, long creationTimestamp) {
+    public StoredUniqueItem(String uuid, String itemId, long lastSeenTimestamp, NBTTagCompound itemData, StoredItemLocation location) {
         this.uuid = uuid;
         this.itemId = itemId;
-        this.rarity = ClientMessages.Rarity.forNumber(rarity);
-        this.reforge = reforge;
-        this.hexCode = hexCode;
-        this.creationTimestamp = creationTimestamp;
+        this.lastSeenTimestamp = lastSeenTimestamp;
+        this.itemData = itemData;
+        this.location = location;
     }
 
-    public Map<String, Integer> getEnchantments() {
-        Map<String, Integer> enchantments = new HashMap<>();
-        StoredItemData enchantmentsData = itemData.getChild("ENCHANTMENTS");
-        if (enchantmentsData != null) {
-            for (StoredItemData enchantmentData : enchantmentsData.getChildren()) {
-                enchantments.put(enchantmentData.getKeyReference().getKey(), Integer.parseInt(enchantmentData.getValueReference().getValue()));
-            }
+    public static StoredUniqueItem fromItemStack(ItemStack item, StoredItemLocation location) {
+        NBTTagCompound itemData = item.serializeNBT();
+
+        NBTTagCompound extraAttributes = itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes");
+        if (extraAttributes == null || extraAttributes.hasNoTags()) {
+            return null;
         }
-        return enchantments;
-    }
 
-    private ClientMessages.ExtraAttributeValue getExtraAttributeValue(StoredItemData extraAttributeData) {
-        ClientMessages.ExtraAttributeValue.Builder builder = ClientMessages.ExtraAttributeValue.newBuilder();
-        switch (extraAttributeData.getValueReference().getType()) {
-            case "STRING":
-                builder.setStringValue(extraAttributeData.getValueReference().getValue());
-                break;
-            case "INT":
-                builder.setIntValue(Integer.parseInt(extraAttributeData.getValueReference().getValue()));
-                break;
-            case "LONG":
-                builder.setLongValue(Long.parseLong(extraAttributeData.getValueReference().getValue()));
-                break;
-            case "DOUBLE":
-                builder.setDoubleValue(Double.parseDouble(extraAttributeData.getValueReference().getValue()));
-                break;
-            case "LIST":
-                ClientMessages.ExtraAttributeValueList.Builder listBuilder = ClientMessages.ExtraAttributeValueList.newBuilder();
-                List<StoredItemData> children = extraAttributeData.getChildren();
-                // Sort children by key to maintain order
-                children.sort(Comparator.comparing(a -> Integer.valueOf(a.getKeyReference().getKey())));
-                for (StoredItemData child : children) {
-                    listBuilder.addValue(getExtraAttributeValue(child));
-                }
-                builder.setListItem(listBuilder);
-                break;
-            case "COMPOUND":
-                ClientMessages.ExtraAttributes.Builder compoundBuilder = ClientMessages.ExtraAttributes.newBuilder();
-                for (StoredItemData child : extraAttributeData.getChildren()) {
-                    compoundBuilder.addItem(getExtraAttributeItem(child));
-                }
-                builder.setCompoundItem(compoundBuilder);
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown type: " + extraAttributeData.getValueReference().getType());
+        String itemId = extraAttributes.getString("id");
+        String uuid = extraAttributes.getString("uuid");
+        if (itemId.isEmpty() || uuid.isEmpty()) {
+            return null;
         }
-        return builder.build();
+
+        // Delete the lore
+        NBTTagCompound displayCompound = itemData.getCompoundTag("tag").getCompoundTag("display");
+        displayCompound.removeTag("Lore");
+
+        return new StoredUniqueItem(uuid, itemId, System.currentTimeMillis(), itemData, location);
     }
 
-    private ClientMessages.ExtraAttributeItem getExtraAttributeItem(StoredItemData extraAttributeData) {
-        ClientMessages.ExtraAttributeItem.Builder builder = ClientMessages.ExtraAttributeItem.newBuilder()
-                .setKey(extraAttributeData.getKeyReference().getKey())
-                .setValue(getExtraAttributeValue(extraAttributeData));
-        return builder.build();
+    public ItemStack toItemStack() {
+        return ItemStack.loadItemStackFromNBT(itemData);
     }
 
-    public ClientMessages.ExtraAttributes getExtraAttributes() {
-        StoredItemData extraAttributesData = itemData.getChild("EXTRA_ATTRIBUTES");
-        if (extraAttributesData == null) {
-            return ClientMessages.ExtraAttributes.getDefaultInstance();
-        }
-        ClientMessages.ExtraAttributes.Builder builder = ClientMessages.ExtraAttributes.newBuilder();
-        for (StoredItemData extraAttributeData : extraAttributesData.getChildren()) {
-            builder.addItem(getExtraAttributeItem(extraAttributeData));
-        }
-        return builder.build();
+    public StoredItemLocation getLocation() {
+        return location;
     }
 
-    public ClientMessages.InventoryItem toInventoryItem() {
-        ClientMessages.MiscItem.Builder builder = ClientMessages.MiscItem.newBuilder()
-                .setItemId(itemId)
-                .setRarity(rarity)
-                .setReforge(reforge)
-                .setHexCode(hexCode)
-                .putAllEnchantments(getEnchantments())
-                .setExtraAttributes(getExtraAttributes())
-                .setItemCount(1);
+    public String getUuid() {
+        return uuid;
+    }
 
-        return ClientMessages.InventoryItem.newBuilder()
-                .setUuid(uuid)
-                .setCreationTimestamp(creationTimestamp)
-                .setItem(builder)
-                .setLocation("Test")
-                .build();
+    public String getItemId() {
+        return itemId;
+    }
+
+    public long getLastSeenTimestamp() {
+        return lastSeenTimestamp;
+    }
+
+    public NBTTagCompound getItemData() {
+        return itemData;
+    }
+
+
+    @Override
+    public Document write(NitriteMapper mapper) {
+        Document locationDocument = getLocation().write(mapper);
+        Document itemDataDocument = new MappableNBTBase(itemData).write(mapper);
+
+        return Document.createDocument("uuid", getUuid())
+                .put("itemId", getItemId())
+                .put("lastSeenTimestamp", getLastSeenTimestamp())
+                .put("itemData", itemDataDocument)
+                .put("location", locationDocument);
+    }
+
+    @Override
+    public void read(NitriteMapper mapper, Document document) {
+        StoredItemLocation location = new StoredItemLocation();
+        location.read(mapper, document.get("location", Document.class));
+        MappableNBTBase mappableItemData = new MappableNBTBase();
+        mappableItemData.read(mapper, document.get("itemData", Document.class));
+
+        uuid = document.get("uuid", String.class);
+        itemId = document.get("itemId", String.class);
+        lastSeenTimestamp = document.get("lastSeenTimestamp", Long.class);
+        itemData = (NBTTagCompound) mappableItemData.getBase();
+        this.location = location;
     }
 }
