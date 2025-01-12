@@ -8,6 +8,7 @@ import club.thom.tem.listeners.packets.events.ServerBlockUpdateEvent;
 import club.thom.tem.listeners.packets.events.ServerSetItemsInGuiEvent;
 import club.thom.tem.listeners.packets.events.ServerSetSlotInGuiEvent;
 import club.thom.tem.util.HighlightUtil;
+import club.thom.tem.util.ScoreboardUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
@@ -79,7 +80,7 @@ public class ChestExporter implements PacketEventListener {
     }
 
     private void processItems(int windowId, int slot, ItemStack... items) {
-        if (!exporter.isExporting()) {
+        if (!exporter.isExporting() && !ScoreboardUtil.isOnOwnIsland()) {
             return;
         }
         if (windowId != Minecraft.getMinecraft().thePlayer.openContainer.windowId) {
@@ -117,7 +118,15 @@ public class ChestExporter implements PacketEventListener {
             if (item == null) {
                 continue;
             }
-            exporter.addItem(new ExportableItem(locationString, item, tem));
+
+            ExportableItem exportableItem = new ExportableItem(locationString, item, tem);
+
+            if (exporter.isExporting()) {
+                exporter.addItem(exportableItem);
+            }
+            if (ScoreboardUtil.isOnOwnIsland()) {
+                tem.getLocalDatabase().getUniqueItemService().queueStoreItem(exportableItem);
+            }
         }
     }
 

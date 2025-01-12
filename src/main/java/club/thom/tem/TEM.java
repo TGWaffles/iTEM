@@ -7,6 +7,7 @@ import club.thom.tem.listeners.*;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.position.ItemPositionHandler;
+import club.thom.tem.storage.LocalDatabase;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.ItemUtil;
@@ -49,6 +50,7 @@ public class TEM {
     private final TEMConfig config;
     private final ItemUtil items;
     private final PlayerUtil player;
+    private final LocalDatabase localDatabase;
 
     private static boolean loggerSetup = false;
     public static boolean standAlone = false;
@@ -61,6 +63,7 @@ public class TEM {
         items = new ItemUtil();
         hexUtil = new HexUtil(items);
         player = new PlayerUtil(config);
+        localDatabase = new LocalDatabase(this);
     }
 
     public ItemUtil getItems() {
@@ -70,6 +73,7 @@ public class TEM {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         KeyBinds.registerKeyBinds();
+        localDatabase.initialize(event);
     }
 
     @Mod.EventHandler
@@ -145,5 +149,9 @@ public class TEM {
 
     public HexUtil getHexUtil() {
         return hexUtil;
+    }
+
+    public LocalDatabase getLocalDatabase() {
+        return localDatabase;
     }
 }

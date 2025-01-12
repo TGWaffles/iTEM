@@ -1,6 +1,7 @@
 package club.thom.tem.export;
 
 import club.thom.tem.TEM;
+import club.thom.tem.util.ScoreboardUtil;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -31,7 +32,7 @@ public class EntityExporter {
 
     @SubscribeEvent
     public void onRenderItemInFrameEvent(RenderItemInFrameEvent event) {
-        if (!exporter.isExporting() || !tem.getConfig().isExportIncludeItemFrames()) {
+        if ((!exporter.isExporting() && !ScoreboardUtil.isOnOwnIsland()) || !tem.getConfig().isExportIncludeItemFrames()) {
             return;
         }
         ItemStack item = event.item;
@@ -49,7 +50,13 @@ public class EntityExporter {
             coords[1] = (int) itemFrame.posY;
             coords[2] = (int) itemFrame.posZ;
             String locationString = String.format("Item Frame @ %d,%d,%d on %s", coords[0], coords[1], coords[2], lastMap);
-            exporter.addItem(new ExportableItem(locationString, item, tem));
+            ExportableItem exportableItem = new ExportableItem(locationString, item, tem);
+            if (exporter.isExporting()) {
+                exporter.addItem(exportableItem);
+            }
+            if (ScoreboardUtil.isOnOwnIsland()) {
+                tem.getLocalDatabase().getUniqueItemService().queueStoreItem(exportableItem);
+            }
         });
     }
 

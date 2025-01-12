@@ -101,6 +101,8 @@ dependencies {
     compileOnly ('net.hypixel:mod-api-forge:1.0.1.1') {
         exclude group: 'me.djtheredstoner', module: 'DevAuth-forge-legacy'
     }
+    // For local data storage
+    implementation 'com.h2database:h2:2.2.224'
 }
 
 processResources
@@ -160,6 +162,10 @@ shadowJar {
             it.moduleGroup == 'org.javassist'
         })
         include(dependency('org.reflections:reflections:0.10.2'))
+
+        include(dependency {
+            it.moduleGroup == 'com.h2database'
+        })
     }
     relocate("net.hypixel.modapi.tweaker", "club.thom.hypixel-net.modapi.tweaker")
     // TEM-0.0.0.1.jar for example

@@ -2,6 +2,7 @@ package club.thom.tem.export;
 
 import club.thom.tem.TEM;
 import club.thom.tem.models.inventory.item.*;
+import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.util.NBTToJsonConverter;
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class ExportableItem implements Comparable<ExportableItem> {
 
     public ExportableItem(String locationData, ItemStack item, TEM tem) {
         this.locationData = locationData;
-        this.item = item;
+        this.item = item.copy();
         this.tem = tem;
     }
 
@@ -65,7 +66,15 @@ public class ExportableItem implements Comparable<ExportableItem> {
     }
 
     public String getUuid() {
-        String uuid = itemData.toInventoryItem().getUuid();
+        InventoryItemData itemData = getItemData();
+        if (itemData == null) {
+            return null;
+        }
+        ClientMessages.InventoryItem inventoryItem = itemData.toInventoryItem();
+        if (inventoryItem == null) {
+            return null;
+        }
+        String uuid = inventoryItem.getUuid();
         if (uuid.isEmpty() || uuid.contains("+") || uuid.contains("_")) {
             return null;
         }
@@ -74,11 +83,11 @@ public class ExportableItem implements Comparable<ExportableItem> {
 
     public String toString() {
         String itemData;
-        if (this.itemData == null) {
+        if (getItemData() == null) {
             logger.warn("Null item data when converting to string for {} at {}", this.item, this.locationData);
             itemData = item.toString();
         } else {
-            itemData = this.itemData.toString();
+            itemData = getItemData().toString();
         }
 
         if (tem.getConfig().isExportIncludeLocation()) {
@@ -91,13 +100,13 @@ public class ExportableItem implements Comparable<ExportableItem> {
     public JsonObject toJson() {
         JsonObject data = new JsonObject();
         data.add("rawNbt", NBTToJsonConverter.convertToJSON(itemNbt));
-        data.addProperty("outputString", itemData.toString());
+        data.addProperty("outputString", getItemData().toString());
 
         if (tem.getConfig().isExportIncludeLocation()) {
             data.addProperty("location", locationData);
         }
 
-        data.add("itemData", this.itemData.toJson());
+        data.add("itemData", getItemData().toJson());
 
         return data;
     }
