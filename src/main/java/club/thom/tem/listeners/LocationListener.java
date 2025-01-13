@@ -27,7 +27,7 @@ public class LocationListener implements CancellablePacketEventListener {
     public LocationListener(PacketManager packetManager) {
         packetManager.registerListener(this);
         HypixelModAPI.getInstance().subscribeToEventPacket(ClientboundLocationPacket.class);
-        HypixelModAPI.getInstance().registerHandler(ClientboundLocationPacket.class, packet -> {
+        HypixelModAPI.getInstance().createHandler(ClientboundLocationPacket.class, packet -> {
             if (packet.getMap().isPresent()) {
                 lastMap = packet.getMap().get();
                 lastReceiveTime = System.currentTimeMillis();
@@ -80,7 +80,7 @@ public class LocationListener implements CancellablePacketEventListener {
             canSendLocraw = false;
             return;
         }
-        if (message.length() == 0 || message.charAt(0) != '{' || message.charAt(message.length() - 1) != '}') {
+        if (message.isEmpty() || message.charAt(0) != '{' || message.charAt(message.length() - 1) != '}') {
             // Not a LocRaw.
             return;
         }
@@ -153,7 +153,7 @@ public class LocationListener implements CancellablePacketEventListener {
     }
 
     private boolean isHypixelModApiLoaded() {
-        return Loader.isModLoaded("Hypixel Mod API");
+        return Loader.isModLoaded("Hypixel Mod API") || Loader.isModLoaded("hypixel_mod_api");
     }
 
 
