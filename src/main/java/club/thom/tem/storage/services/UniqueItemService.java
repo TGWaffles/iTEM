@@ -4,6 +4,7 @@ import club.thom.tem.models.export.StoredItemLocation;
 import club.thom.tem.models.export.StoredUniqueItem;
 import club.thom.tem.storage.LocalDatabase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dizitart.no2.objects.ObjectRepository;
@@ -84,10 +85,11 @@ public class UniqueItemService {
     }
 
     public void queueStoreItem(ItemStack item, StoredItemLocation location) {
-        if (item.getTagCompound() == null) {
+        NBTTagCompound tag = item.getTagCompound();
+        if (tag == null) {
             return;
         }
-        String uuid = item.getTagCompound().getCompoundTag("ExtraAttributes").getString("uuid");
+        String uuid = tag.getCompoundTag("ExtraAttributes").getString("uuid");
         if (uuid == null || uuid.isEmpty()) {
             return;
         }
@@ -126,5 +128,9 @@ public class UniqueItemService {
 
     public Iterator<StoredUniqueItem> fetchAllItems() {
         return uniqueItemRepository.find().iterator();
+    }
+
+    public Iterator<StoredUniqueItem> fetchByItemId(String itemId) {
+        return uniqueItemRepository.find(ObjectFilters.eq("itemId", itemId)).iterator();
     }
 }

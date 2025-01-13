@@ -3,13 +3,18 @@ package club.thom.tem;
 import club.thom.tem.backend.LobbyScanner;
 import club.thom.tem.commands.TEMCommand;
 import club.thom.tem.export.ItemExporter;
+import club.thom.tem.highlight.HighlightByUuid;
+import club.thom.tem.highlight.SlotHighlighter;
+import club.thom.tem.highlight.StoredItemHighlighter;
 import club.thom.tem.listeners.*;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.misc.KeyBinds;
 import club.thom.tem.position.ItemPositionHandler;
+import club.thom.tem.seymour.Seymour;
 import club.thom.tem.storage.LocalDatabase;
 import club.thom.tem.storage.TEMConfig;
 import club.thom.tem.util.HexUtil;
+import club.thom.tem.highlight.BlockHighlighter;
 import club.thom.tem.util.ItemUtil;
 import club.thom.tem.util.PlayerUtil;
 import net.minecraft.client.Minecraft;
@@ -37,6 +42,12 @@ public class TEM {
     private ItemExporter itemExporter = null;
     private LocationListener locationListener = null;
     private ProfileIdListener profileIdListener = null;
+    private BlockHighlighter blockHighlighter;
+    private Seymour seymour = null;
+    private GuiTickListener guiTickListener = null;
+    private SlotHighlighter slotHighlighter = null;
+    private HighlightByUuid uuidHighlighter = null;
+    private StoredItemHighlighter storedItemHighlighter = null;
     private final HexUtil hexUtil;
     private final LobbyScanner scanner;
     private final TEMConfig config;
@@ -87,6 +98,9 @@ public class TEM {
 
         itemExporter = new ItemExporter(this, packetManager);
 
+        blockHighlighter = new BlockHighlighter(this, itemExporter);
+        MinecraftForge.EVENT_BUS.register(blockHighlighter);
+
         profileIdListener = new ProfileIdListener(packetManager);
         MinecraftForge.EVENT_BUS.register(profileIdListener);
 
@@ -102,6 +116,19 @@ public class TEM {
         onlinePlayerListener = new OnlinePlayerListener(getConfig());
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
+
+        guiTickListener = new GuiTickListener();
+        MinecraftForge.EVENT_BUS.register(guiTickListener);
+
+        slotHighlighter = new SlotHighlighter();
+        MinecraftForge.EVENT_BUS.register(slotHighlighter);
+
+        uuidHighlighter = new HighlightByUuid(this);
+        slotHighlighter.addHighlighter(uuidHighlighter);
+
+        storedItemHighlighter = new StoredItemHighlighter(this);
+
+        seymour = new Seymour(this);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -152,5 +179,25 @@ public class TEM {
 
     public LocalDatabase getLocalDatabase() {
         return localDatabase;
+    }
+
+    public Seymour getSeymour() {
+        return seymour;
+    }
+
+    public BlockHighlighter getBlockHighlighter() {
+        return blockHighlighter;
+    }
+
+    public GuiTickListener getGuiTickListener() {
+        return guiTickListener;
+    }
+
+    public HighlightByUuid getUuidHighlighter() {
+        return uuidHighlighter;
+    }
+
+    public StoredItemHighlighter getStoredItemHighlighter() {
+        return storedItemHighlighter;
     }
 }

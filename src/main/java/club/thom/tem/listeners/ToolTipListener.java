@@ -102,6 +102,9 @@ public class ToolTipListener {
 
     private void addArmourColourType(ItemTooltipEvent event, NBTTagCompound itemNbt) {
         ArmourPieceData armour = new ArmourPieceData(tem, "inventory", itemNbt);
+
+        tem.getSeymour().getCloseness().runSeymourToolTip(armour, event);
+
         HexUtil.Modifier armourTypeModifier = new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
         String colourCode = armourTypeModifier.getColourCode();
         int ownerCount = checkArmourOwners(armour);

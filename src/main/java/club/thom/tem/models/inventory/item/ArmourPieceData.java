@@ -123,6 +123,14 @@ public class ArmourPieceData extends InventoryItemData {
         return convertIntArrayToHex(colourArray).toUpperCase();
     }
 
+    public int getIntegerHexCode() {
+        String hexCode = getHexCode();
+        if (hexCode.equals("UNDYED")) {
+            return 0xA06540;
+        }
+        return Integer.parseInt(getHexCode(), 16);
+    }
+
     public static String convertIntegerToTwoDigitHex(int colourValue) {
         String result = Integer.toHexString(colourValue);
         if (result.length() == 1) {

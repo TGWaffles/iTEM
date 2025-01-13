@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -96,5 +97,13 @@ public class ItemUtil {
             return "Unknown";
         }
         return itemData.get("category").getAsString();
+    }
+
+    public JsonObject getItem(String itemId) {
+        return items.get(itemId);
+    }
+
+    public Iterator<JsonObject> getItems() {
+        return items.values().iterator();
     }
 }

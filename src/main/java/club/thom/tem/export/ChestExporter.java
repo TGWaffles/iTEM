@@ -8,7 +8,7 @@ import club.thom.tem.listeners.packets.events.ServerBlockUpdateEvent;
 import club.thom.tem.listeners.packets.events.ServerSetItemsInGuiEvent;
 import club.thom.tem.listeners.packets.events.ServerSetSlotInGuiEvent;
 import club.thom.tem.models.export.StoredItemLocation;
-import club.thom.tem.util.HighlightUtil;
+import club.thom.tem.highlight.BlockHighlighter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
@@ -26,13 +26,19 @@ public class ChestExporter implements PacketEventListener {
     long lastChestUpdateTime = 0;
     LocationListener locationListener;
     TEM tem;
-    HighlightUtil highlighter;
+    BlockHighlighter highlighter = null;
 
-    public ChestExporter(ItemExporter exporter, HighlightUtil highlighter, TEM tem) {
+    public ChestExporter(ItemExporter exporter, TEM tem) {
         this.exporter = exporter;
         this.tem = tem;
         this.locationListener = tem.getLocationListener();
-        this.highlighter = highlighter;
+    }
+
+    private BlockHighlighter getHighlighter() {
+        if (highlighter == null) {
+            highlighter = tem.getBlockHighlighter();
+        }
+        return highlighter;
     }
 
     @Override
@@ -62,7 +68,7 @@ public class ChestExporter implements PacketEventListener {
         }
         TileEntity tileEntity = Minecraft.getMinecraft().theWorld.getTileEntity(eventBlockPos);
         if (tileEntity instanceof TileEntityChest) {
-            highlighter.excludeChest((TileEntityChest) tileEntity);
+            getHighlighter().excludeChest((TileEntityChest) tileEntity);
         }
     }
 

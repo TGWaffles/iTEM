@@ -160,6 +160,10 @@ shadowJar {
         include(dependency {
             it.moduleGroup == 'org.dizitart'
         })
+
+        include(dependency {
+            it.moduleGroup == 'org.objenesis'
+        })
     }
     relocate("net.hypixel.modapi.tweaker", "club.thom.hypixel-net.modapi.tweaker")
     // TEM-0.0.0.1.jar for example

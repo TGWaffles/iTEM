@@ -21,6 +21,43 @@ public class TEMConfig extends Vigilant {
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);
     private static final ExecutorService executor = Executors.newFixedThreadPool(2, r -> new Thread(r, "TEMConfig"));
 
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Seymour",
+            subcategory = "Closeness Overlay",
+            name = "Compare With Armour",
+            description = "Enable showing the closest armour piece when hovering over a seymour piece."
+    )
+    private boolean compareSeymourWithArmour = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Seymour",
+            subcategory = "Closeness Overlay",
+            name = "Compare With Dyes",
+            description = "Enable showing the closest dye when hovering over a seymour piece."
+    )
+    private boolean compareSeymourWithDyes = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Seymour",
+            subcategory = "Closeness Overlay",
+            name = "Compare With Exotic Pure Colours",
+            description = "Enable showing the closest 'exotic pure' colour when hovering over a seymour piece."
+    )
+    private boolean compareSeymourWithExoticPureColours = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Seymour",
+            subcategory = "Closeness Overlay",
+            name = "Compare With True Pure Colours",
+            description = "Enable showing the closest true pure colour when hovering over a seymour piece."
+    )
+    private boolean compareSeymourWithTruePureColours = true;
+
     @Property(
             type = PropertyType.SWITCH,
             category = "Export",
@@ -429,5 +466,21 @@ public class TEMConfig extends Vigilant {
 
     public boolean shouldRunAlwaysExport() {
         return enableAlwaysExport;
+    }
+
+    public boolean shouldCompareSeymourWithArmour() {
+        return compareSeymourWithArmour;
+    }
+
+    public boolean shouldCompareSeymourWithDyes() {
+        return compareSeymourWithDyes;
+    }
+
+    public boolean shouldCompareSeymourWithExoticPureColours() {
+        return compareSeymourWithExoticPureColours;
+    }
+
+    public boolean shouldCompareSeymourWithTruePureColours() {
+        return compareSeymourWithTruePureColours;
     }
 }

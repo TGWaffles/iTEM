@@ -5,7 +5,7 @@ import club.thom.tem.listeners.LocationListener;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.models.export.StoredUniqueItem;
 import club.thom.tem.models.inventory.item.InventoryItemData;
-import club.thom.tem.util.HighlightUtil;
+import club.thom.tem.highlight.BlockHighlighter;
 import club.thom.tem.util.MessageUtil;
 import com.google.gson.JsonArray;
 import net.minecraft.util.ChatComponentText;
@@ -17,9 +17,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ItemExporter {
@@ -27,17 +25,22 @@ public class ItemExporter {
     private final Set<String> foundItemUuids = new HashSet<>();
     private final List<ExportableItem> itemData = new ArrayList<>();
     private final TEM tem;
-    private final HighlightUtil highlighter;
     private final LocationListener locationListener;
     ReadWriteLock lock = new ReentrantReadWriteLock();
+    private BlockHighlighter highlighter = null;
 
     public ItemExporter(TEM tem, PacketManager packetManager) {
         this.tem = tem;
         this.locationListener = tem.getLocationListener();
-        highlighter = new HighlightUtil(tem, this);
-        packetManager.registerListener(new ChestExporter(this, highlighter, tem));
+        packetManager.registerListener(new ChestExporter(this, tem));
         MinecraftForge.EVENT_BUS.register(new EntityExporter(this, tem));
-        MinecraftForge.EVENT_BUS.register(highlighter);
+    }
+
+    private BlockHighlighter getHighlighter() {
+        if (highlighter == null) {
+            highlighter = tem.getBlockHighlighter();
+        }
+        return highlighter;
     }
 
     public void startExporting() {

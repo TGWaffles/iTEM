@@ -31,6 +31,13 @@ public class StoredItemLocation implements Mappable {
         return positionInternal;
     }
 
+    public String positionToString() {
+        if (positionInternal == null || positionInternal.length == 0) {
+            return null;
+        }
+        return String.format("%d %d %d", positionInternal[0], positionInternal[1], positionInternal[2]);
+    }
+
     public String toString() {
         int[] position = getPosition();
         if (position != null && position.length == 3) {

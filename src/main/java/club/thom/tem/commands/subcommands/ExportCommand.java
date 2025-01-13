@@ -28,7 +28,7 @@ public class ExportCommand implements SubCommand {
     public void execute(ICommandSender sender, String[] args) {
         if (args.length == 0) {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Not enough arguments! Usage:" +
-                    "/item export <start/stop>"));
+                    "/item export <start/stop/database>"));
             return;
         }
 
@@ -38,6 +38,8 @@ public class ExportCommand implements SubCommand {
         } else if (args[0].equalsIgnoreCase("stop")) {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Data tracking stopped!"));
             itemExporter.stopExporting();
+        } else if (args[0].equalsIgnoreCase("database")) {
+            itemExporter.exportDatabase();
         } else {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Invalid argument! Usage:" +
                     "/item export <start/stop>"));

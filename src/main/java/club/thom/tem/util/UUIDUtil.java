@@ -90,17 +90,21 @@ public class UUIDUtil {
         return null;
     }
 
-    public static boolean isValidUUID(String uuid) {
+    public static boolean isValidPlayerUUID(String uuid) {
         return usernameFromUuid(uuid) != null;
     }
 
     public static String fetchUUIDFromIdentifier(String identifier) {
         // Checks if they gave a uuid. If not, converts the inputUsername to a uuid.
         String uuid = identifier;
-        if (!isValidUUID(uuid)) {
+        if (!isValidPlayerUUID(uuid)) {
             uuid = uuidFromUsername(identifier);
         }
         return uuid;
+    }
+
+    public static boolean isValidUUID(String uuid) {
+        return uuid != null && uuid.matches("[0-9a-fA-F]{8}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{12}");
     }
 
 }
