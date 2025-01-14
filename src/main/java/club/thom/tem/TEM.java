@@ -112,7 +112,7 @@ public class TEM {
         packetManager.registerListener(itemPositionHandler);
         MinecraftForge.EVENT_BUS.register(new ToolTipListener(this, itemPositionHandler));
 
-        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(getConfig(), getScanner()));
+        MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(this));
         onlinePlayerListener = new OnlinePlayerListener(getConfig());
         onlinePlayerListener.start();
         MinecraftForge.EVENT_BUS.register(onlinePlayerListener);
