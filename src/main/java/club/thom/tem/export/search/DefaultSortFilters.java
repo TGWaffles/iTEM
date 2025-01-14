@@ -55,4 +55,13 @@ public class DefaultSortFilters {
         return new SortFilter("Creation", Comparator.comparingLong(ClickableItem::getCreationDate));
     }
 
+    public static SortFilter getLastSeenSorter() {
+        return new SortFilter("Last Seen", (o1, o2) -> {
+            long lastSeen1 = o1.getLastSeenTimestamp();
+            long lastSeen2 = o2.getLastSeenTimestamp();
+            // Sort (descending) by last seen
+            return Long.compare(lastSeen2, lastSeen1);
+        });
+    }
+
 }

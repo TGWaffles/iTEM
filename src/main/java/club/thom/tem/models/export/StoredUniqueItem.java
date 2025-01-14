@@ -76,39 +76,41 @@ public class StoredUniqueItem implements Mappable {
             lore.appendTag(new NBTTagString(extraLoreLine));
         }
 
-        int upgrades = itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getInteger("rarity_upgrades");
-        JsonObject itemDoc = tem.getItems().getItem(itemId);
-        if (itemDoc == null) {
-            return lore;
-        }
-        ClientMessages.Rarity baseRarity = RarityConverter.rarityFromItemDoc(itemDoc);
-        if (baseRarity == null) {
-            return lore;
-        }
-        for (int i = 0; i < upgrades; i++) {
-            baseRarity = RarityConverter.levelUp(baseRarity);
-        }
-
-        String category = itemDoc.has("category") ? itemDoc.get("category").getAsString() : null;
-        Boolean isDungeonItem = itemDoc.has("dungeon_item") ? itemDoc.get("dungeon_item").getAsBoolean() : null;
-        String rarityText = RarityConverter.colourForRarity(baseRarity) + EnumChatFormatting.BOLD.toString() + baseRarity.name();
-        if (isDungeonItem != null && isDungeonItem) {
-            rarityText += " DUNGEON";
-            if (category == null || category.isEmpty()) {
-                rarityText += " ITEM";
+        if (tem != null) {
+            int upgrades = itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes").getInteger("rarity_upgrades");
+            JsonObject itemDoc = tem.getItems().getItem(itemId);
+            if (itemDoc == null) {
+                return lore;
             }
-        }
+            ClientMessages.Rarity baseRarity = RarityConverter.rarityFromItemDoc(itemDoc);
+            if (baseRarity == null) {
+                return lore;
+            }
+            for (int i = 0; i < upgrades; i++) {
+                baseRarity = RarityConverter.levelUp(baseRarity);
+            }
 
-        if (category != null && !category.isEmpty()) {
-            rarityText += " " + category.toUpperCase();
-        }
+            String category = itemDoc.has("category") ? itemDoc.get("category").getAsString() : null;
+            Boolean isDungeonItem = itemDoc.has("dungeon_item") ? itemDoc.get("dungeon_item").getAsBoolean() : null;
+            String rarityText = RarityConverter.colourForRarity(baseRarity) + EnumChatFormatting.BOLD.toString() + baseRarity.name();
+            if (isDungeonItem != null && isDungeonItem) {
+                rarityText += " DUNGEON";
+                if (category == null || category.isEmpty()) {
+                    rarityText += " ITEM";
+                }
+            }
 
-        if (upgrades > 0) {
-            rarityText = RarityConverter.colourForRarity(baseRarity) + EnumChatFormatting.OBFUSCATED.toString() + "a" + EnumChatFormatting.RESET + " " + rarityText +
-                    " " + RarityConverter.colourForRarity(baseRarity) + EnumChatFormatting.OBFUSCATED + "a";
-        }
+            if (category != null && !category.isEmpty()) {
+                rarityText += " " + category.toUpperCase();
+            }
 
-        lore.appendTag(new NBTTagString(rarityText));
+            if (upgrades > 0) {
+                rarityText = RarityConverter.colourForRarity(baseRarity) + EnumChatFormatting.OBFUSCATED.toString() + "a" + EnumChatFormatting.RESET + " " + rarityText +
+                        " " + RarityConverter.colourForRarity(baseRarity) + EnumChatFormatting.OBFUSCATED + "a";
+            }
+
+            lore.appendTag(new NBTTagString(rarityText));
+        }
         return lore;
     }
 
@@ -118,6 +120,10 @@ public class StoredUniqueItem implements Mappable {
 
     public ItemStack toItemStack(TEM tem) {
         return toItemStack(tem, false);
+    }
+
+    public ItemStack toItemStack(boolean withLocation) {
+        return toItemStack(null, withLocation);
     }
 
     public ItemStack toItemStack(TEM tem, boolean withLocation) {

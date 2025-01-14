@@ -194,10 +194,10 @@ public class Closeness {
                     String.format("%sDistance from target: %s%.3f", EnumChatFormatting.WHITE, getColourForDistance(match.getDistance()), match.getDistance())
             });
             clickableItems.add(new ClickableItem(match.itemId, itemStack,
-                    () -> {
+                    (thisItem) -> {
                         tem.getStoredItemHighlighter().startHighlightingItem(match.item);
                         IChatComponent message = new ChatComponentText(EnumChatFormatting.GREEN + "Highlighting ")
-                                .appendSibling(itemStack.getChatComponent()).appendText(EnumChatFormatting.GREEN + "! ");
+                                .appendSibling(thisItem.getItem().getChatComponent()).appendText(EnumChatFormatting.GREEN + "! ");
                         IChatComponent stopHighlightButton = new ChatComponentText(EnumChatFormatting.RED + "[STOP]");
                         stopHighlightButton.setChatStyle(new ChatStyle()
                                 .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tem highlight stop " + match.item.getUuid())));

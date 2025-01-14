@@ -2,6 +2,7 @@ package club.thom.tem.export.search;
 
 import club.thom.tem.TEM;
 import club.thom.tem.models.RarityConverter;
+import club.thom.tem.models.export.StoredUniqueItem;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.messages.ClientMessages;
@@ -13,11 +14,14 @@ import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.*;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ClickableItem {
-    String itemId = "";
+    String itemId;
+    long lastSeenTimestamp = 0;
     ItemStack item;
-    Runnable onClick;
+    Consumer<ClickableItem> onClick;
+
     private String cachedToolTip = null;
     private Long cachedCreationTimestamp = null;
     private Integer cachedHexValue = null;
@@ -25,15 +29,36 @@ public class ClickableItem {
     private ClientMessages.Rarity cachedRarity = null;
 
     private NBTTagCompound itemNbt = null;
-    public ClickableItem(ItemStack item, Runnable onClick) {
+    public ClickableItem(ItemStack item, Consumer<ClickableItem> onClick) {
         this.item = item;
         itemId = item.getItem().getRegistryName();
         this.onClick = onClick;
     }
 
-    public ClickableItem(String itemId, ItemStack item, Runnable onClick) {
+    public ClickableItem(String itemId, ItemStack item, Consumer<ClickableItem> onClick) {
         this.itemId = itemId;
         this.item = item;
+        this.onClick = onClick;
+    }
+
+    public ClickableItem(String itemId, ItemStack item, long lastSeenTimestamp, Consumer<ClickableItem> onClick) {
+        this.itemId = itemId;
+        this.item = item;
+        this.lastSeenTimestamp = lastSeenTimestamp;
+        this.onClick = onClick;
+    }
+
+    public ClickableItem(StoredUniqueItem item, Consumer<ClickableItem> onClick) {
+        this.itemId = item.getItemId();
+        this.item = item.toItemStack(true);
+        this.lastSeenTimestamp = item.getLastSeenTimestamp();
+        this.onClick = onClick;
+    }
+
+    public ClickableItem(TEM tem, StoredUniqueItem item, Consumer<ClickableItem> onClick) {
+        this.itemId = item.getItemId();
+        this.item = item.toItemStack(tem, true);
+        this.lastSeenTimestamp = item.getLastSeenTimestamp();
         this.onClick = onClick;
     }
 
@@ -42,7 +67,7 @@ public class ClickableItem {
     }
 
     public void onClick() {
-        onClick.run();
+        onClick.accept(this);
     }
 
     private void createToolTip() {
@@ -134,5 +159,9 @@ public class ClickableItem {
             cachedRarity = baseRarity;
         }
         return cachedRarity;
+    }
+
+    public long getLastSeenTimestamp() {
+        return lastSeenTimestamp;
     }
 }

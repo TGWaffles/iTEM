@@ -38,12 +38,11 @@ public class SearchCommand implements SubCommand {
         List<ClickableItem> clickableItems = Lists.newArrayList();
         while (iterator.hasNext()) {
             StoredUniqueItem item = iterator.next();
-            ItemStack itemStack = item.toItemStack(tem, true);
-            clickableItems.add(new ClickableItem(item.getItemId(), itemStack,
-                    () -> {
+            clickableItems.add(new ClickableItem(tem, item,
+                    (thisItem) -> {
                         tem.getStoredItemHighlighter().startHighlightingItem(item);
                         IChatComponent message = new ChatComponentText(EnumChatFormatting.GREEN + "Highlighting ")
-                                .appendSibling(itemStack.getChatComponent()).appendText(EnumChatFormatting.GREEN + "! ");
+                                .appendSibling(thisItem.getItem().getChatComponent()).appendText(EnumChatFormatting.GREEN + "! ");
                         IChatComponent stopHighlightButton = new ChatComponentText(EnumChatFormatting.RED + "[STOP]");
                         stopHighlightButton.setChatStyle(new ChatStyle()
                                 .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tem highlight stop " + item.getUuid())));
@@ -54,6 +53,7 @@ public class SearchCommand implements SubCommand {
         }
 
         List<SortFilter> sortFilters = Lists.newArrayList(
+                DefaultSortFilters.getLastSeenSorter(),
                 DefaultSortFilters.getRaritySorter(tem),
                 DefaultSortFilters.getItemIdSorter(),
                 DefaultSortFilters.getCreationSorter(),
@@ -69,6 +69,7 @@ public class SearchCommand implements SubCommand {
         if (args.length == 0) {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Searching for all items..."));
             runSearch(tem.getLocalDatabase().getUniqueItemService().fetchAllItems());
+            return;
         }
 
         if (args[0].equalsIgnoreCase("seymour")) {
