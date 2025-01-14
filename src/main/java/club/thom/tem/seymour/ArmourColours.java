@@ -25,7 +25,7 @@ public class ArmourColours {
         for (Iterator<JsonObject> it = items.getItems(); it.hasNext(); ) {
             JsonObject item = it.next();
 
-            if (!item.has("colour")) {
+            if (!item.has("color")) {
                 continue;
             }
 
@@ -70,10 +70,10 @@ public class ArmourColours {
                 }
             }
 
-            String colourString = item.get("colour").getAsString();
+            String colourString = item.get("color").getAsString();
             String[] splitColour = colourString.split(",");
             int colour = Integer.parseInt(splitColour[0]) << 16 | Integer.parseInt(splitColour[1]) << 8 | Integer.parseInt(splitColour[2]);
-            relevantMap.put(item.get("id").getAsString(), String.format("#%06X", colour));
+            relevantMap.put(item.get("id").getAsString(), String.format("%06X", colour));
         }
     }
 

@@ -68,9 +68,23 @@ public class SearchCommand implements SubCommand {
         }
 
         if (args[0].equalsIgnoreCase("seymour")) {
-            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Searching for all Seymour items..."));
-            runSearch(tem.getSeymour().getAllSeymourPieces());
-            return;
+            if (args.length == 1) {
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Searching for all Seymour items..."));
+                runSearch(tem.getSeymour().getAllSeymourPieces());
+                return;
+            } else {
+                String hexCode = args[1];
+                int colour;
+                try {
+                    colour = Integer.parseInt(hexCode, 16);
+                } catch (NumberFormatException e) {
+                    MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Invalid hex code: " + hexCode));
+                    return;
+                }
+                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + String.format("Searching for Seymour items closest to %06X...", colour)));
+                tem.getSeymour().getCloseness().runComparison(colour);
+                return;
+            }
         }
 
         MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Searching for items with itemId: " + args[0]));

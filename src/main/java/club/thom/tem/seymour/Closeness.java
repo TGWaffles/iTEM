@@ -134,7 +134,7 @@ public class Closeness {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Running comparison..."));
             executor.execute(() -> {
                 try {
-                    runComparison(possibleSeymourPiece);
+                    runComparison(possibleSeymourPiece.getIntegerHexCode());
                 } catch (Exception e) {
                     e.printStackTrace();
                     logger.error("Error while running comparison", e);
@@ -173,8 +173,8 @@ public class Closeness {
         }
     }
 
-    public void runComparison(ArmourPieceData pieceToCompareTo) {
-        double[] targetLab = ColourConversion.rgbIntToCielab(pieceToCompareTo.getIntegerHexCode());
+    public void runComparison(int hexCode) {
+        double[] targetLab = ColourConversion.rgbIntToCielab(hexCode);
         List<SeymourMatch> seymourMatches = seymour.getPossibleSeymourMatches();
         seymourMatches.sort(Comparator.comparingDouble(o -> {
             if (o.getDistance() != null) {
