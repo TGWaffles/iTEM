@@ -18,14 +18,17 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class EntityExporter {
-    private ItemExporter exporter;
-    private TEM tem;
-    private ExecutorService executor = Executors.newCachedThreadPool();
+    private final ItemExporter exporter;
+    private final TEM tem;
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
-    private Set<EntityItem> trackedItems = new HashSet<>();
-    private LocationListener locationListener;
+    private final Set<EntityItem> trackedItems = new HashSet<>();
+    private final ReadWriteLock trackedItemLock = new ReentrantReadWriteLock();
+    private final LocationListener locationListener;
 
     public EntityExporter(ItemExporter itemExporter, TEM tem) {
         this.exporter = itemExporter;
@@ -124,28 +127,38 @@ public class EntityExporter {
         if (!exporter.exportEnabled()) {
             return;
         }
-        trackedItems.removeIf(entity -> entity == null || entity.isDead);
         executor.execute(() -> {
-            for (EntityItem entity : trackedItems) {
-                if (entity == null || entity.isDead) {
-                    continue;
+            trackedItemLock.writeLock().lock();
+            try {
+                trackedItems.removeIf(entity -> entity == null || entity.isDead);
+            } finally {
+                trackedItemLock.writeLock().unlock();
+            }
+            trackedItemLock.readLock().lock();
+            try {
+                for (EntityItem entity : trackedItems) {
+                    if (entity == null || entity.isDead) {
+                        continue;
+                    }
+                    ItemStack item = entity.getEntityItem();
+                    if (item == null) {
+                        continue;
+                    }
+                    int[] coords = new int[3];
+                    coords[0] = (int) entity.posX;
+                    coords[1] = (int) entity.posY;
+                    coords[2] = (int) entity.posZ;
+                    if (exporter.isExporting() && tem.getConfig().shouldExportIncludeDroppedItems()) {
+                        String locationString = String.format("Dropped Item @ %d,%d,%d on %s", coords[0], coords[1], coords[2], tem.getLocationListener().getLastMap());
+                        exporter.addItem(new ExportableItem(locationString, item, tem));
+                    }
+                    if (exporter.shouldAlwaysExport() && locationListener.isOnOwnIsland()) {
+                        StoredItemLocation location = new StoredItemLocation(profileId, "Dropped Item", coords);
+                        tem.getLocalDatabase().getUniqueItemService().queueStoreItem(item, location);
+                    }
                 }
-                ItemStack item = entity.getEntityItem();
-                if (item == null) {
-                    continue;
-                }
-                int[] coords = new int[3];
-                coords[0] = (int) entity.posX;
-                coords[1] = (int) entity.posY;
-                coords[2] = (int) entity.posZ;
-                if (exporter.isExporting() && tem.getConfig().shouldExportIncludeDroppedItems()) {
-                    String locationString = String.format("Dropped Item @ %d,%d,%d on %s", coords[0], coords[1], coords[2], tem.getLocationListener().getLastMap());
-                    exporter.addItem(new ExportableItem(locationString, item, tem));
-                }
-                if (exporter.shouldAlwaysExport() && locationListener.isOnOwnIsland()) {
-                    StoredItemLocation location = new StoredItemLocation(profileId, "Dropped Item", coords);
-                    tem.getLocalDatabase().getUniqueItemService().queueStoreItem(item, location);
-                }
+            } finally {
+                trackedItemLock.readLock().unlock();
             }
         });
     }
