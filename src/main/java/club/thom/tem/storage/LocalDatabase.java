@@ -12,6 +12,11 @@ import org.dizitart.no2.Nitrite;
 import org.dizitart.no2.NitriteCollection;
 import org.dizitart.no2.objects.ObjectRepository;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class LocalDatabase {
     private static final Logger logger = LogManager.getLogger(LocalDatabase.class);
     private TEM tem;
@@ -78,6 +83,14 @@ public class LocalDatabase {
     }
 
     public void setFileDirectory(String fileDirectory) {
+        Path directory = Paths.get(fileDirectory);
+        if (!Files.exists(directory)) {
+            try {
+                Files.createDirectory(directory);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         setFilePath(fileDirectory + "datastore.db");
     }
 
