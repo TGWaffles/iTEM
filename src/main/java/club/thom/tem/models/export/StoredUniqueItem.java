@@ -4,6 +4,7 @@ import club.thom.tem.TEM;
 import club.thom.tem.models.RarityConverter;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.storage.converters.MappableNBTBase;
+import club.thom.tem.util.TimeUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -67,6 +68,8 @@ public class StoredUniqueItem implements Mappable {
 
         if (withLocation) {
             lore.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "Location: " + location.toString()));
+            String lastSeenText = TimeUtil.getRelativeTime(System.currentTimeMillis() - lastSeenTimestamp);
+            lore.appendTag(new NBTTagString(EnumChatFormatting.GRAY + "Last seen: " + lastSeenText));
         }
 
         for (String extraLoreLine : extraLoreLines) {

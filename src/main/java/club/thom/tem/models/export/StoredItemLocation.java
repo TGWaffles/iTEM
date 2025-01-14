@@ -7,6 +7,7 @@ import org.dizitart.no2.mapper.NitriteMapper;
 public class StoredItemLocation implements Mappable {
     String profileId;
     String type;
+    // Kept so nitrite doesn't think we're making an index on an absent field
     String position;
     int[] positionInternal;
 
