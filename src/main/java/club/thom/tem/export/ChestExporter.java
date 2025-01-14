@@ -9,16 +9,25 @@ import club.thom.tem.listeners.packets.events.ServerSetItemsInGuiEvent;
 import club.thom.tem.listeners.packets.events.ServerSetSlotInGuiEvent;
 import club.thom.tem.models.export.StoredItemLocation;
 import club.thom.tem.highlight.BlockHighlighter;
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
 
+import java.util.Collections;
+
 public class ChestExporter implements PacketEventListener {
+    private final ImmutableSet<String> exportableContainerNames = ImmutableSet.of(
+            "Large Chest", "Chest", "Personal Vault", "Sack of Sacks", "Pets", "Player Inventory", "Backpack",
+            "Ender Chest", "Accessory Bag", "Wardrobe", "Time Pocket"
+    );
+
     ItemExporter exporter;
     int[] lastChestCoordinates = new int[3];
     int[] lastRightClickCoordinates = new int[3];
@@ -39,6 +48,13 @@ public class ChestExporter implements PacketEventListener {
             highlighter = tem.getBlockHighlighter();
         }
         return highlighter;
+    }
+
+    private boolean shouldExportContainer(String containerName) {
+        return exportableContainerNames.contains(containerName) ||
+                containerName.contains("Backpack") || containerName.startsWith("Pets") ||
+                containerName.startsWith("Ender Chest") || containerName.startsWith("Accessory Bag") ||
+                containerName.startsWith("Wardrobe");
     }
 
     @Override
@@ -115,6 +131,9 @@ public class ChestExporter implements PacketEventListener {
         }
 
         String locationString = getContainerName();
+        if (!shouldExportContainer(locationString)) {
+            return;
+        }
         StoredItemLocation location;
 
         if (System.currentTimeMillis() - worldInteractionTime < 500) {
@@ -128,6 +147,7 @@ public class ChestExporter implements PacketEventListener {
         for (ItemStack item : items) {
             if (i >= nonPlayerSlots) {
                 locationString = "Player Inventory";
+                location.setType("Player Inventory");
             }
             i++;
             if (item == null) {
