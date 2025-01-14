@@ -37,7 +37,7 @@ public class GuiSearchResults extends GuiContainer {
         this.guiTop = (this.height - this.ySize) / 2;
         Keyboard.enableRepeatEvents(true);
         this.searchField = new GuiTextField(0, this.fontRendererObj, this.guiLeft + 82, this.guiTop + 6, 89, this.fontRendererObj.FONT_HEIGHT);
-        this.searchField.setMaxStringLength(15);
+        this.searchField.setMaxStringLength(32);
         this.searchField.setEnableBackgroundDrawing(false);
         this.searchField.setTextColor(16777215);
         this.searchField.setVisible(true);
