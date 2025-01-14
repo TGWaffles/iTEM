@@ -88,11 +88,12 @@ public class ClickableItem {
     public int getHexValue() {
         if (cachedHexValue == null) {
             if (!ArmourPieceData.isValidItem(getItemNbt())) {
-                return -1;
+                cachedHexValue = -1;
+                return cachedHexValue;
             }
 
             ArmourPieceData armourPieceData = new ArmourPieceData(null, null, getItemNbt());
-            return armourPieceData.getIntegerHexCode();
+            cachedHexValue = armourPieceData.getIntegerHexCode();
         }
         return cachedHexValue;
     }
@@ -102,6 +103,7 @@ public class ClickableItem {
             int hex = getHexValue();
             if (hex == -1) {
                 cachedHsb = new float[]{-1, -1, -1};
+                return cachedHsb;
             }
             cachedHsb = Color.RGBtoHSB((hex >> 16) & 0xFF, (hex >> 8) & 0xFF, hex & 0xFF, null);
         }
