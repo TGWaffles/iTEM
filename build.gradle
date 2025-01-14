@@ -164,6 +164,14 @@ shadowJar {
         include(dependency {
             it.moduleGroup == 'org.objenesis'
         })
+
+        include(dependency {
+            it.moduleGroup == 'com.fasterxml.jackson.core'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'uk.co.jemos.podam'
+        })
     }
     relocate("net.hypixel.modapi.tweaker", "club.thom.hypixel-net.modapi.tweaker")
     // TEM-0.0.0.1.jar for example
