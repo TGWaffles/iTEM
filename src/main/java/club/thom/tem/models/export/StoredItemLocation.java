@@ -32,6 +32,10 @@ public class StoredItemLocation implements Mappable {
         this.type = newType;
     }
 
+    public void setPosition(int[] position) {
+        this.positionInternal = position;
+    }
+
     public int[] getPosition() {
         return positionInternal;
     }

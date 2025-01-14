@@ -2,6 +2,7 @@ package club.thom.tem.export.search;
 
 import club.thom.tem.TEM;
 import club.thom.tem.models.RarityConverter;
+import club.thom.tem.models.export.StoredItemLocation;
 import club.thom.tem.models.export.StoredUniqueItem;
 import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
@@ -19,6 +20,7 @@ import java.util.function.Consumer;
 public class ClickableItem {
     String itemId;
     long lastSeenTimestamp = 0;
+    StoredItemLocation location = null;
     ItemStack item;
     Consumer<ClickableItem> onClick;
 
@@ -59,6 +61,7 @@ public class ClickableItem {
         this.itemId = item.getItemId();
         this.item = item.toItemStack(tem, true);
         this.lastSeenTimestamp = item.getLastSeenTimestamp();
+        this.location = item.getLocation();
         this.onClick = onClick;
     }
 
@@ -163,5 +166,9 @@ public class ClickableItem {
 
     public long getLastSeenTimestamp() {
         return lastSeenTimestamp;
+    }
+
+    public StoredItemLocation getLocation() {
+        return location;
     }
 }

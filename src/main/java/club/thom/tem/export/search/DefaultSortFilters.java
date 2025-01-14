@@ -1,7 +1,10 @@
 package club.thom.tem.export.search;
 
 import club.thom.tem.TEM;
+import club.thom.tem.models.export.StoredItemLocation;
 import club.thom.tem.models.messages.ClientMessages;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.BlockPos;
 
 import java.util.Comparator;
 
@@ -61,6 +64,32 @@ public class DefaultSortFilters {
             long lastSeen2 = o2.getLastSeenTimestamp();
             // Sort (descending) by last seen
             return Long.compare(lastSeen2, lastSeen1);
+        });
+    }
+
+    public static SortFilter getLocationSorter() {
+        return new SortFilter("Location", (o1, o2) -> {
+            StoredItemLocation location1 = o1.getLocation();
+            StoredItemLocation location2 = o2.getLocation();
+            if ((location1 == null && location2 == null) ||
+                    (location1 != null && location2 != null && location1.getPosition() == null && location2.getPosition() == null)) {
+                // Both are null, so they're equal.
+                return 0;
+            }
+            if ((location1 == null || location1.getPosition() == null) || (location2 == null || location2.getPosition() == null)) {
+                // If the first is null, it's "larger" (lower down), or vice versa.
+                return (location1 == null || location1.getPosition() == null) ? 1 : -1;
+            }
+
+            // Sort by Euclidean distance from the player.
+            BlockPos playerPosition = Minecraft.getMinecraft().thePlayer.getPosition();
+            double distance1 = Math.sqrt(Math.pow(location1.getPosition()[0] - playerPosition.getX(), 2) +
+                    Math.pow(location1.getPosition()[1] - playerPosition.getY(), 2) +
+                    Math.pow(location1.getPosition()[2] - playerPosition.getZ(), 2));
+            double distance2 = Math.sqrt(Math.pow(location2.getPosition()[0] - playerPosition.getX(), 2) +
+                    Math.pow(location2.getPosition()[1] - playerPosition.getY(), 2) +
+                    Math.pow(location2.getPosition()[2] - playerPosition.getZ(), 2));
+            return Double.compare(distance1, distance2);
         });
     }
 
