@@ -87,6 +87,10 @@ public class ContainerSearchResults extends Container {
         }
     }
 
+    private void applySort() {
+        filteredResults.sort(sortFilters.get(selectedSortFilter).getComparator());
+    }
+
     public void changeSortFilter() {
         selectedSortFilter++;
         if (selectedSortFilter >= sortFilters.size()) {
@@ -100,7 +104,10 @@ public class ContainerSearchResults extends Container {
                 setFilter(filterText);
             }
         } else {
-            filteredResults.sort(sortFilters.get(selectedSortFilter).getComparator());
+            if (filteredResults == allResults) {
+                filteredResults = new ArrayList<>(allResults);
+            }
+            applySort();
         }
         fillPage();
         scrollTo(0.0f);
@@ -157,7 +164,13 @@ public class ContainerSearchResults extends Container {
 
     public void setFilter(String filterText) {
         if (filterText == null || filterText.isEmpty()) {
-            filteredResults = allResults;
+            if (selectedSortFilter != -1) {
+                filteredResults = new ArrayList<>(allResults);
+                // was just filtered, might need to reapply sort
+                applySort();
+            } else {
+                filteredResults = allResults;
+            }
             lastFilterText = "";
             this.scrollTo(0.0f);
             return;
@@ -169,6 +182,9 @@ public class ContainerSearchResults extends Container {
         filterText = filterText.toLowerCase();
         if (lastFilterText.isEmpty() || !filterText.startsWith(lastFilterText)) {
             filteredResults = new ArrayList<>(allResults);
+            if (selectedSortFilter != -1) {
+                applySort();
+            }
         }
         String finalFilterText = filterText;
 
