@@ -163,7 +163,7 @@ public class Closeness {
             closeFormat += "%.5g";
         }
 
-        int i = 1;
+        int i = 2;
         for (ClosePiece closePiece : closePieces) {
             String pieceId = closePiece.getPieceId();
             float distance = closePiece.getDistance();
