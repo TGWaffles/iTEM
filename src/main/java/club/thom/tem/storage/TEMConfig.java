@@ -21,11 +21,19 @@ public class TEMConfig extends Vigilant {
     private static final Logger logger = LogManager.getLogger(TEMConfig.class);
     private static final ExecutorService executor = Executors.newFixedThreadPool(2, r -> new Thread(r, "TEMConfig"));
 
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Highlights/Tooltips",
+            subcategory = "Highlights",
+            name = "Disable On World Change",
+            description = "Turn off all highlights when you change worlds."
+    )
+    private boolean disableHighlightsOnWorldChange = true;
 
     @Property(
             type = PropertyType.SWITCH,
-            category = "Seymour",
-            subcategory = "Closeness Overlay",
+            category = "Highlights/Tooltips",
+            subcategory = "Seymour",
             name = "Compare With Armour",
             description = "Enable showing the closest armour piece when hovering over a seymour piece."
     )
@@ -33,8 +41,8 @@ public class TEMConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
-            category = "Seymour",
-            subcategory = "Closeness Overlay",
+            category = "Highlights/Tooltips",
+            subcategory = "Seymour",
             name = "Compare With Dyes",
             description = "Enable showing the closest dye when hovering over a seymour piece."
     )
@@ -42,8 +50,8 @@ public class TEMConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
-            category = "Seymour",
-            subcategory = "Closeness Overlay",
+            category = "Highlights/Tooltips",
+            subcategory = "Seymour",
             name = "Compare With Exotic Pure Colours",
             description = "Enable showing the closest 'exotic pure' colour when hovering over a seymour piece."
     )
@@ -51,8 +59,8 @@ public class TEMConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
-            category = "Seymour",
-            subcategory = "Closeness Overlay",
+            category = "Highlights/Tooltips",
+            subcategory = "Seymour",
             name = "Compare With True Pure Colours",
             description = "Enable showing the closest true pure colour when hovering over a seymour piece."
     )
@@ -65,7 +73,7 @@ public class TEMConfig extends Vigilant {
             name = "Enable Always Export",
             description = "Enable \"always export\", which caches all items on your private island."
     )
-    private boolean enableAlwaysExport = false;
+    private boolean enableAlwaysExport = true;
 
     @Property(
             type = PropertyType.SWITCH,
@@ -291,8 +299,8 @@ public class TEMConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
-            category = "TEM",
-            subcategory = "Toggles",
+            category = "Highlights/Tooltips",
+            subcategory = "Estimated Position",
             name = "Show Estimated Item Position",
             description = "Choose whether to show estimated item position (est pos) in tooltips."
     )
@@ -300,8 +308,8 @@ public class TEMConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
-            category = "TEM",
-            subcategory = "Toggles",
+            category = "Highlights/Tooltips",
+            subcategory = "Armour Colours",
             name = "Show Armour Colour Type",
             description = "Choose whether to show armour colour type (EXOTIC/ORIGINAL/etc) in tooltips."
     )
@@ -309,8 +317,8 @@ public class TEMConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
-            category = "TEM",
-            subcategory = "Toggles",
+            category = "Highlights/Tooltips",
+            subcategory = "Armour Colours",
             name = "Show Pure Hint",
             description = "Choose whether to show whether an exotic piece is pure in tooltips."
     )
@@ -482,5 +490,9 @@ public class TEMConfig extends Vigilant {
 
     public boolean shouldCompareSeymourWithTruePureColours() {
         return compareSeymourWithTruePureColours;
+    }
+
+    public boolean disableHighlightsOnWorldChange() {
+        return disableHighlightsOnWorldChange;
     }
 }
