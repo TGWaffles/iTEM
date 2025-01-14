@@ -20,7 +20,7 @@ import java.util.List;
 public class LocationListener implements CancellablePacketEventListener {
     private long lastSendTime = 0L;
     private long lastReceiveTime = 0L;
-    private boolean canSendLocraw = true;
+    private boolean canSendLocraw = false;
     private String lastMap = "Unknown";
     private Boolean isOnOwnIsland = null;
 
