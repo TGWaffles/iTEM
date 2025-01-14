@@ -14,18 +14,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
 
-import java.util.Collections;
-
 public class ChestExporter implements PacketEventListener {
     private final ImmutableSet<String> exportableContainerNames = ImmutableSet.of(
             "Large Chest", "Chest", "Personal Vault", "Sack of Sacks", "Pets", "Player Inventory", "Backpack",
-            "Ender Chest", "Accessory Bag", "Wardrobe", "Time Pocket"
+            "Ender Chest", "Accessory Bag", "Wardrobe", "Time Pocket", "Your Equipment and Stats"
     );
 
     ItemExporter exporter;
@@ -145,16 +142,17 @@ public class ChestExporter implements PacketEventListener {
 
         int i = 0;
         for (ItemStack item : items) {
+            StoredItemLocation thisItemLocation = location;
             if (i >= nonPlayerSlots) {
                 locationString = "Player Inventory";
-                location.setType("Player Inventory");
+                thisItemLocation = new StoredItemLocation(profileId, "Player Inventory", null);
             }
             i++;
             if (item == null) {
                 continue;
             }
             if (exporter.shouldAlwaysExport() && locationListener.isOnOwnIsland()) {
-                tem.getLocalDatabase().getUniqueItemService().queueStoreItem(item, location);
+                tem.getLocalDatabase().getUniqueItemService().queueStoreItem(item, thisItemLocation);
             }
 
             ExportableItem exportableItem = new ExportableItem(locationString, item, tem);
