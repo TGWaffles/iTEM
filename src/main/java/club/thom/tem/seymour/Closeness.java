@@ -158,7 +158,7 @@ public class Closeness {
         String closeFormat = format;
         if (!isShiftKeyDown) {
             closePieces = closePieces.subList(0, 1);
-            closeFormat += "%.2g";
+            closeFormat += "%.3g";
         } else {
             closeFormat += "%.5g";
         }
