@@ -24,6 +24,15 @@ public class TEMConfig extends Vigilant {
     @Property(
             type = PropertyType.SWITCH,
             category = "Highlights/Tooltips",
+            subcategory = "Extra Attributes",
+            name = "Show Extra Attributes",
+            description = "Add all of an item's SkyBlock ExtraAttributes to the tooltip."
+    )
+    private boolean showExtraAttributes = false;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Highlights/Tooltips",
             subcategory = "Highlights",
             name = "Disable On World Change",
             description = "Turn off all highlights when you change worlds."
@@ -494,5 +503,9 @@ public class TEMConfig extends Vigilant {
 
     public boolean disableHighlightsOnWorldChange() {
         return disableHighlightsOnWorldChange;
+    }
+
+    public boolean shouldShowExtraAttributes() {
+        return showExtraAttributes;
     }
 }
