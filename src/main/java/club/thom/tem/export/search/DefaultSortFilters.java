@@ -1,98 +1,58 @@
 package club.thom.tem.export.search;
 
 import club.thom.tem.TEM;
-import club.thom.tem.models.RarityConverter;
-import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.messages.ClientMessages;
-import club.thom.tem.util.ItemUtil;
-import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 
-import java.awt.*;
 import java.util.Comparator;
 
 public class DefaultSortFilters {
-    private static ClientMessages.Rarity getItemRarity(ItemUtil itemUtil, ClickableItem item) {
-        ItemStack itemStack = item.getItem();
-        if (itemStack == null) {
-            return ClientMessages.Rarity.COMMON;
-        }
-        NBTTagCompound tagCompound = itemStack.getTagCompound();
-        if (tagCompound == null) {
-            return ClientMessages.Rarity.COMMON;
-        }
-        int upgrades = tagCompound.getCompoundTag("ExtraAttributes").getInteger("rarity_upgrades");
-        JsonObject itemDoc = itemUtil.getItem(item.itemId);
-        if (itemDoc == null) {
-            return ClientMessages.Rarity.COMMON;
-        }
-        ClientMessages.Rarity baseRarity = RarityConverter.rarityFromItemDoc(itemDoc);
-        if (baseRarity == null) {
-            return ClientMessages.Rarity.COMMON;
-        }
-        for (int i = 0; i < upgrades; i++) {
-            baseRarity = RarityConverter.levelUp(baseRarity);
-        }
-        return baseRarity;
-    }
-
     public static SortFilter getRaritySorter(TEM tem) {
         return new SortFilter("Rarity", (o1, o2) -> {
-            ClientMessages.Rarity rarity1 = getItemRarity(tem.getItems(), o1);
-            ClientMessages.Rarity rarity2 = getItemRarity(tem.getItems(), o2);
+            ClientMessages.Rarity rarity1 = o1.getRarity(tem);
+            ClientMessages.Rarity rarity2 = o2.getRarity(tem);
             // Sort (descending) by rarity
             return rarity2.compareTo(rarity1);
         });
     }
 
-    private static Integer getHexValue(TEM tem, ClickableItem item) {
-        if (item.getItem() == null) {
-            return null;
-        }
-        NBTTagCompound itemAsNbt = item.getItem().serializeNBT();
-        if (!ArmourPieceData.isValidItem(itemAsNbt)) {
-            return null;
-        }
-
-        ArmourPieceData armourPieceData = new ArmourPieceData(tem, "", itemAsNbt);
-        return armourPieceData.getIntegerHexCode();
-    }
-
-    public static SortFilter getRGBSorter(TEM tem) {
+    public static SortFilter getRGBSorter() {
         return new SortFilter("RGB", (o1, o2) -> {
-            Integer hex1 = getHexValue(tem, o1);
-            Integer hex2 = getHexValue(tem, o2);
-            if (hex1 == null && hex2 == null) {
+            int hex1 = o1.getHexValue();
+            int hex2 = o2.getHexValue();
+            if (hex1 == -1 && hex2 == -1) {
+                // Both are null, so they're equal.
                 return 0;
             }
-            if (hex1 == null || hex2 == null) {
+            if (hex1 == -1 || hex2 == -1) {
                 // If the first is null, it's "larger" (lower down), or vice versa.
-                return hex1 == null ? 1 : -1;
+                return hex1 == -1 ? 1 : -1;
             }
             return Integer.compare(hex1, hex2);
         });
     }
 
-    public static SortFilter getHueSorter(TEM tem) {
+    public static SortFilter getHueSorter() {
         return new SortFilter("Hue", (o1, o2) -> {
-            Integer hex1 = getHexValue(tem, o1);
-            Integer hex2 = getHexValue(tem, o2);
-            if (hex1 == null && hex2 == null) {
+            float hue1 = o1.getHsbValue()[0];
+            float hue2 = o2.getHsbValue()[0];
+            if (hue1 == -1 && hue2 == -1) {
+                // Both are null, so they're equal.
                 return 0;
             }
-            if (hex1 == null || hex2 == null) {
+            if (hue1 == -1 || hue2 == -1) {
                 // If the first is null, it's "larger" (lower down), or vice versa.
-                return hex1 == null ? 1 : -1;
+                return hue1 == -1 ? 1 : -1;
             }
-            float[] hsb1 = Color.RGBtoHSB((hex1 >> 16) & 0xFF, (hex1 >> 8) & 0xFF, hex1 & 0xFF, null);
-            float[] hsb2 = Color.RGBtoHSB((hex2 >> 16) & 0xFF, (hex2 >> 8) & 0xFF, hex2 & 0xFF, null);
-            return Float.compare(hsb1[0], hsb2[0]);
+            return Float.compare(hue1, hue2);
         });
     }
 
     public static SortFilter getItemIdSorter() {
         return new SortFilter("Item ID", Comparator.comparing(o -> o.itemId));
+    }
+
+    public static SortFilter getCreationSorter() {
+        return new SortFilter("Creation", Comparator.comparingLong(ClickableItem::getCreationDate));
     }
 
 }

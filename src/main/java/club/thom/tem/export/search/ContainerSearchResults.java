@@ -91,6 +91,14 @@ public class ContainerSearchResults extends Container {
         selectedSortFilter++;
         if (selectedSortFilter >= sortFilters.size()) {
             selectedSortFilter = -1;
+            // original sort
+            filteredResults = allResults;
+            if (!lastFilterText.isEmpty()) {
+                // there was a filter, let's reapply it
+                String filterText = this.lastFilterText;
+                lastFilterText = "";
+                setFilter(filterText);
+            }
         } else {
             filteredResults.sort(sortFilters.get(selectedSortFilter).getComparator());
         }

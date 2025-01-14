@@ -53,9 +53,13 @@ public class SearchCommand implements SubCommand {
             );
         }
 
-        List<SortFilter> sortFilters = Lists.newArrayList(DefaultSortFilters.getRaritySorter(tem),
-                DefaultSortFilters.getItemIdSorter(), DefaultSortFilters.getHueSorter(tem),
-                DefaultSortFilters.getRGBSorter(tem));
+        List<SortFilter> sortFilters = Lists.newArrayList(
+                DefaultSortFilters.getRaritySorter(tem),
+                DefaultSortFilters.getItemIdSorter(),
+                DefaultSortFilters.getCreationSorter(),
+                DefaultSortFilters.getHueSorter(),
+                DefaultSortFilters.getRGBSorter()
+        );
         ContainerSearchResults containerSearchResults = new ContainerSearchResults(clickableItems, sortFilters);
         GuiTickListener.guiToOpen = new GuiSearchResults(containerSearchResults);
     }
