@@ -171,16 +171,13 @@ public class ContainerSearchResults extends Container {
                     // Another filter started running, no point continuing
                     return;
                 }
-                // Copy the list to avoid concurrent modification
-                List<ClickableItem> newFilteredResults = new ArrayList<>(filteredResults);
-                if (filtersRunning.get() > 0) {
-                    // Another filter started running, no point continuing with outdated data.
-                    return;
+                List<ClickableItem> filteredOutput = new ArrayList<>(filteredResults.size());
+                for (ClickableItem clickableItem : filteredResults) {
+                    if (clickableItem.matchesFilter(finalFilterText)) {
+                        filteredOutput.add(clickableItem);
+                    }
                 }
-                newFilteredResults.removeIf(clickableItem -> clickableItem.item.getTooltip(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().gameSettings.advancedItemTooltips)
-                        .stream().noneMatch(s -> EnumChatFormatting.getTextWithoutFormattingCodes(s).toLowerCase().contains(finalFilterText))
-                        && !clickableItem.itemId.toLowerCase().contains(finalFilterText));
-                filteredResults = newFilteredResults;
+                filteredResults = filteredOutput;
                 lastFilterText = finalFilterText;
                 this.scrollTo(0.0F);
             } catch (Exception e) {
