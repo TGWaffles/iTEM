@@ -19,7 +19,7 @@ import java.nio.file.Paths;
 
 public class LocalDatabase {
     private static final Logger logger = LogManager.getLogger(LocalDatabase.class);
-    private TEM tem;
+    private final TEM tem;
     private String filePath = "/item/datastore";
     private Nitrite nitrite;
     private UniqueItemService uniqueItemService;

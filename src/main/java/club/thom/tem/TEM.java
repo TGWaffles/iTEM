@@ -29,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 
 @Mod(modid = TEM.MOD_ID, version = TEM.VERSION, certificateFingerprint = TEM.SIGNATURE)
 public class TEM {
+    private static TEM instance;
     private static final Logger logger = LogManager.getLogger(TEM.class);
 
     public static final String MOD_ID = "iTEM";
@@ -58,9 +59,11 @@ public class TEM {
     private static boolean loggerSetup = false;
     public static boolean standAlone = false;
 
-
-
     public TEM() {
+        if (instance != null) {
+            throw new RuntimeException("TEM has already been initialized.");
+        }
+        instance = this;
         config = new TEMConfig(this);
         scanner = new LobbyScanner(this);
         items = new ItemUtil();
@@ -199,5 +202,9 @@ public class TEM {
 
     public StoredItemHighlighter getStoredItemHighlighter() {
         return storedItemHighlighter;
+    }
+
+    public static TEM getInstance() {
+        return instance;
     }
 }
