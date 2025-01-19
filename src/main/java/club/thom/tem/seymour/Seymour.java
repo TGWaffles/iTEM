@@ -41,8 +41,15 @@ public class Seymour {
 
         @Override
         public boolean hasNext() {
-            // Either there are more itemIds to iterate through or there are more items to iterate through in the last itemId.
-            return (itemIdIndex < seymourItemIds.size()) || (itemIdIndex==seymourItemIds.size() && itemIterator.hasNext());
+            // Either there are more itemIds to iterate through or there are more items to iterate through in the next itemId.
+            if (itemIterator.hasNext()) {
+                return true;
+            }
+            if (itemIdIndex >= seymourItemIds.size()) {
+                return false;
+            }
+            getNextItemIterator();
+            return hasNext();
         }
 
         private void getNextItemIterator() {
@@ -54,8 +61,8 @@ public class Seymour {
 
         @Override
         public StoredUniqueItem next() {
-            if (!itemIterator.hasNext()) {
-                getNextItemIterator();
+            if (!hasNext()) {
+                throw new IllegalStateException("No more items to iterate through.");
             }
             return itemIterator.next();
         }
