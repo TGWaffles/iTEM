@@ -32,6 +32,9 @@ public class ScoreboardUtil {
                 continue;
             }
             ScorePlayerTeam scorePlayerTeam = scoreboard.getPlayersTeam(playerName);
+            if (scorePlayerTeam == null) {
+                continue;
+            }
             String lineText = EnumChatFormatting.getTextWithoutFormattingCodes(scorePlayerTeam.getColorPrefix() +
                     scorePlayerTeam.getColorSuffix());
             scoreboardAsText.add(lineText);
