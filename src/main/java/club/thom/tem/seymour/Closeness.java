@@ -1,6 +1,8 @@
 package club.thom.tem.seymour;
 
 import club.thom.tem.TEM;
+import club.thom.tem.constants.CrystalColours;
+import club.thom.tem.constants.FairyColours;
 import club.thom.tem.export.search.ClickableItem;
 import club.thom.tem.export.search.ContainerSearchResults;
 import club.thom.tem.export.search.GuiSearchResults;
@@ -105,6 +107,44 @@ public class Closeness {
         }
         if (tem.getConfig().shouldCompareSeymourWithTruePureColours()) {
             candidates.putAll(TruePureColours.getTruePureColours());
+        }
+
+        if (tem.getConfig().shouldCompareSeymourWithCrystalColours()) {
+            for (String crystalHex : CrystalColours.crystalColoursConstants) {
+                candidates.put("CRYSTAL #" + crystalHex, crystalHex);
+            }
+        }
+
+        if (tem.getConfig().shouldCompareSeymourWithFairyColours()) {
+            for (String fairyHex : FairyColours.fairyColourConstants) {
+                candidates.put("FAIRY #" + fairyHex, fairyHex);
+            }
+            for (String ogFairyHex : FairyColours.ogFairyColourConstants) {
+                candidates.put("OG FAIRY #" + ogFairyHex, ogFairyHex);
+            }
+
+            switch (category) {
+                case "helmet":
+                    for (String extraOgHex : FairyColours.ogFairyColourHelmetExtras) {
+                        candidates.put("OG FAIRY #" + extraOgHex, extraOgHex);
+                    }
+                    break;
+                case "chestplate":
+                    for (String extraOgHex : FairyColours.ogFairyColourChestplateExtras) {
+                        candidates.put("OG FAIRY #" + extraOgHex, extraOgHex);
+                    }
+                    break;
+                case "leggings":
+                    for (String extraOgHex : FairyColours.ogFairyColourLeggingsExtras) {
+                        candidates.put("OG FAIRY #" + extraOgHex, extraOgHex);
+                    }
+                    break;
+                case "boots":
+                    for (String extraOgHex : FairyColours.ogFairyColourBootsExtras) {
+                        candidates.put("OG FAIRY #" + extraOgHex, extraOgHex);
+                    }
+                    break;
+            }
         }
 
         if (candidates.isEmpty()) {

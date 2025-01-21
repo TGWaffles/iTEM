@@ -77,6 +77,24 @@ public class TEMConfig extends Vigilant {
 
     @Property(
             type = PropertyType.SWITCH,
+            category = "Highlights/Tooltips",
+            subcategory = "Seymour",
+            name = "Compare With Crystal Colours",
+            description = "Enable showing the closest crystal colour when hovering over a seymour piece."
+    )
+    private boolean compareSeymourWithCrystalColours = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
+            category = "Highlights/Tooltips",
+            subcategory = "Seymour",
+            name = "Compare With Fairy Colours",
+            description = "Enable showing the closest (OG) fairy colour when hovering over a seymour piece."
+    )
+    private boolean compareSeymourWithFairyColours = true;
+
+    @Property(
+            type = PropertyType.SWITCH,
             category = "Export",
             subcategory = "Always Export",
             name = "Enable Always Export",
@@ -499,6 +517,14 @@ public class TEMConfig extends Vigilant {
 
     public boolean shouldCompareSeymourWithTruePureColours() {
         return compareSeymourWithTruePureColours;
+    }
+
+    public boolean shouldCompareSeymourWithCrystalColours() {
+        return compareSeymourWithCrystalColours;
+    }
+
+    public boolean shouldCompareSeymourWithFairyColours() {
+        return compareSeymourWithFairyColours;
     }
 
     public boolean disableHighlightsOnWorldChange() {
