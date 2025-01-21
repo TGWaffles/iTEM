@@ -54,7 +54,7 @@ public class StoredItemHighlighter {
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean highlightingBlock(BlockPos pos) {
-        return highlightedItems.values().stream().anyMatch(p -> p.equals(pos));
+        return highlightedItems.values().stream().anyMatch(p -> p != null && p.equals(pos));
     }
 
     public void stopHighlightingItem(String itemUuid) {
