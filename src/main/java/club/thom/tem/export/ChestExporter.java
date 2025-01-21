@@ -104,7 +104,7 @@ public class ChestExporter implements PacketEventListener {
             return;
         }
 
-        if (!exporter.isExporting() && !locationListener.isOnOwnIsland()) {
+        if (!exporter.exportEnabled()) {
             return;
         }
         if (windowId != Minecraft.getMinecraft().thePlayer.openContainer.windowId) {
