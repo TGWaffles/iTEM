@@ -3,18 +3,17 @@ package club.thom.tem.export;
 import club.thom.tem.TEM;
 import club.thom.tem.listeners.LocationListener;
 import club.thom.tem.listeners.packets.PacketEventListener;
-import club.thom.tem.listeners.packets.events.ClientPlayerRightClickBlockEvent;
-import club.thom.tem.listeners.packets.events.ServerBlockUpdateEvent;
-import club.thom.tem.listeners.packets.events.ServerSetItemsInGuiEvent;
-import club.thom.tem.listeners.packets.events.ServerSetSlotInGuiEvent;
+import club.thom.tem.listeners.packets.events.*;
 import club.thom.tem.models.export.StoredItemLocation;
 import club.thom.tem.highlight.BlockHighlighter;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.BlockPos;
@@ -22,14 +21,16 @@ import net.minecraft.util.BlockPos;
 public class ChestExporter implements PacketEventListener {
     private final ImmutableSet<String> exportableContainerNames = ImmutableSet.of(
             "Large Chest", "Chest", "Personal Vault", "Sack of Sacks", "Pets", "Player Inventory", "Backpack",
-            "Ender Chest", "Accessory Bag", "Wardrobe", "Time Pocket", "Your Equipment and Stats"
+            "Ender Chest", "Accessory Bag", "Wardrobe", "Time Pocket", "Your Equipment and Stats", "Hopper"
     );
 
     ItemExporter exporter;
     int[] lastChestCoordinates = new int[3];
     int[] lastRightClickCoordinates = new int[3];
+    int[] lastEntityRightClickCoordinates = new int[3];
     long lastContainerRightClickTime = 0;
     long lastChestUpdateTime = 0;
+    long lastEntityRightClickTime = 0;
     LocationListener locationListener;
     TEM tem;
     BlockHighlighter highlighter = null;
@@ -51,7 +52,14 @@ public class ChestExporter implements PacketEventListener {
         return exportableContainerNames.contains(containerName) ||
                 containerName.contains("Backpack") || containerName.startsWith("Pets") ||
                 containerName.startsWith("Ender Chest") || containerName.startsWith("Accessory Bag") ||
-                containerName.startsWith("Wardrobe");
+                containerName.startsWith("Wardrobe") || containerName.contains("Chest");
+    }
+
+    private boolean isFurnitureChest(String containerName) {
+        if (exportableContainerNames.contains(containerName)) {
+            return false;
+        }
+        return containerName.contains("Chest");
     }
 
     @Override
@@ -62,6 +70,26 @@ public class ChestExporter implements PacketEventListener {
     @Override
     public void onServerSetItemsInGui(ServerSetItemsInGuiEvent event) {
         processItems(event.getWindowId(), -1, event.getItemStacks());
+    }
+
+    @Override
+    public void onClientPlayerEntityAction(ClientPlayerEntityActionEvent event) {
+        // May have right-clicked a "furniture chest".
+        if (Minecraft.getMinecraft().theWorld == null || event.getAction() != C02PacketUseEntity.Action.INTERACT_AT) {
+            return;
+        }
+        if (event.getEntityID() == -1) {
+            // Unknown entity.
+            return;
+        }
+        Entity entityClicked = Minecraft.getMinecraft().theWorld.getEntityByID(event.getEntityID());
+        if (entityClicked == null) {
+            return;
+        }
+        lastEntityRightClickCoordinates[0] = (int) entityClicked.posX;
+        lastEntityRightClickCoordinates[1] = (int) entityClicked.posY;
+        lastEntityRightClickCoordinates[2] = (int) entityClicked.posZ;
+        lastEntityRightClickTime = System.currentTimeMillis();
     }
 
     @Override
@@ -131,6 +159,12 @@ public class ChestExporter implements PacketEventListener {
         if (!shouldExportContainer(locationString)) {
             return;
         }
+
+        if (isFurnitureChest(locationString)) {
+            coords = lastEntityRightClickCoordinates;
+            worldInteractionTime = lastEntityRightClickTime;
+        }
+
         StoredItemLocation location;
 
         if (System.currentTimeMillis() - worldInteractionTime < 500) {
