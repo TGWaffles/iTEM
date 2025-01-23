@@ -43,7 +43,7 @@ public class StoredUniqueItem implements Mappable {
     }
 
     public static StoredUniqueItem fromItemStack(ItemStack item, StoredItemLocation location) {
-        NBTTagCompound itemData = item.serializeNBT();
+        NBTTagCompound itemData = (NBTTagCompound) item.serializeNBT().copy();
 
         NBTTagCompound extraAttributes = itemData.getCompoundTag("tag").getCompoundTag("ExtraAttributes");
         if (extraAttributes == null || extraAttributes.hasNoTags()) {
