@@ -204,6 +204,9 @@ public class Closeness {
         }
 
         int i = 2;
+        if (event.toolTip.size() < i) {
+            i = event.toolTip.size();
+        }
         for (ClosePiece closePiece : closePieces) {
             String pieceId = closePiece.getPieceId();
             float distance = closePiece.getDistance();
