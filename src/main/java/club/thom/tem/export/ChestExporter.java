@@ -21,7 +21,8 @@ import net.minecraft.util.BlockPos;
 public class ChestExporter implements PacketEventListener {
     private final ImmutableSet<String> exportableContainerNames = ImmutableSet.of(
             "Large Chest", "Chest", "Personal Vault", "Sack of Sacks", "Pets", "Player Inventory", "Backpack",
-            "Ender Chest", "Accessory Bag", "Wardrobe", "Time Pocket", "Your Equipment and Stats", "Hopper"
+            "Ender Chest", "Accessory Bag", "Wardrobe", "Time Pocket", "Your Equipment and Stats", "Hopper",
+            "Dropper", "Dispenser", "Furnace"
     );
 
     ItemExporter exporter;
