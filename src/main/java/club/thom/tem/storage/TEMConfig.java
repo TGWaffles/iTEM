@@ -1,28 +1,18 @@
 package club.thom.tem.storage;
 
+import cc.polyfrost.oneconfig.config.Config;
+import cc.polyfrost.oneconfig.config.annotations.Dropdown;
+import cc.polyfrost.oneconfig.config.annotations.Slider;
+import cc.polyfrost.oneconfig.config.annotations.Switch;
+import cc.polyfrost.oneconfig.config.annotations.Text;
+import cc.polyfrost.oneconfig.config.data.Mod;
+import cc.polyfrost.oneconfig.config.data.ModType;
+import cc.polyfrost.oneconfig.config.migration.VigilanceMigrator;
 import club.thom.tem.TEM;
-import gg.essential.vigilance.Vigilant;
-import gg.essential.vigilance.data.Property;
-import gg.essential.vigilance.data.PropertyType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @SuppressWarnings({"FieldMayBeFinal", "CanBeFinal"})
-public class TEMConfig extends Vigilant {
-
-    private static final Logger logger = LogManager.getLogger(TEMConfig.class);
-    private static final ExecutorService executor = Executors.newFixedThreadPool(2, r -> new Thread(r, "TEMConfig"));
-
-    @Property(
-            type = PropertyType.SWITCH,
+public class TEMConfig extends Config {
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Extra Attributes",
             name = "Show Extra Attributes",
@@ -30,8 +20,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean showExtraAttributes = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Highlights",
             name = "Disable On World Change",
@@ -39,8 +28,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean disableHighlightsOnWorldChange = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Seymour",
             name = "Compare With Armour",
@@ -48,8 +36,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean compareSeymourWithArmour = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Seymour",
             name = "Compare With Dyes",
@@ -57,8 +44,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean compareSeymourWithDyes = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Seymour",
             name = "Compare With Exotic Pure Colours",
@@ -66,8 +52,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean compareSeymourWithExoticPureColours = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Seymour",
             name = "Compare With True Pure Colours",
@@ -75,8 +60,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean compareSeymourWithTruePureColours = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Seymour",
             name = "Compare With Crystal Colours",
@@ -84,8 +68,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean compareSeymourWithCrystalColours = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Seymour",
             name = "Compare With Fairy Colours",
@@ -93,8 +76,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean compareSeymourWithFairyColours = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Always Export",
             name = "Enable Always Export",
@@ -102,8 +84,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableAlwaysExport = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Item Types",
             name = "Enable Armour",
@@ -111,8 +92,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableExportArmour = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Item Types",
             name = "Enable Pets",
@@ -120,8 +100,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableExportPets = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Item Types",
             name = "Enable Pet Skins",
@@ -129,8 +108,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableExportPetSkins = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Item Types",
             name = "Enable All Other Items",
@@ -138,8 +116,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableExportOtherItems = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Export Options",
             name = "Include Location",
@@ -147,8 +124,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean exportIncludeLocation = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Export Options",
             name = "Include UUID",
@@ -156,8 +132,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean exportIncludeUuid = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Export Options",
             name = "Include Armour Hex",
@@ -165,8 +140,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean exportIncludeHex = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Export Options",
             name = "Include ALL Extra Attributes",
@@ -174,8 +148,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean exportIncludeExtraAttributes = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Export Options",
             name = "Export Item Frames",
@@ -183,8 +156,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean exportIncludeItemFrames = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Export Options",
             name = "Export Armour Stands",
@@ -192,8 +164,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean exportIncludeArmourStands = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Export Options",
             name = "Export Dropped Items",
@@ -201,8 +172,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean exportIncludeDroppedItems = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Export",
             subcategory = "Export Options",
             name = "Export As JSON",
@@ -210,8 +180,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean exportItemsAsJson = false;
 
-    @Property(
-            type = PropertyType.SELECTOR,
+    @Dropdown(
             category = "Export",
             subcategory = "Export Options",
             name = "Sort Order",
@@ -252,8 +221,7 @@ public class TEMConfig extends Vigilant {
         return exportItemsAsJson;
     }
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Exotics",
@@ -261,8 +229,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableExotics = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Crystal",
@@ -270,8 +237,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableCrystal = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Fairy",
@@ -279,8 +245,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableFairy = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable OG Fairy",
@@ -288,8 +253,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableOGFairy = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Bleached",
@@ -297,8 +261,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableBleached = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Glitched",
@@ -306,8 +269,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean enableGlitched = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Enable Auto-Scan",
@@ -315,8 +277,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean autoScan = false;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Scan Red-Names",
@@ -324,8 +285,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean scanRedNames = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Estimated Position",
             name = "Show Estimated Item Position",
@@ -333,8 +293,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean showEstPos = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Armour Colours",
             name = "Show Armour Colour Type",
@@ -342,8 +301,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean showArmourColourType = true;
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "Highlights/Tooltips",
             subcategory = "Armour Colours",
             name = "Show Pure Hint",
@@ -351,8 +309,7 @@ public class TEMConfig extends Vigilant {
     )
     private boolean showArmourPureHint = true;
 
-    @Property(
-            type = PropertyType.SELECTOR,
+    @Dropdown(
             category = "TEM",
             subcategory = "Toggles",
             name = "Screenshot Details",
@@ -361,26 +318,24 @@ public class TEMConfig extends Vigilant {
     )
     private int screenshotAdvancedChoice = 0;
 
-    @Property(
-            type = PropertyType.NUMBER,
+    @Slider(
             category = "TEM",
             subcategory = "Scan",
             name = "Max Item Age (days)",
             description = "How long ago an item was last seen before it is no longer shown in lobby scans. " +
                     "NOTE: Too low means you might miss some items, depending on TEM's current refresh rate.",
-            max = 730
+            max = 730,
+            min = 500
     )
     private int maxItemAge = 31;
 
-
-    @Property(
-            type = PropertyType.TEXT,
+    @Text(
             category = "API",
             subcategory = "Api Keys",
             name = "TEM API Key",
             description = "TEM API Key - given from the Discord TEMBot by doing /api in your Discord DMs with the bot, " +
                     "or in the Discord server.",
-            protectedText = true
+            secure = true
     )
     private String temApiKey = "";
 
@@ -388,8 +343,7 @@ public class TEMConfig extends Vigilant {
         return temApiKey;
     }
 
-    @Property(
-            type = PropertyType.SWITCH,
+    @Switch(
             category = "TEM",
             subcategory = "Toggles",
             name = "Export Chest Visualiser (ENABLE AT OWN RISK)",
@@ -397,31 +351,13 @@ public class TEMConfig extends Vigilant {
     )
     public boolean enableChestVisualiser = false;
 
-    public static String saveFolder = "config/tem/";
+    public static String saveFolder = "item/";
 
-    public static String fileName = "preferences.toml";
+    public static String fileName = "preferences.json";
 
-    public File CONFIG_FILE;
-
-    private void checkFolderExists() {
-        Path directory = Paths.get(saveFolder);
-        if (!Files.exists(directory)) {
-            try {
-                Files.createDirectory(directory);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-    private final TEM tem;
 
     public TEMConfig(TEM tem) {
-        super(new File(saveFolder + fileName), "TEM Configuration");
-        this.tem = tem;
-        checkFolderExists();
-        CONFIG_FILE = new File(saveFolder + fileName);
+        super(new Mod(TEM.MOD_ID, ModType.SKYBLOCK, new VigilanceMigrator("./config/tem/preferences.toml")), saveFolder + fileName);
         initialize();
     }
 
