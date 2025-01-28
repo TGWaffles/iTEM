@@ -140,7 +140,10 @@ public class ItemExporter {
                     continue;
                 }
                 foundItemUuids.add(item.getUuid());
-                itemData.add(new ExportableItem(item.getLocation().toString(), item.toItemStack(), tem));
+                ExportableItem exportable = new ExportableItem(item.getLocation().toString(), item.toItemStack(), tem);
+                if (exportable.getItemData() != null) {
+                    itemData.add(exportable);
+                }
             }
             MessageUtil.sendMessage(new ChatComponentText("Exporting database... " + EnumChatFormatting.GOLD + itemData.size() + EnumChatFormatting.WHITE + " items added!"));
             Collections.sort(itemData);

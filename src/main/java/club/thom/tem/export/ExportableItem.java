@@ -117,10 +117,22 @@ public class ExportableItem implements Comparable<ExportableItem> {
         String theirSortString;
         InventoryItemData ourData = this.getItemData();
         InventoryItemData theirData = o.getItemData();
-        if (ourData == null || theirData == null) {
-            logger.warn("Failed to get item data for items: {} (at {}) or {} (at {})",
+        if (ourData == null && theirData == null) {
+            logger.warn("Failed to get item data for BOTH items: {} (at {}) or {} (at {})",
                     this.item, this.locationData, o.item, o.locationData);
+            return 0;
+        }
+        if (ourData == null) {
+            // We're null, they aren't, we go last.
+            logger.warn("Failed to get item data for item: {} (at {})",
+                    this.item, this.locationData);
             return 1;
+        }
+        if (theirData == null) {
+            // They're null, we aren't, we go first.
+            logger.warn("Failed to get item data for (other) item: {} (at {})",
+                    o.item, o.locationData);
+            return -1;
         }
         switch (tem.getConfig().getExportSortOrder()) {
             case 1:
