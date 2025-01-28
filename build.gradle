@@ -42,7 +42,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 // Restriction: never make one of the subversion numbers > 255 due to how versioning works.
-version = "0.1.0.2"
+version = "0.1.1.0"
 group= "club.thom.tem" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "iTEM"
 
@@ -91,6 +91,7 @@ dependencies {
 
     implementation 'org.dizitart:nitrite:3.4.4'
     compileOnly 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
+    testImplementation 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
     implementation 'cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+'
 //    implementation 'org.dizitart:nitrite-mvstore-adapter'
 }
