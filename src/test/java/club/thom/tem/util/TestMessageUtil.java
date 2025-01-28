@@ -1,12 +1,10 @@
 package club.thom.tem.util;
 
-import club.thom.tem.TEM;
 import club.thom.tem.storage.TEMConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -25,17 +23,10 @@ import static org.mockito.Mockito.times;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore("javax.management.*")
-@PrepareForTest({Minecraft.class, TEMConfig.class, MessageUtil.class, EntityPlayerSP.class, PlayerUtil.class})
+@PrepareForTest({Minecraft.class, MessageUtil.class, EntityPlayerSP.class, PlayerUtil.class})
 public class TestMessageUtil {
     EntityPlayerSP player;
     boolean successfullyWaitedForPlayer;
-
-    @Before
-    public void before() throws Exception {
-        TEMConfig config = PowerMockito.mock(TEMConfig.class);
-        PowerMockito.whenNew(TEMConfig.class).withAnyArguments().thenReturn(config);
-        PowerMockito.mockStatic(TEMConfig.class);
-    }
 
     private void setupTestMessage() throws Exception {
         Minecraft mockedMinecraft = PowerMockito.mock(Minecraft.class);
