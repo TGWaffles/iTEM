@@ -95,7 +95,7 @@ public class UniqueItemService {
         }
         try {
             cacheLock.readLock().lock();
-            if (foundItemUuids.containsKey(uuid)) {
+            if (foundItemUuids.containsKey(uuid + location.toString())) {
                 return;
             }
         } finally {
@@ -104,7 +104,7 @@ public class UniqueItemService {
 
         try {
             cacheLock.writeLock().lock();
-            foundItemUuids.put(uuid, System.currentTimeMillis());
+            foundItemUuids.put(uuid + location, System.currentTimeMillis());
         } finally {
             cacheLock.writeLock().unlock();
         }
