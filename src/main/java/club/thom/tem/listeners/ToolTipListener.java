@@ -12,7 +12,6 @@ import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
-import club.thom.tem.position.ItemPositionHandler;
 import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.MessageUtil;
 import net.minecraft.client.Minecraft;
@@ -28,7 +27,6 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.dizitart.no2.Document;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -45,11 +43,9 @@ public class ToolTipListener {
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     long lastCopyTime = System.currentTimeMillis();
     Lock copyLock = new ReentrantLock();
-    ItemPositionHandler itemPositionHandler;
 
-    public ToolTipListener(TEM parent, ItemPositionHandler itemPositionHandler) {
+    public ToolTipListener(TEM parent) {
         this.tem = parent;
-        this.itemPositionHandler = itemPositionHandler;
     }
 
     private boolean shouldCopy() {
@@ -91,9 +87,6 @@ public class ToolTipListener {
         }
         if (tem.getConfig().shouldShowExtraAttributes()) {
             addExtraAttributesToTooltip(itemNbt, event);
-        }
-        if (tem.getConfig().shouldShowEstPos()) {
-            itemPositionHandler.runPositionTooltip(event);
         }
         if (GameSettings.isKeyDown(KeyBinds.copyUuid) && System.currentTimeMillis() - lastCopyTime > 1000) {
             if (shouldCopy()) {

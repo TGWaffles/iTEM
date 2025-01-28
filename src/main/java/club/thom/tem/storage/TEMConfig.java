@@ -287,14 +287,6 @@ public class TEMConfig extends Config {
 
     @Switch(
             category = "Highlights/Tooltips",
-            subcategory = "Estimated Position",
-            name = "Show Estimated Item Position",
-            description = "Choose whether to show estimated item position (est pos) in tooltips."
-    )
-    private boolean showEstPos = true;
-
-    @Switch(
-            category = "Highlights/Tooltips",
             subcategory = "Armour Colours",
             name = "Show Armour Colour Type",
             description = "Choose whether to show armour colour type (EXOTIC/ORIGINAL/etc) in tooltips."
@@ -399,9 +391,6 @@ public class TEMConfig extends Config {
         return scanRedNames;
     }
 
-    public boolean shouldShowEstPos() {
-        return showEstPos;
-    }
 
     public boolean shouldShowArmourColourType() {
         return showArmourColourType;

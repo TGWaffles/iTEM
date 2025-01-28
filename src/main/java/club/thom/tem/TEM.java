@@ -9,7 +9,6 @@ import club.thom.tem.highlight.StoredItemHighlighter;
 import club.thom.tem.listeners.*;
 import club.thom.tem.listeners.packets.PacketManager;
 import club.thom.tem.misc.KeyBinds;
-import club.thom.tem.position.ItemPositionHandler;
 import club.thom.tem.seymour.Seymour;
 import club.thom.tem.storage.LocalDatabase;
 import club.thom.tem.storage.TEMConfig;
@@ -110,9 +109,7 @@ public class TEM {
         new Thread(getItems()::fillItems, "TEM-items").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
 
-        ItemPositionHandler itemPositionHandler = new ItemPositionHandler(this);
-        packetManager.registerListener(itemPositionHandler);
-        MinecraftForge.EVENT_BUS.register(new ToolTipListener(this, itemPositionHandler));
+        MinecraftForge.EVENT_BUS.register(new ToolTipListener(this));
 
         MinecraftForge.EVENT_BUS.register(new LobbySwitchListener(this));
         onlinePlayerListener = new OnlinePlayerListener(getConfig());
