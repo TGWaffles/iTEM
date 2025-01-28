@@ -86,6 +86,14 @@ public class TEMConfig extends Config {
 
     @Switch(
             category = "Export",
+            subcategory = "Always Export",
+            name = "Enable Regex Search In /tem search",
+            description = "Whether /tem search support regex queries."
+    )
+    private boolean regexSearching = false;
+
+    @Switch(
+            category = "Export",
             subcategory = "Item Types",
             name = "Enable Armour",
             description = "Enable exporting armour pieces."
@@ -426,6 +434,15 @@ public class TEMConfig extends Config {
 
     public boolean shouldRunAlwaysExport() {
         return enableAlwaysExport;
+    }
+
+    public boolean enableRegexSearching() {
+        return regexSearching;
+    }
+
+    public void setRegexSearching(boolean regexSearching) {
+        this.regexSearching = regexSearching;
+        save();
     }
 
     public boolean shouldCompareSeymourWithArmour() {

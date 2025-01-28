@@ -1,12 +1,14 @@
 package club.thom.tem.export.search;
 
-import net.minecraft.client.Minecraft;
+import club.thom.tem.TEM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class ContainerSearchResults extends Container {
     private static final ExecutorService executor = Executors.newFixedThreadPool(1, r -> new Thread(r, "TEMSearchFilter"));
@@ -30,6 +34,7 @@ public class ContainerSearchResults extends Container {
     List<ClickableItem> filteredResults;
     int skippedRows = 0;
 
+    boolean enableRegex = TEM.getInstance().getConfig().enableRegexSearching();
     int selectedSortFilter = -1;
     private final List<SortFilter> sortFilters;
     private String lastFilterText = "";
@@ -78,6 +83,18 @@ public class ContainerSearchResults extends Container {
         return sortButton;
     }
 
+    private ItemStack getRegexButton() {
+        ItemStack regexButton;
+        if (enableRegex) {
+            regexButton = new ItemStack(Items.dye, 1, EnumDyeColor.LIME.getDyeDamage());
+            regexButton.setStackDisplayName("Regex ENABLED");
+        } else {
+            regexButton = new ItemStack(Items.dye, 1, EnumDyeColor.GRAY.getDyeDamage());
+            regexButton.setStackDisplayName("Regex DISABLED");
+        }
+        return regexButton;
+    }
+
     private void fillPage() {
         int finalRowId = totalSlots - 9;
 
@@ -85,6 +102,9 @@ public class ContainerSearchResults extends Container {
         if (sortButton != null) {
             searchResultsInventory.setInventorySlotContents(finalRowId + 4, sortButton);
         }
+
+        ItemStack regexButton = getRegexButton();
+        searchResultsInventory.setInventorySlotContents(finalRowId + 8, regexButton);
     }
 
     private void applySort() {
@@ -113,6 +133,22 @@ public class ContainerSearchResults extends Container {
         scrollTo(0.0f);
     }
 
+    public void changeRegex() {
+        enableRegex = !enableRegex;
+        TEM.getInstance().getConfig().setRegexSearching(enableRegex);
+
+        if (!lastFilterText.isEmpty()) {
+            // there was a filter, let's reapply it
+            filteredResults = new ArrayList<>(allResults);
+            String filterText = this.lastFilterText;
+            lastFilterText = "";
+            setFilter(filterText);
+        }
+
+        fillPage();
+        scrollTo(0.0f);
+    }
+
     public ItemStack slotClick(int slotId, int clickedButton, int mode, EntityPlayer playerIn) {
         if (slotId < 0) {
             return null;
@@ -121,6 +157,8 @@ public class ContainerSearchResults extends Container {
         if (slotId >= totalSlots - 9) {
             if (slotId == totalSlots - 5) {
                 changeSortFilter();
+            } else if (slotId == totalSlots - 1) {
+                changeRegex();
             }
             return null;
         }
@@ -195,9 +233,17 @@ public class ContainerSearchResults extends Container {
                     // Another filter started running, no point continuing
                     return;
                 }
+                Pattern filterAsRegex = null;
+                try {
+                    filterAsRegex = Pattern.compile(finalFilterText, Pattern.CASE_INSENSITIVE);
+                } catch (PatternSyntaxException ignored) {}
                 List<ClickableItem> filteredOutput = new ArrayList<>(filteredResults.size());
                 for (ClickableItem clickableItem : filteredResults) {
-                    if (clickableItem.matchesFilter(finalFilterText)) {
+                    if (
+                            clickableItem.matchesFilter(finalFilterText) ||
+                            (TEM.getInstance().getConfig().enableRegexSearching() && filterAsRegex != null
+                                    && clickableItem.matchesFilter(filterAsRegex))
+                    ) {
                         filteredOutput.add(clickableItem);
                     }
                 }

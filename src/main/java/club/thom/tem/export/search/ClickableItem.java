@@ -16,6 +16,7 @@ import net.minecraft.util.EnumChatFormatting;
 import java.awt.*;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 public class ClickableItem {
     String itemId;
@@ -100,6 +101,18 @@ public class ClickableItem {
         }
 
         return itemId.toLowerCase().contains(lowerCaseFilterText);
+    }
+
+    public boolean matchesFilter(Pattern regexPattern) {
+        if (cachedToolTip == null) {
+            createToolTip();
+        }
+
+        if (regexPattern.matcher(cachedToolTip).find()) {
+            return true;
+        }
+
+        return regexPattern.matcher(itemId).find();
     }
 
     public long getCreationDate() {
