@@ -107,7 +107,6 @@ public class TEM {
         profileIdListener = new ProfileIdListener(packetManager);
         MinecraftForge.EVENT_BUS.register(profileIdListener);
 
-        getConfig().initialize();
         new Thread(getItems()::fillItems, "TEM-items").start();
         ClientCommandHandler.instance.registerCommand(new TEMCommand(this));
 
