@@ -4,12 +4,12 @@ import club.thom.tem.TEM;
 import club.thom.tem.models.export.StoredUniqueItem;
 import net.minecraft.util.BlockPos;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class StoredItemHighlighter {
     static int highlightColour = 0x00ff00;
-    private final Map<String, BlockPos> highlightedItems = new HashMap<>();
+    private final ConcurrentHashMap<String, BlockPos> highlightedItems = new ConcurrentHashMap<>();
 
     TEM tem;
     BlockHighlighter blockHighlighter;
