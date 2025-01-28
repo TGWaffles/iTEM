@@ -2,6 +2,7 @@ package club.thom.tem.models.export;
 
 import club.thom.tem.TEM;
 import club.thom.tem.models.RarityConverter;
+import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.messages.ClientMessages;
 import club.thom.tem.storage.converters.MappableNBTBase;
 import club.thom.tem.util.TimeUtil;
@@ -202,5 +203,9 @@ public class StoredUniqueItem implements Mappable {
         }
         StoredUniqueItem other = (StoredUniqueItem) obj;
         return other.getUuid().equals(uuid);
+    }
+
+    public MiscItemData toMiscItemData(TEM tem) {
+        return new MiscItemData(tem, location.toString(), (NBTTagCompound) itemData.copy());
     }
 }

@@ -117,6 +117,14 @@ message MiscItem {
   int32 itemCount = 7;
 }
 
+message ItemLocation {
+  string locationType = 1;
+  int32 x = 2;
+  int32 y = 3;
+  int32 z = 4;
+  int64 lastSeen = 5;
+}
+
 message InventoryItem {
   // Can be blank if the item doesn't have a UUID
   optional string uuid = 1;
@@ -129,6 +137,7 @@ message InventoryItem {
     MiscItem item = 6;
   }
   string location = 15;
+  ItemLocation locationData = 16;
 }
 
 message InventoryResponse {

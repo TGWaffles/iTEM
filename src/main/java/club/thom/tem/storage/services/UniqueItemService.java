@@ -27,15 +27,18 @@ public class UniqueItemService {
     ObjectRepository<StoredUniqueItem> uniqueItemRepository;
 
     ArrayList<StoredUniqueItem> queuedItems = new ArrayList<>();
+    ConcurrentHashMap<String, StoredUniqueItem> updatedItems = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, Long> foundItemUuids = new ConcurrentHashMap<>();
     Lock lock = new ReentrantLock();
     ReadWriteLock cacheLock = new ReentrantReadWriteLock();
-    ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
     public UniqueItemService(LocalDatabase localDatabase) {
         this.localDatabase = localDatabase;
         this.uniqueItemRepository = localDatabase.getUniqueItemRepository();
         executorService.scheduleAtFixedRate(this::processQueuedItems, 0, 1000, TimeUnit.MILLISECONDS);
+        // Upload updated items every 5 minutes
+        executorService.scheduleAtFixedRate(this::uploadUpdatedItems, 0, 300, TimeUnit.SECONDS);
         executorService.scheduleAtFixedRate(this::clearOldItems, 0, 60, TimeUnit.SECONDS);
     }
 
@@ -50,6 +53,32 @@ public class UniqueItemService {
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Error while clearing old items", e);
+        }
+    }
+
+    public void uploadUpdatedItems() {
+        try {
+            if (updatedItems.isEmpty() || localDatabase.getTEM().getConfig().getTemApiKey().isEmpty()) {
+                return;
+            }
+
+            List<StoredUniqueItem> items;
+            try {
+                lock.lock();
+                items = new ArrayList<>(updatedItems.values());
+                updatedItems.clear();
+            } finally {
+                lock.unlock();
+            }
+            System.out.println("Uploading " + items.size() + " items");
+
+            long start = System.currentTimeMillis();
+            int statusCode = localDatabase.getTEM().getExportUploader().uploadDatabaseUsingIterator(false, items.iterator());
+            long end = System.currentTimeMillis();
+            System.out.println("(" + statusCode + ") Uploaded " + items.size() + " items in " + (end - start) + "ms");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Error while uploading updated items", e);
         }
     }
 
@@ -117,6 +146,7 @@ public class UniqueItemService {
         try {
             lock.lock();
             queuedItems.add(storedItem);
+            updatedItems.put(uuid, storedItem);
         } finally {
             lock.unlock();
         }

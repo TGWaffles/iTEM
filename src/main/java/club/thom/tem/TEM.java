@@ -2,6 +2,7 @@ package club.thom.tem;
 
 import club.thom.tem.backend.LobbyScanner;
 import club.thom.tem.commands.TEMCommand;
+import club.thom.tem.export.ExportUploader;
 import club.thom.tem.export.ItemExporter;
 import club.thom.tem.highlight.HighlightByUuid;
 import club.thom.tem.highlight.SlotHighlighter;
@@ -37,6 +38,8 @@ public class TEM {
     // Signature to compare to, so you know this is an official release of iTEM.
     public static final String SIGNATURE = "32d142d222d0a18c9d19d5b88917c7477af1cd28";
 
+    public static final int CLIENT_VERSION = clientVersionFromVersion();
+
     private OnlinePlayerListener onlinePlayerListener = null;
     private PlayerAFKListener playerAFKListener = null;
     private ItemExporter itemExporter = null;
@@ -54,9 +57,20 @@ public class TEM {
     private final ItemUtil items;
     private final PlayerUtil player;
     private final LocalDatabase localDatabase;
+    private final ExportUploader exportUploader;
 
     private static boolean loggerSetup = false;
     public static boolean standAlone = false;
+
+    private static int clientVersionFromVersion() {
+        String[] splitVersion = VERSION.split("\\.");
+        // Allows for versioning up to 0-255 per field.
+        int clientVersion = Integer.parseInt(splitVersion[0]) << 24;
+        clientVersion += Integer.parseInt(splitVersion[1]) << 16;
+        clientVersion += Integer.parseInt(splitVersion[2]) << 8;
+        clientVersion += Integer.parseInt(splitVersion[3]);
+        return clientVersion;
+    }
 
     public TEM() {
         if (instance != null) {
@@ -69,6 +83,7 @@ public class TEM {
         hexUtil = new HexUtil(items);
         player = new PlayerUtil(config);
         localDatabase = new LocalDatabase(this);
+        exportUploader = new ExportUploader(this);
     }
 
     public ItemUtil getItems() {
@@ -130,6 +145,10 @@ public class TEM {
         seymour = new Seymour(this);
 
         MinecraftForge.EVENT_BUS.register(this);
+
+        if (!config.getTemApiKey().isEmpty()) {
+            new Thread(() -> exportUploader.uploadDatabase(true), "TEM-export").start();
+        }
     }
 
 
@@ -198,6 +217,10 @@ public class TEM {
 
     public StoredItemHighlighter getStoredItemHighlighter() {
         return storedItemHighlighter;
+    }
+
+    public ExportUploader getExportUploader() {
+        return exportUploader;
     }
 
     public static TEM getInstance() {
