@@ -1,7 +1,6 @@
 package club.thom.tem.util;
 
 import club.thom.tem.storage.TEMConfig;
-import gg.essential.api.EssentialAPI;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,15 +24,6 @@ public class PlayerUtil {
 
     public PlayerUtil(TEMConfig config) {
         this.config = config;
-    }
-
-    public static void sendToast(String title, String description, float stayTime) {
-        if (System.currentTimeMillis() - lastToastTime < 1000) {
-            return;
-        }
-        EssentialAPI.getNotifications().push(title,
-                description, stayTime);
-        lastToastTime = System.currentTimeMillis();
     }
 
     public String getUUID() {
