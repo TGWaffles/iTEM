@@ -11,6 +11,7 @@ public class TruePureColours {
             .put("Pure Pink", "FF00FF")
             .put("Pure White", "FFFFFF")
             .put("Pure Black", "000000")
+            .put("Pure Blue", "0000FF")
             .build();
 
     public static ImmutableMap<String, String> getTruePureColours() {
