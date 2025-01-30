@@ -58,7 +58,7 @@ public class UniqueItemService {
 
     public void uploadUpdatedItems() {
         try {
-            if (updatedItems.isEmpty() || localDatabase.getTEM().getConfig().getTemApiKey().isEmpty()) {
+            if (updatedItems.isEmpty()) {
                 return;
             }
 

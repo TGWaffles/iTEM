@@ -86,10 +86,8 @@ public class ExportUploader {
     }
 
     public int uploadDatabaseUsingIterator(URL url, boolean showProgress, Iterator<StoredUniqueItem> iterator) {
-        if (url == temUploadURL && tem.getConfig().getTemApiKey().isEmpty()) {
-            if (showProgress) {
-                MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "No TEM API key found! Please run `/api` in the iTEM Discord server and set it in /tem config."));
-            }
+        if (url == temUploadURL && tem.getConfig().getTemApiKey().isEmpty() && showProgress) {
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "No TEM API key found! Please run `/api` in the iTEM Discord server and set it in /tem config."));
             logger.error("No API key found!");
             return -1;
         }

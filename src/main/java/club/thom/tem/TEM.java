@@ -146,9 +146,7 @@ public class TEM {
 
         MinecraftForge.EVENT_BUS.register(this);
 
-        if (!config.getTemApiKey().isEmpty()) {
-            new Thread(() -> exportUploader.uploadDatabase(true), "TEM-export").start();
-        }
+        new Thread(() -> exportUploader.uploadDatabase(true), "TEM-export").start();
     }
 
 
