@@ -88,9 +88,17 @@ public class TEMConfig extends Config {
             category = "Export",
             subcategory = "Always Export",
             name = "Enable Regex Search In /tem search",
-            description = "Whether /tem search support regex queries."
+            description = "Whether /tem search supports regex queries."
     )
     private boolean regexSearching = false;
+
+    @Switch(
+            category = "Export",
+            subcategory = "Always Export",
+            name = "Limit /tem search to current profile",
+            description = "Whether /tem search should only show items from your current profile."
+    )
+    private boolean limitSearchToCurrentProfile = false;
 
     @Switch(
             category = "Export",
@@ -442,6 +450,15 @@ public class TEMConfig extends Config {
 
     public void setRegexSearching(boolean regexSearching) {
         this.regexSearching = regexSearching;
+        save();
+    }
+
+    public boolean shouldLimitSearchToCurrentProfile() {
+        return limitSearchToCurrentProfile;
+    }
+
+    public void setLimitSearchToCurrentProfile(boolean limitSearchToCurrentProfile) {
+        this.limitSearchToCurrentProfile = limitSearchToCurrentProfile;
         save();
     }
 

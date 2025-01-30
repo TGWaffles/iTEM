@@ -35,6 +35,7 @@ public class ContainerSearchResults extends Container {
     int skippedRows = 0;
 
     boolean enableRegex = TEM.getInstance().getConfig().enableRegexSearching();
+    boolean onlyCurrentProfile = TEM.getInstance().getConfig().shouldLimitSearchToCurrentProfile();
     int selectedSortFilter = -1;
     private final List<SortFilter> sortFilters;
     private String lastFilterText = "";
@@ -42,11 +43,12 @@ public class ContainerSearchResults extends Container {
     IInventory searchResultsInventory;
     public ContainerSearchResults(List<ClickableItem> items, List<SortFilter> sortFilters) {
         this.allResults = items;
-        this.filteredResults = items;
+        this.filteredResults = new ArrayList<>(items);
         this.sortFilters = sortFilters;
         totalSlots = 54;
         searchResultsInventory = new InventoryBasic("Search Results", true, totalSlots);
         addSlots();
+        applyProfileFilter();
         fillPage();
         scrollTo(0.0F);
     }
@@ -95,8 +97,23 @@ public class ContainerSearchResults extends Container {
         return regexButton;
     }
 
+    private ItemStack getOnlyCurrentProfileButton() {
+        ItemStack onlyCurrentProfileButton;
+        if (onlyCurrentProfile) {
+            onlyCurrentProfileButton = new ItemStack(Item.getItemFromBlock(Blocks.redstone_block), 1);
+            onlyCurrentProfileButton.setStackDisplayName("Only Current Profile");
+        } else {
+            onlyCurrentProfileButton = new ItemStack(Item.getItemFromBlock(Blocks.emerald_block), 1);
+            onlyCurrentProfileButton.setStackDisplayName("All Profiles");
+        }
+        return onlyCurrentProfileButton;
+    }
+
     private void fillPage() {
         int finalRowId = totalSlots - 9;
+
+        ItemStack onlyCurrentProfileButton = getOnlyCurrentProfileButton();
+        searchResultsInventory.setInventorySlotContents(finalRowId, onlyCurrentProfileButton);
 
         ItemStack sortButton = getSortButton();
         if (sortButton != null) {
@@ -108,6 +125,9 @@ public class ContainerSearchResults extends Container {
     }
 
     private void applySort() {
+        if (selectedSortFilter == -1) {
+            return;
+        }
         filteredResults.sort(sortFilters.get(selectedSortFilter).getComparator());
     }
 
@@ -116,17 +136,8 @@ public class ContainerSearchResults extends Container {
         if (selectedSortFilter >= sortFilters.size()) {
             selectedSortFilter = -1;
             // original sort
-            filteredResults = allResults;
-            if (!lastFilterText.isEmpty()) {
-                // there was a filter, let's reapply it
-                String filterText = this.lastFilterText;
-                lastFilterText = "";
-                setFilter(filterText);
-            }
+            resetAndReapplyFilters();
         } else {
-            if (filteredResults == allResults) {
-                filteredResults = new ArrayList<>(allResults);
-            }
             applySort();
         }
         fillPage();
@@ -137,12 +148,21 @@ public class ContainerSearchResults extends Container {
         enableRegex = !enableRegex;
         TEM.getInstance().getConfig().setRegexSearching(enableRegex);
 
-        if (!lastFilterText.isEmpty()) {
-            // there was a filter, let's reapply it
-            filteredResults = new ArrayList<>(allResults);
-            String filterText = this.lastFilterText;
-            lastFilterText = "";
-            setFilter(filterText);
+        resetAndReapplyFilters();
+
+        fillPage();
+        scrollTo(0.0f);
+    }
+
+    public void changeOnlyCurrentProfile() {
+        onlyCurrentProfile = !onlyCurrentProfile;
+        TEM.getInstance().getConfig().setLimitSearchToCurrentProfile(onlyCurrentProfile);
+
+        if (!onlyCurrentProfile) {
+            // we are now showing all profiles, let's reapply the filter
+            resetAndReapplyFilters();
+        } else {
+            applyProfileFilter();
         }
 
         fillPage();
@@ -159,6 +179,8 @@ public class ContainerSearchResults extends Container {
                 changeSortFilter();
             } else if (slotId == totalSlots - 1) {
                 changeRegex();
+            } else if (slotId == totalSlots - 9) {
+                changeOnlyCurrentProfile();
             }
             return null;
         }
@@ -200,29 +222,45 @@ public class ContainerSearchResults extends Container {
         return true;
     }
 
+    private void applyProfileFilter() {
+        String profileId = TEM.getInstance().getProfileIdListener().getProfileId();
+        if (onlyCurrentProfile && profileId != null) {
+            filteredResults.removeIf(clickableItem -> !clickableItem.location.getProfileId().equals(profileId));
+        }
+    }
+
+    private void resetAndReapplyFilters() {
+        filteredResults = new ArrayList<>(allResults);
+        applyProfileFilter();
+        String lastKnownFilteredText = lastFilterText;
+        lastFilterText = "";
+        setFilter(lastKnownFilteredText);
+        applySort();
+    }
+
     public void setFilter(String filterText) {
         if (filterText == null || filterText.isEmpty()) {
-            if (selectedSortFilter != -1) {
-                filteredResults = new ArrayList<>(allResults);
-                // was just filtered, might need to reapply sort
-                applySort();
-            } else {
-                filteredResults = allResults;
+            // Trying to set an empty filter.
+            if (!lastFilterText.isEmpty()) {
+                // Filter wasn't empty but now is. Reset and reapply filters
+                lastFilterText = "";
+                resetAndReapplyFilters();
+                this.scrollTo(0.0f);
+                return;
             }
-            lastFilterText = "";
-            this.scrollTo(0.0f);
+            // Was empty, is empty. Do nothing.
             return;
         }
-        if (filterText.equals(lastFilterText)) {
-            // No need to filter again
+        // New filter text isn't empty. Let's filter.
+        if (filterText.equalsIgnoreCase(lastFilterText)) {
+            // No need to filter again, it's unchanged.
             return;
         }
         filterText = filterText.toLowerCase();
-        if (lastFilterText.isEmpty() || !filterText.startsWith(lastFilterText)) {
-            filteredResults = new ArrayList<>(allResults);
-            if (selectedSortFilter != -1) {
-                applySort();
-            }
+        if (!filterText.startsWith(lastFilterText)) {
+            // New search. Set lastFilter to none (clear the filter), reset, and continue.
+            lastFilterText = "";
+            resetAndReapplyFilters();
         }
         String finalFilterText = filterText;
 
