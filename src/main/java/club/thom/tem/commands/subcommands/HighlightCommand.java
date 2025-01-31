@@ -30,11 +30,11 @@ public class HighlightCommand implements SubCommand {
 
     private void showCurrentHighlights() {
         IChatComponent message = new ChatComponentText(EnumChatFormatting.GREEN + "Currently highlighted items:").appendText("\n");
-        for (Map.Entry<String, BlockPos> entry : tem.getStoredItemHighlighter().getHighlightedItems().entrySet()) {
+        for (String itemUuid : tem.getStoredItemHighlighter().getHighlightedItems()) {
             IChatComponent itemChatRepresentation;
-            StoredUniqueItem item = tem.getLocalDatabase().getUniqueItemService().fetchItem(entry.getKey());
+            StoredUniqueItem item = tem.getLocalDatabase().getUniqueItemService().fetchItem(itemUuid);
             if (item == null) {
-                itemChatRepresentation = new ChatComponentText(entry.getKey());
+                itemChatRepresentation = new ChatComponentText(itemUuid);
             } else {
                 ItemStack itemStack = item.toItemStack(tem, true);
                 itemChatRepresentation = itemStack.getChatComponent();
@@ -42,7 +42,7 @@ public class HighlightCommand implements SubCommand {
 
             IChatComponent stopHighlightButton = new ChatComponentText(EnumChatFormatting.RED + "[STOP]");
             stopHighlightButton.setChatStyle(new ChatStyle()
-                    .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tem highlight stop " + entry.getKey())));
+                    .setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tem highlight stop " + itemUuid)));
 
             message.appendSibling(itemChatRepresentation)
                     .appendText(" - ")

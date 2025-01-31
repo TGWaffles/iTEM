@@ -5,11 +5,13 @@ import club.thom.tem.models.export.StoredUniqueItem;
 import net.minecraft.util.BlockPos;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class StoredItemHighlighter {
     static int highlightColour = 0x00ff00;
-    private final ConcurrentHashMap<String, BlockPos> highlightedItems = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, BlockPos> itemsToBlocks = new ConcurrentHashMap<>();
+    private final Set<String> highlightedItems = ConcurrentHashMap.newKeySet();
 
     TEM tem;
     BlockHighlighter blockHighlighter;
@@ -39,26 +41,31 @@ public class StoredItemHighlighter {
     }
 
     public void startHighlightingItem(String itemUuid, BlockPos itemPos, boolean isChest) {
-        if (highlightedItems.containsKey(itemUuid)) {
+        if (itemsToBlocks.containsKey(itemUuid)) {
+            // Remove old highlight if it exists.
             stopHighlightingItem(itemUuid);
         }
 
-        // If the block is already being highlighted, don't add another highlight request.
-        if (itemPos != null && !highlightingBlock(itemPos)) {
-            BlockHighlighter.HighlightRequest request = new BlockHighlighter.HighlightRequest(itemPos, highlightColour, isChest);
-            blockHighlighter.startHighlightingBlock(request);
+        if (itemPos != null) {
+            // If the block is already being highlighted, don't add another highlight request.
+            if (!highlightingBlock(itemPos)) {
+                BlockHighlighter.HighlightRequest request = new BlockHighlighter.HighlightRequest(itemPos, highlightColour, isChest);
+                blockHighlighter.startHighlightingBlock(request);
+            }
+            itemsToBlocks.put(itemUuid, itemPos);
         }
-        highlightedItems.put(itemUuid, itemPos);
+        highlightedItems.add(itemUuid);
         uuidHighlighter.startHighlightingUuid(itemUuid);
     }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean highlightingBlock(BlockPos pos) {
-        return highlightedItems.values().stream().anyMatch(p -> p != null && p.equals(pos));
+        return itemsToBlocks.values().stream().anyMatch(p -> p != null && p.equals(pos));
     }
 
     public void stopHighlightingItem(String itemUuid) {
-        BlockPos pos = highlightedItems.remove(itemUuid);
+        BlockPos pos = itemsToBlocks.remove(itemUuid);
+        highlightedItems.remove(itemUuid);
         // If it's still being highlighted even though we removed this item, another item is still using the block highlight.
         if (pos != null && !highlightingBlock(pos)) {
             blockHighlighter.stopHighlightingBlock(pos);
@@ -67,10 +74,10 @@ public class StoredItemHighlighter {
     }
 
     public void stopHighlightingAll() {
-        highlightedItems.keySet().forEach(this::stopHighlightingItem);
+        highlightedItems.forEach(this::stopHighlightingItem);
     }
 
-    public Map<String, BlockPos> getHighlightedItems() {
+    public Set<String> getHighlightedItems() {
         return highlightedItems;
     }
 
