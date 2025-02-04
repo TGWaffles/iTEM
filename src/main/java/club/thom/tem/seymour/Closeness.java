@@ -34,7 +34,7 @@ public class Closeness {
     static final String format = "%sClosest: %s%s%s - %s";
     private long lastComparisonTime = 0;
 
-    static final ImmutableMap<String, String> seymourPieceCategories = ImmutableMap.<String, String>builder()
+    public static final ImmutableMap<String, String> seymourPieceCategories = ImmutableMap.<String, String>builder()
             .put("VELVET_TOP_HAT", "helmet")
             .put("CASHMERE_JACKET", "chestplate")
             .put("SATIN_TROUSERS", "leggings")

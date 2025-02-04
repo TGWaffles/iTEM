@@ -67,6 +67,9 @@ public class SearchCommand implements SubCommand {
                     DefaultSortFilters.getRGBSorter(),
                     DefaultSortFilters.getLocationSorter()
             );
+            if (inputArgs.toLowerCase().contains("seymour")) {
+                sortFilters.add(new SeymourDistanceFilter(tem));
+            }
             ContainerSearchResults containerSearchResults = new ContainerSearchResults(clickableItems, sortFilters);
             cachedSearches.put(inputArgs, new GuiSearchResults(containerSearchResults));
             cachedSearchTimes.put(inputArgs, System.currentTimeMillis());
