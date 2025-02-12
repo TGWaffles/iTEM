@@ -34,4 +34,8 @@ public class PureColours {
     public static String getPureColour(String hex) {
         return pureColoursToName.get(hex.toUpperCase());
     }
+
+    public static Map<String, String> getPureColours() {
+        return pureColoursToName;
+    }
 }

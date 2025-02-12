@@ -50,8 +50,7 @@ public class MiscItemData extends InventoryItemData {
         return getCreationTimestamp(timestamp);
     }
 
-    @Override
-    public ClientMessages.InventoryItem toInventoryItem() {
+    public ClientMessages.InventoryItem.Builder toInventoryItemBuilder() {
         assembleItem();
         ClientMessages.InventoryItem.Builder itemBuilder = ClientMessages.InventoryItem.newBuilder();
         // If it has a creation timestamp, set it in the item.
@@ -61,7 +60,12 @@ public class MiscItemData extends InventoryItemData {
         }
         itemBuilder.setItem(dataBuilder)
                 .setLocation(inventoryName);
-        return itemBuilder.build();
+        return itemBuilder;
+    }
+
+    @Override
+    public ClientMessages.InventoryItem toInventoryItem() {
+        return toInventoryItemBuilder().build();
     }
 
     private String getReforge() {
@@ -253,7 +257,7 @@ public class MiscItemData extends InventoryItemData {
             sb.append("uuid: `").append(getUuid()).append("` ");
         }
 
-        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+        if (tem.getConfig().shouldExportIncludeExtraAttributes()) {
             sb.append("extraAttributes: `").append(getExtraAttributes()).append("` ");
         }
         return sb.toString();
@@ -267,7 +271,7 @@ public class MiscItemData extends InventoryItemData {
             jsonObject.addProperty("uuid", getUuid());
         }
 
-        if (tem.getConfig().isExportIncludeExtraAttributes()) {
+        if (tem.getConfig().shouldExportIncludeExtraAttributes()) {
             jsonObject.add("extraAttributes", NBTToJsonConverter.convertToJSON(getExtraAttributes()));
         }
 
