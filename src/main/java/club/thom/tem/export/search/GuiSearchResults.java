@@ -76,6 +76,11 @@ public class GuiSearchResults extends GuiContainer {
     }
 
     @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        this.fontRendererObj.drawString(String.format("%,d", ((ContainerSearchResults) this.inventorySlots).filteredResults.size()), 8, 6, 4210752);
+    }
+
+    @Override
     protected void handleMouseClick(Slot slotIn, int slotId, int clickedButton, int clickType) {
         if (slotIn == null) {
             return;
