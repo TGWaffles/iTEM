@@ -95,6 +95,11 @@ public class RequestUtil {
     }
 
     public RequestData sendPostRequest(String urlString, JsonObject postData) {
+        byte[] input = postData.toString().getBytes(StandardCharsets.UTF_8);
+        return sendPostRequest(urlString, input);
+    }
+
+    public RequestData sendPostRequest(String urlString, byte[] postData) {
         URL url = null;
         JsonElement jsonData;
         HttpsURLConnection uc;
@@ -105,8 +110,7 @@ public class RequestUtil {
             uc = getHttpsURLConnection(url, "POST");
             uc.setDoOutput(true);
             try (OutputStream os = uc.getOutputStream()) {
-                byte[] input = postData.toString().getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
+                os.write(postData, 0, postData.length);
             }
             status = uc.getResponseCode();
             InputStream inputStream;

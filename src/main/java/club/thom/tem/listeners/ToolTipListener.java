@@ -12,7 +12,6 @@ import club.thom.tem.models.inventory.item.ArmourPieceData;
 import club.thom.tem.models.inventory.item.MiscItemData;
 import club.thom.tem.models.inventory.item.PetData;
 import club.thom.tem.models.messages.ClientMessages;
-import club.thom.tem.position.ItemPositionHandler;
 import club.thom.tem.util.HexUtil;
 import club.thom.tem.util.MessageUtil;
 import net.minecraft.client.Minecraft;
@@ -21,9 +20,10 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.*;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -35,17 +35,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Pattern;
 
 public class ToolTipListener {
+    private static final Pattern nbtTagCountPattern = Pattern.compile("NBT: \\d+ tag\\(s\\)");
     TEM tem;
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     long lastCopyTime = System.currentTimeMillis();
     Lock copyLock = new ReentrantLock();
-    ItemPositionHandler itemPositionHandler;
 
-    public ToolTipListener(TEM parent, ItemPositionHandler itemPositionHandler) {
+    public ToolTipListener(TEM parent) {
         this.tem = parent;
-        this.itemPositionHandler = itemPositionHandler;
     }
 
     private boolean shouldCopy() {
@@ -85,8 +85,8 @@ public class ToolTipListener {
                 MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Copied item's lore to clipboard!"));
             }
         }
-        if (tem.getConfig().shouldShowEstPos()) {
-            itemPositionHandler.runPositionTooltip(event);
+        if (tem.getConfig().shouldShowExtraAttributes()) {
+            addExtraAttributesToTooltip(itemNbt, event);
         }
         if (GameSettings.isKeyDown(KeyBinds.copyUuid) && System.currentTimeMillis() - lastCopyTime > 1000) {
             if (shouldCopy()) {
@@ -102,6 +102,9 @@ public class ToolTipListener {
 
     private void addArmourColourType(ItemTooltipEvent event, NBTTagCompound itemNbt) {
         ArmourPieceData armour = new ArmourPieceData(tem, "inventory", itemNbt);
+
+        tem.getSeymour().getCloseness().runSeymourToolTip(armour, event);
+
         HexUtil.Modifier armourTypeModifier = new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
         String colourCode = armourTypeModifier.getColourCode();
         int ownerCount = checkArmourOwners(armour);
@@ -229,6 +232,79 @@ public class ToolTipListener {
             return null;
         }
         return uuid;
+    }
+
+    public void addExtraAttributesToTooltip(NBTTagCompound itemNbt, ItemTooltipEvent event) {
+        NBTTagCompound tagCompound = itemNbt.getCompoundTag("tag");
+        if (tagCompound == null || tagCompound.hasNoTags()) {
+            return;
+        }
+        int existingTagCountIndex = -1;
+        boolean hasRemoved = false;
+        for (int i = 0; i < event.toolTip.size(); i++) {
+            if (nbtTagCountPattern.matcher(EnumChatFormatting.getTextWithoutFormattingCodes(event.toolTip.get(i))).matches()) {
+                existingTagCountIndex = i;
+                break;
+            }
+        }
+        NBTTagCompound extraAttributes = tagCompound.getCompoundTag("ExtraAttributes");
+        for (String key : extraAttributes.getKeySet()) {
+            NBTBase nbtBase = extraAttributes.getTag(key);
+            String friendlyString = nbtToFriendlyString(nbtBase);
+            if (friendlyString == null) {
+                continue;
+            }
+            if (existingTagCountIndex == -1) {
+                // Add at the bottom
+                event.toolTip.add(EnumChatFormatting.DARK_GRAY + "sb_" + key + ":" + friendlyString);
+            } else {
+                if (!hasRemoved) {
+                    hasRemoved = true;
+                    event.toolTip.remove(existingTagCountIndex);
+                }
+                // Add where the tag count was
+                event.toolTip.add(existingTagCountIndex, EnumChatFormatting.DARK_GRAY + "sb_" + key + ":" + friendlyString);
+            }
+        }
+    }
+
+    public String nbtToFriendlyString(NBTBase nbtBase) {
+        switch (nbtBase.getId()) {
+            case Constants.NBT.TAG_BYTE:
+            case Constants.NBT.TAG_SHORT:
+            case Constants.NBT.TAG_INT:
+            case Constants.NBT.TAG_LONG:
+            case Constants.NBT.TAG_FLOAT:
+            case Constants.NBT.TAG_DOUBLE:
+            case Constants.NBT.TAG_BYTE_ARRAY:
+            case Constants.NBT.TAG_INT_ARRAY:
+                return nbtBase.toString();
+            case Constants.NBT.TAG_STRING:
+                return ((NBTTagString) nbtBase).getString();
+            case Constants.NBT.TAG_COMPOUND:
+                StringBuilder compoundString = new StringBuilder("{");
+                NBTTagCompound compound = (NBTTagCompound) nbtBase;
+                for (String key : compound.getKeySet()) {
+                    if (compoundString.length() != 1) {
+                        compoundString.append(',');
+                    }
+
+                    compoundString.append(key).append(':').append(nbtToFriendlyString(compound.getTag(key)));
+                }
+                return compoundString.append('}').toString();
+            case Constants.NBT.TAG_LIST:
+                StringBuilder listString = new StringBuilder("[");
+                NBTTagList list = (NBTTagList) nbtBase;
+                for (int i = 0; i < list.tagCount(); i++) {
+                    if (listString.length() != 1) {
+                        listString.append(',');
+                    }
+                    listString.append(nbtToFriendlyString(list.get(i)));
+                }
+                return listString.append(']').toString();
+            default:
+                return null;
+        }
     }
 
 }

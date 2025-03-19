@@ -1,4 +1,4 @@
-package club.thom.tem.util;
+package club.thom.tem.highlight;
 
 import club.thom.tem.TEM;
 import club.thom.tem.export.ItemExporter;
@@ -25,7 +25,18 @@ import org.lwjgl.opengl.GL11;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class HighlightUtil {
+public class BlockHighlighter {
+    public static class HighlightRequest {
+        BlockPos block;
+        float[] colour;
+        boolean isChest;
+        public HighlightRequest(BlockPos block, int colour, boolean isChest) {
+            this.block = block;
+            this.colour = new float[]{(colour >> 16 & 0xFF) / 255f, (colour >> 8 & 0xFF)/255f, (colour & 0xFF)/255f, 0.4f};
+            this.isChest = isChest;
+        }
+    }
+
     // Represents the face of a block - one tesselator draw call.
     public static class Face {
         public double[] oneCorner;
@@ -67,11 +78,14 @@ public class HighlightUtil {
     private final float[] currentColour = new float[]{-1, -1, -1, -1};
     private final float[] includedChestColour = new float[]{1.0f, 0.0f, 0.0f, 0.4f};
     private final float[] excludedChestColour = new float[]{0.0f, 1.0f, 0.0f, 0.4f};
+
+    private final Set<HighlightRequest> highlightRequests = ConcurrentHashMap.newKeySet();
+
     private final Map<Long, Chunk> loadedChunks = new ConcurrentHashMap<>();
     private final ItemExporter exporter;
     private final TEM tem;
 
-    public HighlightUtil(TEM tem, ItemExporter exporter) {
+    public BlockHighlighter(TEM tem, ItemExporter exporter) {
         this.tem = tem;
         this.exporter = exporter;
     }
@@ -136,27 +150,21 @@ public class HighlightUtil {
         }
     }
 
-    private Face[] getChestFaces(Vec3 playerEyePosition, BlockPos chestPos, EnumFacing otherChestDirection) {
+    private Face[] getChestFacesWithOffsets(double xzOffsetIn, double yMinOffset, double yMaxOffset, Vec3 playerEyePosition, BlockPos chestPos, EnumFacing otherChestDirection) {
         Face[] faces = new Face[6];
-        // Moves the edges of the face in towards the block itself.
-        double xzOffset = 0.06;
-        // Bottom of the chest down a tiny bit, avoid z-fighting
-        double yMinOffset = Minecraft.getMinecraft().thePlayer.getEyeHeight() - 0.009999999776482582d;
-        // 0.12 below the block above, since chest isn't full height.
-        double yMaxOffset = Minecraft.getMinecraft().thePlayer.getEyeHeight() - 0.12;
 
         // Smallest x, smallest z, smallest y.
         double[] bottomBackLeftCorner = new double[] {
                 // Subtracting the player's eye vector from the chest vector gives us the chest's vector relative to the player.
-                (chestPos.getX() - playerEyePosition.xCoord) + xzOffset,
+                (chestPos.getX() - playerEyePosition.xCoord) + xzOffsetIn,
                 (chestPos.getY() - playerEyePosition.yCoord) + yMinOffset,
-                (chestPos.getZ() - playerEyePosition.zCoord) + xzOffset
+                (chestPos.getZ() - playerEyePosition.zCoord) + xzOffsetIn
         };
         double[] bottomFrontRightCorner = new double[] {
                 // Add 1 for the opposite corner, take 2x offset to remove the existing offset and move offset closer to the block.
-                bottomBackLeftCorner[0] + 1 - 2*xzOffset,
+                bottomBackLeftCorner[0] + 1 - 2*xzOffsetIn,
                 bottomBackLeftCorner[1],
-                bottomBackLeftCorner[2] + 1 - 2*xzOffset
+                bottomBackLeftCorner[2] + 1 - 2*xzOffsetIn
         };
         double[] topFrontLeftCorner = new double[] {
                 bottomBackLeftCorner[0],
@@ -201,6 +209,28 @@ public class HighlightUtil {
         faces[5] = new Face(topFrontLeftCorner, topBackRightCorner);
 
         return faces;
+    }
+
+    private Face[] getBlockFaces(Vec3 playerEyePosition, BlockPos blockPos) {
+        // Moves the edges of the face out from the block itself.
+        double xzOffset = -0.02;
+        // Bottom of the block down a tiny bit, avoid z-fighting
+        double yMinOffset = Minecraft.getMinecraft().thePlayer.getEyeHeight() - 0.009999999776482582d;
+        // 0.02 above the block above, so you can see it.
+        double yMaxOffset = Minecraft.getMinecraft().thePlayer.getEyeHeight() + 0.02;
+
+        return getChestFacesWithOffsets(xzOffset, yMinOffset, yMaxOffset, playerEyePosition, blockPos, null);
+    }
+
+    private Face[] getChestFaces(Vec3 playerEyePosition, BlockPos chestPos, EnumFacing otherChestDirection) {
+        // Moves the edges of the face in towards the block itself.
+        double xzOffset = 0.06;
+        // Bottom of the chest down a tiny bit, avoid z-fighting
+        double yMinOffset = Minecraft.getMinecraft().thePlayer.getEyeHeight() - 0.009999999776482582d;
+        // 0.12 below the block above, since chest isn't full height.
+        double yMaxOffset = Minecraft.getMinecraft().thePlayer.getEyeHeight() - 0.12;
+
+        return getChestFacesWithOffsets(xzOffset, yMinOffset, yMaxOffset, playerEyePosition, chestPos, otherChestDirection);
     }
 
     public void addChestToDraw(TileEntityChest chest) {
@@ -314,52 +344,74 @@ public class HighlightUtil {
         }
     }
 
+    public void startHighlightingBlock(HighlightRequest highlightRequest) {
+        highlightRequests.add(highlightRequest);
+    }
+
+    public void stopHighlightingBlock(BlockPos block) {
+        highlightRequests.removeIf(highlightRequest -> highlightRequest.block.equals(block));
+    }
+
     @SubscribeEvent
     public void highlightChests(DrawBlockHighlightEvent e) {
-        if (!exporter.isExporting() || !tem.getConfig().enableChestVisualiser || chestsToDraw.isEmpty()) {
-            return;
-        }
-
         Vec3 playerEyePosition = e.player.getPositionEyes(e.partialTicks);
-        for (Map.Entry<BlockPos, EnumFacing> entry : chestsToDraw.entrySet()) {
-            BlockPos chestPos = entry.getKey();
-            EnumFacing otherChestDirection = entry.getValue();
-            if (isSisterChestAlreadyDrawn(chestPos, otherChestDirection)) {
-                continue;
+        if (!highlightRequests.isEmpty()) {
+            for (HighlightRequest highlightRequest : highlightRequests) {
+                Face[] faces;
+                if (highlightRequest.isChest) {
+                    faces = getChestFaces(playerEyePosition, highlightRequest.block, null);
+                } else {
+                    faces = getBlockFaces(playerEyePosition, highlightRequest.block);
+                }
+                for (Face face : faces) {
+                    drawFace(face, highlightRequest.colour, false);
+                }
             }
-            // Calculate where on the screen the faces of the chest should be drawn. This changes each render tick.
-            Face[] faces = getChestFaces(playerEyePosition, chestPos, otherChestDirection);
+        }
 
-            if (excludedChests.contains(chestPos)) {
-                Collections.addAll(facesToExclude, faces);
-            } else {
-                Collections.addAll(facesToDraw, faces);
+        if (exporter.isExporting() && tem.getConfig().enableChestVisualiser && !chestsToDraw.isEmpty()) {
+            for (Map.Entry<BlockPos, EnumFacing> entry : chestsToDraw.entrySet()) {
+                BlockPos chestPos = entry.getKey();
+                EnumFacing otherChestDirection = entry.getValue();
+                if (isSisterChestAlreadyDrawn(chestPos, otherChestDirection)) {
+                    continue;
+                }
+                // Calculate where on the screen the faces of the chest should be drawn. This changes each render tick.
+                Face[] faces = getChestFaces(playerEyePosition, chestPos, otherChestDirection);
+
+                if (excludedChests.contains(chestPos)) {
+                    Collections.addAll(facesToExclude, faces);
+                } else {
+                    Collections.addAll(facesToDraw, faces);
+                }
+                chestsAlreadyDrawn.put(chestPos, otherChestDirection);
             }
-            chestsAlreadyDrawn.put(chestPos, otherChestDirection);
-        }
-        for (Face face : facesToDraw) {
-            drawFace(face, includedChestColour, false);
-        }
-        for (Face face : facesToExclude) {
-            drawFace(face, excludedChestColour, true);
-        }
-        // Clear faces, need to be recalculated next tick.
-        facesToDraw.clear();
-        facesToExclude.clear();
-        // No chests have been drawn next tick.
-        chestsAlreadyDrawn.clear();
+            for (Face face : facesToDraw) {
+                drawFace(face, includedChestColour, false);
+            }
+            for (Face face : facesToExclude) {
+                drawFace(face, excludedChestColour, true);
+            }
 
-        // Undo all the changes we made this tick.
-        drawingPrepared = false;
-        for (int i=0;i<4;i++) {
-            // Reset current colour as we don't know what the state will be next tick.
-            this.currentColour[i] = -1;
+            // Clear faces, need to be recalculated next tick.
+            facesToDraw.clear();
+            facesToExclude.clear();
+            // No chests have been drawn next tick.
+            chestsAlreadyDrawn.clear();
         }
-        GlStateManager.enableTexture2D();
-        GlStateManager.depthMask(true);
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
-        GlStateManager.enableDepth();
 
+        if (drawingPrepared) {
+            // Undo all the changes we made this tick.
+            for (int i=0;i<4;i++) {
+                // Reset current colour as we don't know what the state will be next tick.
+                this.currentColour[i] = -1;
+            }
+            drawingPrepared = false;
+            GlStateManager.enableTexture2D();
+            GlStateManager.depthMask(true);
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
+            GlStateManager.enableDepth();
+        }
     }
 }

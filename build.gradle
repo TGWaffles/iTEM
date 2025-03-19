@@ -24,6 +24,7 @@ repositories {
     maven { url = "https://repo.sk1er.club/repository/maven-public" }
     maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
     maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+    maven { url 'https://repo.polyfrost.cc/releases' }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -41,7 +42,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 // Restriction: never make one of the subversion numbers > 255 due to how versioning works.
-version = "0.0.6.17"
+version = "0.1.1.5"
 group= "club.thom.tem" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "iTEM"
 
@@ -51,16 +52,12 @@ minecraft {
     runDir = "run"
     mappings = "stable_22"
     // Add essential
-    clientRunArgs += '--tweakClass gg.essential.loader.stage0.EssentialSetupTweaker'
+    clientRunArgs += '--tweakClass cc.polyfrost.oneconfig.loader.stage0.LaunchWrapperTweaker'
     // Code to only update version in here and not in the java file
     replaceIn "src/main/java/club/thom/tem/TEM.java"
     replace "@@VERSION@@", project.version
 }
 dependencies {
-    // Essential for GUI stuff
-    implementation "gg.essential:loader-launchwrapper:1.1.3"
-    implementation "gg.essential:essential-1.8.9-forge:4246+g8be73312c"
-    implementation "gg.essential:vigilance-1.8.9-forge:275"
     // Included in essentials but just in case
     //noinspection GradlePackageUpdate
     implementation "com.electronwill.night-config:toml:3.6.0"
@@ -80,18 +77,6 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-api:2.0-beta9'
     implementation 'org.apache.logging.log4j:log4j-core:2.0-beta9'
 
-    // all for standalone
-    //noinspection DifferentStdlibGradleVersion
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.8.0'
-    implementation 'com.google.guava:guava:17.0'
-    implementation 'org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209'
-    implementation 'org.apache.commons:commons-lang3:3.3.2'
-    implementation 'commons-io:commons-io:2.4'
-    implementation 'net.minecraftforge:forgeSrc:1.8.9-11.15.1.2318-1.8.9'
-    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
-    implementation group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.16'
-    // standalone ^^
-
     // For talking to the backend
     implementation 'com.google.protobuf:protobuf-java:3.19.3'
     implementation 'com.neovisionaries:nv-websocket-client:2.14'
@@ -101,6 +86,14 @@ dependencies {
     compileOnly ('net.hypixel:mod-api-forge:1.0.1.1') {
         exclude group: 'me.djtheredstoner', module: 'DevAuth-forge-legacy'
     }
+    // For local data storage
+    implementation 'com.h2database:h2:2.2.224'
+
+    implementation 'org.dizitart:nitrite:3.4.4'
+    compileOnly 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
+    testImplementation 'cc.polyfrost:oneconfig-1.8.9-forge:0.2.2-alpha+'
+    implementation 'cc.polyfrost:oneconfig-wrapper-launchwrapper:1.0.0-beta+'
+//    implementation 'org.dizitart:nitrite-mvstore-adapter'
 }
 
 processResources
@@ -121,7 +114,12 @@ processResources
         }
 jar {
     manifest {
-        attributes("TweakClass": "club.thom.tem.tweaker.HypixelAndEssentialTweaker")
+        attributes(
+                "TweakClass": "club.thom.tem.tweaker.HypixelAndOneConfigTweaker",
+                "ModSide": "CLIENT",
+                "TweakOrder": "0",
+                "ForceLoadAsMod": true
+        )
     }
 }
 sourceJar {
@@ -134,7 +132,9 @@ shadowJar {
 
 
     dependencies {
-        include(dependency("gg.essential:loader-launchwrapper:1.1.3"))
+        include(dependency {
+            it.moduleGroup == 'cc.polyfrost'
+        })
         // Include modapi tweaker
         include(dependency {
             it.moduleGroup == 'net.hypixel'
@@ -160,63 +160,31 @@ shadowJar {
             it.moduleGroup == 'org.javassist'
         })
         include(dependency('org.reflections:reflections:0.10.2'))
+
+        include(dependency {
+            it.moduleGroup == 'com.h2database'
+        })
+        include(dependency {
+            it.moduleGroup == 'org.dizitart'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'org.objenesis'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'com.fasterxml.jackson.core'
+        })
+
+        include(dependency {
+            it.moduleGroup == 'uk.co.jemos.podam'
+        })
     }
     relocate("net.hypixel.modapi.tweaker", "club.thom.hypixel-net.modapi.tweaker")
     // TEM-0.0.0.1.jar for example
     archiveFileName = "${baseName}-${version}.${extension}"
 }
 
-//noinspection UnnecessaryQualifiedReference
-task standaloneShadowJar(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
-    group = "shadow"
-    description = "Builds a standalone jar"
-    manifest.attributes 'Main-Class': 'club.thom.tem.StandaloneStart'
-    classifier = 'standaloneShadowJar'
-    from(project.convention.getPlugin(JavaPluginConvention).sourceSets.main.output)
-    configurations = [project.configurations.runtimeClasspath]
-    exclude(
-            "META-INF/versions/**",
-    )
-
-    dependencies {
-        include(dependency("gg.essential:loader-launchwrapper:1.1.3"))
-        include(dependency('org.reflections:reflections:0.10.2'))
-
-        // standalone
-        include(dependency("org.jetbrains.kotlin:kotlin-stdlib:1.8.0"))
-        include(dependency("gg.essential:vigilance-1.8.9-forge:275"))
-        include(dependency("gg.essential:elementa-1.8.9-forge:383"))
-        include(dependency('com.google.guava:guava:17.0'))
-        include(dependency('org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209'))
-        include(dependency('com.google.code.gson:gson:2.2.4'))
-        include(dependency('org.apache.commons:commons-lang3:3.3.2'))
-        include(dependency('commons-io:commons-io:2.4'))
-        include(dependency('org.apache.httpcomponents:httpclient:4.5.14'))
-        include(dependency('org.apache.httpcomponents:httpcore:4.4.16'))
-
-        include(dependency {
-            it.moduleGroup == 'com.electronwill.night-config'
-        })
-
-        include(dependency {
-            it.moduleGroup == 'org.apache.logging.log4j'
-        })
-
-        include(dependency {
-            it.moduleGroup == 'com.google.protobuf'
-        })
-
-        include(dependency {
-            it.moduleGroup == 'com.neovisionaries'
-        })
-
-        include(dependency {
-            it.moduleGroup == 'net.minecraftforge'
-        })
-    }
-    // TEM-0.0.0.1.jar for example
-    archiveFileName = "${baseName}-standalone-${version}.${extension}"
-}
 
 reobf {
     shadowJar {} // Re-obfuscate the shadowed JAR

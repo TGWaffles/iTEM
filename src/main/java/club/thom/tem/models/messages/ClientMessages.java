@@ -11623,6 +11623,855 @@ public final class ClientMessages {
 
   }
 
+  public interface ItemLocationOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:clientMessage.ItemLocation)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string locationType = 1;</code>
+     * @return The locationType.
+     */
+    java.lang.String getLocationType();
+    /**
+     * <code>string locationType = 1;</code>
+     * @return The bytes for locationType.
+     */
+    com.google.protobuf.ByteString
+        getLocationTypeBytes();
+
+    /**
+     * <code>int32 x = 2;</code>
+     * @return The x.
+     */
+    int getX();
+
+    /**
+     * <code>int32 y = 3;</code>
+     * @return The y.
+     */
+    int getY();
+
+    /**
+     * <code>int32 z = 4;</code>
+     * @return The z.
+     */
+    int getZ();
+
+    /**
+     * <code>int64 lastSeen = 5;</code>
+     * @return The lastSeen.
+     */
+    long getLastSeen();
+  }
+  /**
+   * Protobuf type {@code clientMessage.ItemLocation}
+   */
+  public static final class ItemLocation extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:clientMessage.ItemLocation)
+      ItemLocationOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ItemLocation.newBuilder() to construct.
+    private ItemLocation(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ItemLocation() {
+      locationType_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ItemLocation();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ItemLocation(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              locationType_ = s;
+              break;
+            }
+            case 16: {
+
+              x_ = input.readInt32();
+              break;
+            }
+            case 24: {
+
+              y_ = input.readInt32();
+              break;
+            }
+            case 32: {
+
+              z_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              lastSeen_ = input.readInt64();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ItemLocation_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ItemLocation_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              club.thom.tem.models.messages.ClientMessages.ItemLocation.class, club.thom.tem.models.messages.ClientMessages.ItemLocation.Builder.class);
+    }
+
+    public static final int LOCATIONTYPE_FIELD_NUMBER = 1;
+    private volatile java.lang.Object locationType_;
+    /**
+     * <code>string locationType = 1;</code>
+     * @return The locationType.
+     */
+    @java.lang.Override
+    public java.lang.String getLocationType() {
+      java.lang.Object ref = locationType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        locationType_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string locationType = 1;</code>
+     * @return The bytes for locationType.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getLocationTypeBytes() {
+      java.lang.Object ref = locationType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        locationType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int X_FIELD_NUMBER = 2;
+    private int x_;
+    /**
+     * <code>int32 x = 2;</code>
+     * @return The x.
+     */
+    @java.lang.Override
+    public int getX() {
+      return x_;
+    }
+
+    public static final int Y_FIELD_NUMBER = 3;
+    private int y_;
+    /**
+     * <code>int32 y = 3;</code>
+     * @return The y.
+     */
+    @java.lang.Override
+    public int getY() {
+      return y_;
+    }
+
+    public static final int Z_FIELD_NUMBER = 4;
+    private int z_;
+    /**
+     * <code>int32 z = 4;</code>
+     * @return The z.
+     */
+    @java.lang.Override
+    public int getZ() {
+      return z_;
+    }
+
+    public static final int LASTSEEN_FIELD_NUMBER = 5;
+    private long lastSeen_;
+    /**
+     * <code>int64 lastSeen = 5;</code>
+     * @return The lastSeen.
+     */
+    @java.lang.Override
+    public long getLastSeen() {
+      return lastSeen_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(locationType_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, locationType_);
+      }
+      if (x_ != 0) {
+        output.writeInt32(2, x_);
+      }
+      if (y_ != 0) {
+        output.writeInt32(3, y_);
+      }
+      if (z_ != 0) {
+        output.writeInt32(4, z_);
+      }
+      if (lastSeen_ != 0L) {
+        output.writeInt64(5, lastSeen_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(locationType_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, locationType_);
+      }
+      if (x_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, x_);
+      }
+      if (y_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, y_);
+      }
+      if (z_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, z_);
+      }
+      if (lastSeen_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(5, lastSeen_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof club.thom.tem.models.messages.ClientMessages.ItemLocation)) {
+        return super.equals(obj);
+      }
+      club.thom.tem.models.messages.ClientMessages.ItemLocation other = (club.thom.tem.models.messages.ClientMessages.ItemLocation) obj;
+
+      if (!getLocationType()
+          .equals(other.getLocationType())) return false;
+      if (getX()
+          != other.getX()) return false;
+      if (getY()
+          != other.getY()) return false;
+      if (getZ()
+          != other.getZ()) return false;
+      if (getLastSeen()
+          != other.getLastSeen()) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + LOCATIONTYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getLocationType().hashCode();
+      hash = (37 * hash) + X_FIELD_NUMBER;
+      hash = (53 * hash) + getX();
+      hash = (37 * hash) + Y_FIELD_NUMBER;
+      hash = (53 * hash) + getY();
+      hash = (37 * hash) + Z_FIELD_NUMBER;
+      hash = (53 * hash) + getZ();
+      hash = (37 * hash) + LASTSEEN_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getLastSeen());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(club.thom.tem.models.messages.ClientMessages.ItemLocation prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code clientMessage.ItemLocation}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:clientMessage.ItemLocation)
+        club.thom.tem.models.messages.ClientMessages.ItemLocationOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ItemLocation_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ItemLocation_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                club.thom.tem.models.messages.ClientMessages.ItemLocation.class, club.thom.tem.models.messages.ClientMessages.ItemLocation.Builder.class);
+      }
+
+      // Construct using club.thom.tem.models.messages.ClientMessages.ItemLocation.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        locationType_ = "";
+
+        x_ = 0;
+
+        y_ = 0;
+
+        z_ = 0;
+
+        lastSeen_ = 0L;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return club.thom.tem.models.messages.ClientMessages.internal_static_clientMessage_ItemLocation_descriptor;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ItemLocation getDefaultInstanceForType() {
+        return club.thom.tem.models.messages.ClientMessages.ItemLocation.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ItemLocation build() {
+        club.thom.tem.models.messages.ClientMessages.ItemLocation result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public club.thom.tem.models.messages.ClientMessages.ItemLocation buildPartial() {
+        club.thom.tem.models.messages.ClientMessages.ItemLocation result = new club.thom.tem.models.messages.ClientMessages.ItemLocation(this);
+        result.locationType_ = locationType_;
+        result.x_ = x_;
+        result.y_ = y_;
+        result.z_ = z_;
+        result.lastSeen_ = lastSeen_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof club.thom.tem.models.messages.ClientMessages.ItemLocation) {
+          return mergeFrom((club.thom.tem.models.messages.ClientMessages.ItemLocation)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(club.thom.tem.models.messages.ClientMessages.ItemLocation other) {
+        if (other == club.thom.tem.models.messages.ClientMessages.ItemLocation.getDefaultInstance()) return this;
+        if (!other.getLocationType().isEmpty()) {
+          locationType_ = other.locationType_;
+          onChanged();
+        }
+        if (other.getX() != 0) {
+          setX(other.getX());
+        }
+        if (other.getY() != 0) {
+          setY(other.getY());
+        }
+        if (other.getZ() != 0) {
+          setZ(other.getZ());
+        }
+        if (other.getLastSeen() != 0L) {
+          setLastSeen(other.getLastSeen());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        club.thom.tem.models.messages.ClientMessages.ItemLocation parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (club.thom.tem.models.messages.ClientMessages.ItemLocation) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object locationType_ = "";
+      /**
+       * <code>string locationType = 1;</code>
+       * @return The locationType.
+       */
+      public java.lang.String getLocationType() {
+        java.lang.Object ref = locationType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          locationType_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string locationType = 1;</code>
+       * @return The bytes for locationType.
+       */
+      public com.google.protobuf.ByteString
+          getLocationTypeBytes() {
+        java.lang.Object ref = locationType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          locationType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string locationType = 1;</code>
+       * @param value The locationType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLocationType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        locationType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string locationType = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLocationType() {
+        
+        locationType_ = getDefaultInstance().getLocationType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string locationType = 1;</code>
+       * @param value The bytes for locationType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLocationTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        locationType_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int x_ ;
+      /**
+       * <code>int32 x = 2;</code>
+       * @return The x.
+       */
+      @java.lang.Override
+      public int getX() {
+        return x_;
+      }
+      /**
+       * <code>int32 x = 2;</code>
+       * @param value The x to set.
+       * @return This builder for chaining.
+       */
+      public Builder setX(int value) {
+        
+        x_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 x = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearX() {
+        
+        x_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int y_ ;
+      /**
+       * <code>int32 y = 3;</code>
+       * @return The y.
+       */
+      @java.lang.Override
+      public int getY() {
+        return y_;
+      }
+      /**
+       * <code>int32 y = 3;</code>
+       * @param value The y to set.
+       * @return This builder for chaining.
+       */
+      public Builder setY(int value) {
+        
+        y_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 y = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearY() {
+        
+        y_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int z_ ;
+      /**
+       * <code>int32 z = 4;</code>
+       * @return The z.
+       */
+      @java.lang.Override
+      public int getZ() {
+        return z_;
+      }
+      /**
+       * <code>int32 z = 4;</code>
+       * @param value The z to set.
+       * @return This builder for chaining.
+       */
+      public Builder setZ(int value) {
+        
+        z_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 z = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearZ() {
+        
+        z_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long lastSeen_ ;
+      /**
+       * <code>int64 lastSeen = 5;</code>
+       * @return The lastSeen.
+       */
+      @java.lang.Override
+      public long getLastSeen() {
+        return lastSeen_;
+      }
+      /**
+       * <code>int64 lastSeen = 5;</code>
+       * @param value The lastSeen to set.
+       * @return This builder for chaining.
+       */
+      public Builder setLastSeen(long value) {
+        
+        lastSeen_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 lastSeen = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearLastSeen() {
+        
+        lastSeen_ = 0L;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:clientMessage.ItemLocation)
+    }
+
+    // @@protoc_insertion_point(class_scope:clientMessage.ItemLocation)
+    private static final club.thom.tem.models.messages.ClientMessages.ItemLocation DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new club.thom.tem.models.messages.ClientMessages.ItemLocation();
+    }
+
+    public static club.thom.tem.models.messages.ClientMessages.ItemLocation getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ItemLocation>
+        PARSER = new com.google.protobuf.AbstractParser<ItemLocation>() {
+      @java.lang.Override
+      public ItemLocation parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ItemLocation(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ItemLocation> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ItemLocation> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ItemLocation getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface InventoryItemOrBuilder extends
       // @@protoc_insertion_point(interface_extends:clientMessage.InventoryItem)
       com.google.protobuf.MessageOrBuilder {
@@ -11737,6 +12586,21 @@ public final class ClientMessages {
      */
     com.google.protobuf.ByteString
         getLocationBytes();
+
+    /**
+     * <code>.clientMessage.ItemLocation locationData = 16;</code>
+     * @return Whether the locationData field is set.
+     */
+    boolean hasLocationData();
+    /**
+     * <code>.clientMessage.ItemLocation locationData = 16;</code>
+     * @return The locationData.
+     */
+    club.thom.tem.models.messages.ClientMessages.ItemLocation getLocationData();
+    /**
+     * <code>.clientMessage.ItemLocation locationData = 16;</code>
+     */
+    club.thom.tem.models.messages.ClientMessages.ItemLocationOrBuilder getLocationDataOrBuilder();
 
     public club.thom.tem.models.messages.ClientMessages.InventoryItem.MessageCase getMessageCase();
   }
@@ -11859,6 +12723,19 @@ public final class ClientMessages {
               java.lang.String s = input.readStringRequireUtf8();
 
               location_ = s;
+              break;
+            }
+            case 130: {
+              club.thom.tem.models.messages.ClientMessages.ItemLocation.Builder subBuilder = null;
+              if (locationData_ != null) {
+                subBuilder = locationData_.toBuilder();
+              }
+              locationData_ = input.readMessage(club.thom.tem.models.messages.ClientMessages.ItemLocation.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(locationData_);
+                locationData_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             default: {
@@ -12174,6 +13051,32 @@ public final class ClientMessages {
       }
     }
 
+    public static final int LOCATIONDATA_FIELD_NUMBER = 16;
+    private club.thom.tem.models.messages.ClientMessages.ItemLocation locationData_;
+    /**
+     * <code>.clientMessage.ItemLocation locationData = 16;</code>
+     * @return Whether the locationData field is set.
+     */
+    @java.lang.Override
+    public boolean hasLocationData() {
+      return locationData_ != null;
+    }
+    /**
+     * <code>.clientMessage.ItemLocation locationData = 16;</code>
+     * @return The locationData.
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ItemLocation getLocationData() {
+      return locationData_ == null ? club.thom.tem.models.messages.ClientMessages.ItemLocation.getDefaultInstance() : locationData_;
+    }
+    /**
+     * <code>.clientMessage.ItemLocation locationData = 16;</code>
+     */
+    @java.lang.Override
+    public club.thom.tem.models.messages.ClientMessages.ItemLocationOrBuilder getLocationDataOrBuilder() {
+      return getLocationData();
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -12208,6 +13111,9 @@ public final class ClientMessages {
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(location_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 15, location_);
+      }
+      if (locationData_ != null) {
+        output.writeMessage(16, getLocationData());
       }
       unknownFields.writeTo(output);
     }
@@ -12244,6 +13150,10 @@ public final class ClientMessages {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(location_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(15, location_);
       }
+      if (locationData_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, getLocationData());
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -12268,6 +13178,11 @@ public final class ClientMessages {
           != other.getCreationTimestamp()) return false;
       if (!getLocation()
           .equals(other.getLocation())) return false;
+      if (hasLocationData() != other.hasLocationData()) return false;
+      if (hasLocationData()) {
+        if (!getLocationData()
+            .equals(other.getLocationData())) return false;
+      }
       if (!getMessageCase().equals(other.getMessageCase())) return false;
       switch (messageCase_) {
         case 3:
@@ -12309,6 +13224,10 @@ public final class ClientMessages {
           getCreationTimestamp());
       hash = (37 * hash) + LOCATION_FIELD_NUMBER;
       hash = (53 * hash) + getLocation().hashCode();
+      if (hasLocationData()) {
+        hash = (37 * hash) + LOCATIONDATA_FIELD_NUMBER;
+        hash = (53 * hash) + getLocationData().hashCode();
+      }
       switch (messageCase_) {
         case 3:
           hash = (37 * hash) + PET_FIELD_NUMBER;
@@ -12468,6 +13387,12 @@ public final class ClientMessages {
 
         location_ = "";
 
+        if (locationDataBuilder_ == null) {
+          locationData_ = null;
+        } else {
+          locationData_ = null;
+          locationDataBuilder_ = null;
+        }
         messageCase_ = 0;
         message_ = null;
         return this;
@@ -12532,6 +13457,11 @@ public final class ClientMessages {
           }
         }
         result.location_ = location_;
+        if (locationDataBuilder_ == null) {
+          result.locationData_ = locationData_;
+        } else {
+          result.locationData_ = locationDataBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         result.messageCase_ = messageCase_;
         onBuilt();
@@ -12593,6 +13523,9 @@ public final class ClientMessages {
         if (!other.getLocation().isEmpty()) {
           location_ = other.location_;
           onChanged();
+        }
+        if (other.hasLocationData()) {
+          mergeLocationData(other.getLocationData());
         }
         switch (other.getMessageCase()) {
           case PET: {
@@ -13448,6 +14381,125 @@ public final class ClientMessages {
         location_ = value;
         onChanged();
         return this;
+      }
+
+      private club.thom.tem.models.messages.ClientMessages.ItemLocation locationData_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ItemLocation, club.thom.tem.models.messages.ClientMessages.ItemLocation.Builder, club.thom.tem.models.messages.ClientMessages.ItemLocationOrBuilder> locationDataBuilder_;
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       * @return Whether the locationData field is set.
+       */
+      public boolean hasLocationData() {
+        return locationDataBuilder_ != null || locationData_ != null;
+      }
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       * @return The locationData.
+       */
+      public club.thom.tem.models.messages.ClientMessages.ItemLocation getLocationData() {
+        if (locationDataBuilder_ == null) {
+          return locationData_ == null ? club.thom.tem.models.messages.ClientMessages.ItemLocation.getDefaultInstance() : locationData_;
+        } else {
+          return locationDataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       */
+      public Builder setLocationData(club.thom.tem.models.messages.ClientMessages.ItemLocation value) {
+        if (locationDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          locationData_ = value;
+          onChanged();
+        } else {
+          locationDataBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       */
+      public Builder setLocationData(
+          club.thom.tem.models.messages.ClientMessages.ItemLocation.Builder builderForValue) {
+        if (locationDataBuilder_ == null) {
+          locationData_ = builderForValue.build();
+          onChanged();
+        } else {
+          locationDataBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       */
+      public Builder mergeLocationData(club.thom.tem.models.messages.ClientMessages.ItemLocation value) {
+        if (locationDataBuilder_ == null) {
+          if (locationData_ != null) {
+            locationData_ =
+              club.thom.tem.models.messages.ClientMessages.ItemLocation.newBuilder(locationData_).mergeFrom(value).buildPartial();
+          } else {
+            locationData_ = value;
+          }
+          onChanged();
+        } else {
+          locationDataBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       */
+      public Builder clearLocationData() {
+        if (locationDataBuilder_ == null) {
+          locationData_ = null;
+          onChanged();
+        } else {
+          locationData_ = null;
+          locationDataBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ItemLocation.Builder getLocationDataBuilder() {
+        
+        onChanged();
+        return getLocationDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       */
+      public club.thom.tem.models.messages.ClientMessages.ItemLocationOrBuilder getLocationDataOrBuilder() {
+        if (locationDataBuilder_ != null) {
+          return locationDataBuilder_.getMessageOrBuilder();
+        } else {
+          return locationData_ == null ?
+              club.thom.tem.models.messages.ClientMessages.ItemLocation.getDefaultInstance() : locationData_;
+        }
+      }
+      /**
+       * <code>.clientMessage.ItemLocation locationData = 16;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          club.thom.tem.models.messages.ClientMessages.ItemLocation, club.thom.tem.models.messages.ClientMessages.ItemLocation.Builder, club.thom.tem.models.messages.ClientMessages.ItemLocationOrBuilder> 
+          getLocationDataFieldBuilder() {
+        if (locationDataBuilder_ == null) {
+          locationDataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              club.thom.tem.models.messages.ClientMessages.ItemLocation, club.thom.tem.models.messages.ClientMessages.ItemLocation.Builder, club.thom.tem.models.messages.ClientMessages.ItemLocationOrBuilder>(
+                  getLocationData(),
+                  getParentForChildren(),
+                  isClean());
+          locationData_ = null;
+        }
+        return locationDataBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -19479,6 +20531,11 @@ public final class ClientMessages {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_clientMessage_MiscItem_EnchantmentsEntry_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_clientMessage_ItemLocation_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_clientMessage_ItemLocation_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_clientMessage_InventoryItem_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -19554,40 +20611,43 @@ public final class ClientMessages {
       "utes\030\005 \001(\0132\036.clientMessage.ExtraAttribut" +
       "es\022\024\n\007reforge\030\006 \001(\tH\000\210\001\001\022\021\n\titemCount\030\007 " +
       "\001(\005\0323\n\021EnchantmentsEntry\022\013\n\003key\030\001 \001(\t\022\r\n" +
-      "\005value\030\002 \001(\005:\0028\001B\n\n\010_reforge\"\210\002\n\rInvento" +
-      "ryItem\022\021\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021creationTim" +
-      "estamp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.clientMessag" +
-      "e.PetH\000\022)\n\007petSkin\030\004 \001(\0132\026.clientMessage" +
-      ".PetSkinH\000\022,\n\013armourPiece\030\005 \001(\0132\025.client" +
-      "Message.ArmourH\000\022\'\n\004item\030\006 \001(\0132\027.clientM" +
-      "essage.MiscItemH\000\022\020\n\010location\030\017 \001(\tB\t\n\007m" +
-      "essageB\007\n\005_uuid\"U\n\021InventoryResponse\022\023\n\013" +
-      "profileUuid\030\001 \001(\t\022+\n\005items\030\002 \003(\0132\034.clien" +
-      "tMessage.InventoryItem\"X\n\016PlayerResponse" +
-      "\022\022\n\nplayerUuid\030\001 \001(\t\0222\n\010profiles\030\002 \003(\0132 " +
-      ".clientMessage.InventoryResponse\"\300\001\n\014Mis" +
-      "cResponse\022\024\n\014responseData\030\001 \001(\014\022\022\n\nstatu" +
-      "sCode\030\002 \001(\005\022\022\n\nrequestURL\030\003 \001(\t\022?\n\nparam" +
-      "eters\030\004 \003(\0132+.clientMessage.MiscResponse" +
-      ".ParametersEntry\0321\n\017ParametersEntry\022\013\n\003k" +
-      "ey\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"\306\001\n\010Response" +
-      "\022\r\n\005nonce\030\001 \001(\005\0225\n\013friendsList\030\002 \001(\0132\036.c" +
-      "lientMessage.FriendsResponseH\000\0224\n\013invent" +
-      "ories\030\003 \001(\0132\035.clientMessage.PlayerRespon" +
-      "seH\000\0223\n\014miscResponse\030\004 \001(\0132\033.clientMessa" +
-      "ge.MiscResponseH\000B\t\n\007message\"\200\002\n\rClientM" +
-      "essage\022\025\n\rclientVersion\030\001 \001(\005\022*\n\004auth\030\002 " +
-      "\001(\0132\032.clientMessage.AuthMessageH\000\0222\n\017req" +
-      "uestResponse\030\003 \001(\0132\027.clientMessage.Respo" +
-      "nseH\000\0227\n\014moreRequests\030\004 \001(\0132\037.clientMess" +
-      "age.ReadyForRequestsH\000\0224\n\013infoRequest\030\005 " +
-      "\001(\0132\035.clientMessage.GetInformationH\000B\t\n\007" +
-      "message*\216\001\n\006Rarity\022\n\n\006COMMON\020\000\022\014\n\010UNCOMM" +
-      "ON\020\001\022\010\n\004RARE\020\002\022\010\n\004EPIC\020\003\022\r\n\tLEGENDARY\020\004\022" +
-      "\n\n\006MYTHIC\020\005\022\n\n\006DIVINE\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014" +
-      "VERY_SPECIAL\020\010\022\020\n\014UNOBTAINABLE\020\tB8\n\035club" +
-      ".thom.tem.models.messagesZ\027protobuf/clie" +
-      "ntMessagesb\006proto3"
+      "\005value\030\002 \001(\005:\0028\001B\n\n\010_reforge\"W\n\014ItemLoca" +
+      "tion\022\024\n\014locationType\030\001 \001(\t\022\t\n\001x\030\002 \001(\005\022\t\n" +
+      "\001y\030\003 \001(\005\022\t\n\001z\030\004 \001(\005\022\020\n\010lastSeen\030\005 \001(\003\"\273\002" +
+      "\n\rInventoryItem\022\021\n\004uuid\030\001 \001(\tH\001\210\001\001\022\031\n\021cr" +
+      "eationTimestamp\030\002 \001(\003\022!\n\003pet\030\003 \001(\0132\022.cli" +
+      "entMessage.PetH\000\022)\n\007petSkin\030\004 \001(\0132\026.clie" +
+      "ntMessage.PetSkinH\000\022,\n\013armourPiece\030\005 \001(\013" +
+      "2\025.clientMessage.ArmourH\000\022\'\n\004item\030\006 \001(\0132" +
+      "\027.clientMessage.MiscItemH\000\022\020\n\010location\030\017" +
+      " \001(\t\0221\n\014locationData\030\020 \001(\0132\033.clientMessa" +
+      "ge.ItemLocationB\t\n\007messageB\007\n\005_uuid\"U\n\021I" +
+      "nventoryResponse\022\023\n\013profileUuid\030\001 \001(\t\022+\n" +
+      "\005items\030\002 \003(\0132\034.clientMessage.InventoryIt" +
+      "em\"X\n\016PlayerResponse\022\022\n\nplayerUuid\030\001 \001(\t" +
+      "\0222\n\010profiles\030\002 \003(\0132 .clientMessage.Inven" +
+      "toryResponse\"\300\001\n\014MiscResponse\022\024\n\014respons" +
+      "eData\030\001 \001(\014\022\022\n\nstatusCode\030\002 \001(\005\022\022\n\nreque" +
+      "stURL\030\003 \001(\t\022?\n\nparameters\030\004 \003(\0132+.client" +
+      "Message.MiscResponse.ParametersEntry\0321\n\017" +
+      "ParametersEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 " +
+      "\001(\t:\0028\001\"\306\001\n\010Response\022\r\n\005nonce\030\001 \001(\005\0225\n\013f" +
+      "riendsList\030\002 \001(\0132\036.clientMessage.Friends" +
+      "ResponseH\000\0224\n\013inventories\030\003 \001(\0132\035.client" +
+      "Message.PlayerResponseH\000\0223\n\014miscResponse" +
+      "\030\004 \001(\0132\033.clientMessage.MiscResponseH\000B\t\n" +
+      "\007message\"\200\002\n\rClientMessage\022\025\n\rclientVers" +
+      "ion\030\001 \001(\005\022*\n\004auth\030\002 \001(\0132\032.clientMessage." +
+      "AuthMessageH\000\0222\n\017requestResponse\030\003 \001(\0132\027" +
+      ".clientMessage.ResponseH\000\0227\n\014moreRequest" +
+      "s\030\004 \001(\0132\037.clientMessage.ReadyForRequests" +
+      "H\000\0224\n\013infoRequest\030\005 \001(\0132\035.clientMessage." +
+      "GetInformationH\000B\t\n\007message*\216\001\n\006Rarity\022\n" +
+      "\n\006COMMON\020\000\022\014\n\010UNCOMMON\020\001\022\010\n\004RARE\020\002\022\010\n\004EP" +
+      "IC\020\003\022\r\n\tLEGENDARY\020\004\022\n\n\006MYTHIC\020\005\022\n\n\006DIVIN" +
+      "E\020\006\022\013\n\007SPECIAL\020\007\022\020\n\014VERY_SPECIAL\020\010\022\020\n\014UN" +
+      "OBTAINABLE\020\tB8\n\035club.thom.tem.models.mes" +
+      "sagesZ\027protobuf/clientMessagesb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -19671,26 +20731,32 @@ public final class ClientMessages {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_MiscItem_EnchantmentsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
-    internal_static_clientMessage_InventoryItem_descriptor =
+    internal_static_clientMessage_ItemLocation_descriptor =
       getDescriptor().getMessageTypes().get(12);
+    internal_static_clientMessage_ItemLocation_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_clientMessage_ItemLocation_descriptor,
+        new java.lang.String[] { "LocationType", "X", "Y", "Z", "LastSeen", });
+    internal_static_clientMessage_InventoryItem_descriptor =
+      getDescriptor().getMessageTypes().get(13);
     internal_static_clientMessage_InventoryItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_InventoryItem_descriptor,
-        new java.lang.String[] { "Uuid", "CreationTimestamp", "Pet", "PetSkin", "ArmourPiece", "Item", "Location", "Message", "Uuid", });
+        new java.lang.String[] { "Uuid", "CreationTimestamp", "Pet", "PetSkin", "ArmourPiece", "Item", "Location", "LocationData", "Message", "Uuid", });
     internal_static_clientMessage_InventoryResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_clientMessage_InventoryResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_InventoryResponse_descriptor,
         new java.lang.String[] { "ProfileUuid", "Items", });
     internal_static_clientMessage_PlayerResponse_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_clientMessage_PlayerResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_PlayerResponse_descriptor,
         new java.lang.String[] { "PlayerUuid", "Profiles", });
     internal_static_clientMessage_MiscResponse_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_clientMessage_MiscResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_MiscResponse_descriptor,
@@ -19702,13 +20768,13 @@ public final class ClientMessages {
         internal_static_clientMessage_MiscResponse_ParametersEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     internal_static_clientMessage_Response_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_clientMessage_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_Response_descriptor,
         new java.lang.String[] { "Nonce", "FriendsList", "Inventories", "MiscResponse", "Message", });
     internal_static_clientMessage_ClientMessage_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_clientMessage_ClientMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_clientMessage_ClientMessage_descriptor,

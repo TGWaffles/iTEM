@@ -1,5 +1,6 @@
 package club.thom.tem.listeners;
 
+import club.thom.tem.TEM;
 import club.thom.tem.backend.LobbyScanner;
 import club.thom.tem.storage.TEMConfig;
 import net.minecraft.client.Minecraft;
@@ -24,10 +25,12 @@ public class LobbySwitchListener {
     public long lastScanTime = 0;
     private final LobbyScanner scanner;
     TEMConfig config;
+    TEM tem;
 
-    public LobbySwitchListener(TEMConfig config, LobbyScanner scanner) {
-        this.scanner = scanner;
-        this.config = config;
+    public LobbySwitchListener(TEM tem) {
+        this.tem = tem;
+        this.scanner = tem.getScanner();
+        this.config = tem.getConfig();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -37,6 +40,9 @@ public class LobbySwitchListener {
         }
         waitingForNewTabList = true;
         ticksSpentWaiting = 0;
+        if (config.disableHighlightsOnWorldChange()) {
+            tem.getStoredItemHighlighter().stopHighlightingAll();
+        }
     }
 
     public boolean checkForServerInfoLine(List<String> tabList) {
