@@ -58,6 +58,9 @@ public class VariantColours {
         if (itemId.equals("GHOST_BOOTS")) {
             return true;
         }
+        if (itemId.startsWith("GREAT_SPOOK")) {
+            return SpookColours.isSpookColour(hexCode);
+        }
         if (seymourItems.contains(itemId)) {
             return true;
         }

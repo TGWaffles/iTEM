@@ -121,6 +121,11 @@ public class ArmourPieceData extends InventoryItemData {
         return convertIntArrayToHex(colourArray).toUpperCase();
     }
 
+    public boolean hasTrueColor() {
+        NBTTagCompound extraAttributes = getExtraAttributes();
+        return extraAttributes.hasKey("color");
+    }
+
     public int getIntegerHexCode() {
         String hexCode = getHexCode();
         if (hexCode.equals("UNDYED")) {
