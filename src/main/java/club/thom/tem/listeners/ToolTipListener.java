@@ -94,7 +94,7 @@ public class ToolTipListener {
             }
         }
 
-        if (ArmourPieceData.isValidItem(itemNbt) && tem.getConfig().shouldShowArmourColourType()) {
+        if (MiscItemData.isValidItem(itemNbt) && ArmourPieceData.isValidItem(itemNbt) && tem.getConfig().shouldShowArmourColourType()) {
             // We're only caring about armour on tooltips, to add colour.
             addArmourColourType(event, itemNbt);
         }
