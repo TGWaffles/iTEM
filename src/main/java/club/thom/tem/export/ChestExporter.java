@@ -50,6 +50,9 @@ public class ChestExporter implements PacketEventListener {
     }
 
     private boolean shouldExportContainer(String containerName) {
+        if (containerName.endsWith(" Recipe")) {
+            return false;
+        }
         return exportableContainerNames.contains(containerName) ||
                 containerName.contains("Backpack") || containerName.startsWith("Pets") ||
                 containerName.startsWith("Ender Chest") || containerName.startsWith("Accessory Bag") ||
