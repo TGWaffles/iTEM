@@ -22,6 +22,7 @@ public class LocationListener implements CancellablePacketEventListener {
     private long lastReceiveTime = 0L;
     private boolean canSendLocraw = false;
     private String lastMap = "Unknown";
+    private String lastMode = "Unknown";
     private Boolean isOnOwnIsland = null;
 
     public LocationListener(PacketManager packetManager) {
@@ -30,6 +31,7 @@ public class LocationListener implements CancellablePacketEventListener {
         HypixelModAPI.getInstance().createHandler(ClientboundLocationPacket.class, packet -> {
             if (packet.getMap().isPresent()) {
                 lastMap = packet.getMap().get();
+                lastMode = packet.getMode().get();
                 lastReceiveTime = System.currentTimeMillis();
                 isOnOwnIsland = null;
             }
@@ -106,6 +108,7 @@ public class LocationListener implements CancellablePacketEventListener {
         }
 
         lastMap = locRawObject.get("map").getAsString();
+        lastMode = locRawObject.get("mode").getAsString();
         lastReceiveTime = System.currentTimeMillis();
         isOnOwnIsland = null;
     }
@@ -144,6 +147,10 @@ public class LocationListener implements CancellablePacketEventListener {
 
     public String getLastMap() {
         return lastMap;
+    }
+
+    public String getLastMode() {
+        return lastMode;
     }
 
     @SubscribeEvent
