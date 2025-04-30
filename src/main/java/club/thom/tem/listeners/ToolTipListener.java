@@ -1,6 +1,7 @@
 package club.thom.tem.listeners;
 
 import club.thom.tem.TEM;
+import club.thom.tem.listeners.LocationListener;
 import club.thom.tem.backend.requests.RequestsCache;
 import club.thom.tem.backend.requests.hex_for_id.HexAmount;
 import club.thom.tem.backend.requests.hex_for_id.HexFromItemIdRequest;
@@ -38,6 +39,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Pattern;
 
 public class ToolTipListener {
+    private final LocationListener locationListener;
     private static final Pattern nbtTagCountPattern = Pattern.compile("NBT: \\d+ tag\\(s\\)");
     TEM tem;
     ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
@@ -101,6 +103,10 @@ public class ToolTipListener {
     }
 
     private void addArmourColourType(ItemTooltipEvent event, NBTTagCompound itemNbt) {
+        String lastMode = locationListener.getLastMode();
+        if (lastMode.equalsIgnoreCase("rift")) {
+            return;
+        }
         ArmourPieceData armour = new ArmourPieceData(tem, "inventory", itemNbt);
 
         tem.getSeymour().getCloseness().runSeymourToolTip(armour, event);
