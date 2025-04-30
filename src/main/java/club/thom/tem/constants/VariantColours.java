@@ -58,6 +58,9 @@ public class VariantColours {
         if (itemId.equals("GHOST_BOOTS")) {
             return true;
         }
+        if (itemId.equals("LEGGINGS_OF_THE_COVEN")) {
+            return true;
+        }
         if (seymourItems.contains(itemId)) {
             return true;
         }
