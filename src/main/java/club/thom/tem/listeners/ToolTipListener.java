@@ -48,6 +48,7 @@ public class ToolTipListener {
 
     public ToolTipListener(TEM parent) {
         this.tem = parent;
+        this.locationListener = parent.getLocationListener();
     }
 
     private boolean shouldCopy() {
