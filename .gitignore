@@ -2,3 +2,6 @@
 .idea
 build
 run
+.vscode
+logs
+bin

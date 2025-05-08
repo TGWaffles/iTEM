@@ -76,8 +76,11 @@ public class ItemExporter {
                 clipboard.setContents(new StringSelection(sb.toString()), null);
             } catch (IllegalStateException ignored) {
             }
-
-            highlighter.clearExcluded();
+			
+			BlockHighlighter currentHighlighter = getHighlighter();
+            if (currentHighlighter != null) {
+                currentHighlighter.clearExcluded();
+            }
         } finally {
             lock.writeLock().unlock();
         }
