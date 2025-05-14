@@ -13,11 +13,14 @@ By contributing to the effort, you earn "contributions" (because you contributed
 
 iTEM uses this data to be able to provide "active dupe checking", item ownership history, quick access to item nbt, hypixel searches, item statistics/rarity, and more to come.
 
-It also provides handy in-game features, such as lobby scanning for exotics, exotic labelling (eg fairy/spooky/exotic/glitched), copying item uuid to clipboard, dupe-checking via a hotkey, and armour rarity annotations (how many there are in the game).
+It also provides handy in-game features, such as lobby scanning for exotics, exotic labelling (eg fairy/spooky/exotic/glitched), copying item uuid to clipboard, dupe-checking via a hotkey, armour rarity annotations (how many there are in the game), item exports (getting a machine-readable list of all items in your chests/item frames), seymour comparisons (how similar a seymour piece is to skyblock armor pieces), and more to come.
 
-At the moment, it takes 12 hours for any item/inventory update to be reflected in the iTEM database. We have over 110 million items tracked, and almost 15 million players known about.
+We currently track:
+- ~314 million items
+- ~20 million pets
+- ~18 million players
 
-We currently aren't advertising as we want to build up the utility and add more publically accessible options (eg https://tem.cx is being worked on) and uses for the database, but you can join while we're in beta and help to contribute.
+Unfortunately, in February 2023, the Hypixel Staff team announced in [a forum post](https://hypixel.net/threads/public-api-changes-february-2023.5266129/) that the Hypixel API had grown too large and had become too costly to continue operating as it was. This led to the removal of player-based API keys, which effectively ended iTEM as we knew it. iTEM now continues to operate as a quality-of-life mod with several useful features for collectors, such as Seymour comparison, chest and item frame searching, item exports, and more. TGWaffles later created [a video recapping the history of iTEM](https://youtu.be/_DDT3SC29ug)
 
 [Join the Discord!](https://discord.gg/bUE3r3Jckc)
 
