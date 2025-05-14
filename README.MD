@@ -24,8 +24,27 @@ We currently aren't advertising as we want to build up the utility and add more 
 ---
 ## How to build?
 
+### Windows
+
+```bash
+gradlew.bat clean
+gradlew.bat setupDecompWorkspace
+gradlew.bat test -i
+gradlew.bat reobfShadowJar
+```
+
+### Linux
+
+```bash
+./gradlew clean
+./gradlew setupDecompWorkspace
+./gradlew test -i
+./gradlew reobfShadowJar
+```
+
 ### Protoc Files
 
-`protoc -I . --java_out annotate_code:src/main/java/ clientMessages.proto`
-
-`protoc -I . --java_out annotate_code:src/main/java/ serverMessages.proto`
+```bash
+protoc -I . --java_out annotate_code:src/main/java/ clientMessages.proto
+protoc -I . --java_out annotate_code:src/main/java/ serverMessages.proto
+```
