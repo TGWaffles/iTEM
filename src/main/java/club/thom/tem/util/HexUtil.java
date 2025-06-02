@@ -18,33 +18,39 @@ public class HexUtil {
     }
 
     public boolean checkOriginal(String itemId, String hexCode) {
-        String originalHex = getOriginalHex(itemId);
-        if (itemId.startsWith("GREAT_SPOOK")) {
-            return SpookColours.isSpookColour(hexCode);
-        }
-        if (VariantColours.isVariantColour(itemId, hexCode)) {
-            return true;
-        }
-        return hexCode.equalsIgnoreCase(originalHex);
+        return hexCode.equalsIgnoreCase( getOriginalHex(itemId));
     }
 
     public Modifier getModifier(String itemId, String hexCode, long creationTime) {
+        return getModifier(itemId, hexCode, creationTime, false);
+    }
+
+    public Modifier getModifier(String itemId, String hexCode, long creationTime, boolean isTrueHex) {
         if (checkOriginal(itemId, hexCode)) {
             return Modifier.ORIGINAL;
         }
         String category = items.getItemCategory(itemId);
 
         if (FairyColours.isOGFairyColour(itemId, category, hexCode)) {
-            return Modifier.OG_FAIRY;
+            if (VariantColours.isVariantColour(itemId, hexCode)) {
+                if (isTrueHex) return Modifier.FAIRY_FAIRY;
+                else return Modifier.ORIGINAL;
+            } else return Modifier.OG_FAIRY;
         }
         if (FairyColours.isFairyColour(hexCode)) {
-            return Modifier.FAIRY;
+            if (VariantColours.isVariantColour(itemId, hexCode)) {
+                if (isTrueHex) return Modifier.FAIRY_FAIRY;
+                else return Modifier.ORIGINAL;
+            } else return Modifier.FAIRY;
         }
         if (hexCode.equals("A06540") || hexCode.equals("UNDYED")) {
             return Modifier.UNDYED;
         }
         if (CrystalColours.isCrystalColour(hexCode)) {
-            return Modifier.CRYSTAL;
+            if (VariantColours.isVariantColour(itemId, hexCode)) {
+                if (isTrueHex) return Modifier.CRYSTAL_CRYSTAL;
+                else return Modifier.ORIGINAL;
+            } else return Modifier.CRYSTAL;
         }
 
         if (GlitchedColours.isGlitched(itemId, hexCode, creationTime)) {
@@ -53,6 +59,14 @@ public class HexUtil {
 
         if (itemId.startsWith("FAIRY_") && SpookColours.isSpookColour(hexCode)) {
             return Modifier.SPOOK;
+        }
+
+        if (itemId.startsWith("GREAT_SPOOK_") && SpookColours.isSpookColour(hexCode) && isTrueHex) {
+            return Modifier.SPOOK_SPOOK;
+        }
+
+        if (VariantColours.isVariantColour(itemId, hexCode)) {
+            return Modifier.ORIGINAL;
         }
 
         return Modifier.EXOTIC;
@@ -68,13 +82,18 @@ public class HexUtil {
         EXOTIC,
         GLITCHED,
         SPOOK,
+        FAIRY_FAIRY,
+        CRYSTAL_CRYSTAL,
+        SPOOK_SPOOK,
         ;
 
         public String getColourCode() {
             switch (this) {
                 case CRYSTAL:
+                case CRYSTAL_CRYSTAL:
                     return EnumChatFormatting.AQUA.toString();
                 case FAIRY:
+                case FAIRY_FAIRY:
                     return EnumChatFormatting.LIGHT_PURPLE.toString();
                 case OG_FAIRY:
                     return EnumChatFormatting.DARK_PURPLE.toString();
@@ -85,6 +104,7 @@ public class HexUtil {
                 case UNDYED:
                     return EnumChatFormatting.GRAY.toString();
                 case SPOOK:
+                case SPOOK_SPOOK:
                     return EnumChatFormatting.RED.toString();
                 case GLITCHED:
                     // magic grey pipe in front of glitched armour

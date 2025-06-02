@@ -112,10 +112,10 @@ public class ToolTipListener {
 
         tem.getSeymour().getCloseness().runSeymourToolTip(armour, event);
 
-        HexUtil.Modifier armourTypeModifier = new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp());
+        HexUtil.Modifier armourTypeModifier = new HexUtil(tem.getItems()).getModifier(armour.getItemId(), armour.getHexCode(), armour.getCreationTimestamp(), armour.hasTrueColor());
         String colourCode = armourTypeModifier.getColourCode();
         int ownerCount = checkArmourOwners(armour);
-        String toolTipString = colourCode + armourTypeModifier;
+        String toolTipString = (colourCode + armourTypeModifier).replace("_", " ");
         if (tem.getConfig().shouldShowArmourPureHint() && armourTypeModifier == HexUtil.Modifier.EXOTIC && PureColours.isPureColour(armour.getHexCode())) {
             toolTipString += " PURE " + PureColours.getPureColour(armour.getHexCode());
         }

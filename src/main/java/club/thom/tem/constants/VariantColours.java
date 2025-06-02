@@ -52,7 +52,10 @@ public class VariantColours {
         if (itemId.startsWith("CRYSTAL")) {
             return CrystalColours.isCrystalColour(hexCode);
         }
-        if (itemId.startsWith("LEATHER")) {
+        if (itemId.startsWith("GREAT_SPOOK")) {
+            return SpookColours.isSpookColour(hexCode);
+        }
+        if (itemId.startsWith("LEATHER") && !itemId.contains(":")) {
             return true;
         }
         if (itemId.equals("GHOST_BOOTS")) {

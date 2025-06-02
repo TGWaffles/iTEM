@@ -70,9 +70,7 @@ public class ArmourPieceData extends InventoryItemData {
 
     public String getItemId() {
         NBTTagCompound extraAttributes = getExtraAttributes();
-        String itemId = extraAttributes.getString("id");
-        itemId = itemId.split(":")[0];
-        return itemId;
+        return extraAttributes.getString("id");
     }
 
     private ClientMessages.Rarity getRarity() {
@@ -121,6 +119,11 @@ public class ArmourPieceData extends InventoryItemData {
             colourArray[i] = Integer.parseInt(colourArrayAsString[i]);
         }
         return convertIntArrayToHex(colourArray).toUpperCase();
+    }
+
+    public boolean hasTrueColor() {
+        NBTTagCompound extraAttributes = getExtraAttributes();
+        return extraAttributes.hasKey("color");
     }
 
     public int getIntegerHexCode() {
