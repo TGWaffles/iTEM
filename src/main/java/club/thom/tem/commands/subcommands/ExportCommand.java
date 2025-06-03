@@ -9,8 +9,10 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class ExportCommand implements SubCommand {
     final ItemExporter itemExporter;
+    private final TEM tem;
 
     public ExportCommand(TEM tem) {
+        this.tem = tem;
         itemExporter = tem.getItemExporter();
     }
 
@@ -31,10 +33,11 @@ public class ExportCommand implements SubCommand {
                     "/item export <start/stop/database>"));
             return;
         }
-
-        if (args[0].equalsIgnoreCase("start")) {
+        if (args[0].equalsIgnoreCase("start") && tem.getProfileIdListener().getProfileId() != null) {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Data tracking started!"));
             itemExporter.startExporting();
+        } else if (args[0].equalsIgnoreCase("start")) {
+            MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.RED + "Unknown profile, please try switching lobbies. If that does not work, contact support."));
         } else if (args[0].equalsIgnoreCase("stop")) {
             MessageUtil.sendMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Data tracking stopped!"));
             itemExporter.stopExporting();
