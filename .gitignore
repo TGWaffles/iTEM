@@ -5,3 +5,4 @@ run
 .vscode
 logs
 bin
+build.bat

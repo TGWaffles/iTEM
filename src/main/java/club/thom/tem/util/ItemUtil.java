@@ -42,7 +42,7 @@ public class ItemUtil {
         try {
             return requester.sendGetRequest(URL).getJsonAsObject();
         } catch (Exception e) {
-            logger.error("TEAM: Error downloading items from RagingEnby API", e, "switching to official API");
+            logger.error("TEM: Error downloading items from RagingEnby API", e, "switching to official API");
             return requester.sendGetRequest(BACKUP_URL).getJsonAsObject();
         }
 
