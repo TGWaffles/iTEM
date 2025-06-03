@@ -14,7 +14,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ItemUtil {
     private static final Logger logger = LogManager.getLogger(ItemUtil.class);
-    private static final String URL = "https://api.hypixel.net/resources/skyblock/items";
+    private static final String URL = "https://api.ragingenby.dev/skyblock/items";
+    private static final String BACKUP_URL = "https://api.hypixel.net/resources/skyblock/items";
     private boolean ready = false;
     private final Lock readyLock = new ReentrantLock();
     private final Condition readyEvent = readyLock.newCondition();
@@ -38,7 +39,13 @@ public class ItemUtil {
 
     public JsonObject downloadItems() {
         logger.info("TEM: Downloading items...");
-        return requester.sendGetRequest(URL).getJsonAsObject();
+        try {
+            return requester.sendGetRequest(URL).getJsonAsObject();
+        } catch (Exception e) {
+            logger.error("TEAM: Error downloading items from RagingEnby API", e, "switching to official API");
+            return requester.sendGetRequest(BACKUP_URL).getJsonAsObject();
+        }
+
     }
 
     public void fillItems() {
